@@ -19,9 +19,12 @@
 </template>
 
 <script>
+const qs = require('qs')
+
 export default {
   name: 'login',
   data: () => ({
+    loginUrl: '/login',
     username: '',
     password: ''
   }),
@@ -29,6 +32,14 @@ export default {
   methods: {
     submit() {
       // handle login
+      this.$http.post(this.loginUrl, qs.stringify({
+        username: this.username,
+        password: this.password
+      })).then(res => {
+        console.log(res.data)
+      }).catch(e => {
+        console.error(e)
+      })
     }
   }
 }
