@@ -1,30 +1,18 @@
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcrypt')
+const db = require('./db')
 const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-// login
-app.post('/login', (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
-
-  // test hash
-  const hash = "$2a$10$VKVumbYqH92HhvsXtY2CU.IANs9LBFqB6lF5iLK0eXhjdoSWJEq1m"
-
-  // compare password
-  bcrypt.compare(password, hash, (err, result) => {
-    res.json({ success: result })
-  })
-})
-
-app.set('port', process.env.PORT || 3000)
 app.use('/', express.static(path.join(__dirname, '/public/')))
+app.set('port', process.env.PORT || 3000)
+
+require('./server/login')(app)
+
 app.all('*', (req, res) => {
-  res.redirect('/')
+  res.redirect('/#' + req.url)
 })
 
 app.listen(app.get('port'), () => {
