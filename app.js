@@ -1,11 +1,21 @@
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const db = require('./db')
 const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({
+  secret: require('./secret/session'),
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: 2*3600*1000
+  }
+}))
 app.use('/', express.static(path.join(__dirname, '/public/')))
 app.set('port', process.env.PORT || 3000)
 

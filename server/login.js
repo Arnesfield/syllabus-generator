@@ -18,11 +18,12 @@ module.exports = function(app) {
       const hash = user.password
       // compare password
       bcrypt.compare(password, hash, (err, result) => {
-        res.json({ success: result })
-
         if (result === true) {
           // save user session here
+          req.session.userId = user._id
         }
+
+        res.json({ success: result })
       })
     })
   })

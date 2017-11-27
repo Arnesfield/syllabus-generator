@@ -16,3 +16,10 @@ yarn-error.log*
 # Ignore built public/ files
 /public/index.html
 /public/static/
+
+# Hide sensitive information
+/secret/*
+!/secret/.gitkeep
+
+# Hide notes
+/notes/
