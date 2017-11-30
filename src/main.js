@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import routerCond from './assets/js/routerCond'
 
 // css
 import './assets/css/common.css'
@@ -16,7 +17,7 @@ Vue.config.productionTip = false
 Vue.prototype.$baseURL = baseURL
 Vue.prototype.$http = http
 
-require('./assets/js/routerCond')(router, http)
+routerCond(router, http)
 
 /* eslint-disable no-new */
 new Vue({

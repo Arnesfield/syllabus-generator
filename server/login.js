@@ -21,6 +21,7 @@ module.exports = function(app) {
         if (result === true) {
           // save user session here
           req.session.userId = user._id
+          req.session.setAt = Date.now()
         }
 
         res.json({ success: result })

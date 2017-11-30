@@ -1,7 +1,22 @@
-module.exports = function(router, http) {
+import storage from './storage'
+
+export default function(router, http) {
+
+  var timeoutSet = false
+
+  const expireTimer = function(endAt) {
+    console.error(endAt - Date.now())
+    timeoutSet = true
+    setTimeout(function() {
+      alert('Session expired')
+      timeoutSet = false
+      storage.destroy()
+      router.push('login')
+    }, endAt - Date.now())
+  }
+
   // router
   router.beforeEach((to, from, next) => {
-    
     // set title
     const title = to.meta.title || to.name
 
@@ -14,22 +29,54 @@ module.exports = function(router, http) {
       return
     }
 
-    // check for session
-    http.post('/checkSession').then(res => {
-      const id = res.data.id
-      // if component does not need auth
+    if (timeoutSet) {
+      // do not proceed if component need not auth
       if (!cAuth) {
-        if (!id) { document.title = title }
-        // do not proceed if has id
-        next(!id)
-      }
-      // must have id
-      else if (id) {
+        next(false)
+      } else {
         document.title = title
         next()
-      } else {
-        router.push('login')
       }
+      return
+    }
+    
+    // if timeoutSet is not set, check if endAt is set
+    const endAt = storage.get('endAt')
+    if (endAt) {
+      // if set, set a expiration timer and set timeoutSet to true
+      expireTimer(endAt)
+      document.title = title
+      next()
+      return
+    }
+
+    // if component needs no auth, continue
+    if (!cAuth) {
+      document.title = title
+      next()
+      return
+    }
+
+    // below here if all cAuth = true
+    // check for session
+    http.post('/checkSession').then(res => {
+      const setAt = res.data.setAt
+      const endAt = res.data.endAt
+
+      const isSet = setAt || endAt
+
+      // if i need auth but is not set
+      if (!isSet) {
+        router.push('login')
+        return
+      }
+
+      storage.set({ setAt: setAt, endAt: endAt })
+      expireTimer(endAt)
+
+      // must have id
+      document.title = title
+      next()
     }).catch(e => {
       next(false)
     })
