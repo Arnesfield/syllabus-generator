@@ -20,6 +20,7 @@ app.use('/', express.static(path.join(__dirname, '/public/')))
 app.set('port', process.env.PORT || 3000)
 
 require('./server/login')(app)
+require('./server/checkSession')(app)
 
 app.all('*', (req, res) => {
   res.redirect('/#' + req.url)

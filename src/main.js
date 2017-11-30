@@ -10,11 +10,13 @@ import './assets/css/common.css'
 
 const port = process.env.PORT || 3000
 const baseURL = process.env.NODE_ENV !== 'production' ? 'http://localhost:8080' : 'http://localhost:' + port
+const http = axios.create({ baseURL: baseURL })
 
 Vue.config.productionTip = false
-Vue.prototype.$http = axios.create({
-  baseURL: baseURL
-})
+Vue.prototype.$baseURL = baseURL
+Vue.prototype.$http = http
+
+require('./assets/js/routerCond')(router, http)
 
 /* eslint-disable no-new */
 new Vue({

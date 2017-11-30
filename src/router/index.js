@@ -11,7 +11,8 @@ const router = new Router({
       name: 'Login',
       component: Components.Login,
       meta: {
-        title: 'Login'
+        title: 'Login',
+        auth: false
       }
     },
 
@@ -30,16 +31,11 @@ const router = new Router({
       name: 'NotFound',
       component: Components.NotFound,
       meta: {
-        title: 'Page not found'
+        title: 'Page not found',
+        auth: null
       }
     }
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  // set title
-  document.title = to.meta.title || to.name
-  next()
 })
 
 export default router

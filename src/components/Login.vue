@@ -36,7 +36,12 @@ export default {
         username: this.username,
         password: this.password
       })).then(res => {
-        console.log(res.data)
+        if (!res.data.success) {
+          alert('Invalid username or password.')
+          return
+        }
+        
+        this.$router.push('/')
       }).catch(e => {
         console.error(e)
       })
