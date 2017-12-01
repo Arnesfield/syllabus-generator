@@ -1,0 +1,30 @@
+{
+  "_id" : ObjectId("5a211cb11ca65f9586ec608c"),
+  "description" : "Some description about mobile application development in iOS.",
+  "code" : "ITWSPEC4",
+  "units" : 3,
+  "status" : 1,
+  "title" : "MOBILE APPLICATION DEVELOPMENT 2",
+  "fields" : [
+    "iOS",
+    "Swift",
+    "Programming",
+    "Object Oriented Programming",
+    "Mobile Programming"
+  ]
+}
+{
+  "_id" : ObjectId("5a2135d884e9a959c413cdaf"),
+  "title" : "WEB APPLICATION DEVELOPMENT 2",
+  "description" : "Some description about web application development using PHP frameworks.",
+  "code" : "ITWSPEC6",
+  "units" : 3,
+  "status" : 1,
+  "fields" : [
+    "PHP",
+    "Frameworks",
+    "CodeIgniter",
+    "Laravel",
+    "Web Development"
+  ]
+}

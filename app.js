@@ -23,6 +23,8 @@ app.set('port', process.env.PORT || 3000)
 
 require('./server/login')(app)
 require('./server/logout')(app)
+require('./server/courses')(app)
+require('./server/books')(app)
 require('./server/checkSession')(app, maxAge)
 
 app.all('*', (req, res) => {

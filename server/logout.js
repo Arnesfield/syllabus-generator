@@ -1,6 +1,6 @@
 module.exports = function(app) {
   app.post('/logout', (req, res) => {
-    delete req.session
+    req.session.destroy()
     res.json({ success: true })
   })
 }
