@@ -8,7 +8,8 @@ export default function(router, http) {
     console.error(endAt - Date.now())
     timeoutSet = true
     setTimeout(function() {
-      if (!timeoutSet) {
+      if (!timeoutSet || storage.get('loggedOut')) {
+        // if is logged out, do not show expire message
         return
       }
       alert('Session expired')
@@ -18,7 +19,7 @@ export default function(router, http) {
     }, endAt - Date.now())
   }
 
-  const checkSession = function(title, next, first) {
+  const checkSession = function(title, cAuth, next, first) {
     // check for session
     http.post('/checkSession').then(res => {
       const setAt = res.data.setAt
@@ -33,12 +34,15 @@ export default function(router, http) {
           timeoutSet = false
           storage.destroy()
         }
-        router.push('login')
-        return
+        // push if component needs auth
+        if (cAuth) {
+          router.push('login')
+          return
+        }
+      } else {
+        storage.set({ setAt: setAt, endAt: endAt })
+        expireTimer(endAt)
       }
-
-      storage.set({ setAt: setAt, endAt: endAt })
-      expireTimer(endAt)
 
       // must have id
       document.title = title
@@ -54,19 +58,24 @@ export default function(router, http) {
     // set title
     const title = to.meta.title || to.name
 
-    // make the request on refresh / page load
-    window.onload = function() {
-      checkSession(title, next, true)
-    }
-
     // check session, if component to needs authorization
     const cAuth = typeof to.meta.auth === 'undefined' ? true : to.meta.auth
+
+    // make the request on refresh / page load
+    window.onload = function() {
+      checkSession(title, cAuth, next, true)
+    }
+
     // if error page
     if (cAuth === null) {
       document.title = title
       next()
       return
     }
+
+    // if logged out, remove timeoutSet
+    timeoutSet = typeof storage.get('loggedOut') !== 'undefined' && storage.get('loggedOut') === true
+      ? false : timeoutSet
 
     if (timeoutSet) {
       // do not proceed if component need not auth
@@ -97,7 +106,7 @@ export default function(router, http) {
     }
 
     // below here if all cAuth = true
-    checkSession(title, next)
+    checkSession(title, cAuth, next)
   })
   
 }

@@ -1,7 +1,7 @@
 <template>
 <div>
   <navigation/>
-  <h1>Hello World</h1>
+  <h1>Dashboard</h1>
 </div>
 </template>
 
@@ -9,7 +9,7 @@
 import Navigation from '@/include/Navigation'
 
 export default {
-  name: 'home',
+  name: 'dashboard',
   components: {
     Navigation
   }

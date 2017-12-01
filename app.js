@@ -22,6 +22,7 @@ app.use('/', express.static(path.join(__dirname, '/public/')))
 app.set('port', process.env.PORT || 3000)
 
 require('./server/login')(app)
+require('./server/logout')(app)
 require('./server/checkSession')(app, maxAge)
 
 app.all('*', (req, res) => {

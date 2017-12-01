@@ -19,7 +19,8 @@
 </template>
 
 <script>
-const qs = require('qs')
+import qs from 'qs'
+import storage from '@/assets/js/storage'
 
 export default {
   name: 'login',
@@ -40,8 +41,9 @@ export default {
           alert('Invalid username or password.')
           return
         }
-        
-        this.$router.push('/')
+        // save credentials here
+        storage.set({ loggedOut: false })
+        this.$router.push('/dashboard')
       }).catch(e => {
         console.error(e)
       })

@@ -21,7 +21,17 @@ const router = new Router({
       name: 'Home',
       component: Components.Home,
       meta: {
-        title: 'Home'
+        title: 'Home',
+        auth: false
+      }
+    },
+
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Components.Dashboard,
+      meta: {
+        title: 'Dashboard'
       }
     },
 
