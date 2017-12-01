@@ -2,6 +2,9 @@
 <div>
   <navigation/>
   <h1>Dashboard</h1>
+  <div>
+    <router-view/>
+  </div>
 </div>
 </template>
 

@@ -23,6 +23,8 @@ export default {
     navList: [
       { title: 'Login', to: '/login', logged: false },
       { title: 'Home', to: '/dashboard', logged: true },
+      { title: 'Syllabi', to: '/syllabi', logged: true },
+      { title: 'Generator', to: '/generator', logged: true }
     ]
   }),
   computed: {

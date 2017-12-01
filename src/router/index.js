@@ -30,9 +30,33 @@ const router = new Router({
       path: '/dashboard',
       name: 'Dashboard',
       component: Components.Dashboard,
-      meta: {
-        title: 'Dashboard'
-      }
+
+      children: [
+        {
+          path: '',
+          name: 'Activities',
+          component: Components.Activities,
+          meta: {
+            title: 'Dashboard'
+          }
+        },
+        {
+          path: '/syllabi',
+          name: 'Syllabi',
+          component: Components.Syllabi,
+          meta: {
+            title: 'Syllabi'
+          }
+        },
+        {
+          path: '/generator',
+          name: 'Generator',
+          component: Components.Generator,
+          meta: {
+            title: 'Generator'
+          }
+        }
+      ]
     },
 
     // last resort
