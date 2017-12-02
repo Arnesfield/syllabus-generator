@@ -1,20 +1,17 @@
 const mongoose = require('mongoose')
+const ObjectId = mongoose.Schema.ObjectId
 
 const SyllabusSchema = mongoose.Schema({
-  username: {
-    type: String,
-    required: true
-  },
   courseId: {
-    type: String,
+    type: ObjectId,
     required: true
   },
   editorId: {
-    type: String,
+    type: ObjectId,
     required: true
   },
   formatId: {
-    type: String,
+    type: ObjectId,
     required: true
   },
   content: {

@@ -1,0 +1,22 @@
+{
+  "_id" : ObjectId("5a22d187c734317b7f1993b0"),
+  "courseId" : ObjectId("5a211cb11ca65f9586ec608c"),
+  "editorId" : ObjectId("5a1a062d4fd4fd6e3f0abc43"),
+  "formatId" : ObjectId("5a22d08fc734317b7f1993af"),
+  "content" : "",
+  "createdAt" : 1512231212757,
+  "updatedAt" : 1512231212757,
+  "version" : "1.0.0",
+  "status" : 1
+}
+{
+  "_id" : ObjectId("5a22da9ec734317b7f1993b1"),
+  "courseId" : ObjectId("5a211cb11ca65f9586ec608c"),
+  "editorId" : ObjectId("5a1a062d4fd4fd6e3f0abc43"),
+  "formatId" : ObjectId("5a22d08fc734317b7f1993af"),
+  "content" : "",
+  "createdAt" : 1512233602492,
+  "updatedAt" : 1512233606330,
+  "version" : "1.0.1",
+  "status" : 1
+}

@@ -42,6 +42,9 @@ export default {
       if (to !== from) {
         this.res = []
       }
+      if (to !== null) {
+        this.$emit('course-selected', to)
+      }
     }
   },
 
@@ -59,9 +62,9 @@ export default {
       })).then((res) => {
         this.res = res.data.courses
       }).catch(e => {
-        console.log(e)
+        console.error(e)
       })
-    }, 500)
+    }, 300)
   }
 }
 </script>
