@@ -14,6 +14,11 @@
     <div>
       <button type="submit">Login</button>
     </div>
+
+    <template v-if="errorMsg">
+      <br>
+      <div>{{ errorMsg }}</div>
+    </template>
   </form>
 </div>
 </template>
@@ -27,7 +32,8 @@ export default {
   data: () => ({
     loginUrl: '/login',
     username: '',
-    password: ''
+    password: '',
+    errorMsg: ''
   }),
 
   methods: {
@@ -38,7 +44,7 @@ export default {
         password: this.password
       })).then(res => {
         if (!res.data.success) {
-          alert('Invalid username or password.')
+          this.errorMsg = res.data.msg
           return
         }
         // save credentials here

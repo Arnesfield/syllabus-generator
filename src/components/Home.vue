@@ -1,17 +1,11 @@
 <template>
 <div>
-  <navigation/>
   <h1>Hello World</h1>
 </div>
 </template>
 
 <script>
-import Navigation from '@/include/Navigation'
-
 export default {
-  name: 'home',
-  components: {
-    Navigation
-  }
+  name: 'home'
 }
 </script>

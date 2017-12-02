@@ -13,6 +13,6 @@ const BookSchema = mongoose.Schema({
     type: Number,
     required: true
   }
-})
+}, { collection: 'books' })
 
 module.exports = mongoose.model('Book', BookSchema)

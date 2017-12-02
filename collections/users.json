@@ -1,5 +1,7 @@
 {
   "_id" : ObjectId("5a1a062d4fd4fd6e3f0abc43"),
   "username" : "test",
-  "password" : "$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq"
+  "password" : "$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq",
+  "status" : 1,
+  "type" : 1
 }

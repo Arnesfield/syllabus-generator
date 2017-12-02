@@ -25,6 +25,6 @@ const CourseSchema = mongoose.Schema({
     type: Number,
     required: true
   }
-})
+}, { collection: 'courses' })
 
 module.exports = mongoose.model('Course', CourseSchema)

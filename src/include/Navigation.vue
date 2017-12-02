@@ -20,17 +20,20 @@ export default {
   name: 'navigation',
   data: () => ({
     logoutUrl: '/logout',
+    isLoggedIn: false,
     navList: [
+      { title: 'Home', to: '/', logged: false },
       { title: 'Login', to: '/login', logged: false },
       { title: 'Home', to: '/dashboard', logged: true },
       { title: 'Syllabi', to: '/syllabi', logged: true },
       { title: 'Generator', to: '/generator', logged: true }
     ]
   }),
-  computed: {
-    isLoggedIn: () => typeof storage.get('endAt') !== 'undefined'
-  },
+
   methods: {
+    updateNav() {
+      this.isLoggedIn = typeof storage.get('endAt') !== 'undefined'
+    },
     logout() {
       this.$http.post(this.logoutUrl).then(res => {
         if (!res.data.success) {
@@ -39,6 +42,7 @@ export default {
         alert('Logged out successfully.')
         storage.destroy()
         storage.set({ loggedOut: true })
+        this.updateNav()
         this.$router.push('/')
       }).catch(e => {
         console.error(e)

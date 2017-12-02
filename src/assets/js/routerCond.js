@@ -29,10 +29,14 @@ export default function(router, http) {
 
       // if i need auth but is not set
       if (!isSet) {
-        // destroy session if on load
-        if (typeof first === 'boolean' && first === true) {
+        // destroy session if on load and if endAt is set
+        if (typeof first === 'boolean' && first === true && storage.get('endAt')) {
           timeoutSet = false
           storage.destroy()
+          next(false)
+          // reload page to reset timer
+          window.location = '/'
+          return
         }
         // push if component needs auth
         if (cAuth) {

@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <router-view/>
+    <navigation ref="nav"/>
+    <router-view @update-nav="$refs.nav.updateNav()"/>
   </div>
 </template>
 
 <script>
+import Navigation from '@/include/Navigation'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Navigation
+  }
 }
 </script>
