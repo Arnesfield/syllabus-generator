@@ -13,10 +13,9 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  fields: {
-    type: Array,
-    required: true
-  },
+  fields: [{
+    type: String
+  }],
   units: {
     type: Number,
     required: true

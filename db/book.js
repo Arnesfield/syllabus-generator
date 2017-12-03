@@ -5,10 +5,9 @@ const BookSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  fields: {
-    type: Array,
-    required: true
-  },
+  fields: [{
+    type: String
+  }],
   status: {
     type: Number,
     required: true

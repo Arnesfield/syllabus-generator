@@ -4,16 +4,27 @@ const ObjectId = mongoose.Schema.ObjectId
 const SyllabusSchema = mongoose.Schema({
   courseId: {
     type: ObjectId,
-    required: true
+    ref: 'Course'
   },
   editorId: {
     type: ObjectId,
-    required: true
+    ref: 'User'
   },
   formatId: {
     type: ObjectId,
-    required: true
+    ref: 'Format'
   },
+  programOutcomes: [{
+    label: String,
+    content: String
+  }],
+  courseLearningOutcomes: [{
+    label: String,
+    content: String,
+    programOutcomes: [{
+      type: String
+    }]
+  }],
   content: {
     type: String,
     required: true

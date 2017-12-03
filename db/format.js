@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.ObjectId
 const FormatSchema = mongoose.Schema({
   editorId: {
     type: ObjectId,
-    required: true
+    ref: 'User'
   },
   name: {
     type: String,

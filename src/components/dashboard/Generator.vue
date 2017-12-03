@@ -5,6 +5,7 @@
   <form @submit.prevent="submit">
     <!-- choose course -->
     <course-query @course-selected="onCourseSelected"/>
+    <outcome-mapper ref="outcomeMapper"/>
 
     <br>
     <div>
@@ -15,20 +16,15 @@
 </template>
 
 <script>
-import qs from 'qs'
 import CourseQuery from '@/components/generator/CourseQuery'
+import OutcomeMapper from '@/components/generator/OutcomeMapper'
 
 export default {
   name: 'generator',
   components: {
-    CourseQuery
+    CourseQuery,
+    OutcomeMapper
   },
-  data: () => ({
-    url: {
-      syllabus: '/syllabus'
-    },
-    course: null
-  }),
 
   methods: {
     submit() {
@@ -36,15 +32,7 @@ export default {
     },
 
     onCourseSelected(course) {
-      this.course = course
-      // check for course latest syllabus
-      this.$http.post(this.url.syllabus, qs.stringify({
-        courseId: course._id
-      })).then((res) => {
-        console.log(res.data)
-      }).catch(e => {
-        console.error(e)
-      })
+      this.$refs.outcomeMapper.onCourseSelected(course)
     }
   }
 }

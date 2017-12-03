@@ -1,11 +1,11 @@
 {
-  "_id" : ObjectId("5a211cb11ca65f9586ec608c"),
-  "description" : "Some description about mobile application development in iOS.",
-  "code" : "ITWSPEC4",
-  "units" : 3,
-  "status" : 1,
-  "title" : "MOBILE APPLICATION DEVELOPMENT 2",
-  "fields" : [
+  "_id": ObjectId("5a211cb11ca65f9586ec608c"),
+  "description": "Some description about mobile application development in iOS.",
+  "code": "ITWSPEC4",
+  "units": 3,
+  "status": 1,
+  "title": "MOBILE APPLICATION DEVELOPMENT 2",
+  "fields": [
     "iOS",
     "Swift",
     "Programming",
@@ -14,17 +14,30 @@
   ]
 }
 {
-  "_id" : ObjectId("5a2135d884e9a959c413cdaf"),
-  "title" : "WEB APPLICATION DEVELOPMENT 2",
-  "description" : "Some description about web application development using PHP frameworks.",
-  "code" : "ITWSPEC6",
-  "units" : 3,
-  "status" : 1,
-  "fields" : [
+  "_id": ObjectId("5a2135d884e9a959c413cdaf"),
+  "title": "WEB APPLICATION DEVELOPMENT 2",
+  "description": "Some description about web application development using PHP frameworks.",
+  "code": "ITWSPEC6",
+  "units": 3,
+  "status": 1,
+  "fields": [
     "PHP",
     "Frameworks",
     "CodeIgniter",
     "Laravel",
     "Web Development"
+  ]
+}
+{
+  "_id": ObjectId("5a23b2d3a6de0415ccf78949"),
+  "title": "CAPSTONE PROJECT 1",
+  "description": "This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.",
+  "code": "ITWPROJ1",
+  "units": 3,
+  "status": 1,
+  "fields": [
+    "Capstone Project",
+    "Project Presentation",
+    "Software Development"
   ]
 }

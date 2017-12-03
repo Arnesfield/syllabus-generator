@@ -1,4 +1,5 @@
 const Syllabus = require('../db/syllabus')
+const User = require('../db/user')
 
 module.exports = function(app) {
   // single search
@@ -14,8 +15,10 @@ module.exports = function(app) {
         res.json({ success: false })
         return
       }
-
-      res.json({ success: true, syllabus: syllabus })
+      // find user of editorId
+      User.findById(syllabus.editorId, (err, user) => {
+        res.json({ success: true, syllabus: syllabus, editor: user })
+      })
     })
   })
 }
