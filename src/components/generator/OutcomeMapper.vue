@@ -6,12 +6,13 @@
   <hr>
   
   <h4>Program Outcomes</h4>
-  <div :key="po.label" v-for="po in syllabus.programOutcomes">
+  <div :ref="'po-' + po.label" :key="po.label" v-for="po in syllabus.programOutcomes">
     <div>
       {{ po.label + '. ' + po.content }}
     </div>
-    <br>
   </div>
+
+  <br>
 
   <table border="1">
     <tr>
@@ -23,9 +24,14 @@
       <td :key="po.label" v-for="po in syllabus.programOutcomes"
         style="text-align: center">{{ po.label }}</td>
     </tr>
-    <tr :key="clo.label" v-for="clo in syllabus.courseLearningOutcomes">
+    <tr :key="clo.label" v-for="(clo, cloIndex) in syllabus.courseLearningOutcomes">
       <td>{{ clo.label + '. ' + clo.content }}</td>
-      <td :key="po.label" v-for="po in syllabus.programOutcomes"
+      <td
+        @mouseover="poBoxOver(clo.label, po.label)"
+        @mouseout="poBoxOut(clo.label, po.label)"
+        @click="poBoxClick(cloIndex, po.label)"
+        :ref="'poBox-' + clo.label + '-' + po.label"
+        :key="po.label" v-for="po in syllabus.programOutcomes"
         style="text-align: center">
         <template v-if="clo.programOutcomes.indexOf(po.label) > -1">x</template>
         <template v-else>&nbsp;</template>
@@ -43,7 +49,8 @@ export default {
   data: () => ({
     url: '/syllabus',
     syllabus: null,
-    editor: null
+    editor: null,
+    poLabels: []
   }),
   
   methods: {
@@ -60,8 +67,37 @@ export default {
         this.syllabus = res.data.syllabus
         this.editor = res.data.editor
       }).catch(e => {
+        this.syllabus = null
+        this.editor = null
+        this.poLabels = []
         console.error(e)
       })
+    },
+
+    poBoxOver(cloLabel, poLabel) {
+      // sample style
+      this.$refs['po-' + poLabel][0].style.backgroundColor = '#ccc'
+      this.$refs['poBox-' + cloLabel + '-' + poLabel][0].style.backgroundColor = '#ccc'
+    },
+
+    poBoxOut(cloLabel, poLabel) {
+      // sample style
+      this.$refs['po-' + poLabel][0].style.backgroundColor = null
+      this.$refs['poBox-' + cloLabel + '-' + poLabel][0].style.backgroundColor = null
+    },
+
+    poBoxClick(index, label) {
+      let arr = this.syllabus.courseLearningOutcomes[index].programOutcomes
+      // if label exists in arr, remove it
+      if (arr.indexOf(label) > -1) {
+        var set = new Set(arr)
+        set.delete(label)
+      }
+      else {
+        arr.push(label)
+        var set = new Set(arr)
+      }
+      this.syllabus.courseLearningOutcomes[index].programOutcomes = Array.from(set)
     }
   }
 }

@@ -162,7 +162,8 @@
       "label": "2",
       "content": "Test and evaluate the software product to validate for the process and output.",
       "programOutcomes": [
-        "f"
+        "f",
+        "c"
       ]
     },
     {
