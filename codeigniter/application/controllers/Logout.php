@@ -1,14 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Main extends MY_Custom_Controller {
+class Logout extends MY_Custom_Controller {
 
   public function __construct() {
     parent::__construct();
+    $this->load->library('session');
   }
-  
+
   public function index() {
-    $this->_view('pages/home', 'CI Project Setup');
+    session_destroy();
+    echo json_encode(array('success' => TRUE));
   }
 }
 

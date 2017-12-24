@@ -5,7 +5,7 @@ export default function(router, http) {
   var timeoutSet = false
 
   const expireTimer = function(endAt) {
-    console.error(endAt - Date.now())
+    console.log(endAt - Date.now())
     timeoutSet = true
     setTimeout(function() {
       if (!timeoutSet || storage.get('loggedOut')) {
@@ -21,7 +21,7 @@ export default function(router, http) {
 
   const checkSession = function(title, cAuth, next, first) {
     // check for session
-    http.post('/checkSession').then(res => {
+    http.post('/sess').then(res => {
       const setAt = res.data.setAt
       const endAt = res.data.endAt
 

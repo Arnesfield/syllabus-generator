@@ -77,4 +77,24 @@ class MY_View_Controller extends MY_Controller {
   }
 }
 
+/**
+ * My custom controller
+ * 
+ * Extends MY_View_Controller
+ */
+class MY_Custom_Controller extends MY_View_Controller {
+  public function __construct() {
+    parent::__construct();
+    // prevent access if not post request
+    if ($this->input->method(TRUE) !== 'POST') {
+      $this->__BACK();
+      exit();
+    }
+  }
+
+  public function __BACK($to = '../#/error') {
+    redirect(base_url($to));
+  }
+}
+
 ?>
