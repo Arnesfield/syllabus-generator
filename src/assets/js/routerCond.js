@@ -35,7 +35,7 @@ export default function(router, http) {
           storage.destroy()
           next(false)
           // reload page to reset timer
-          window.location = '/'
+          window.location.reload(false)
           return
         }
         // push if component needs auth
