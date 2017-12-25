@@ -5,7 +5,7 @@
   <form @submit.prevent="submit">
     <!-- choose course -->
     <course-query @course-selected="onCourseSelected"/>
-    <outcome-mapper ref="outcomeMapper"/>
+    <outcome-mapper ref="outcomeMapper" @syllabus-fetched="onSyllabusFetched"/>
 
     <br>
     <div>
@@ -25,6 +25,9 @@ export default {
     CourseQuery,
     OutcomeMapper
   },
+  data: () => ({
+    syllabus: null
+  }),
 
   methods: {
     submit() {
@@ -33,6 +36,9 @@ export default {
 
     onCourseSelected(course) {
       this.$refs.outcomeMapper.onCourseSelected(course)
+    },
+    onSyllabusFetched(syllabus) {
+      this.syllabus = syllabus
     }
   }
 }

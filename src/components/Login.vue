@@ -36,6 +36,10 @@ export default {
     errorMsg: ''
   }),
 
+  created() {
+    this.$emit('update-nav')
+  },
+
   methods: {
     submit() {
       // handle login

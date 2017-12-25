@@ -68,6 +68,8 @@ export default {
         this.syllabus = res.data.syllabus
         this.syllabus.content = sContent
         this.editor = sContent.editor
+        // set syllabus in generator
+        this.$emit('syllabus-fetched', this.syllabus)
       }).catch(e => {
         this.syllabus = null
         this.editor = null
