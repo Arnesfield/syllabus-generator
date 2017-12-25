@@ -1,9 +1,0 @@
-{
-  "_id" : ObjectId("5a22d08fc734317b7f1993af"),
-  "editorId" : ObjectId("5a1a062d4fd4fd6e3f0abc43"),
-  "format" : "",
-  "version" : "1.0.0",
-  "createdAt" : 1512230942218,
-  "status" : 1,
-  "name" : "Format1"
-}

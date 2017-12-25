@@ -23,3 +23,6 @@ yarn-error.log*
 
 # Hide notes
 /notes/
+
+# Hide node.js files
+/node/
