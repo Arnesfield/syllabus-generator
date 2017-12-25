@@ -1,7 +1,7 @@
 <template>
 <div v-if="syllabus">
   <hr>
-  <div>Version: {{ syllabus.version }}</div>
+  <div>Version: {{ syllabus.content.version }}</div>
   <div>Editor: {{ editor.fname + ' ' + editor.mname + ' ' + editor.lname }}</div>
   <hr>
   
