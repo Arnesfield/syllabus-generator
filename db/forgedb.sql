@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.5
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2017 at 05:50 PM
+-- Generation Time: Dec 25, 2017 at 08:25 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -51,11 +51,41 @@ INSERT INTO `courses` (`id`, `title`, `code`, `description`, `unitsLec`, `unitsL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `syllabi`
+--
+
+CREATE TABLE `syllabi` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `editor_id` int(11) NOT NULL,
+  `format_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `grading_system` text NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `version` varchar(16) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `syllabi`
+--
+
+INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `format_id`, `content`, `grading_system`, `created_at`, `updated_at`, `version`, `status`) VALUES
+(1, 2, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Develop and execute the project requirements based from the proposal document.\",\"programOutcomes\":[\"e\"]},{\"label\":\"2\",\"content\":\"Test and evaluate the software product to validate for the process and output.\",\"programOutcomes\":[\"f\"]},{\"label\":\"3\",\"content\":\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\",\"programOutcomes\":[\"k\"]}]}', '{}', 1512231212, 1512231212, '1.0.0', 1),
+(2, 2, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Develop and execute the project requirements based from the proposal document.\",\"programOutcomes\":[\"e\"]},{\"label\":\"2\",\"content\":\"Test and evaluate the software product to validate for the process and output.\",\"programOutcomes\":[\"f\",\"c\"]},{\"label\":\"3\",\"content\":\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\",\"programOutcomes\":[\"k\"]}]}', '{}', 1512233602, 1512233606, '1.0.1', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `fname` varchar(32) NOT NULL,
+  `mname` varchar(32) NOT NULL,
+  `lname` varchar(32) NOT NULL,
   `username` varchar(16) NOT NULL,
   `password` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL,
@@ -66,8 +96,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `status`, `type`) VALUES
-(1, 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', 1, 1);
+INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `status`, `type`) VALUES
+(1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -77,6 +107,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `status`, `type`) VALUES
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `syllabi`
+--
+ALTER TABLE `syllabi`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -94,6 +130,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `syllabi`
+--
+ALTER TABLE `syllabi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

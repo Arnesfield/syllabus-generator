@@ -2,11 +2,11 @@
 <div v-if="syllabus">
   <hr>
   <div>Version: {{ syllabus.version }}</div>
-  <div>Editor: {{ editor.username }}</div>
+  <div>Editor: {{ editor.fname + ' ' + editor.mname + ' ' + editor.lname }}</div>
   <hr>
   
   <h4>Program Outcomes</h4>
-  <div :ref="'po-' + po.label" :key="po.label" v-for="po in syllabus.programOutcomes">
+  <div :ref="'po-' + po.label" :key="po.label" v-for="po in syllabus.content.programOutcomes">
     <div>
       {{ po.label + '. ' + po.content }}
     </div>
@@ -17,21 +17,21 @@
   <table border="1">
     <tr>
       <th style="width: 50%">Course Learning Outcomes (CLO)</th>
-      <th :colspan="syllabus.programOutcomes.length">Program Outcomes</th>
+      <th :colspan="syllabus.content.programOutcomes.length">Program Outcomes</th>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td :key="po.label" v-for="po in syllabus.programOutcomes"
+      <td :key="po.label" v-for="po in syllabus.content.programOutcomes"
         style="text-align: center">{{ po.label }}</td>
     </tr>
-    <tr :key="clo.label" v-for="(clo, cloIndex) in syllabus.courseLearningOutcomes">
+    <tr :key="clo.label" v-for="(clo, cloIndex) in syllabus.content.courseLearningOutcomes">
       <td>{{ clo.label + '. ' + clo.content }}</td>
       <td
         @mouseover="poBoxOver(clo.label, po.label)"
         @mouseout="poBoxOut(clo.label, po.label)"
         @click="poBoxClick(cloIndex, po.label)"
         :ref="'poBox-' + clo.label + '-' + po.label"
-        :key="po.label" v-for="po in syllabus.programOutcomes"
+        :key="po.label" v-for="po in syllabus.content.programOutcomes"
         style="text-align: center">
         <template v-if="clo.programOutcomes.indexOf(po.label) > -1">x</template>
         <template v-else>&nbsp;</template>
@@ -47,7 +47,7 @@ import qs from 'qs'
 export default {
   name: 'outcome-mapper',
   data: () => ({
-    url: '/syllabus',
+    url: '/syllabi/cid',
     syllabus: null,
     editor: null,
     poLabels: []
@@ -57,15 +57,17 @@ export default {
     onCourseSelected(course) {
       // check for course latest syllabus
       this.$http.post(this.url, qs.stringify({
-        courseId: course._id
+        courseId: course.id
       })).then((res) => {
         console.log(res.data)
         if (!res.data.success) {
           throw new Error
         }
+        let sContent = JSON.parse(res.data.syllabus.content)
         // display syllabus info
         this.syllabus = res.data.syllabus
-        this.editor = res.data.editor
+        this.syllabus.content = sContent
+        this.editor = sContent.editor
       }).catch(e => {
         this.syllabus = null
         this.editor = null
@@ -87,7 +89,7 @@ export default {
     },
 
     poBoxClick(index, label) {
-      let arr = this.syllabus.courseLearningOutcomes[index].programOutcomes
+      let arr = this.syllabus.content.courseLearningOutcomes[index].programOutcomes
       // if label exists in arr, remove it
       if (arr.indexOf(label) > -1) {
         var set = new Set(arr)
@@ -97,7 +99,7 @@ export default {
         arr.push(label)
         var set = new Set(arr)
       }
-      this.syllabus.courseLearningOutcomes[index].programOutcomes = Array.from(set)
+      this.syllabus.content.courseLearningOutcomes[index].programOutcomes = Array.from(set)
     }
   }
 }
