@@ -12,6 +12,9 @@ export default {
   name: 'app',
   components: {
     Navigation
+  },
+  mounted() {
+    this.$refs.nav.updateNav()
   }
 }
 </script>

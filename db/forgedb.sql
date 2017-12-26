@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2017 at 10:09 AM
+-- Generation Time: Dec 25, 2017 at 04:34 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -21,6 +21,54 @@ SET time_zone = "+00:00";
 --
 -- Database: `forgedb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+
+CREATE TABLE `books` (
+  `id` int(11) NOT NULL,
+  `citation` text NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`id`, `citation`, `status`) VALUES
+(1, 'Author Name. (1999). Some title of book or article about Android Development.', 1),
+(2, 'Author Name. (2001). Some book about JavaScript.', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `book_field_relation`
+--
+
+CREATE TABLE `book_field_relation` (
+  `id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `book_field_relation`
+--
+
+INSERT INTO `book_field_relation` (`id`, `book_id`, `field_id`, `status`) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 1, 3, 1),
+(4, 1, 5, 1),
+(5, 1, 12, 1),
+(6, 2, 16, 1),
+(7, 2, 2, 1),
+(8, 2, 4, 1),
+(9, 2, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -47,6 +95,39 @@ INSERT INTO `courses` (`id`, `title`, `code`, `description`, `unitsLec`, `unitsL
 (1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', 3, 0, 1, 1),
 (2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', 2, 1, 3, 1),
 (3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', 2, 1, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_field_relation`
+--
+
+CREATE TABLE `course_field_relation` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `course_field_relation`
+--
+
+INSERT INTO `course_field_relation` (`id`, `course_id`, `field_id`, `status`) VALUES
+(1, 1, 13, 1),
+(2, 1, 14, 1),
+(3, 1, 15, 1),
+(4, 2, 2, 1),
+(5, 2, 3, 1),
+(6, 2, 5, 1),
+(7, 2, 10, 1),
+(8, 2, 11, 1),
+(9, 3, 2, 1),
+(10, 3, 4, 1),
+(11, 3, 6, 1),
+(12, 3, 7, 1),
+(13, 3, 8, 1),
+(14, 3, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -79,6 +160,41 @@ INSERT INTO `curriculum` (`id`, `label`, `content`, `status`) VALUES
 (11, 'k', 'Analyze the local and global impact of computing information technology on individuals, organizations and society.', 1),
 (12, 'l', 'Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.', 1),
 (13, 'm', 'Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fields`
+--
+
+CREATE TABLE `fields` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fields`
+--
+
+INSERT INTO `fields` (`id`, `title`, `description`, `status`) VALUES
+(1, 'Java', '', 1),
+(2, 'Programming', '', 1),
+(3, 'Object Oriented Programming', '', 1),
+(4, 'Web Development', '', 1),
+(5, 'Mobile Programming', '', 1),
+(6, 'PHP', '', 1),
+(7, 'Frameworks', '', 1),
+(8, 'CodeIgniter', '', 1),
+(9, 'Laravel', '', 1),
+(10, 'iOS', '', 1),
+(11, 'Swift', '', 1),
+(12, 'Android Application Development', '', 1),
+(13, 'Capstone Project', '', 1),
+(14, 'Project Presentation', '', 1),
+(15, 'Software Development', '', 1),
+(16, 'JavaScript', '', 1);
 
 -- --------------------------------------------------------
 
@@ -134,9 +250,27 @@ INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `s
 --
 
 --
+-- Indexes for table `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `book_field_relation`
+--
+ALTER TABLE `book_field_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `course_field_relation`
+--
+ALTER TABLE `course_field_relation`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -144,6 +278,13 @@ ALTER TABLE `courses`
 --
 ALTER TABLE `curriculum`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fields`
+--
+ALTER TABLE `fields`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title` (`title`);
 
 --
 -- Indexes for table `syllabi`
@@ -162,16 +303,40 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `books`
+--
+ALTER TABLE `books`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `book_field_relation`
+--
+ALTER TABLE `book_field_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `course_field_relation`
+--
+ALTER TABLE `course_field_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `curriculum`
 --
 ALTER TABLE `curriculum`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `fields`
+--
+ALTER TABLE `fields`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `syllabi`
