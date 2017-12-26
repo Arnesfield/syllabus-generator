@@ -9,7 +9,8 @@ class Sess extends MY_Custom_Controller {
   }
 
   public function index() {
-    echo json_encode($this->session->userdata());
+    $isset = $this->session->userdata('user') && TRUE;
+    echo json_encode(array('isset' => $isset));
   }
 }
 

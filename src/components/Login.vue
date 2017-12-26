@@ -52,7 +52,7 @@ export default {
           return
         }
         // save credentials here
-        storage.set({ loggedOut: false })
+        storage.set({ isSet: true })
         this.$router.push('/dashboard')
       }).catch(e => {
         console.error(e)

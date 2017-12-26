@@ -8,8 +8,6 @@ class Login extends MY_Custom_Controller {
     $this->load->model('login_model');
     $this->load->library('session');
   }
-
-  private $max_age = 2*3600*1000;
   
   public function index() {
     $username = $this->input->post('username');
@@ -48,9 +46,7 @@ class Login extends MY_Custom_Controller {
 
     // set session
     $this->session->set_userdata(array(
-      'user' => $user,
-      'setAt' => time() * 1000,
-      'endAt' => time() * 1000 + $this->max_age + 10000
+      'user' => $user
     ));
     echo json_encode(array('success' => TRUE));
   }

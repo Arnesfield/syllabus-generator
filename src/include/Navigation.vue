@@ -32,7 +32,7 @@ export default {
 
   methods: {
     updateNav() {
-      this.isLoggedIn = typeof storage.get('endAt') !== 'undefined'
+      this.isLoggedIn = typeof storage.get('isSet') !== 'undefined'
     },
     logout() {
       this.$http.post(this.logoutUrl).then(res => {
