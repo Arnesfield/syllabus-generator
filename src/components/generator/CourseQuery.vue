@@ -13,8 +13,8 @@
     </div>
   </div>
   
-  <div v-if="res.length" style="max-height: 200px">
-    <div :key="course._id" v-for="(course, index) in res">
+  <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
+    <div :key="course.id" v-for="(course, index) in res">
       <input type="radio" :id="'course-' + index" :value="course" v-model="selected">
       <label :for="'course-' + index">
         <div>{{ course.code }}</div>
