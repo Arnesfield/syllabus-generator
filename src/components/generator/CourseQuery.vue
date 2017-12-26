@@ -3,25 +3,33 @@
   <div>
     <label for="courseQuery">Course</label>
     <input type="text" id="courseQuery" @input="courseQuery" @focus="courseQuery">
+    <button v-if="res.length" @click="res = []">Hide Selection</button>
   </div>
 
   <div v-if="selected">
     <div>
       <div><strong>Selected</strong></div>
-      <div>{{ selected.code }}</div>
-      <div>{{ selected.title }}</div>
+      <ul>
+        <li>
+          <div>{{ selected.code }}</div>
+          <div>{{ selected.title }}</div>
+        </li>
+      </ul>
     </div>
   </div>
   
   <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
-    <div :key="course.id" v-for="(course, index) in res">
-      <input type="radio" :id="'course-' + index" :value="course" v-model="selected">
-      <label :for="'course-' + index">
-        <div>{{ course.code }}</div>
-        <div>{{ course.title }}</div>
-      </label>
-    </div>
+    <ul>
+      <li :key="course.id" v-for="(course, index) in res">
+        <input type="radio" :id="'course-' + index" :value="course" v-model="selected">
+        <label :for="'course-' + index">
+          <div>{{ course.code }}</div>
+          <div>{{ course.title }}</div>
+        </label>
+      </li>
+    </ul>
   </div>
+
 </div>
 </template>
 

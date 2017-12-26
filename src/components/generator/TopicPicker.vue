@@ -1,41 +1,45 @@
 <template>
 <div v-if="syllabus">
   <hr>
+
+  <h4>References</h4>
   <div>
-    <label for="topicPicker">Topics</label>
+    <label for="topicPicker">Topic/Book</label>
     <input type="text" id="topicPicker" @input="topicPicker" @focus="topicPicker">
-    <span v-if="res.length">
-      <span @click="res = []">Hide Selection</span>
-    </span>
+    <button v-if="res.length" @click="res = []">Hide Selection</button>
   </div>
 
   <div v-if="selected.length">
-    <div>
-      <div><strong>Selected</strong></div>
-      <div :key="bfr.id" v-for="bfr in selected">
+    <div><strong>Selected</strong></div>
+    <ul>
+      <li :key="bfr.id" v-for="(bfr, index) in selected">
         <div>{{ bfr.b_citation }}</div>
         <div>
           <span>Tags:</span>
           <span :key="field.id" v-if="bfr.fields.length"
             v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
         </div>
-      </div>
-    </div>
+        <button @click="selected.splice(index, 1)">Remove</button>
+      </li>
+    </ul>
   </div>
   
   <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
-    <div :key="bfr.id" v-for="(bfr, index) in res">
-      <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
-      <label :for="'bfr-' + index">
-        <div>{{ bfr.b_citation }}</div>
-        <div>
-          <span>Tags:</span>
-          <span :key="field.id" v-if="bfr.fields.length"
-            v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
-        </div>
-      </label>
-    </div>
+    <ul>
+      <li :key="bfr.id" v-for="(bfr, index) in res">
+        <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
+        <label :for="'bfr-' + index">
+          <div>{{ bfr.b_citation }}</div>
+          <div>
+            <span>Tags:</span>
+            <span :key="field.id" v-if="bfr.fields.length"
+              v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
+          </div>
+        </label>
+      </li>
+    </ul>
   </div>
+  
 </div>
 </template>
 
