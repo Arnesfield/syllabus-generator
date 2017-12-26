@@ -42,10 +42,6 @@ class Topics_model extends MY_CRUD_Model {
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
       ->join('fields f', 'f.id = bfr.field_id')
-      ->where("
-        lower(concat(IFNULL(f.title, ''), IFNULL(b.citation, '')))
-        like lower(concat('%', '$search', '%'))
-      ")
       ->order_by('b.id', 'ASC');
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
