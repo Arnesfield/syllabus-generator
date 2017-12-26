@@ -46,18 +46,22 @@ import qs from 'qs'
 
 export default {
   name: 'outcome-mapper',
+  props: {
+    course: Object
+  },
   data: () => ({
     url: '/syllabi/cid',
     syllabus: null,
     editor: null,
     poLabels: []
   }),
-  
-  methods: {
-    onCourseSelected(course) {
+
+  watch: {
+    course(to, from) {
+      if (to === null) return;
       // check for course latest syllabus
       this.$http.post(this.url, qs.stringify({
-        courseId: course.id
+        courseId: this.course.id
       })).then((res) => {
         console.log(res.data)
         if (!res.data.success) {
@@ -76,8 +80,10 @@ export default {
         this.poLabels = []
         console.error(e)
       })
-    },
-
+    }
+  },
+  
+  methods: {
     poBoxOver(cloLabel, poLabel) {
       // sample style
       this.$refs['po-' + poLabel][0].style.backgroundColor = '#ccc'

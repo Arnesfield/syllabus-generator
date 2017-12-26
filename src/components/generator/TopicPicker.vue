@@ -14,6 +14,11 @@
       <div><strong>Selected</strong></div>
       <div :key="bfr.id" v-for="bfr in selected">
         <div>{{ bfr.b_citation }}</div>
+        <div>
+          <span>Tags:</span>
+          <span :key="field.id" v-if="bfr.fields.length"
+            v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -23,6 +28,11 @@
       <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
       <label :for="'bfr-' + index">
         <div>{{ bfr.b_citation }}</div>
+        <div>
+          <span>Tags:</span>
+          <span :key="field.id" v-if="bfr.fields.length"
+            v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
+        </div>
       </label>
     </div>
   </div>
@@ -35,18 +45,16 @@ import debounce from 'lodash/debounce'
 
 export default {
   name: 'topic-picker',
+  props: {
+    syllabus: Object
+  },
   data: () => ({
-    syllabus: null,
     url: '/topics',
     res: [],
     selected: []
   }),
 
   methods: {
-    onSyllabusFetched(syllabus) {
-      this.syllabus = syllabus
-    },
-
     topicPicker: debounce(function(e) {
       // search for topic if not empty
       const search = e.target.value
@@ -58,7 +66,17 @@ export default {
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
+        let fields = res.data.fields
         this.res = res.data.topics
+        this.res.forEach(e => {
+          let bookFields = fields.filter(field => {
+            return e.b_id == field.b_id
+          })
+          e.fields = bookFields
+          // remove fields
+          // assert that removed fields are in bookFields
+          fields = fields.slice(bookFields.length)
+        })
       }).catch(e => {
         console.error(e)
       })

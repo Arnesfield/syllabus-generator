@@ -10,9 +10,13 @@ class Topics extends MY_Custom_Controller {
   }
   
   public function index() {
-    $search = strip_tags(trim($this->input->post('search')));
+    $search = strip_tags(trim(addslashes($this->input->post('search'))));
     $topics = $this->topics_model->getByQuery($search);
-    echo json_encode(array('topics' => $topics));
+    $fields = $this->topics_model->getFieldsByQuery($search);
+    echo json_encode(array(
+      'topics' => $topics,
+      'fields' => $fields
+    ));
   }
 }
 

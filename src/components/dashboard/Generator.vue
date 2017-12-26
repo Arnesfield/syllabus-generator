@@ -5,8 +5,8 @@
   <form @submit.prevent="submit">
     <!-- choose course -->
     <course-query @course-selected="onCourseSelected"/>
-    <outcome-mapper ref="outcomeMapper" @syllabus-fetched="onSyllabusFetched"/>
-    <topic-picker ref="topicPicker"/>
+    <outcome-mapper ref="outcomeMapper" :course="course" @syllabus-fetched="onSyllabusFetched"/>
+    <topic-picker ref="topicPicker" :syllabus="syllabus"/>
 
     <br>
     <div>
@@ -40,11 +40,9 @@ export default {
 
     onCourseSelected(course) {
       this.course = course
-      this.$refs.outcomeMapper.onCourseSelected(course)
     },
     onSyllabusFetched(syllabus) {
       this.syllabus = syllabus
-      this.$refs.topicPicker.onSyllabusFetched(syllabus)
     }
   }
 }

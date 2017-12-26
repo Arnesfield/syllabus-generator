@@ -10,7 +10,7 @@ class Courses extends MY_Custom_Controller {
   }
   
   public function index() {
-    $search = strip_tags(trim($this->input->post('search')));
+    $search = strip_tags(trim(addslashes($this->input->post('search'))));
     $courses = $this->courses_model->getByQuery($search);
     echo json_encode(array('courses' => $courses));
   }
