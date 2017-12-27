@@ -6,7 +6,7 @@
     <!-- choose course -->
     <course-query @course-selected="onCourseSelected"/>
     <outcome-mapper ref="outcomeMapper" :course="course" @syllabus-fetched="onSyllabusFetched"/>
-    <topic-picker ref="topicPicker" :syllabus="syllabus"/>
+    <book-picker ref="bookPicker" :syllabus="syllabus"/>
     <used-materials-manager :syllabus="syllabus"/>
 
     <br>
@@ -20,7 +20,7 @@
 <script>
 import CourseQuery from '@/components/generator/CourseQuery'
 import OutcomeMapper from '@/components/generator/OutcomeMapper'
-import TopicPicker from '@/components/generator/TopicPicker'
+import BookPicker from '@/components/generator/BookPicker'
 import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
 
 export default {
@@ -28,7 +28,7 @@ export default {
   components: {
     CourseQuery,
     OutcomeMapper,
-    TopicPicker,
+    BookPicker,
     UsedMaterialsManager
   },
   data: () => ({

@@ -1,20 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Topics extends MY_Custom_Controller {
+class Books extends MY_Custom_Controller {
 
   public function __construct() {
     parent::__construct();
-    $this->load->model('topics_model');
+    $this->load->model('books_model');
     $this->load->library('session');
   }
   
   public function index() {
     $search = strip_tags(trim(addslashes($this->input->post('search'))));
-    $topics = $this->topics_model->getByQuery($search);
-    $fields = $this->topics_model->getFields();
+    $books = $this->books_model->getByQuery($search);
+    $fields = $this->books_model->getFields();
     echo json_encode(array(
-      'topics' => $topics,
+      'books' => $books,
       'fields' => $fields
     ));
   }
@@ -25,10 +25,10 @@ class Topics extends MY_Custom_Controller {
     }
 
     $course_id = $this->input->post('courseId');
-    $topics = $this->topics_model->getRelatedBooksToCourseId($course_id, $limit);
-    $fields = $this->topics_model->getFields();
+    $books = $this->books_model->getRelatedBooksToCourseId($course_id, $limit);
+    $fields = $this->books_model->getFields();
     echo json_encode(array(
-      'topics' => $topics,
+      'books' => $books,
       'fields' => $fields,
       // testing
       'limit' => $limit,

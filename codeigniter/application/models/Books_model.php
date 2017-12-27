@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Topics_model extends MY_CRUD_Model {
+class Books_model extends MY_CRUD_Model {
 
   public function __construct() {
     parent::__construct();

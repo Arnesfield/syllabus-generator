@@ -4,8 +4,8 @@
 
   <h4>References</h4>
   <div>
-    <label for="topicPicker">Topic/Book</label>
-    <input type="text" id="topicPicker" @input="topicPicker" @focus="topicPicker">
+    <label for="bookPicker">Book/Tag</label>
+    <input type="text" id="bookPicker" @input="bookPicker" @focus="bookPicker">
     <button v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
     <button v-else @click="suggest()">Show Suggestions</button>
     <button v-if="res.length" @click="res = []">Hide Selection</button>
@@ -68,13 +68,13 @@ import qs from 'qs'
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'topic-picker',
+  name: 'book-picker',
   props: {
     syllabus: Object
   },
   data: () => ({
-    url: '/topics',
-    suggestUrl: '/topics/suggest',
+    url: '/books',
+    suggestUrl: '/books/suggest',
     res: [],
     suggested: [],
     selected: []
@@ -89,7 +89,7 @@ export default {
   },
  
   methods: {
-    topicPicker: debounce(function(e) {
+    bookPicker: debounce(function(e) {
       // search for book if not empty
       const search = e.target.value
       if (!search) {
@@ -101,7 +101,7 @@ export default {
         search: search
       })).then((res) => {
         let fields = res.data.fields
-        this.res = res.data.topics
+        this.res = res.data.books
         this._setFields(this.res, fields)
       }).catch(e => {
         console.error(e)
@@ -114,7 +114,7 @@ export default {
       })).then((res) => {
         console.log(res.data)
         let fields = res.data.fields
-        this.suggested = res.data.topics
+        this.suggested = res.data.books
         this._setFields(this.suggested, fields)
       }).catch((e) => {
         console.error(e)
