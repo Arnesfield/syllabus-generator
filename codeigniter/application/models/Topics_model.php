@@ -10,14 +10,9 @@ class Topics_model extends MY_CRUD_Model {
   public function getByQuery($search) {
     $this->db
       ->select('
-        bfr.id AS id,
         b.id AS b_id,
-        f.id AS f_id,
         b.citation AS b_citation,
-        b.status AS b_status,
-        f.title AS f_title,
-        f.description AS f_description,
-        f.status AS f_status
+        b.status AS b_status
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
@@ -31,7 +26,7 @@ class Topics_model extends MY_CRUD_Model {
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 
-  public function getFieldsByQuery($search) {
+  public function getFields() {
     $this->db
       ->select('
         f.id AS id,
@@ -44,6 +39,41 @@ class Topics_model extends MY_CRUD_Model {
       ->join('fields f', 'f.id = bfr.field_id')
       ->order_by('b.id', 'ASC');
     $query = $this->db->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
+
+  public function getFieldsByCourseId($id) {
+    $query = $this->db
+      ->select('field_id')
+      ->from('course_field_relation')
+      ->where('course_id', $id)
+      ->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
+
+  public function getRelatedBooksToCourseId($id, $limit = 10) {
+    $fields = $this->getFieldsByCourseId($id);
+    if (!$fields) {
+      return FALSE;
+    }
+
+    foreach ($fields as $key => $field) {
+      $fields[$key] = $field['field_id'];
+    }
+
+    $query = $this->db
+      ->select('
+        b.id AS b_id,
+        b.citation AS b_citation,
+        b.status AS b_status
+      ')
+      ->from('book_field_relation bfr')
+      ->join('books b', 'b.id = bfr.book_id')
+      ->where_in('bfr.field_id', $fields)
+      ->order_by('COUNT(*)', 'DESC')
+      ->group_by('b.id')
+      ->limit($limit)
+      ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 }

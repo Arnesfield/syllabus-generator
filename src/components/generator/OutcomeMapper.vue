@@ -78,6 +78,7 @@ export default {
         this.syllabus = null
         this.editor = null
         this.poLabels = []
+        this.$emit('syllabus-fetched', this.syllabus)
         console.error(e)
       })
     }

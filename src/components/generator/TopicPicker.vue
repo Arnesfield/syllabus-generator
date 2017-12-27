@@ -6,6 +6,8 @@
   <div>
     <label for="topicPicker">Topic/Book</label>
     <input type="text" id="topicPicker" @input="topicPicker" @focus="topicPicker">
+    <button v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
+    <button v-else @click="suggest()">Show Suggestions</button>
     <button v-if="res.length" @click="res = []">Hide Selection</button>
   </div>
 
@@ -23,8 +25,26 @@
       </li>
     </ul>
   </div>
+
+  <div v-if="suggested.length" style="max-height: 200px; overflow-y: scroll">
+    <h4>Suggested</h4>
+    <ul>
+      <li :key="bfr.id" v-for="(bfr, index) in suggested">
+        <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
+        <label :for="'bfr-suggested-' + index">
+          <div>{{ bfr.b_citation }}</div>
+          <div>
+            <span>Tags:</span>
+            <span :key="field.id" v-if="bfr.fields.length"
+              v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
+          </div>
+        </label>
+      </li>
+    </ul>
+  </div>
   
   <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
+    <h4>Selection</h4>
     <ul>
       <li :key="bfr.id" v-for="(bfr, index) in res">
         <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
@@ -54,13 +74,23 @@ export default {
   },
   data: () => ({
     url: '/topics',
+    suggestUrl: '/topics/suggest',
     res: [],
+    suggested: [],
     selected: []
   }),
 
+  watch: {
+    syllabus(to, from) {
+      if (to !== null && to !== from) {
+        this.suggest()
+      }
+    }
+  },
+ 
   methods: {
     topicPicker: debounce(function(e) {
-      // search for topic if not empty
+      // search for book if not empty
       const search = e.target.value
       if (!search) {
         this.res = []
@@ -72,19 +102,36 @@ export default {
       })).then((res) => {
         let fields = res.data.fields
         this.res = res.data.topics
-        this.res.forEach(e => {
-          let bookFields = fields.filter(field => {
-            return e.b_id == field.b_id
-          })
-          e.fields = bookFields
-          // remove fields
-          // assert that removed fields are in bookFields
-          fields = fields.slice(bookFields.length)
-        })
+        this._setFields(this.res, fields)
       }).catch(e => {
         console.error(e)
       })
-    }, 300)
+    }, 300),
+
+    suggest() {
+      this.$http.post(this.suggestUrl, qs.stringify({
+        courseId: this.syllabus.course_id
+      })).then((res) => {
+        console.log(res.data)
+        let fields = res.data.fields
+        this.suggested = res.data.topics
+        this._setFields(this.suggested, fields)
+      }).catch((e) => {
+        console.error(e)
+      })
+    },
+
+    _setFields(books, fields) {
+      books.forEach(e => {
+        let bookFields = fields.filter(field => {
+          return e.b_id == field.b_id
+        })
+        e.fields = bookFields
+        // remove fields
+        // assert that removed fields are in bookFields
+        fields = fields.slice(bookFields.length)
+      })
+    }
   }
 }
 </script>
