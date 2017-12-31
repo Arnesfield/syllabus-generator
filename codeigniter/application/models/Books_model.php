@@ -11,8 +11,7 @@ class Books_model extends MY_CRUD_Model {
     $this->db
       ->select('
         b.id AS b_id,
-        b.citation AS b_citation,
-        b.status AS b_status
+        b.citation AS b_citation
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
@@ -64,8 +63,7 @@ class Books_model extends MY_CRUD_Model {
     $query = $this->db
       ->select('
         b.id AS b_id,
-        b.citation AS b_citation,
-        b.status AS b_status
+        b.citation AS b_citation
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')

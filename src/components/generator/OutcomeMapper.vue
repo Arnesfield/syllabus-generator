@@ -16,22 +16,34 @@
 
   <table border="1">
     <tr>
+      <th>&nbsp;</th>
       <th style="width: 50%">Course Learning Outcomes (CLO)</th>
-      <th :colspan="syllabus.content.programOutcomes.length">Program Outcomes</th>
+      <th style="width: 50%" :colspan="syllabus.content.programOutcomes.length">Program Outcomes</th>
     </tr>
     <tr>
+      <td>
+        <button @click="addCLO(0)">+</button>
+      </td>
       <td>&nbsp;</td>
       <td :key="po.label" v-for="po in syllabus.content.programOutcomes"
         style="text-align: center">{{ po.label }}</td>
     </tr>
     <tr :key="clo.label" v-for="(clo, cloIndex) in syllabus.content.courseLearningOutcomes">
-      <td>{{ clo.label + '. ' + clo.content }}</td>
+      <td>
+        <button @click="removeCLO(cloIndex)">x</button>
+        <button @click="addCLO(cloIndex + 1)">+</button>
+      </td>
+      <td>
+        <span>{{ clo.label + '. ' }}</span>
+        <textarea class="clo-textarea" v-model="clo.content"></textarea>
+      </td>
       <td
         @mouseover="poBoxOver(clo.label, po.label)"
         @mouseout="poBoxOut(clo.label, po.label)"
         @click="poBoxClick(cloIndex, po.label)"
         :ref="'poBox-' + clo.label + '-' + po.label"
-        :key="po.label" v-for="po in syllabus.content.programOutcomes"
+        :key="po.label"
+        v-for="po in syllabus.content.programOutcomes"
         style="text-align: center">
         <template v-if="clo.programOutcomes.indexOf(po.label) > -1">x</template>
         <template v-else>&nbsp;</template>
@@ -109,7 +121,37 @@ export default {
         var set = new Set(arr)
       }
       this.syllabus.content.courseLearningOutcomes[index].programOutcomes = Array.from(set)
+    },
+
+    addCLO(index) {
+      this.syllabus.content.courseLearningOutcomes.splice(index, 0, {
+        label: index + 1,
+        content: '',
+        programOutcomes: []
+      })
+      this._updateCLOLabels()
+    },
+    removeCLO(index) {
+      this.syllabus.content.courseLearningOutcomes.splice(index, 1)
+      this._updateCLOLabels()
+    },
+
+    _updateCLOLabels() {
+      this.syllabus.content.courseLearningOutcomes.forEach((e, i) => {
+        e.label = i + 1
+      })
     }
   }
 }
 </script>
+
+<style scoped>
+.clo-textarea {
+  width: 95%;
+  min-width: 95%;
+  max-width: 95%;
+  min-height: 32px;
+  max-height: 64px;
+  resize: vertical;
+}
+</style>
