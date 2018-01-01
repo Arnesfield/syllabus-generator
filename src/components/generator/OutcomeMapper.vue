@@ -32,7 +32,9 @@
     title="Intended Learning Outcomes (ILO)"
     supportingTitle="Course Learning Outcomes (CLO)"
     @over="cloBoxOver"
-    @out="cloBoxOut"/>
+    @out="cloBoxOut"
+    @add="iloAdd"
+    @remove="iloRemove"/>
   
 </div>
 </template>
@@ -133,6 +135,13 @@ export default {
     cloBoxOut(label) {
       // sample style
       this.$refs.cloTable.$refs['content-' + label][0].style.backgroundColor = null
+    },
+
+    iloAdd(index) {
+      this.$emit('ilo-add', index)
+    },
+    iloRemove(index) {
+      this.$emit('ilo-remove', index)
     }
   }
 }

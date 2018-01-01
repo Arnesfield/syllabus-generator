@@ -9,11 +9,16 @@
     <template v-if="course">
       <hr>
     </template>
-    <outcome-mapper ref="outcomeMapper" :course="course" @syllabus-fetched="onSyllabusFetched"/>
+    <outcome-mapper
+      ref="outcomeMapper"
+      :course="course"
+      @syllabus-fetched="onSyllabusFetched"
+      @ilo-add="iloAdd"
+      @ilo-remove="iloRemove"/>
 
     <template v-if="syllabus">
       <hr>
-      <activity-manager :syllabus="syllabus" @over="boxOver" @out="boxOut"/>
+      <activity-manager ref="activityManager" :syllabus="syllabus" @over="boxOver" @out="boxOut"/>
       <hr>
       <book-picker ref="bookPicker" :syllabus="syllabus"/>
       <hr>
@@ -75,6 +80,12 @@ export default {
     boxOut(label) {
       let iloTable = this.$refs.outcomeMapper.$refs.iloTable
       iloTable.$refs['content-' + label][0].style.backgroundColor = null
+    },
+    iloAdd(index) {
+      this.$refs.activityManager.iloAdd(index)
+    },
+    iloRemove(index) {
+      this.$refs.activityManager.iloRemove(index)
     }
   }
 }

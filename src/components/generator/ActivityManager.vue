@@ -81,6 +81,35 @@ export default {
     boxOut(label) {
       this.$emit('out', label)
     },
+    iloAdd(index) {
+      // move ilo with index
+      this.weeks.forEach((e, i) => {
+        let ilo = e.intendedLearningOutcomes
+        let updated = ilo.map(c => {
+          let num = Number(c)
+          // if ilo (num) is greater
+          return num > index ? String(num + 1) : String(c)
+        })
+        this.weeks[i].intendedLearningOutcomes = updated
+      })
+    },
+    iloRemove(index) {
+      this.weeks.forEach((e, i) => {
+        let ilo = e.intendedLearningOutcomes
+        let updated = ilo.reduce((filtered, c) => {
+          let num = Number(c)
+          if (num > index + 1) {
+            if (num - 1 !== -1) {
+              filtered.push(String(num - 1))
+            }
+          } else if (num !== index + 1) {
+            filtered.push(c)
+          }
+          return filtered
+        }, [])
+        this.weeks[i].intendedLearningOutcomes = updated
+      })
+    },
 
     addAct(i) {
       this.weeks.splice(i, 0, {
