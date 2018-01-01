@@ -1,19 +1,30 @@
 <template>
 <div v-if="weeks">
+
+  <h4>Weekly Activities</h4>
   <div>
     <span>Number of weeks</span>
     <input type="number" v-model="totalWeeks">
   </div>
 
-  <activity-week
-    :ref="'aw-' + index"
-    :key="week"
-    v-for="(week, index) in weeks"
-    :week="week"
-    :weeks="weeks"
-    :index="index"
-    :totalWeeks="totalWeeks"
-    @change-until="updateWeeks"/>
+  <table border="1">
+    <tr>
+      <td>
+        <button @click="addAct(0)">+</button>
+      </td>
+    </tr>
+    <activity-week
+      :ref="'aw-' + index"
+      :key="week"
+      v-for="(week, index) in weeks"
+      :week="week"
+      :weeks="weeks"
+      :index="index"
+      :totalWeeks="totalWeeks"
+      @add="addAct"
+      @remove="removeAct"
+      @change-until="updateWeeks"/>
+  </table>
 
 </div>
 </template>
@@ -56,44 +67,45 @@ export default {
   },
 
   methods: {
-    updateWeeks(allowInsert) {
-      allowInsert = typeof allowInsert === 'boolean' ? allowInsert : false
+    addAct(i) {
+      this.weeks.splice(i, 0, {
+        from: null,
+        until: null
+      })
+      this.updateWeeks()
+    },
+    removeAct(i) {
+      this.weeks.splice(i, 1)
+      this.updateWeeks()
+    },
 
-      if (!this.weeks.length) {
-        this.weeks.push({
-          from: 1,
-          until: this.totalWeeks,
-        })
-      }
+    updateWeeks() {
 
-      // traverse weeks backwards and see if until is less than totalWeeks left
-      let totalWeeksLeft = this.totalWeeks
-      let length = this.weeks.length - 1
-      for (let i = length; i >= 0; i--) {
+      // traverse weeks and change week values
+      let length = this.weeks.length
+
+      for (let i = 0; i < length; i++) {
         let week = this.weeks[i]
-        // if less than
-        // only insert if allowed
-        if (allowInsert && week.until < totalWeeksLeft) {
-          this.weeks.splice(i + 1, 0, {
-            from: week.until + 1,
-            until: totalWeeksLeft
-          })
-        }
-        // else
-        // attempt 1: else if (week.until > totalWeeksLeft)
-        else {
-          // change values
-          week.until = totalWeeksLeft
-          // if from is greater than until
-          if (week.from > week.until) {
-            week.from = totalWeeksLeft
-          }
+        let weekAfter = i < length-1 ? this.weeks[i+1] : null
+
+        if (i === 0) {
+          week.from = 1
         }
 
-        totalWeeksLeft = week.from - 1
+        if (weekAfter !== null) {
+          weekAfter.from = week.until !== null ? week.until + 1 : null
+        }
+
+        if (week.from > week.until) {
+          week.from = null
+        }
+
+        if (i === length-1) {
+          week.until = this.totalWeeks
+        }
+        
       }
 
-      return this.weeks
     },
 
     _updateData() {

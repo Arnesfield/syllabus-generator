@@ -1,23 +1,27 @@
 <template>
-<div>
-  <div>
-    From:
-    <template v-if="index > 0">
-      <select v-model="week.from">
-        <option :value="n" v-for="n in Number(totalWeeks)" :key="n">{{ n }}</option>
-      </select>
-    </template>
-    <template v-else>
-      {{ week.from }}
-    </template>
-  </div>
-  <div>
-    Until:
-    <select v-model="week.until" @change="onChangeUntil">
-      <option :value="n" v-for="n in Number(totalWeeks)" :key="n">{{ n }}</option>
-    </select>
-  </div>
-</div>
+<tr>
+  <td>
+    <button @click="$emit('remove', index)">x</button>
+    <button @click="$emit('add', index + 1)">+</button>
+  </td>
+
+  <td>
+
+    <div>From: {{ week.from }}</div>
+    <div>
+      Until:
+      <template v-if="index < weeks.length - 1">
+        <select v-model="week.until" @change="onChangeUntil">
+          <option :value="n" v-for="n in Number(totalWeeks)-1" :key="n">{{ n }}</option>
+        </select>
+      </template>
+      <template v-else>
+        {{ week.until }}
+      </template>
+    </div>
+
+  </td>
+</tr>
 </template>
 
 <script>
@@ -32,7 +36,7 @@ export default {
 
   methods: {
     onChangeUntil() {
-      this.$emit('change-until', true)
+      this.$emit('change-until')
     }
   }
 }
