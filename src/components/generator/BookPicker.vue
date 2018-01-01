@@ -86,6 +86,12 @@ export default {
       }
     }
   },
+
+  created() {
+    if (this.syllabus !== null) {
+      this.suggest()
+    }
+  },
  
   methods: {
     bookPicker: debounce(function(e) {

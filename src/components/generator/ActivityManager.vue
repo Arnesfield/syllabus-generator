@@ -7,6 +7,8 @@
     <input type="number" v-model="totalWeeks">
   </div>
 
+  <br>
+
   <table border="1">
     <tr>
       <th>&nbsp;</th>
@@ -17,6 +19,9 @@
       <td>
         <button @click="addAct(0)">+</button>
       </td>
+      <td>&nbsp;</td>
+      <td :key="ilo.label" v-for="ilo in syllabus.content.intendedLearningOutcomes"
+        style="text-align: center">{{ ilo.label }}</td>
     </tr>
     <activity-week
       :ref="'aw-' + index"
