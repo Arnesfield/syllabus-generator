@@ -13,11 +13,11 @@
 
     <template v-if="syllabus">
       <hr>
+      <activity-manager :syllabus="syllabus" @over="boxOver" @out="boxOut"/>
+      <hr>
       <book-picker ref="bookPicker" :syllabus="syllabus"/>
       <hr>
       <used-materials-manager :syllabus="syllabus"/>
-      <hr>
-      <activity-manager :syllabus="syllabus"/>
       <hr>
       <syllabus-info :syllabus="syllabus" :editor="editor"/>
     </template>
@@ -65,6 +65,16 @@ export default {
     onSyllabusFetched(syllabus, editor) {
       this.syllabus = syllabus
       this.editor = editor
+    },
+
+    // activity manager
+    boxOver(label) {
+      let iloTable = this.$refs.outcomeMapper.$refs.iloTable
+      iloTable.$refs['content-' + label][0].style.backgroundColor = '#ccc'
+    },
+    boxOut(label) {
+      let iloTable = this.$refs.outcomeMapper.$refs.iloTable
+      iloTable.$refs['content-' + label][0].style.backgroundColor = null
     }
   }
 }

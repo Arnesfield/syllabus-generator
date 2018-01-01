@@ -9,6 +9,11 @@
 
   <table border="1">
     <tr>
+      <th>&nbsp;</th>
+      <th>Week</th>
+      <th :colspan="syllabus.content.intendedLearningOutcomes.length">Intended Learning Outcome (ILO)</th>
+    </tr>
+    <tr>
       <td>
         <button @click="addAct(0)">+</button>
       </td>
@@ -21,9 +26,12 @@
       :weeks="weeks"
       :index="index"
       :totalWeeks="totalWeeks"
+      :syllabus="syllabus"
       @add="addAct"
       @remove="removeAct"
-      @change-until="updateWeeks"/>
+      @change-until="updateWeeks"
+      @over="boxOver"
+      @out="boxOut"/>
   </table>
 
 </div>
@@ -67,10 +75,18 @@ export default {
   },
 
   methods: {
+    boxOver(label) {
+      this.$emit('over', label)
+    },
+    boxOut(label) {
+      this.$emit('out', label)
+    },
+
     addAct(i) {
       this.weeks.splice(i, 0, {
         from: null,
-        until: null
+        until: null,
+        intendedLearningOutcomes: []
       })
       this.updateWeeks()
     },
