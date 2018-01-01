@@ -5,9 +5,22 @@
   <form @submit.prevent="submit">
     <!-- choose course -->
     <course-query @course-selected="onCourseSelected"/>
+    
+    <template v-if="course">
+      <hr>
+    </template>
     <outcome-mapper ref="outcomeMapper" :course="course" @syllabus-fetched="onSyllabusFetched"/>
-    <book-picker ref="bookPicker" :syllabus="syllabus"/>
-    <used-materials-manager :syllabus="syllabus"/>
+
+    <template v-if="syllabus">
+      <hr>
+      <book-picker ref="bookPicker" :syllabus="syllabus"/>
+      <hr>
+      <used-materials-manager :syllabus="syllabus"/>
+      <hr>
+      <activity-manager :syllabus="syllabus"/>
+      <hr>
+      <syllabus-info :syllabus="syllabus" :editor="editor"/>
+    </template>
 
     <br>
     <div>
@@ -22,6 +35,8 @@ import CourseQuery from '@/components/generator/CourseQuery'
 import OutcomeMapper from '@/components/generator/OutcomeMapper'
 import BookPicker from '@/components/generator/BookPicker'
 import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
+import ActivityManager from '@/components/generator/ActivityManager'
+import SyllabusInfo from '@/components/generator/SyllabusInfo'
 
 export default {
   name: 'generator',
@@ -29,11 +44,14 @@ export default {
     CourseQuery,
     OutcomeMapper,
     BookPicker,
-    UsedMaterialsManager
+    UsedMaterialsManager,
+    ActivityManager,
+    SyllabusInfo
   },
   data: () => ({
     course: null,
-    syllabus: null
+    syllabus: null,
+    editor: null
   }),
 
   methods: {
@@ -44,8 +62,9 @@ export default {
     onCourseSelected(course) {
       this.course = course
     },
-    onSyllabusFetched(syllabus) {
+    onSyllabusFetched(syllabus, editor) {
       this.syllabus = syllabus
+      this.editor = editor
     }
   }
 }

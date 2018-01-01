@@ -1,6 +1,5 @@
 <template>
 <div v-if="syllabus">
-  <hr>
 
   <h4>References</h4>
   <div>

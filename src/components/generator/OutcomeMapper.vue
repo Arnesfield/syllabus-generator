@@ -1,9 +1,5 @@
 <template>
 <div v-if="syllabus">
-  <hr>
-  <div>Version: {{ syllabus.content.version }}</div>
-  <div>Editor: {{ editor.fname + ' ' + editor.mname + ' ' + editor.lname }}</div>
-  <hr>
   
   <h4>Program Outcomes</h4>
   <div :ref="'po-' + po.label" :key="po.label" v-for="po in syllabus.content.programOutcomes">
@@ -77,12 +73,12 @@ export default {
         this.syllabus.content = sContent
         this.editor = sContent.editor
         // set syllabus in generator
-        this.$emit('syllabus-fetched', this.syllabus)
+        this.$emit('syllabus-fetched', this.syllabus, this.editor)
       }).catch(e => {
         this.syllabus = null
         this.editor = null
         this.poLabels = []
-        this.$emit('syllabus-fetched', this.syllabus)
+        this.$emit('syllabus-fetched', this.syllabus, this.editor)
         console.error(e)
       })
     }

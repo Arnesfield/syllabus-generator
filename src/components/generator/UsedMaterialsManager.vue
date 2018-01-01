@@ -1,6 +1,5 @@
 <template>
 <div v-if="syllabus">
-  <hr>
   <h4>Instructional Materials</h4>
   <div>
     <textarea v-model="text" id="used-materials" cols="30" rows="5"
