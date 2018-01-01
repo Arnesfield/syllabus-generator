@@ -22,7 +22,9 @@
     title="Course Learning Outcomes (CLO)"
     supportingTitle="Program Outcomes"
     @over="poBoxOver"
-    @out="poBoxOut"/>
+    @out="poBoxOut"
+    @add="cloAdd"
+    @remove="cloRemove"/>
 
   <br>
 
@@ -94,6 +96,37 @@ export default {
     poBoxOut(label) {
       // sample style
       this.$refs['po-' + label][0].style.backgroundColor = null
+    },
+    cloAdd(index) {
+      // move ilo clo with index
+      let ilo = this.syllabus.content.intendedLearningOutcomes
+      ilo.forEach((e, i) => {
+        let clo = e.courseLearningOutcomes
+        let updated = clo.map(c => {
+          let num = Number(c)
+          // if clo (num) is greater
+          return num > index ? String(num + 1) : String(c)
+        })
+        ilo[i].courseLearningOutcomes = updated
+      })
+    },
+    cloRemove(index) {
+      let ilo = this.syllabus.content.intendedLearningOutcomes
+      ilo.forEach((e, i) => {
+        let clo = e.courseLearningOutcomes
+        let updated = clo.reduce((filtered, c) => {
+          let num = Number(c)
+          if (num > index + 1) {
+            if (num - 1 !== -1) {
+              filtered.push(String(num - 1))
+            }
+          } else if (num !== index + 1) {
+            filtered.push(c)
+          }
+          return filtered
+        }, [])
+        ilo[i].courseLearningOutcomes = updated
+      })
     },
 
     cloBoxOver(label) {

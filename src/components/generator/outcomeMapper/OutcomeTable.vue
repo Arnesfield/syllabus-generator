@@ -87,15 +87,18 @@ export default {
       obj[this.supportingFieldName] = []
       this.main.splice(index, 0, obj)
       this._updateLabels()
+      this.$emit('add', index)
     },
     remove(index) {
       this.main.splice(index, 1)
       this._updateLabels()
+      this.$emit('remove', index)
     },
 
     _updateLabels() {
       this.main.forEach((e, i) => {
-        e.label = i + 1
+        // make string for indexOf to work
+        e.label = String(i + 1)
       })
     }
   }
