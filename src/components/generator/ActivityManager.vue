@@ -9,7 +9,11 @@
     :ref="'aw-' + index"
     :key="week"
     v-for="(week, index) in weeks"
-    :week="week"/>
+    :week="week"
+    :weeks="weeks"
+    :index="index"
+    :totalWeeks="totalWeeks"
+    @change-until="updateWeeks"/>
 
 </div>
 </template>
@@ -70,7 +74,7 @@ export default {
         // if less than
         // only insert if allowed
         if (allowInsert && week.until < totalWeeksLeft) {
-          this.weeks.splice(i, 0, {
+          this.weeks.splice(i + 1, 0, {
             from: week.until + 1,
             until: totalWeeksLeft
           })
@@ -85,6 +89,7 @@ export default {
             week.from = totalWeeksLeft
           }
         }
+
         totalWeeksLeft = week.from - 1
       }
 
