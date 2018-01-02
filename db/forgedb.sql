@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2018 at 05:17 AM
+-- Generation Time: Jan 02, 2018 at 06:38 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -40,7 +40,26 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`id`, `citation`, `status`) VALUES
 (1, 'Author Name. (1999). Some title of book or article about Android Development.', 1),
-(2, 'Author\'s Name. (2001). Some book about JavaScript.', 1);
+(2, 'Author\'s Name. (2001). Some book about JavaScript.', 1),
+(3, 'Zak, Diane (2011) An Introduction to Programming with C++. 6th ed.  Australia: Course Technology', 1),
+(4, 'McGrath, Mike (2012) C++ Programming in Easy Steps.  4th ed.  Warwickshire, United Kingdom: Easy Steps Limited', 1),
+(5, 'Gaddis, Tony (2007) Starting out with C++. Pearson Publishing.	', 1),
+(6, 'Gregoire, Marc, et. al. (2011) Professional C++. 2nd ed.  Indianapolis, Indiana: Wiley', 1),
+(7, 'Deitel, Paul J. (2009) C++ for programmers. Prentice Hall.', 1),
+(8, 'D. S. Malik (2008) C++ programming. Thomson Course Technology.', 1),
+(9, 'Deitel, Paul J. (2008) C++ how to program. Pearson Publishing.', 1),
+(10, 'Josuttis, Nicolai M. (2012) The C++ Standard Library: a tutorial and reference. 2nd ed.  Upper Saddle River, NJ. :  Addison-Wesley', 1),
+(11, 'Mullins, C. (2013). Database Administration 2nd Edition, Addison-Wesley.', 1),
+(12, 'Gillenson, M. (2012). Fundamentals of Database Management Systems 2nd Edition, John Wiley & Sons.', 1),
+(13, 'Elmasri, R. (2011). Fundamentals of Database Systems 6th Edition, Addison-Wesley.', 1),
+(14, 'Gill, P. (2011). Database Management Systems 2nd Edition, I.K. International Pub.', 1),
+(15, 'Connoly, T. (2010). Database Systems: A practical Approach to Design, Implementation and Management 5th Edition, McGraw Hill International.', 1),
+(16, 'Harrington, J. (2010). SQL Clearly Explained, Morgan Kaufmann.', 1),
+(17, 'Kroenke, D. (2010). Database Concepts 4th Edition, Pearson.', 1),
+(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', 1),
+(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', 1),
+(20, 'Puntambekar, A. (2014). Object oriented analysis & design: a conceptual approach. Technical Publication: New Delhi', 1),
+(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', 1);
 
 -- --------------------------------------------------------
 
@@ -68,7 +87,119 @@ INSERT INTO `book_field_relation` (`id`, `book_id`, `field_id`, `status`) VALUES
 (6, 2, 16, 1),
 (7, 2, 2, 1),
 (8, 2, 4, 1),
-(9, 2, 3, 1);
+(9, 2, 3, 1),
+(10, 3, 2, 1),
+(11, 3, 20, 1),
+(12, 3, 35, 1),
+(13, 4, 2, 1),
+(14, 4, 20, 1),
+(15, 4, 35, 1),
+(16, 5, 2, 1),
+(17, 5, 20, 1),
+(18, 5, 35, 1),
+(19, 6, 2, 1),
+(20, 6, 20, 1),
+(21, 6, 35, 1),
+(22, 7, 2, 1),
+(23, 7, 20, 1),
+(24, 7, 35, 1),
+(25, 8, 2, 1),
+(26, 8, 20, 1),
+(27, 8, 35, 1),
+(28, 9, 2, 1),
+(29, 9, 20, 1),
+(30, 9, 35, 1),
+(31, 10, 2, 1),
+(32, 10, 20, 1),
+(33, 10, 35, 1),
+(34, 11, 17, 1),
+(35, 11, 25, 1),
+(36, 11, 21, 1),
+(37, 12, 17, 1),
+(38, 12, 21, 1),
+(39, 12, 19, 1),
+(40, 11, 19, 1),
+(41, 12, 33, 1),
+(42, 12, 26, 1),
+(43, 11, 33, 1),
+(44, 11, 26, 1),
+(45, 13, 17, 1),
+(46, 13, 19, 1),
+(47, 13, 21, 1),
+(48, 13, 26, 1),
+(49, 13, 33, 1),
+(50, 14, 17, 1),
+(51, 14, 19, 1),
+(52, 14, 21, 1),
+(53, 14, 26, 1),
+(54, 14, 33, 1),
+(55, 14, 25, 1),
+(56, 13, 22, 1),
+(57, 13, 23, 1),
+(58, 13, 24, 1),
+(59, 12, 22, 1),
+(60, 12, 23, 1),
+(61, 12, 24, 1),
+(62, 14, 22, 1),
+(63, 14, 23, 1),
+(64, 14, 24, 1),
+(65, 15, 17, 1),
+(66, 15, 19, 1),
+(67, 15, 21, 1),
+(68, 15, 22, 1),
+(69, 15, 23, 1),
+(70, 15, 24, 1),
+(71, 15, 25, 1),
+(72, 15, 26, 1),
+(73, 15, 33, 1),
+(74, 16, 17, 1),
+(75, 16, 19, 1),
+(76, 16, 21, 1),
+(77, 16, 22, 1),
+(78, 16, 23, 1),
+(79, 16, 24, 1),
+(80, 16, 25, 1),
+(81, 16, 26, 1),
+(82, 16, 33, 1),
+(83, 17, 17, 1),
+(84, 17, 19, 1),
+(85, 17, 21, 1),
+(86, 17, 22, 1),
+(87, 17, 23, 1),
+(88, 17, 24, 1),
+(89, 17, 25, 1),
+(90, 17, 26, 1),
+(91, 17, 33, 1),
+(92, 11, 34, 1),
+(93, 12, 34, 1),
+(94, 13, 34, 1),
+(95, 14, 34, 1),
+(96, 15, 34, 1),
+(97, 16, 34, 1),
+(98, 17, 34, 1),
+(99, 18, 13, 1),
+(100, 18, 38, 1),
+(101, 18, 39, 1),
+(102, 19, 13, 1),
+(103, 19, 15, 1),
+(104, 19, 40, 1),
+(105, 20, 13, 1),
+(106, 20, 38, 1),
+(107, 20, 39, 1),
+(108, 21, 13, 1),
+(109, 21, 29, 1),
+(110, 21, 38, 1),
+(111, 18, 29, 1),
+(112, 19, 38, 1),
+(113, 19, 39, 1),
+(114, 19, 29, 1),
+(115, 20, 29, 1),
+(116, 21, 39, 1),
+(117, 0, 0, 1),
+(118, 0, 0, 1),
+(119, 0, 0, 1),
+(120, 0, 0, 1),
+(121, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -94,7 +225,9 @@ CREATE TABLE `courses` (
 INSERT INTO `courses` (`id`, `title`, `code`, `description`, `unitsLec`, `unitsLab`, `unitsType`, `status`) VALUES
 (1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', 3, 0, 1, 1),
 (2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', 2, 1, 3, 1),
-(3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', 2, 1, 3, 1);
+(3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', 2, 1, 3, 1),
+(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', 2, 1, 3, 1),
+(5, 'Introduction to Programming', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', 2, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -127,7 +260,35 @@ INSERT INTO `course_field_relation` (`id`, `course_id`, `field_id`, `status`) VA
 (11, 3, 6, 1),
 (12, 3, 7, 1),
 (13, 3, 8, 1),
-(14, 3, 9, 1);
+(14, 3, 9, 1),
+(15, 1, 38, 1),
+(16, 1, 39, 1),
+(17, 1, 40, 1),
+(18, 1, 31, 1),
+(19, 1, 32, 1),
+(20, 4, 17, 1),
+(21, 4, 21, 1),
+(22, 4, 19, 1),
+(23, 4, 22, 1),
+(24, 4, 23, 1),
+(25, 4, 24, 1),
+(26, 4, 25, 1),
+(27, 4, 26, 1),
+(28, 1, 29, 1),
+(29, 4, 33, 1),
+(30, 4, 34, 1),
+(31, 5, 2, 1),
+(32, 5, 20, 1),
+(33, 5, 35, 1),
+(34, 5, 36, 1),
+(35, 5, 37, 1),
+(36, 5, 27, 1),
+(37, 5, 28, 1),
+(38, 5, 18, 1),
+(39, 0, 0, 1),
+(40, 0, 0, 1),
+(41, 0, 0, 1),
+(42, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -215,7 +376,10 @@ INSERT INTO `fields` (`id`, `title`, `description`, `status`) VALUES
 (34, 'Transaction Control', '', 1),
 (35, 'Computer Programming', '', 1),
 (36, 'History', '', 1),
-(37, 'Basic Input and Output', '', 1);
+(37, 'Basic Input and Output', '', 1),
+(38, 'System Analysis', '', 1),
+(39, 'System Design', '', 1),
+(40, 'Software Requirements', '', 1);
 
 -- --------------------------------------------------------
 
@@ -239,8 +403,9 @@ CREATE TABLE `syllabi` (
 --
 
 INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `format_id`, `content`, `created_at`, `updated_at`, `status`) VALUES
-(1, 2, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"id\":1,\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"id\":2,\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\"},{\"id\":3,\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"id\":4,\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"id\":5,\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"id\":6,\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"id\":7,\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"id\":8,\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"id\":9,\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\"},{\"id\":10,\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"id\":11,\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"id\":12,\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"id\":13,\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Develop and execute the project requirements based from the proposal document.\",\"programOutcomes\":[\"e\"]},{\"label\":\"2\",\"content\":\"Test and evaluate the software product to validate for the process and output.\",\"programOutcomes\":[\"f\"]},{\"label\":\"3\",\"content\":\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\",\"programOutcomes\":[\"k\"]}],\"intendedLearningOutcomes\": [],\"weeklyActivities\":{\"totalWeeks\":14,\"weeks\":[]},\"version\":\"1.0.1\"}', 1512231212, 1512233602, 1),
-(2, 2, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"id\":1,\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"id\":2,\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\"},{\"id\":3,\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"id\":4,\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"id\":5,\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"id\":6,\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"id\":7,\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"id\":8,\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"id\":9,\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\"},{\"id\":10,\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"id\":11,\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"id\":12,\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"id\":13,\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Develop and execute the project requirements based from the proposal document.\",\"programOutcomes\":[\"e\"]},{\"label\":\"2\",\"content\":\"Test and evaluate the software product to validate for the process and output.\",\"programOutcomes\":[\"f\",\"c\"]},{\"label\":\"3\",\"content\":\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\",\"programOutcomes\":[\"k\"]}],\"intendedLearningOutcomes\": [],\"weeklyActivities\":{\"totalWeeks\":14,\"weeks\":[]},\"version\":\"1.0.1\"}', 1512231212, 1512233606, 1);
+(1, 1, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"id\":1,\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"id\":2,\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\"},{\"id\":3,\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"id\":4,\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"id\":5,\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"id\":6,\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"id\":7,\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"id\":8,\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"id\":9,\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\"},{\"id\":10,\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"id\":11,\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"id\":12,\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"id\":13,\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Develop and execute the project requirements based from the proposal document.\",\"programOutcomes\":[\"e\"]},{\"label\":\"2\",\"content\":\"Test and evaluate the software product to validate for the process and output.\",\"programOutcomes\":[\"f\"]},{\"label\":\"3\",\"content\":\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\",\"programOutcomes\":[\"k\"]}],\"intendedLearningOutcomes\": [],\"weeklyActivities\":{\"totalWeeks\":14,\"weeks\":[]},\"version\":\"1.0.1\"}', 1512231212, 1512233602, 1),
+(2, 1, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"id\":1,\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"id\":2,\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\"},{\"id\":3,\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"id\":4,\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"id\":5,\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"id\":6,\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"id\":7,\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"id\":8,\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"id\":9,\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\"},{\"id\":10,\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"id\":11,\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"id\":12,\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"id\":13,\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Develop and execute the project requirements based from the proposal document.\",\"programOutcomes\":[\"e\"]},{\"label\":\"2\",\"content\":\"Test and evaluate the software product to validate for the process and output.\",\"programOutcomes\":[\"f\",\"c\"]},{\"label\":\"3\",\"content\":\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\",\"programOutcomes\":[\"k\"]}],\"intendedLearningOutcomes\": [],\"weeklyActivities\":{\"totalWeeks\":14,\"weeks\":[]},\"version\":\"1.0.1\"}', 1512231212, 1512233606, 1),
+(3, 4, 1, 1, '{\"editor\":{\"id\":\"1\",\"fname\":\"John\",\"mname\":\"Smith\",\"lname\":\"Doe\",\"username\":\"test\"},\"programOutcomes\":[{\"id\":1,\"label\":\"a\",\"content\":\"Able to apply knowledge of computing fundamentals, technical concepts and practices, best practices and standards in the application of core information technologies, mathematics, science, and domain knowledge appropriate for the information technology practice to the abstraction and conceptualization of solution models from defined problems and requirements\"},{\"id\":2,\"label\":\"b\",\"content\":\"Identify, formulate, research literature, and analyze user needs and taking them into account to solve complex information technology problems, reaching substantiated conclusions using fundamental principles of mathematics, computing fundamentals, technical concepts and practices in the core information technologies, and relevant domain disciplines.\"},{\"id\":3,\"label\":\"c\",\"content\":\"Design and evaluate possible solutions for complex computing problems, and design and evaluate systems, components, or processes that meet specified user needs with appropriate consideration for public health and safety, cultural, societal, and environmental considerations\"},{\"id\":4,\"label\":\"d\",\"content\":\"An ability to assist in the creation of an effective project plan to implement solution that includes selection, creation, evaluation, and administration of IT Systems\"},{\"id\":5,\"label\":\"e\",\"content\":\"An ability to effectively integrate IT-based solutions into the user environment\"},{\"id\":6,\"label\":\"f\",\"content\":\"An ability to administer delivered information system assuring its appropriateness to the user’s environment\"},{\"id\":7,\"label\":\"g\",\"content\":\"Create, select, adapt and apply appropriate techniques, resources, and modern computing tools to complex computing activities, with an understanding of the limitations\"},{\"id\":8,\"label\":\"h\",\"content\":\"Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings\"},{\"id\":9,\"label\":\"i\",\"content\":\"Communicate effectively with the computing community and with society at large (in local and international scenes) about  complex computing activities by being able to comprehend and write effective reports, design documentation, make effective presentations, and give and understand clear instructions\"},{\"id\":10,\"label\":\"j\",\"content\":\"Understand and assess societal, health, safety, legal, and cultural issues within local and global contexts, and the consequential responsibilities relevant to professional computing practice\"},{\"id\":11,\"label\":\"k\",\"content\":\"Understand and commit to professional ethics, responsibilities, and norms of professional computing practice\"},{\"id\":12,\"label\":\"l\",\"content\":\"Recognize the need, and have the ability, to engage in independent learning for continual development as a computing professional\"}],\"courseLearningOutcomes\":[{\"label\":\"1\",\"content\":\"Understand the fundamental concepts and principles of database management and database administration.\",\"programOutcomes\":[\"a\"]},{\"label\":\"2\",\"content\":\"Analyze business rules and translate them into user requirements.\",\"programOutcomes\":[\"b\"]},{\"label\":\"3\",\"content\":\"Design logical and relational database that meets specified user requirements following relational database design principles and constructs.\",\"programOutcomes\":[\"c\"]},{\"label\":\"4\",\"content\":\"Create SQL statements that retrieve information requirements of the organization needed for reports generation.\",\"programOutcomes\":[\"g\"]}],\"intendedLearningOutcomes\":[],\"weeklyActivities\":{\"totalWeeks\":14,\"weeks\":[]},\"version\":\"2.0\"}', 1514871140, 1514871163, 1);
 
 -- --------------------------------------------------------
 
@@ -492,25 +657,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `book_field_relation`
 --
 ALTER TABLE `book_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `course_field_relation`
 --
 ALTER TABLE `course_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `curriculum`
@@ -522,13 +687,13 @@ ALTER TABLE `curriculum`
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `syllabi`
 --
 ALTER TABLE `syllabi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `topics`
