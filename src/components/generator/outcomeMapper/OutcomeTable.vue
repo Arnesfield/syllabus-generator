@@ -114,5 +114,6 @@ export default {
   max-height: 64px;
   resize: vertical;
   background: none;
+  border: 0;
 }
 </style>

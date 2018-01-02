@@ -25,8 +25,9 @@
     </ul>
   </div>
 
+  <h4>Suggested</h4>
+
   <div v-if="suggested.length" style="max-height: 200px; overflow-y: scroll">
-    <h4>Suggested</h4>
     <ul>
       <li :key="bfr.id" v-for="(bfr, index) in suggested">
         <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
@@ -42,8 +43,9 @@
     </ul>
   </div>
   
+  <h4>Selection</h4>
+
   <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
-    <h4>Selection</h4>
     <ul>
       <li :key="bfr.id" v-for="(bfr, index) in res">
         <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
@@ -127,14 +129,21 @@ export default {
     },
 
     _setFields(books, fields) {
-      books.forEach(e => {
-        let bookFields = fields.filter(field => {
-          return e.b_id == field.b_id
-        })
-        e.fields = bookFields
-        // remove fields
-        // assert that removed fields are in bookFields
-        fields = fields.slice(bookFields.length)
+      books.forEach(book => {
+        let bookFields = fields.reduce((filtered, field) => {
+          // if already used
+          // do not include current field to updated
+          if (book.b_id == field.b_id) {
+            filtered.fields.push(field)
+          } else {
+            filtered.updated.push(field)
+          }
+          return filtered
+        }, { fields: [], updated: [] })
+        
+        book.fields = bookFields.fields
+        // update fields
+        fields = bookFields.updated
       })
     }
   }

@@ -26,7 +26,14 @@ class Books extends MY_Custom_Controller {
 
     $course_id = $this->input->post('courseId');
     $books = $this->books_model->getRelatedBooksToCourseId($course_id, $limit);
-    $fields = $this->books_model->getFields();
+    
+    // use ids from $books for fields
+    $suggestedBooks = array();
+    foreach ($books as $key => $book) {
+      $suggestedBooks[$key] = $book['b_id'];
+    }
+
+    $fields = $this->books_model->getFields($suggestedBooks);
     echo json_encode(array(
       'books' => $books,
       'fields' => $fields,

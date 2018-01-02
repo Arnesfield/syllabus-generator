@@ -25,7 +25,7 @@ class Books_model extends MY_CRUD_Model {
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 
-  public function getFields() {
+  public function getFields($books = FALSE) {
     $this->db
       ->select('
         f.id AS id,
@@ -35,8 +35,15 @@ class Books_model extends MY_CRUD_Model {
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
-      ->join('fields f', 'f.id = bfr.field_id')
-      ->order_by('b.id', 'ASC');
+      ->join('fields f', 'f.id = bfr.field_id');
+
+    if (is_array($books)) {
+      $this->db->where_in('bfr.book_id', $books);
+    }
+
+    $this->db
+      ->order_by('b.id', 'ASC')
+      ->order_by('f.title', 'ASC');
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
