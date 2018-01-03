@@ -25,40 +25,44 @@
     </ul>
   </div>
 
-  <h4>Suggested</h4>
+  <div v-if="suggested.length">
+    <h4>Suggested</h4>
 
-  <div v-if="suggested.length" style="max-height: 200px; overflow-y: scroll">
-    <ul>
-      <li :key="bfr.id" v-for="(bfr, index) in suggested">
-        <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
-        <label :for="'bfr-suggested-' + index">
-          <div>{{ bfr.b_citation }}</div>
-          <div>
-            <span>Tags:</span>
-            <span :key="field.id" v-if="bfr.fields.length"
-              v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
-          </div>
-        </label>
-      </li>
-    </ul>
+    <div style="max-height: 200px; overflow-y: scroll">
+      <ul>
+        <li :key="bfr.id" v-for="(bfr, index) in suggested">
+          <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
+          <label :for="'bfr-suggested-' + index">
+            <div>{{ bfr.b_citation }}</div>
+            <div>
+              <span>Tags:</span>
+              <span :key="field.id" v-if="bfr.fields.length"
+                v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
+            </div>
+          </label>
+        </li>
+      </ul>
+    </div>
   </div>
   
-  <h4>Selection</h4>
+  <div v-if="res.length">
+    <h4>Selection</h4>
 
-  <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
-    <ul>
-      <li :key="bfr.id" v-for="(bfr, index) in res">
-        <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
-        <label :for="'bfr-' + index">
-          <div>{{ bfr.b_citation }}</div>
-          <div>
-            <span>Tags:</span>
-            <span :key="field.id" v-if="bfr.fields.length"
-              v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
-          </div>
-        </label>
-      </li>
-    </ul>
+    <div style="max-height: 200px; overflow-y: scroll">
+      <ul>
+        <li :key="bfr.id" v-for="(bfr, index) in res">
+          <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
+          <label :for="'bfr-' + index">
+            <div>{{ bfr.b_citation }}</div>
+            <div>
+              <span>Tags:</span>
+              <span :key="field.id" v-if="bfr.fields.length"
+                v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
+            </div>
+          </label>
+        </li>
+      </ul>
+    </div>
   </div>
   
 </div>

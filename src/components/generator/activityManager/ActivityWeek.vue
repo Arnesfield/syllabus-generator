@@ -34,12 +34,21 @@
     <template v-else>&nbsp;</template>
   </td>
 
+  <td>
+    <topic-picker :syllabus="syllabus"/>
+  </td>
+
 </tr>
 </template>
 
 <script>
+import TopicPicker from './activityWeek/TopicPicker'
+
 export default {
   name: 'activity-week',
+  components: {
+    TopicPicker
+  },
   props: {
     week: Object,
     weeks: Object,

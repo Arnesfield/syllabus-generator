@@ -13,7 +13,9 @@
     <tr>
       <th>&nbsp;</th>
       <th>Week</th>
-      <th :colspan="syllabus.content.intendedLearningOutcomes.length">Intended Learning Outcome (ILO)</th>
+      <th v-if="syllabus.content.intendedLearningOutcomes.length"
+        :colspan="syllabus.content.intendedLearningOutcomes.length">Intended Learning Outcome (ILO)</th>
+      <th>Detailed Course Content</th>
     </tr>
     <tr>
       <td>
@@ -22,6 +24,7 @@
       <td>&nbsp;</td>
       <td :key="ilo.label" v-for="ilo in syllabus.content.intendedLearningOutcomes"
         style="text-align: center">{{ ilo.label }}</td>
+      <td>&nbsp;</td>
     </tr>
     <activity-week
       :ref="'aw-' + index"

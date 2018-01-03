@@ -17,17 +17,21 @@
       </ul>
     </div>
   </div>
-  
-  <div v-if="res.length" style="max-height: 200px; overflow-y: scroll">
-    <ul>
-      <li :key="course.id" v-for="(course, index) in res">
-        <input type="radio" :id="'course-' + index" :value="course" v-model="selected">
-        <label :for="'course-' + index">
-          <div>{{ course.code }}</div>
-          <div>{{ course.title }}</div>
-        </label>
-      </li>
-    </ul>
+
+  <div v-if="res.length">
+    <h4>Selection</h4>
+    
+    <div style="max-height: 200px; overflow-y: scroll">
+      <ul>
+        <li :key="course.id" v-for="(course, index) in res">
+          <input type="radio" :id="'course-' + index" :value="course" v-model="selected">
+          <label :for="'course-' + index">
+            <div>{{ course.code }}</div>
+            <div>{{ course.title }}</div>
+          </label>
+        </li>
+      </ul>
+    </div>
   </div>
 
 </div>
