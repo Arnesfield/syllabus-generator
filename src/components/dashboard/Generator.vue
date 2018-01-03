@@ -9,8 +9,12 @@
     <template v-if="course">
       <hr>
       <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
-      <hr>
-      <curriculum-picker :syllabus="syllabus"/>
+      <template v-if="syllabus">
+        <hr>
+        <book-picker :syllabus="syllabus"/>
+        <hr>
+        <curriculum-picker :syllabus="syllabus"/>
+      </template>
     </template>
     
     <!-- <outcome-mapper
@@ -72,6 +76,7 @@ export default {
   methods: {
     submit() {
       // handle submit
+      console.log(this.syllabus)
     },
 
     onCourseSelected(course) {

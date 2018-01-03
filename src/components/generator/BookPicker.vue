@@ -87,19 +87,35 @@ export default {
 
   watch: {
     syllabus(to, from) {
-      if (to !== null && to !== from) {
+      // if null, just clear
+      this.clear()
+      if (to !== null) {
+        this.selected = this.syllabus.content.bookReferences
         this.suggest()
       }
+    },
+
+    selected(to, from) {
+      // set changes to syllabus content
+      this.syllabus.content.bookReferences = to
     }
   },
 
   created() {
     if (this.syllabus !== null) {
+      // set selected as book content from syllabus
+      this.selected = this.syllabus.content.bookReferences
       this.suggest()
     }
   },
  
   methods: {
+    clear() {
+      this.res = []
+      this.suggested = []
+      this.selected = []
+    },
+
     bookPicker: debounce(function(e) {
       // search for book if not empty
       const search = e.target.value

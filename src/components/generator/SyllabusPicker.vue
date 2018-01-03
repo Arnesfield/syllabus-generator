@@ -4,7 +4,7 @@
     <span v-if="selected && typeof selected.version !== 'undefined'">
       Based on syllabi version: {{ selected.version }}
     </span>
-    <span v-else-if="syllabi.length">This course has an exisiting syllabus you can use as reference.</span> 
+    <span v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</span> 
     <span v-else>No existing syllabus. Syllabus started from scratch.</span>
 
     <button v-if="!showSyllabi" @click="getSyllabi(true)">Check Exisiting Syllabi</button>
@@ -46,8 +46,9 @@ export default {
 
   watch: {
     course(to, from) {
+      // if null, just clear
+      this.clear()
       if (to !== null) {
-        this.clear()
         this.getSyllabi()
       }
     },
@@ -58,7 +59,7 @@ export default {
         if (!this.confirmPause && from !== null && this.onChangeConfirm()) {
           this.confirmPause = true
           this.selected = from
-          return;
+          return
         } else {
           this.confirmPause = false
         }
@@ -94,9 +95,10 @@ export default {
     },
 
     getSyllabi(show) {
+      show = typeof show !== 'boolean' ? false : show
       // if already loaded
       // show syllabi
-      if (typeof show === 'undefined' && this.syllabi.length) {
+      if (show === false && this.syllabi.length) {
         this.showSyllabi = true
         return
       }
@@ -109,14 +111,20 @@ export default {
 
         // if no syllabi, create new syllabi from scratch
         if (typeof syllabi !== 'object') {
-          this.startScratch()
+          // start scratch only if not clicked on check existing
+          if (show === false) {
+            this.startScratch()
+          }
         } else {
-          // convert content json str to json obj
-          syllabi.forEach(e => {
-            if (typeof e.content === 'string') {
-              e.content = JSON.parse(e.content)
-            }
-          })
+          // convert only if show
+          if (show) {
+            // convert content json str to json obj
+            syllabi.forEach(e => {
+              if (typeof e.content === 'string') {
+                e.content = JSON.parse(e.content)
+              }
+            })
+          }
           // set
           this.syllabi = syllabi
           // show syllabi
@@ -131,7 +139,9 @@ export default {
     startScratch() {
       // syllabus structure here
       let syllabus = {
+        course_id: this.course.id,
         content: {
+          bookReferences: [],
           courseLearningOutcomes: [],
           intendedLearningOutcomes: []
         }

@@ -64,9 +64,10 @@ export default {
 
   watch: {
     syllabus(to, from) {
+      // if null, just clear
+      // clear values and suggest when syllabus is changed
+      this.clear()
       if (to !== null) {
-        // clear values and suggest when syllabus is changed
-        this.clear()
         this.suggest()
       }
     },
