@@ -13,7 +13,12 @@ class Syllabi_model extends MY_CRUD_Model {
     $query = $this->db
       ->from($this->syllabi)
       ->where('course_id', $cid)
-      ->order_by('updated_at', 'DESC')
+      ->order_by("CONCAT(
+        LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 1), '.', -1), 10, '0'),
+        LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 2), '.', -1), 10, '0'),
+        LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 3), '.', -1), 10, '0') 
+       )", 'DESC', FALSE)
+      ->limit(5)
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }

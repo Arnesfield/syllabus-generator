@@ -28,7 +28,7 @@
   <div v-if="suggested.length">
     <h4>Suggested</h4>
 
-    <div style="max-height: 200px; overflow-y: scroll">
+    <div class="selection-box">
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in suggested">
           <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
@@ -48,7 +48,7 @@
   <div v-if="res.length">
     <h4>Selection</h4>
 
-    <div style="max-height: 200px; overflow-y: scroll">
+    <div class="selection-box">
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in res">
           <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">

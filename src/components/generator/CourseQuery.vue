@@ -21,7 +21,7 @@
   <div v-if="res.length">
     <h4>Selection</h4>
     
-    <div style="max-height: 200px; overflow-y: scroll">
+    <div class="selection-box">
       <ul>
         <li :key="course.id" v-for="(course, index) in res">
           <input type="radio" :id="'course-' + index" :value="course" v-model="selected">

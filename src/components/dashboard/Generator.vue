@@ -8,9 +8,12 @@
     
     <template v-if="course">
       <hr>
+      <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
+      <hr>
       <curriculum-picker :syllabus="syllabus"/>
     </template>
-    <outcome-mapper
+    
+    <!-- <outcome-mapper
       ref="outcomeMapper"
       :course="course"
       @syllabus-fetched="onSyllabusFetched"
@@ -26,7 +29,7 @@
       <used-materials-manager :syllabus="syllabus"/>
       <hr>
       <syllabus-info :syllabus="syllabus" :editor="editor"/>
-    </template>
+    </template> -->
 
     <br>
     <div>
@@ -39,6 +42,8 @@
 <script>
 import CourseQuery from '@/components/generator/CourseQuery'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
+import SyllabusPicker from '@/components/generator/SyllabusPicker'
+
 import OutcomeMapper from '@/components/generator/OutcomeMapper'
 import BookPicker from '@/components/generator/BookPicker'
 import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
@@ -50,6 +55,8 @@ export default {
   components: {
     CourseQuery,
     CurriculumPicker,
+    SyllabusPicker,
+
     OutcomeMapper,
     BookPicker,
     UsedMaterialsManager,
@@ -70,6 +77,10 @@ export default {
     onCourseSelected(course) {
       this.course = course
     },
+    onSyllabusSelected(syllabus) {
+      this.syllabus = syllabus
+    },
+
     onSyllabusFetched(syllabus, editor) {
       this.syllabus = syllabus
       this.editor = editor

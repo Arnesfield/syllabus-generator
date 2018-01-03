@@ -21,7 +21,7 @@
   <div v-if="years.length">
     <h4>Selection</h4>
 
-    <div style="max-height: 200px; overflow-y: scroll">
+    <div class="selection-box">
       <ul>
         <li :key="year" v-for="(year, index) in years">
           <input type="radio" :id="'year-' + index" :value="year" v-model="selected">
@@ -65,6 +65,8 @@ export default {
   watch: {
     syllabus(to, from) {
       if (to !== null) {
+        // clear values and suggest when syllabus is changed
+        this.clear()
         this.suggest()
       }
     },
@@ -92,6 +94,13 @@ export default {
   },
 
   methods: {
+    clear() {
+      this.years = []
+      this.curriculum = []
+      this.suggested = []
+      this.selected = null
+    },
+
     suggest(year) {
       this.$http.post(this.suggestUrl).then((res) => {
         console.log(res.data)
