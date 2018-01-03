@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2018 at 06:38 AM
+-- Generation Time: Jan 03, 2018 at 04:19 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -298,8 +298,9 @@ INSERT INTO `course_field_relation` (`id`, `course_id`, `field_id`, `status`) VA
 
 CREATE TABLE `curriculum` (
   `id` int(11) NOT NULL,
-  `label` varchar(4) NOT NULL,
+  `label` varchar(8) NOT NULL,
   `content` text NOT NULL,
+  `year` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -307,20 +308,20 @@ CREATE TABLE `curriculum` (
 -- Dumping data for table `curriculum`
 --
 
-INSERT INTO `curriculum` (`id`, `label`, `content`, `status`) VALUES
-(1, 'a', 'Apply knowledge of computing, science and mathematics appropriate to the discipline.', 1),
-(2, 'b', 'Understand best practices and standards and their applications.', 1),
-(3, 'c', 'Analyze complex problems and identify and define the computing requirements appropriate to its solution.', 1),
-(4, 'd', 'Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.', 1),
-(5, 'e', 'Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.', 1),
-(6, 'f', 'Integrate IT-based solutions into the user environment effectively.', 1),
-(7, 'g', 'Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.', 1),
-(8, 'h', 'Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.', 1),
-(9, 'i', 'Assist in the creation of an effective IT project plan.', 1),
-(10, 'j', 'Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.', 1),
-(11, 'k', 'Analyze the local and global impact of computing information technology on individuals, organizations and society.', 1),
-(12, 'l', 'Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.', 1),
-(13, 'm', 'Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.', 1);
+INSERT INTO `curriculum` (`id`, `label`, `content`, `year`, `status`) VALUES
+(1, 'a', 'Apply knowledge of computing, science and mathematics appropriate to the discipline.', 2017, 1),
+(2, 'b', 'Understand best practices and standards and their applications.', 2017, 1),
+(3, 'c', 'Analyze complex problems and identify and define the computing requirements appropriate to its solution.', 2017, 1),
+(4, 'd', 'Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.', 2017, 1),
+(5, 'e', 'Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.', 2017, 1),
+(6, 'f', 'Integrate IT-based solutions into the user environment effectively.', 2017, 1),
+(7, 'g', 'Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.', 2017, 1),
+(8, 'h', 'Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.', 2017, 1),
+(9, 'i', 'Assist in the creation of an effective IT project plan.', 2017, 1),
+(10, 'j', 'Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.', 2017, 1),
+(11, 'k', 'Analyze the local and global impact of computing information technology on individuals, organizations and society.', 2017, 1),
+(12, 'l', 'Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.', 2017, 1),
+(13, 'm', 'Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.', 2017, 1);
 
 -- --------------------------------------------------------
 
@@ -380,6 +381,231 @@ INSERT INTO `fields` (`id`, `title`, `description`, `status`) VALUES
 (38, 'System Analysis', '', 1),
 (39, 'System Design', '', 1),
 (40, 'Software Requirements', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `outcomes`
+--
+
+CREATE TABLE `outcomes` (
+  `id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `outcomes`
+--
+
+INSERT INTO `outcomes` (`id`, `content`, `type`, `status`) VALUES
+(1, 'Develop and execute the project requirements based from the proposal document.', 1, 1),
+(2, 'Test and evaluate the software product to validate for the process and output.', 1, 1),
+(3, 'Complete the system defined in the plan to satisfy the project specifications and present final documentation.', 1, 1),
+(4, 'Understand the fundamental concepts and principles of database management and database administration.', 1, 1),
+(5, 'Analyze business rules and translate them into user requirements.', 1, 1),
+(6, 'Design logical and relational database that meets specified user requirements following relational database design principles and constructs.', 1, 1),
+(7, 'Create SQL statements that retrieve information requirements of the organization needed for reports generation.', 1, 1),
+(8, 'Develop, execute and create the project deliverables.', 2, 1),
+(9, 'Test the software product to validate its process and output.', 2, 1),
+(10, 'Complete the work defined in the plan to satisfy the project specifications.', 2, 1),
+(11, 'Complete the 50% software development stated in the proposal.', 2, 1),
+(12, 'Understand Project Review and closure.', 2, 1),
+(13, 'Complete the 75% software development stated in the proposal.', 2, 1),
+(14, 'Create and present the final documentation.', 2, 1),
+(15, 'Execution of user acceptance testing.', 2, 1),
+(16, 'Mock defense', 2, 1),
+(17, 'Project Final Defense/Presentation', 2, 1),
+(18, 'Revision of Software and Documents', 2, 1),
+(19, 'Submission of Final Requirements', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `outcome_field_relation`
+--
+
+CREATE TABLE `outcome_field_relation` (
+  `id` int(11) NOT NULL,
+  `outcome_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `outcome_field_relation`
+--
+
+INSERT INTO `outcome_field_relation` (`id`, `outcome_id`, `field_id`, `status`) VALUES
+(1, 1, 13, 1),
+(2, 1, 14, 1),
+(3, 1, 15, 1),
+(4, 1, 29, 1),
+(5, 1, 31, 1),
+(6, 1, 32, 1),
+(7, 1, 38, 1),
+(8, 1, 39, 1),
+(9, 1, 40, 1),
+(10, 2, 13, 1),
+(11, 2, 14, 1),
+(12, 2, 15, 1),
+(13, 2, 29, 1),
+(14, 2, 31, 1),
+(15, 2, 32, 1),
+(16, 2, 38, 1),
+(17, 2, 39, 1),
+(18, 2, 40, 1),
+(19, 3, 13, 1),
+(20, 3, 14, 1),
+(21, 3, 15, 1),
+(22, 3, 29, 1),
+(23, 3, 31, 1),
+(24, 3, 32, 1),
+(25, 3, 38, 1),
+(26, 3, 39, 1),
+(27, 3, 40, 1),
+(28, 8, 13, 1),
+(29, 8, 14, 1),
+(30, 8, 15, 1),
+(31, 8, 29, 1),
+(32, 8, 31, 1),
+(33, 8, 32, 1),
+(34, 8, 38, 1),
+(35, 8, 39, 1),
+(36, 8, 40, 1),
+(37, 9, 13, 1),
+(38, 9, 14, 1),
+(39, 9, 15, 1),
+(40, 9, 29, 1),
+(41, 9, 31, 1),
+(42, 9, 32, 1),
+(43, 9, 38, 1),
+(44, 9, 39, 1),
+(45, 9, 40, 1),
+(46, 10, 13, 1),
+(47, 10, 14, 1),
+(48, 10, 15, 1),
+(49, 10, 29, 1),
+(50, 10, 31, 1),
+(51, 10, 32, 1),
+(52, 10, 38, 1),
+(53, 10, 39, 1),
+(54, 10, 40, 1),
+(55, 11, 13, 1),
+(56, 11, 14, 1),
+(57, 11, 15, 1),
+(58, 11, 29, 1),
+(59, 11, 31, 1),
+(60, 11, 32, 1),
+(61, 11, 38, 1),
+(62, 11, 39, 1),
+(63, 11, 40, 1),
+(64, 12, 13, 1),
+(65, 12, 14, 1),
+(66, 12, 15, 1),
+(67, 12, 29, 1),
+(68, 12, 31, 1),
+(69, 12, 32, 1),
+(70, 12, 38, 1),
+(71, 12, 39, 1),
+(72, 12, 40, 1),
+(73, 13, 13, 1),
+(74, 13, 14, 1),
+(75, 13, 15, 1),
+(76, 13, 29, 1),
+(77, 13, 31, 1),
+(78, 13, 32, 1),
+(79, 13, 38, 1),
+(80, 13, 39, 1),
+(81, 13, 40, 1),
+(82, 14, 13, 1),
+(83, 14, 14, 1),
+(84, 14, 15, 1),
+(85, 14, 29, 1),
+(86, 14, 31, 1),
+(87, 14, 32, 1),
+(88, 14, 38, 1),
+(89, 14, 39, 1),
+(90, 14, 40, 1),
+(91, 15, 13, 1),
+(92, 15, 14, 1),
+(93, 15, 15, 1),
+(94, 15, 29, 1),
+(95, 15, 31, 1),
+(96, 15, 32, 1),
+(97, 15, 38, 1),
+(98, 15, 39, 1),
+(99, 15, 40, 1),
+(100, 16, 13, 1),
+(101, 16, 14, 1),
+(102, 16, 15, 1),
+(103, 16, 29, 1),
+(104, 16, 31, 1),
+(105, 16, 32, 1),
+(106, 16, 38, 1),
+(107, 16, 39, 1),
+(108, 16, 40, 1),
+(109, 17, 13, 1),
+(110, 17, 14, 1),
+(111, 17, 15, 1),
+(112, 17, 29, 1),
+(113, 17, 31, 1),
+(114, 17, 32, 1),
+(115, 17, 38, 1),
+(116, 17, 39, 1),
+(117, 17, 40, 1),
+(118, 18, 13, 1),
+(119, 18, 14, 1),
+(120, 18, 15, 1),
+(121, 18, 29, 1),
+(122, 18, 31, 1),
+(123, 18, 32, 1),
+(124, 18, 38, 1),
+(125, 18, 39, 1),
+(126, 18, 40, 1),
+(127, 19, 13, 1),
+(128, 19, 14, 1),
+(129, 19, 15, 1),
+(130, 19, 29, 1),
+(131, 19, 31, 1),
+(132, 19, 32, 1),
+(133, 19, 38, 1),
+(134, 19, 39, 1),
+(135, 19, 40, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `outcome_relation`
+--
+
+CREATE TABLE `outcome_relation` (
+  `id` int(11) NOT NULL,
+  `clo_id` int(11) NOT NULL,
+  `ilo_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `outcome_relation`
+--
+
+INSERT INTO `outcome_relation` (`id`, `clo_id`, `ilo_id`, `status`) VALUES
+(1, 1, 8, 1),
+(2, 1, 12, 1),
+(3, 1, 18, 1),
+(4, 2, 11, 1),
+(5, 2, 13, 1),
+(6, 2, 15, 1),
+(7, 2, 18, 1),
+(8, 3, 11, 1),
+(9, 3, 13, 1),
+(10, 3, 14, 1),
+(11, 3, 15, 1),
+(12, 3, 16, 1),
+(13, 3, 17, 1),
+(14, 3, 18, 1);
 
 -- --------------------------------------------------------
 
@@ -626,6 +852,24 @@ ALTER TABLE `fields`
   ADD UNIQUE KEY `title` (`title`);
 
 --
+-- Indexes for table `outcomes`
+--
+ALTER TABLE `outcomes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `outcome_field_relation`
+--
+ALTER TABLE `outcome_field_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `outcome_relation`
+--
+ALTER TABLE `outcome_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `syllabi`
 --
 ALTER TABLE `syllabi`
@@ -688,6 +932,24 @@ ALTER TABLE `curriculum`
 --
 ALTER TABLE `fields`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `outcomes`
+--
+ALTER TABLE `outcomes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `outcome_field_relation`
+--
+ALTER TABLE `outcome_field_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+
+--
+-- AUTO_INCREMENT for table `outcome_relation`
+--
+ALTER TABLE `outcome_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `syllabi`
