@@ -19,7 +19,7 @@
     </tr>
     <tr>
       <td>
-        <button @click="addAct(0)">+</button>
+        <button type="button" @click="addAct(0)">+</button>
       </td>
       <td>&nbsp;</td>
       <td :key="ilo.label" v-for="ilo in syllabus.content.intendedLearningOutcomes"

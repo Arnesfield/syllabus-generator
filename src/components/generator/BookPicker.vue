@@ -5,9 +5,9 @@
   <div>
     <label for="bookPicker">Book/Tag</label>
     <input type="text" id="bookPicker" @input="bookPicker" @focus="bookPicker">
-    <button v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
-    <button v-else @click="suggest()">Show Suggestions</button>
-    <button v-if="res.length" @click="res = []">Hide Selection</button>
+    <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
+    <button type="button" v-else @click="suggest()">Show Suggestions</button>
+    <button type="button" v-if="res.length" @click="res = []">Hide Selection</button>
   </div>
 
   <div v-if="selected.length">
@@ -15,7 +15,7 @@
     <div><strong>Selected</strong></div>
     <ul>
       <li :key="bfr.id" v-for="(bfr, index) in selected">
-        <button @click="selected.splice(index, 1)">x</button>
+        <button type="button" @click="selected.splice(index, 1)">x</button>
         <span>{{ bfr.b_citation }}</span>
       </li>
     </ul>

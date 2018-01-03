@@ -3,7 +3,7 @@
   <div>
     <label for="coursePicker">Course</label>
     <input type="text" id="coursePicker" @input="coursePicker" @focus="coursePicker">
-    <button v-if="res.length" @click="res = []">Hide Selection</button>
+    <button type="button" v-if="res.length" @click="res = []">Hide Selection</button>
   </div>
 
   <div v-if="selected">

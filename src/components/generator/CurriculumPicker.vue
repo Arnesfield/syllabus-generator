@@ -4,9 +4,9 @@
     <label for="curriculumQuery">Curriculum</label>
     <input type="text" id="curriculumQuery"
       v-model="searchYear" @input="yearQuery" @focus="yearQuery">
-    <button v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
-    <button v-else @click="suggest()">Show Suggestions</button>
-    <button v-if="years.length" @click="years = []">Hide Selection</button>
+    <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
+    <button type="button" v-else @click="suggest()">Show Suggestions</button>
+    <button type="button" v-if="years.length" @click="years = []">Hide Selection</button>
   </div>
 
   <div v-if="suggested.length">
@@ -70,7 +70,9 @@ export default {
       // clear values and suggest when syllabus is changed
       this.clear()
       if (to !== null) {
-        this.suggest()
+        if (!this.setFromSyllabus()) {
+          this.suggest()
+        }
       }
     },
 
@@ -87,12 +89,20 @@ export default {
       } else {
         this.curriculum = []
       }
+    },
+
+    curriculum(to, from) {
+      // set changes to programOutcomes
+      this.syllabus.content.programOutcomes = to
     }
   },
 
   created() {
     if (this.syllabus !== null) {
-      this.suggest()
+      // removed suggest since setting 'selected' will trigger suggest(n)
+      if (!this.setFromSyllabus()) {
+        this.suggest()
+      }
     }
   },
 
@@ -104,12 +114,24 @@ export default {
       this.selected = null
     },
 
+    setFromSyllabus() {
+      // set syllabus programOutcomes to curriculum
+      if (
+        typeof this.syllabus.content.programOutcomes === 'undefined' ||
+        this.syllabus.content.programOutcomes.length === 0
+      ) { return false }
+      let po = this.syllabus.content.programOutcomes
+      this.selected = { year: po[0].year }
+      this.curriculum = po
+      return true
+    },
+
     suggest(year) {
       this.$http.post(this.suggestUrl).then((res) => {
         console.log(res.data)
         let suggested = res.data.years
         let assign = true
-        if (typeof year === 'number' && suggested.length) {
+        if (typeof year !== 'undefined') {
           // if year is not the same as suggested
           // show suggested
           assign = year !== suggested[0].year
@@ -134,7 +156,6 @@ export default {
       this.$http.post(this.yearUrl, qs.stringify({
         search: search
       })).then((res) => {
-        console.log(res.data)
         this.years = res.data.years
       }).catch(e => {
         console.error(e)
@@ -145,7 +166,7 @@ export default {
       this.$http.post(this.curriculumUrl, qs.stringify({
         year: year
       })).then((res) => {
-        console.log(res.data)
+        // console.log(JSON.stringify(res.data.curriculum))
         this.curriculum = res.data.curriculum
         // clear out years and set the search to that year
         this.years = []

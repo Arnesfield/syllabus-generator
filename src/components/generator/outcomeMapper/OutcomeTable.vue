@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td>
-        <button @click="add(0)">+</button>
+        <button type="button" @click="add(0)">+</button>
       </td>
       <td>&nbsp;</td>
       <td :key="po.label" v-for="po in supporting"
@@ -16,8 +16,8 @@
     </tr>
     <tr :key="clo.label" v-for="(clo, cloIndex) in main">
       <td>
-        <button @click="remove(cloIndex)">x</button>
-        <button @click="add(cloIndex + 1)">+</button>
+        <button type="button" @click="remove(cloIndex)">x</button>
+        <button type="button" @click="add(cloIndex + 1)">+</button>
       </td>
       <td :ref="'content-' + clo.label">
         <span>{{ clo.label + '. ' }}</span>

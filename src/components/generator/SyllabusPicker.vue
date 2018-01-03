@@ -7,9 +7,9 @@
     <span v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</span> 
     <span v-else>No existing syllabus. Syllabus started from scratch.</span>
 
-    <button v-if="!showSyllabi" @click="getSyllabi(true)">Check Exisiting Syllabi</button>
-    <button v-else @click="showSyllabi = false">Hide Selection</button>
-    <button @click="startScratch">Start from scratch</button>
+    <button type="button" v-if="!showSyllabi" @click="getSyllabi(true)">Check Exisiting Syllabi</button>
+    <button type="button" v-else @click="showSyllabi = false">Hide Selection</button>
+    <button type="button" @click="startScratch">Start from scratch</button>
   </div>
 
   <div v-if="showSyllabi && syllabi.length">
@@ -142,6 +142,7 @@ export default {
         course_id: this.course.id,
         content: {
           bookReferences: [],
+          programOutcomes: [],
           courseLearningOutcomes: [],
           intendedLearningOutcomes: []
         }

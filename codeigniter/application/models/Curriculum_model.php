@@ -11,7 +11,7 @@ class Curriculum_model extends MY_CRUD_Model {
 
   public function get($year = NULL) {
     $this->db
-      ->select('id, label, content')
+      ->select('id, label, content, year')
       ->from($this->curriculum);
 
     if ($year) {
