@@ -13,8 +13,8 @@
   </div>
 
   <div v-if="showSyllabi && syllabi.length">
-    <h4>Selection</h4>
-
+    <br>
+    <div><strong>Selection</strong></div>
     <div class="selection-box">
       <ul>
         <li :key="index" v-for="(syllabus, index) in syllabi">

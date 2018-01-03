@@ -7,20 +7,19 @@
   </div>
 
   <div v-if="selected">
-    <div>
-      <div><strong>Selected</strong></div>
-      <ul>
-        <li>
-          <div>{{ selected.code }}</div>
-          <div>{{ selected.title }}</div>
-        </li>
-      </ul>
-    </div>
+    <br>
+    <div><strong>Selected</strong></div>
+    <ul>
+      <li>
+        <div>{{ selected.code }}</div>
+        <div>{{ selected.title }}</div>
+      </li>
+    </ul>
   </div>
 
   <div v-if="res.length">
-    <h4>Selection</h4>
-    
+    <br>
+    <div><strong>Selection</strong></div>
     <div class="selection-box">
       <ul>
         <li :key="course.id" v-for="(course, index) in res">

@@ -11,55 +11,37 @@
   </div>
 
   <div v-if="selected.length">
+    <br>
     <div><strong>Selected</strong></div>
     <ul>
       <li :key="bfr.id" v-for="(bfr, index) in selected">
-        <div>{{ bfr.b_citation }}</div>
-        <div>
-          <span>Tags:</span>
-          <span :key="field.id" v-if="bfr.fields.length"
-            v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
-        </div>
-        <button @click="selected.splice(index, 1)">Remove</button>
+        <button @click="selected.splice(index, 1)">x</button>
+        <span>{{ bfr.b_citation }}</span>
       </li>
     </ul>
   </div>
 
   <div v-if="suggested.length">
-    <h4>Suggested</h4>
-
+    <br>
+    <div><strong>Suggested</strong></div>
     <div class="selection-box">
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in suggested">
           <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-suggested-' + index">
-            <div>{{ bfr.b_citation }}</div>
-            <div>
-              <span>Tags:</span>
-              <span :key="field.id" v-if="bfr.fields.length"
-                v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
-            </div>
-          </label>
+          <label :for="'bfr-suggested-' + index">{{ bfr.b_citation }}</label>
         </li>
       </ul>
     </div>
   </div>
   
   <div v-if="res.length">
-    <h4>Selection</h4>
-
+    <br>
+    <div><strong>Selection</strong></div>
     <div class="selection-box">
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in res">
           <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-' + index">
-            <div>{{ bfr.b_citation }}</div>
-            <div>
-              <span>Tags:</span>
-              <span :key="field.id" v-if="bfr.fields.length"
-                v-for="(field, fIndex) in bfr.fields">{{ fIndex === 0 ? '': ', ' }}{{ field.title }}</span>
-            </div>
-          </label>
+          <label :for="'bfr-' + index">{{ bfr.b_citation }}</label>
         </li>
       </ul>
     </div>
@@ -127,9 +109,7 @@ export default {
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
-        let fields = res.data.fields
         this.res = res.data.books
-        this._setFields(this.res, fields)
       }).catch(e => {
         console.error(e)
       })
@@ -137,33 +117,12 @@ export default {
 
     suggest() {
       this.$http.post(this.suggestUrl, qs.stringify({
-        courseId: this.syllabus.course_id
+        courseId: this.syllabus.course_id,
+        limit: 10
       })).then((res) => {
-        console.log(res.data)
-        let fields = res.data.fields
         this.suggested = res.data.books
-        this._setFields(this.suggested, fields)
       }).catch((e) => {
         console.error(e)
-      })
-    },
-
-    _setFields(books, fields) {
-      books.forEach(book => {
-        let bookFields = fields.reduce((filtered, field) => {
-          // if already used
-          // do not include current field to updated
-          if (book.b_id == field.b_id) {
-            filtered.fields.push(field)
-          } else {
-            filtered.updated.push(field)
-          }
-          return filtered
-        }, { fields: [], updated: [] })
-        
-        book.fields = bookFields.fields
-        // update fields
-        fields = bookFields.updated
       })
     }
   }
