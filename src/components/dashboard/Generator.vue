@@ -8,6 +8,7 @@
     
     <template v-if="course">
       <hr>
+      <curriculum-picker :syllabus="syllabus"/>
     </template>
     <outcome-mapper
       ref="outcomeMapper"
@@ -37,6 +38,7 @@
 
 <script>
 import CourseQuery from '@/components/generator/CourseQuery'
+import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import OutcomeMapper from '@/components/generator/OutcomeMapper'
 import BookPicker from '@/components/generator/BookPicker'
 import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
@@ -47,6 +49,7 @@ export default {
   name: 'generator',
   components: {
     CourseQuery,
+    CurriculumPicker,
     OutcomeMapper,
     BookPicker,
     UsedMaterialsManager,
