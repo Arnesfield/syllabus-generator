@@ -1,8 +1,8 @@
 <template>
 <div>
   <div>
-    <label for="courseQuery">Course</label>
-    <input type="text" id="courseQuery" @input="courseQuery" @focus="courseQuery">
+    <label for="coursePicker">Course</label>
+    <input type="text" id="coursePicker" @input="coursePicker" @focus="coursePicker">
     <button v-if="res.length" @click="res = []">Hide Selection</button>
   </div>
 
@@ -41,7 +41,7 @@ import qs from 'qs'
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'course-query',
+  name: 'course-picker',
   data: () => ({
     url: '/courses',
     res: [],
@@ -60,7 +60,7 @@ export default {
   },
 
   methods: {
-    courseQuery: debounce(function(e) {
+    coursePicker: debounce(function(e) {
       // search for course if not empty
       const search = e.target.value
       if (!search) {

@@ -4,7 +4,7 @@
   <p>The core module. Information for syllabus is entered here.</p>
   <form @submit.prevent="submit">
     <!-- choose course -->
-    <course-query @course-selected="onCourseSelected"/>
+    <course-picker @course-selected="onCourseSelected"/>
     
     <template v-if="course">
       <hr>
@@ -44,12 +44,12 @@
 </template>
 
 <script>
-import CourseQuery from '@/components/generator/CourseQuery'
+import CoursePicker from '@/components/generator/CoursePicker'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
+import BookPicker from '@/components/generator/BookPicker'
 
 import OutcomeMapper from '@/components/generator/OutcomeMapper'
-import BookPicker from '@/components/generator/BookPicker'
 import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
 import ActivityManager from '@/components/generator/ActivityManager'
 import SyllabusInfo from '@/components/generator/SyllabusInfo'
@@ -57,12 +57,12 @@ import SyllabusInfo from '@/components/generator/SyllabusInfo'
 export default {
   name: 'generator',
   components: {
-    CourseQuery,
+    CoursePicker,
     CurriculumPicker,
     SyllabusPicker,
+    BookPicker,
 
     OutcomeMapper,
-    BookPicker,
     UsedMaterialsManager,
     ActivityManager,
     SyllabusInfo
