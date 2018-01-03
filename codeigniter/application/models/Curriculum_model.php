@@ -27,7 +27,7 @@ class Curriculum_model extends MY_CRUD_Model {
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 
-  public function getYearsByQuery($search = NULL) {
+  public function getYearsByQuery($search = NULL, $limit = NULL) {
     $this->db
       ->distinct()
       ->select('year')
@@ -39,6 +39,10 @@ class Curriculum_model extends MY_CRUD_Model {
     }
 
     $this->db->order_by('year', 'DESC');
+
+    if (is_numeric($limit)) {
+      $this->db->limit($limit);
+    }
       
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;

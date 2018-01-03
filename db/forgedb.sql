@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2018 at 04:19 AM
+-- Generation Time: Jan 03, 2018 at 05:41 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -321,7 +321,19 @@ INSERT INTO `curriculum` (`id`, `label`, `content`, `year`, `status`) VALUES
 (10, 'j', 'Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.', 2017, 1),
 (11, 'k', 'Analyze the local and global impact of computing information technology on individuals, organizations and society.', 2017, 1),
 (12, 'l', 'Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.', 2017, 1),
-(13, 'm', 'Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.', 2017, 1);
+(13, 'm', 'Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.', 2017, 1),
+(14, 'a', 'Able to apply knowledge of computing fundamentals, technical concepts and practices, best practices and standards in the application of core information technologies, mathematics, science, and domain knowledge appropriate for the information technology practice to the abstraction and conceptualization of solution models from defined problems and requirements', 2015, 1),
+(15, 'b', 'Identify, formulate, research literature, and analyze user needs and taking them into account to solve complex information technology problems, reaching substantiated conclusions using fundamental principles of mathematics, computing fundamentals, technical concepts and practices in the core information technologies, and relevant domain disciplines.', 2015, 1),
+(16, 'c', 'Design and evaluate possible solutions for complex computing problems, and design and evaluate systems, components, or processes that meet specified user needs with appropriate consideration for public health and safety, cultural, societal, and environmental considerations', 2015, 1),
+(17, 'd', 'An ability to assist in the creation of an effective project plan to implement solution that includes selection, creation, evaluation, and administration of IT Systems', 2015, 1),
+(18, 'e', 'An ability to effectively integrate IT-based solutions into the user environment', 2015, 1),
+(19, 'f', 'An ability to administer delivered information system assuring its appropriateness to the user’s environment', 2015, 1),
+(20, 'g', 'Create, select, adapt and apply appropriate techniques, resources, and modern computing tools to complex computing activities, with an understanding of the limitations', 2015, 1),
+(21, 'h', 'Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings', 2015, 1),
+(22, 'i', 'Communicate effectively with the computing community and with society at large (in local and international scenes) about complex computing activities by being able to comprehend and write effective reports, design documentation, make effective presentations, and give and understand clear instructions', 2015, 1),
+(23, 'j', 'Understand and assess societal, health, safety, legal, and cultural issues within local and global contexts, and the consequential responsibilities relevant to professional computing practice', 2015, 1),
+(24, 'k', 'Understand and commit to professional ethics, responsibilities, and norms of professional computing practice', 2015, 1),
+(25, 'l', 'Recognize the need, and have the ability, to engage in independent learning for continual development as a computing professional', 2015, 1);
 
 -- --------------------------------------------------------
 
@@ -925,7 +937,7 @@ ALTER TABLE `course_field_relation`
 -- AUTO_INCREMENT for table `curriculum`
 --
 ALTER TABLE `curriculum`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `fields`

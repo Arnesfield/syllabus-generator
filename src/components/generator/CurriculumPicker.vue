@@ -4,7 +4,18 @@
     <label for="curriculumQuery">Curriculum</label>
     <input type="text" id="curriculumQuery"
       v-model="searchYear" @input="yearQuery" @focus="yearQuery">
+    <button v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
+    <button v-else @click="suggest()">Show Suggestions</button>
     <button v-if="years.length" @click="years = []">Hide Selection</button>
+  </div>
+
+  <div v-if="suggested.length">
+    <h4>Suggested</h4>
+
+    <div :key="year" v-for="(year, index) in suggested">
+      <input type="radio" :id="'year-suggested-' + index" :value="year" v-model="selected">
+      <label :for="'year-suggested-' + index">{{ year.year }}</label>
+    </div>
   </div>
 
   <div v-if="years.length">
@@ -21,8 +32,11 @@
   </div>
 
   <div v-if="curriculum.length">
-    <h4>Curriculum</h4>
-    <div :key="c.id" v-for="c in curriculum">{{ c.label + '. ' + c.content }}</div>
+    <h4>Program Outcomes</h4>
+    <div
+      :key="c.id"
+      :ref="'po-' + c.id"
+      v-for="c in curriculum">{{ c.label + '. ' + c.content }}</div>
   </div>
 
 </div>
@@ -39,16 +53,31 @@ export default {
   },
   data: () => ({
     yearUrl: '/curriculum/years',
+    suggestUrl: '/curriculum/years/suggest',
     curriculumUrl: '/curriculum',
-    searchYear: new Date().getFullYear(),
+    searchYear: '',
     years: [],
     curriculum: [],
+    suggested: [],
     selected: null
   }),
 
   watch: {
+    syllabus(to, from) {
+      if (to !== null) {
+        this.suggest()
+      }
+    },
+
     selected(to, from) {
       if (to !== null) {
+        // hide suggestions if selected is the same as suggested
+        if (this.suggested.length && to.year === this.suggested[0].year) {
+          this.suggested = []
+        } else {
+          // show suggestions
+          this.suggest(to.year)
+        }
         this.curriculumQuery(to.year)
       } else {
         this.curriculum = []
@@ -56,7 +85,32 @@ export default {
     }
   },
 
+  created() {
+    if (this.syllabus !== null) {
+      this.suggest()
+    }
+  },
+
   methods: {
+    suggest(year) {
+      this.$http.post(this.suggestUrl).then((res) => {
+        console.log(res.data)
+        let suggested = res.data.years
+        let assign = true
+        if (typeof year === 'number' && suggested.length) {
+          // if year is not the same as suggested
+          // show suggested
+          assign = year !== suggested[0].year
+        }
+
+        if (assign) {
+          this.suggested = suggested
+        }
+      }).catch(e => {
+        console.error(e)
+      })
+    },
+
     yearQuery: debounce(function(e) {
       // search for years if not empty
       const search = e.target.value
