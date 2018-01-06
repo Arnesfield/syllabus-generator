@@ -144,7 +144,9 @@ export default {
           bookReferences: [],
           programOutcomes: [],
           courseLearningOutcomes: [],
-          intendedLearningOutcomes: []
+          intendedLearningOutcomes: [],
+          cloPoMap: {},
+          iloCloMap: {}
         }
       }
 

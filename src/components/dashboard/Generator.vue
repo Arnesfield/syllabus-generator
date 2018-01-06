@@ -2,7 +2,7 @@
 <div>
   <h1>Generator</h1>
   <p>The core module. Information for syllabus is entered here.</p>
-  <form @submit.prevent="submit">
+  <div>
     <!-- choose course -->
     <course-picker @course-selected="onCourseSelected"/>
     
@@ -14,6 +14,16 @@
         <book-picker :syllabus="syllabus"/>
         <hr>
         <curriculum-picker :syllabus="syllabus"/>
+        <hr>
+        <outcome-table
+          :syllabus="syllabus"
+          :supporting="syllabus.content.programOutcomes"
+          abbr="clo"
+          mainFieldName="courseLearningOutcomes"
+          supportingFieldName="programOutcomes"
+          mainTitle="Course Learning Outcomes (CLO)"
+          supportingTitle="Program Outcomes (PO)"
+          mapName="cloPoMap"/>
       </template>
     </template>
     
@@ -37,9 +47,9 @@
 
     <br>
     <div>
-      <button type="submit">Generate</button>
+      <button @click="submit">Generate</button>
     </div>
-  </form>
+  </div>
 </div>
 </template>
 
@@ -48,6 +58,7 @@ import CoursePicker from '@/components/generator/CoursePicker'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
+import OutcomeTable from '@/components/generator/OutcomeTable'
 
 import OutcomeMapper from '@/components/generator/OutcomeMapper'
 import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
@@ -61,6 +72,7 @@ export default {
     CurriculumPicker,
     SyllabusPicker,
     BookPicker,
+    OutcomeTable,
 
     OutcomeMapper,
     UsedMaterialsManager,

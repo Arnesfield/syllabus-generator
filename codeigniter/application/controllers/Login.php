@@ -6,7 +6,6 @@ class Login extends MY_Custom_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model('login_model');
-    $this->load->library('session');
   }
   
   public function index() {
@@ -19,7 +18,7 @@ class Login extends MY_Custom_Controller {
     ));
 
     $invalid = function($msg) {
-      echo json_encode(array('success' => FALSE, 'msg' => $msg));
+      $this->_json(array('success' => FALSE, 'msg' => $msg));
     };
 
     if (!$users) {
@@ -48,7 +47,7 @@ class Login extends MY_Custom_Controller {
     $this->session->set_userdata(array(
       'user' => $user
     ));
-    echo json_encode(array('success' => TRUE));
+    $this->_json('success', TRUE);
   }
 
 }

@@ -6,13 +6,12 @@ class Courses extends MY_Custom_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model('courses_model');
-    $this->load->library('session');
   }
   
   public function index() {
     $search = strip_tags(trim(addslashes($this->input->post('search'))));
     $courses = $this->courses_model->getByQuery($search);
-    echo json_encode(array('courses' => $courses));
+    $this->_json('courses', $courses);
   }
 }
 

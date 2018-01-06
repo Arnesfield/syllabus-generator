@@ -2,6 +2,10 @@ html, body {
   height: 100%;
 }
 
+.w-max {
+  width: 100%;
+}
+
 .outcome-selected {
   background-color: #ccc;
 }

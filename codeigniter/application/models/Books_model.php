@@ -3,10 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Books_model extends MY_CRUD_Model {
 
-  public function __construct() {
-    parent::__construct();
-  }
-
   public function getByQuery($search) {
     $this->db
       ->select('
@@ -25,46 +21,9 @@ class Books_model extends MY_CRUD_Model {
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 
-  public function getFields($books = FALSE) {
-    $this->db
-      ->select('
-        f.id AS id,
-        b.id AS b_id,
-        f.title AS title,
-        f.status AS status
-      ')
-      ->from('book_field_relation bfr')
-      ->join('books b', 'b.id = bfr.book_id')
-      ->join('fields f', 'f.id = bfr.field_id');
-
-    if (is_array($books)) {
-      $this->db->where_in('bfr.book_id', $books);
-    }
-
-    $this->db
-      ->order_by('b.id', 'ASC')
-      ->order_by('f.title', 'ASC');
-    $query = $this->db->get();
-    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
-  }
-
-  public function getFieldsByCourseId($id) {
-    $query = $this->db
-      ->select('field_id')
-      ->from('course_field_relation')
-      ->where('course_id', $id)
-      ->get();
-    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
-  }
-
-  public function getRelatedBooksToCourseId($id, $limit = 10) {
-    $fields = $this->getFieldsByCourseId($id);
+  public function getRelatedBooksWithFields($fields, $limit = 10) {
     if (!$fields) {
       return FALSE;
-    }
-
-    foreach ($fields as $key => $field) {
-      $fields[$key] = $field['field_id'];
     }
 
     $query = $this->db
@@ -74,6 +33,7 @@ class Books_model extends MY_CRUD_Model {
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
+      ->join('fields f', 'f.id = bfr.field_id')
       ->where_in('bfr.field_id', $fields)
       ->order_by('COUNT(*)', 'DESC')
       ->group_by('b.id')

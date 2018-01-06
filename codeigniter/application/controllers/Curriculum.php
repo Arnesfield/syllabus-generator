@@ -6,13 +6,12 @@ class Curriculum extends MY_Custom_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model('curriculum_model');
-    $this->load->library('session');
   }
   
   public function index() {
     $year = $this->input->post('year');
     $curriculum = $this->curriculum_model->get($year);
-    echo json_encode(array('curriculum' => $curriculum));
+    $this->_json('curriculum', $curriculum);
   }
 
   public function years() {
@@ -22,7 +21,7 @@ class Curriculum extends MY_Custom_Controller {
     }
     $search = strtolower(strip_tags(trim(addslashes($this->input->post('search')))));
     $years = $this->curriculum_model->getYearsByQuery($search, $limit);
-    echo json_encode(array('years' => $years));
+    $this->_json('years', $years);
   }
 }
 

@@ -87,13 +87,22 @@ class MY_Custom_Controller extends MY_View_Controller {
     parent::__construct();
     // prevent access if not post request
     if ($this->input->method(TRUE) !== 'POST') {
-      $this->__BACK();
-      exit();
+      $this->_redirect();
     }
+    // load lib
+    $this->load->library('session');
   }
 
-  public function __BACK($to = '../#/error') {
+  public function _redirect($to = '../#/error') {
     redirect(base_url($to));
+  }
+
+  public function _json($arr, $val = NULL) {
+    // if $arr is string, make it an array with $val
+    if (is_string($arr)) {
+      $arr = array($arr => $val);
+    }
+    echo json_encode($arr);
   }
 }
 
