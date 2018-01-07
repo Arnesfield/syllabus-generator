@@ -23,7 +23,10 @@
 
   <div v-if="suggested.length">
     <br>
-    <div><strong>Suggested</strong></div>
+    <div>
+      <strong>Suggested</strong>
+      <button type="button" @click="suggest()">Refresh</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in suggested">

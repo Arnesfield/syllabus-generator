@@ -11,7 +11,10 @@
 
   <div v-if="suggested.length">
     <br>
-    <span><strong>Suggested</strong></span>
+    <span>
+      <strong>Suggested</strong>
+      <button type="button" @click="suggest()">Refresh</button>
+    </span>
 
     <span :key="year" v-for="(year, index) in suggested">
       <input type="radio" :id="'year-suggested-' + index" :value="year" v-model="selected">

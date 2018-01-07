@@ -13,6 +13,10 @@ class Fields_model extends MY_CRUD_Model {
   }
 
   public function getFieldsByBookIds($books) {
+    if (!$books) {
+      return FALSE;
+    }
+
     $query = $this->db
       ->select('field_id')
       ->distinct()

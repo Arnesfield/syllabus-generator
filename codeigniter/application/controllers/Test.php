@@ -12,6 +12,10 @@ class Test extends MY_View_Controller {
     echo '<pre>';
     print_r($this->session->userdata());
     echo '</pre>';
+    $x = FALSE;
+    foreach ($x as $key => $value) {
+      
+    }
   }
 
   public function sessdes() {

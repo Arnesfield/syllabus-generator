@@ -33,13 +33,17 @@ class Outcomes extends MY_Custom_Controller {
     $cFields = $this->fields_model->getFieldsByCourseId($course_id);
     $bFields = $this->fields_model->getFieldsByBookIds($book_ids);
     $fields = array();
-    foreach ($cFields as $field) {
-      array_push($fields, $field['field_id']);
-    }
-    foreach ($bFields as $field) {
-      // if not yet in array, include it
-      if (!in_array($field['field_id'], $fields)) {
+    if (is_array($cFields)) {
+      foreach ($cFields as $field) {
         array_push($fields, $field['field_id']);
+      }
+    }
+    if (is_array($bFields)) {
+      foreach ($bFields as $field) {
+        // if not yet in array, include it
+        if (!in_array($field['field_id'], $fields)) {
+          array_push($fields, $field['field_id']);
+        }
       }
     }
 

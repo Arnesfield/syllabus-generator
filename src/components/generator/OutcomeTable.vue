@@ -4,8 +4,12 @@
   <h4>{{ mainTitle }}</h4>
   <div>
     <label :for="'outcomeTable-' + abbr">Search/Enter Outcome</label>
-    <textarea cols="20" rows="3" :id="'outcomeTable-' + abbr"
-      @input="query" @focus="query"></textarea>
+    <textarea
+      :id="'outcomeTable-' + abbr"
+      rows="3"
+      cols="20"
+      @input="query"
+      @focus="query"></textarea>
     <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
     <button type="button" v-else @click="suggest()">Show Suggestions</button>
     <button type="button" v-if="outcomes.length" @click="outcomes = []">Hide Selection</button>
@@ -13,7 +17,10 @@
 
   <div v-if="suggested.length">
     <br>
-    <div><strong>Suggested</strong></div>
+    <div>
+      <strong>Suggested</strong>
+      <button type="button" @click="suggest()">Refresh</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="clo.id" v-for="(clo, index) in suggested">
@@ -54,7 +61,7 @@
         v-for="(po, index) in supporting"
         :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
     </tr>
-    <tr :key="clo.id" v-for="(clo, cloIndex) in selected">
+    <tr :key="clo.id" v-for="(clo, cloIndex) in syllabus.content[mainFieldName]">
       <td>
         <button type="button" @click="remove(cloIndex)">x</button>
         <button type="button" @click="add(cloIndex + 1)">+</button>
@@ -65,18 +72,28 @@
         <template v-else>{{ clo.content }}</template>
       </td>
       <td
-        @mouseover="over(clo.id, po.id)"
-        @mouseout="out(clo.id, po.id)"
+        @mouseover="over(cloIndex, poIndex, $event)"
+        @mouseout="out(cloIndex, poIndex, $event)"
         @click="click(cloIndex, po.id)"
-        :ref="'box-' + clo.id + '-' + po.id"
+        :ref="'box-' + cloIndex + '-' + po.id"
         :key="po.id"
-        v-for="po in supporting"
+        v-for="(po, poIndex) in supporting"
         style="text-align: center">
-        <template v-if="syllabus.content[mapName][clo.id] === po.id">x</template>
+        <template v-if="
+          typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
+          syllabus.content[mapName][cloIndex].indexOf(po.id) > -1
+        ">x</template>
         <template v-else>&nbsp;</template>
       </td>
     </tr>
   </table>
+
+  <template v-if="highlighted.length">
+    <br>
+    <div>
+      <strong>Highlighted:</strong> {{ highlighted }}
+    </div>
+  </template>
 
 </div>
 </template>
@@ -84,7 +101,6 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
-import find from 'lodash/find'
 
 export default {
   name: 'outcome-table',
@@ -103,14 +119,15 @@ export default {
     suggestUrl: '/outcomes/suggest',
     outcomes: [],
     selected: [],
-    suggested: []
+    suggested: [],
+    highlighted: ''
   }),
 
   watch: {
     syllabus(to, from) {
+      this.clear()
       if (to !== null) {
         // set selected
-        this.clear()
         this.selected = this.syllabus.content[this.mainFieldName]
         this.suggest()
       }
@@ -136,20 +153,41 @@ export default {
       this.suggested = []
     },
 
-    over(clo, po) {
-
+    over(clo, po, e) {
+      e.target.classList.add('outcome-selected')
+      let o = this.syllabus.content[this.supportingFieldName][po]
+      this.highlighted = o.label + '. ' + o.content
     },
-    out(clo, po) {
-
+    out(clo, po, e) {
+      e.target.classList.remove('outcome-selected')
+      this.highlighted = ''
     },
-    click(cloIndex, po) {
+    click(clo, po) {
+      // check in map if exists
+      // if undefined, add array
+      if (typeof this.syllabus.content[this.mapName][clo] === 'undefined') {
+        this.$set(this.syllabus.content[this.mapName], clo, [])
+      }
 
+      let map = this.syllabus.content[this.mapName][clo]
+
+      // if existing, remove it
+      if (map.indexOf(po) > -1) {
+        var set = new Set(map)
+        set.delete(po)
+      } else {
+        map.push(po)
+        var set = new Set(map)
+      }
+
+      this.syllabus.content[this.mapName][clo] = Array.from(set)
     },
+
     add(i) {
-
+      this.selected.splice(i, 0, { content: '' })
     },
     remove(i) {
-
+      this.selected.splice(i, 1)
     },
 
     query: debounce(function(e) {
