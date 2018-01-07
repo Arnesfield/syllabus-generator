@@ -175,7 +175,7 @@ export default {
       let bookIds = []
       if (typeof this.syllabus.content.bookReferences !== 'undefined') {
         this.syllabus.content.bookReferences.forEach(e => {
-          bookIds.push(e.b_id)
+          bookIds.push(e.id)
         })
       }
 

@@ -16,7 +16,7 @@
     <ul>
       <li :key="bfr.id" v-for="(bfr, index) in selected">
         <button type="button" @click="selected.splice(index, 1)">x</button>
-        <span>{{ bfr.b_citation }}</span>
+        <span>{{ bfr.citation }}</span>
       </li>
     </ul>
   </div>
@@ -28,7 +28,7 @@
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in suggested">
           <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-suggested-' + index">{{ bfr.b_citation }}</label>
+          <label :for="'bfr-suggested-' + index">{{ bfr.citation }}</label>
         </li>
       </ul>
     </div>
@@ -41,7 +41,7 @@
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in res">
           <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-' + index">{{ bfr.b_citation }}</label>
+          <label :for="'bfr-' + index">{{ bfr.citation }}</label>
         </li>
       </ul>
     </div>

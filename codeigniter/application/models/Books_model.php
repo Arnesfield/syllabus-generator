@@ -6,8 +6,8 @@ class Books_model extends MY_CRUD_Model {
   public function getByQuery($search) {
     $this->db
       ->select('
-        b.id AS b_id,
-        b.citation AS b_citation
+        b.id AS id,
+        b.citation AS citation
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
@@ -16,7 +16,7 @@ class Books_model extends MY_CRUD_Model {
         lower(concat(IFNULL(f.title, ''), IFNULL(b.citation, '')))
         like lower(concat('%', '$search', '%'))
       ")
-      ->group_by('b_id');
+      ->group_by('id');
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
@@ -28,8 +28,8 @@ class Books_model extends MY_CRUD_Model {
 
     $query = $this->db
       ->select('
-        b.id AS b_id,
-        b.citation AS b_citation
+        b.id AS id,
+        b.citation AS citation
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
