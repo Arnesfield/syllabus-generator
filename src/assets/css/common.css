@@ -6,11 +6,26 @@ html, body {
   width: 100%;
 }
 
-.outcome-selected {
+.outcome-highlighted {
   background-color: #ccc;
+}
+
+.outcome-textarea {
+  width: 90%;
+  min-width: 90%;
+  max-width: 90%;
+  min-height: 32px;
+  max-height: 64px;
+  resize: vertical;
+  background: none;
+  border: 0;
 }
 
 .selection-box {
   max-height: 200px;
   overflow-y: scroll;
+}
+
+.selectable {
+  cursor: pointer;
 }

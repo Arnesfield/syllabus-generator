@@ -23,7 +23,18 @@
           supportingFieldName="programOutcomes"
           mainTitle="Course Learning Outcomes (CLO)"
           supportingTitle="Program Outcomes (PO)"
-          mapName="cloPoMap"/>
+          mapName="cloPoMap"
+          connectedMapName="iloCloMap"/>
+        <hr>
+        <outcome-table
+          :syllabus="syllabus"
+          :supporting="syllabus.content.courseLearningOutcomes"
+          abbr="ilo"
+          mainFieldName="intendedLearningOutcomes"
+          supportingFieldName="courseLearningOutcomes"
+          mainTitle="Intended Learning Outcomes (ILO)"
+          supportingTitle="Course Learning Outcomes (CLO)"
+          mapName="iloCloMap"/>
       </template>
     </template>
     

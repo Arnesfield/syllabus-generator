@@ -3,20 +3,16 @@
 
   <h4>{{ mainTitle }}</h4>
   <div>
-    <label :for="'outcomeTable-' + abbr">Search/Enter Outcome</label>
-    <textarea
-      :id="'outcomeTable-' + abbr"
-      rows="3"
-      cols="20"
-      @input="query"
-      @focus="query"></textarea>
+    <label :for="'outcomeTable-' + abbr">Search Outcome</label>
+    <input type="text" :id="'outcomeTable-' + abbr" @input="query" @focus="query"/>
     <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
     <button type="button" v-else @click="suggest()">Show Suggestions</button>
     <button type="button" v-if="outcomes.length" @click="outcomes = []">Hide Selection</button>
   </div>
 
+  <br>
+
   <div v-if="suggested.length">
-    <br>
     <div>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
@@ -29,6 +25,9 @@
         </li>
       </ul>
     </div>
+  </div>
+  <div v-else>
+    <strong>Suggested</strong>. No suggestions to show.
   </div>
 
   <div v-if="outcomes.length">
@@ -48,7 +47,7 @@
 
   <table class="w-max" border="1">
     <tr>
-      <th>&nbsp;</th>
+      <th style="width: 1px">&nbsp;</th>
       <th style="width: 50%">{{ mainTitle }}</th>
       <th :colspan="supporting.length">{{ supportingTitle }}</th>
     </tr>
@@ -61,27 +60,31 @@
         v-for="(po, index) in supporting"
         :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
     </tr>
-    <tr :key="clo.id" v-for="(clo, cloIndex) in syllabus.content[mainFieldName]">
+    <tr :key="cloIndex" v-for="(clo, cloIndex) in syllabus.content[mainFieldName]">
       <td>
         <button type="button" @click="remove(cloIndex)">x</button>
         <button type="button" @click="add(cloIndex + 1)">+</button>
       </td>
-      <td :ref="'content-' + clo.id">
+      <td>
         <span>{{ (cloIndex + 1) + '. ' }}</span>
-        <textarea v-if="typeof clo.id === 'undefined'" class="textarea" v-model="clo.content"></textarea>
+        <textarea
+          class="outcome-textarea"
+          v-if="typeof clo.id === 'undefined'"
+          v-model="clo.content"></textarea>
         <template v-else>{{ clo.content }}</template>
       </td>
       <td
         @mouseover="over(cloIndex, poIndex, $event)"
         @mouseout="out(cloIndex, poIndex, $event)"
-        @click="click(cloIndex, po.id)"
-        :ref="'box-' + cloIndex + '-' + po.id"
-        :key="po.id"
+        @click="click(cloIndex, typeof po.id !== 'undefined' ? po.id : poIndex)"
+        :key="poIndex"
         v-for="(po, poIndex) in supporting"
         style="text-align: center">
         <template v-if="
           typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
-          syllabus.content[mapName][cloIndex].indexOf(po.id) > -1
+          syllabus.content[mapName][cloIndex].indexOf(
+            typeof po.id !== 'undefined' ? po.id : poIndex
+          ) > -1
         ">x</template>
         <template v-else>&nbsp;</template>
       </td>
@@ -112,7 +115,11 @@ export default {
     mainTitle: String,
     supportingTitle: String,
     abbr: String,
-    mapName: String
+    mapName: String,
+    connectedMapName: {
+      type: String,
+      default: ''
+    }
   },
   data: () => ({
     url: '/outcomes',
@@ -154,12 +161,12 @@ export default {
     },
 
     over(clo, po, e) {
-      e.target.classList.add('outcome-selected')
+      e.target.classList.add('outcome-highlighted')
       let o = this.syllabus.content[this.supportingFieldName][po]
-      this.highlighted = o.label + '. ' + o.content
+      this.highlighted = (typeof o.label !== 'undefined' ? o.label + '. ' : '') + o.content
     },
     out(clo, po, e) {
-      e.target.classList.remove('outcome-selected')
+      e.target.classList.remove('outcome-highlighted')
       this.highlighted = ''
     },
     click(clo, po) {
@@ -185,9 +192,36 @@ export default {
 
     add(i) {
       this.selected.splice(i, 0, { content: '' })
+      // move up
+      this.syllabus.content[this.mapName] = this.moveMap(this.syllabus.content[this.mapName], i, 1)
     },
     remove(i) {
       this.selected.splice(i, 1)
+      this.syllabus.content[this.mapName] = this.moveMap(this.syllabus.content[this.mapName], i, -1)
+      // if connected map exists
+      if (this.connectedMapName.length) {
+        // this.syllabus.content[this.connectedMapName]
+      }
+    },
+
+    moveMap(map, i, n) {
+      let newMap = {}
+      Object.keys(map).forEach(e => {
+        // if is equal to i or more
+        // add n
+        let m = Number(e)
+        // check if n is -1
+        // if -1 and m == i, do not include
+        if (m >= i) {
+          if (!(n === -1 && m === i)) {
+            newMap[m + n] = map[e]
+          }
+        } else {
+          // else, retain it and add it to new map
+          newMap[e] = map[e]
+        }
+      })
+      return newMap
     },
 
     query: debounce(function(e) {

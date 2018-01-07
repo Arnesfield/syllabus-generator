@@ -9,8 +9,9 @@
     <button type="button" v-if="years.length" @click="years = []">Hide Selection</button>
   </div>
 
+  <br>
+
   <div v-if="suggested.length">
-    <br>
     <span>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
@@ -20,6 +21,9 @@
       <input type="radio" :id="'year-suggested-' + index" :value="year" v-model="selected">
       <label :for="'year-suggested-' + index">{{ year.year }}</label>
     </span>
+  </div>
+  <div v-else>
+    <strong>Suggested</strong>. No suggestions to show.
   </div>
 
   <div v-if="years.length">

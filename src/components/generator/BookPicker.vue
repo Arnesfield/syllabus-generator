@@ -21,8 +21,9 @@
     </ul>
   </div>
 
+  <br>
+  
   <div v-if="suggested.length">
-    <br>
     <div>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
@@ -35,6 +36,9 @@
         </li>
       </ul>
     </div>
+  </div>
+  <div v-else>
+    <strong>Suggested</strong>. No suggestions to show.
   </div>
   
   <div v-if="res.length">
