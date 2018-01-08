@@ -114,6 +114,7 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
+import moveArray from '@/assets/js/moveArray'
 
 export default {
   name: 'outcome-table',
@@ -126,6 +127,10 @@ export default {
     supportingTitle: String,
     abbr: String,
     mapName: String,
+    bus: {
+      type: Object,
+      default: null
+    },
     connectedMapName: {
       type: String,
       default: ''
@@ -205,6 +210,9 @@ export default {
     },
 
     _updateMap(map, i, n) {
+      if (this.bus !== null) {
+        this.bus.$emit('ilo-updated', i, n)
+      }
       this.syllabus.content[this.mapName] = this.moveMap(map, i, n)
       // if connected map exists
       if (this.connectedMapName.length === 0) {
@@ -242,19 +250,7 @@ export default {
 
     moveArray(map, i, n) {
       Object.keys(map).forEach(e => {
-        let newArr = map[e].reduce((filtered, m) => {
-          let num = Number(m)
-          if (num >= i) {
-            if (!(n === -1 && num === i)) {
-              filtered.push(num + n)
-            }
-          } else {
-            filtered.push(num)
-          }
-          return filtered
-        }, [])
-
-        map[e] = newArr
+        map[e] = moveArray(map[e], i, n)
       })
       return map
     },

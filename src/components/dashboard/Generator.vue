@@ -35,9 +35,12 @@
             supportingFieldName="courseLearningOutcomes"
             mainTitle="Intended Learning Outcomes (ILO)"
             supportingTitle="Course Learning Outcomes (CLO)"
-            mapName="iloCloMap"/>
+            mapName="iloCloMap"
+            :bus="bus"/>
           <hr>
-          <activity-manager :syllabus="syllabus"/>
+          <activity-manager
+            :syllabus="syllabus"
+            :bus="bus"/>
         </template>
       </template>
     </template>
@@ -51,6 +54,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import CoursePicker from '@/components/generator/CoursePicker'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
@@ -70,7 +74,8 @@ export default {
   },
   data: () => ({
     course: null,
-    syllabus: null
+    syllabus: null,
+    bus: new Vue()
   }),
 
   methods: {

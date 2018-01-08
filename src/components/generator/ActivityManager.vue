@@ -3,7 +3,7 @@
 
   <h4>Weekly Activities</h4>
 
-  <table class="collapsed" border="1">
+  <table class="w-max collapsed" border="1">
     <tr>
       <th style="width: 1px">&nbsp;</th>
       <th>Weeks</th>
@@ -34,13 +34,21 @@
       :key="index"
       :index="index"
       :act="activity"
+      :syllabus="syllabus"
+      :bus="bus"
       v-for="(activity, index) in activities"
       @add="add"
-      @remove="remove"/>
+      @remove="remove"
+      @highlighted="setHighlighted"/>
     <tr>
       <td>&nbsp;</td>
       <td class="t-center">Total Week/s: {{ totalWeeks }}</td>
-      <td :colspan="iloLength + 5">&nbsp;</td>
+      <td :colspan="iloLength + 5">
+        <template v-if="highlighted.length">
+          <strong>Highlighted:</strong> {{ highlighted }}
+        </template>
+        <template v-else>&nbsp;</template>
+      </td>
     </tr>
   </table>
 </div>
@@ -55,10 +63,12 @@ export default {
     ActivityWeek
   },
   props: {
+    bus: Object,
     syllabus: Object
   },
   data: () => ({
-    activities: []
+    activities: [],
+    highlighted: ''
   }),
 
   computed: {
@@ -73,9 +83,21 @@ export default {
   },
 
   watch: {
+    syllabus(to, from) {
+      if (to !== null) {
+        this._setInitial()
+      }
+    },
+
     activities(to, from) {
       // set to syllabus
       this.syllabus.content.weeklyActivities = to
+    }
+  },
+
+  created() {
+    if (this.syllabus !== null) {
+      this._setInitial()
     }
   },
 
@@ -87,7 +109,17 @@ export default {
     },
     remove(i) {
       this.activities.splice(i, 1)
-    }
+    },
+
+    setHighlighted(i) {
+      this.highlighted = i === -1 ? '' : this.syllabus.content.intendedLearningOutcomes[i].content
+    },
+
+    _setInitial() {
+      if (typeof this.syllabus.content.weeklyActivities === 'undefined') {
+        this.$set(this.syllabus.content, 'weeklyActivities', this.activities)
+      }
+    },
   }
 }
 </script>
