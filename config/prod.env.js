@@ -1,4 +1,6 @@
 'use strict'
 module.exports = {
-  NODE_ENV: '"production"'
+  // changed to dev for testing
+  // REMEMBER TO CHANGE BACK TO "production"
+  NODE_ENV: '"development"'
 }

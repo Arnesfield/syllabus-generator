@@ -2,6 +2,10 @@ html, body {
   height: 100%;
 }
 
+table.collapsed {
+  border-collapse: collapse;
+}
+
 .w-max {
   width: 100%;
 }
@@ -28,4 +32,8 @@ html, body {
 
 .selectable {
   cursor: pointer;
+}
+
+.t-center {
+  text-align: center;
 }

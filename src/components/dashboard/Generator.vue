@@ -36,6 +36,8 @@
             mainTitle="Intended Learning Outcomes (ILO)"
             supportingTitle="Course Learning Outcomes (CLO)"
             mapName="iloCloMap"/>
+          <hr>
+          <activity-manager :syllabus="syllabus"/>
         </template>
       </template>
     </template>
@@ -54,6 +56,7 @@ import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
 import OutcomeTable from '@/components/generator/OutcomeTable'
+import ActivityManager from '@/components/generator/ActivityManager'
 
 export default {
   name: 'generator',
@@ -62,7 +65,8 @@ export default {
     CurriculumPicker,
     SyllabusPicker,
     BookPicker,
-    OutcomeTable
+    OutcomeTable,
+    ActivityManager
   },
   data: () => ({
     course: null,

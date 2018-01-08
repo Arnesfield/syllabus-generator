@@ -18,7 +18,7 @@
       <button type="button" @click="suggested = []">Hide</button>
     </span>
 
-    <span :key="year" v-for="(year, index) in suggested">
+    <span :key="index" v-for="(year, index) in suggested">
       <input type="radio" :id="'year-suggested-' + index" :value="year" v-model="selected">
       <label :for="'year-suggested-' + index">{{ year.year }}</label>
     </span>
@@ -35,7 +35,7 @@
     </div>
     <div class="selection-box">
       <ul>
-        <li :key="year" v-for="(year, index) in years">
+        <li :key="index" v-for="(year, index) in years">
           <input type="radio" :id="'year-' + index" :value="year" v-model="selected">
           <label :for="'year-' + index">{{ year.year }}</label>
         </li>

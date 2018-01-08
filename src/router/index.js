@@ -28,7 +28,6 @@ const router = new Router({
 
     {
       path: '/dashboard',
-      name: 'Dashboard',
       component: Components.Dashboard,
 
       children: [

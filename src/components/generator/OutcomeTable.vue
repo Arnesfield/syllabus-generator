@@ -49,7 +49,7 @@
 
   <br>
 
-  <table class="w-max" border="1">
+  <table class="w-max collapsed" border="1">
     <tr>
       <th style="width: 1px">&nbsp;</th>
       <th style="width: 50%">{{ mainTitle }}</th>
@@ -60,9 +60,12 @@
         <button type="button" @click="add(0)">+</button>
       </td>
       <td>&nbsp;</td>
-      <td style="text-align: center"
-        v-for="(po, index) in supporting"
-        :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
+      <template v-if="supporting.length">
+        <td class="t-center"
+          v-for="(po, index) in supporting"
+          :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
+      </template>
+      <td v-else>&nbsp;</td>
     </tr>
     <tr :key="cloIndex" v-for="(clo, cloIndex) in syllabus.content[mainFieldName]">
       <td>
@@ -77,21 +80,24 @@
           v-model="clo.content"></textarea>
         <template v-else>{{ clo.content }}</template>
       </td>
-      <td
-        @mouseover="over(cloIndex, poIndex, $event)"
-        @mouseout="out(cloIndex, poIndex, $event)"
-        @click="click(cloIndex, abbr === 'clo' ? po.id : poIndex)"
-        :key="poIndex"
-        v-for="(po, poIndex) in supporting"
-        style="text-align: center">
-        <template v-if="
-          typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
-          syllabus.content[mapName][cloIndex].indexOf(
-            abbr === 'clo' ? po.id : poIndex
-          ) > -1
-        ">x</template>
-        <template v-else>&nbsp;</template>
-      </td>
+      <template v-if="supporting.length">
+        <td
+          class="t-center"
+          @mouseover="over(cloIndex, poIndex, $event)"
+          @mouseout="out(cloIndex, poIndex, $event)"
+          @click="click(cloIndex, abbr === 'clo' ? po.id : poIndex)"
+          v-for="(po, poIndex) in supporting"
+          :key="poIndex">
+          <template v-if="
+            typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
+            syllabus.content[mapName][cloIndex].indexOf(
+              abbr === 'clo' ? po.id : poIndex
+            ) > -1
+          ">x</template>
+          <template v-else>&nbsp;</template>
+        </td>
+      </template>
+      <td v-else>&nbsp;</td>
     </tr>
   </table>
 
@@ -113,7 +119,7 @@ export default {
   name: 'outcome-table',
   props: {
     syllabus: Object,
-    supporting: Object,
+    supporting: Array,
     mainFieldName: String,
     supportingFieldName: String,
     mainTitle: String,
