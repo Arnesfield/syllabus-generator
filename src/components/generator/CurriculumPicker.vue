@@ -15,6 +15,7 @@
     <span>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
+      <button type="button" @click="suggested = []">Hide</button>
     </span>
 
     <span :key="year" v-for="(year, index) in suggested">
@@ -28,8 +29,10 @@
 
   <div v-if="years.length">
     <br>
-    <div><strong>Selection</strong></div>
-
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="years = []">Hide</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="year" v-for="(year, index) in years">

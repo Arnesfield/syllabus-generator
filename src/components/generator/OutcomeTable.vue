@@ -16,6 +16,7 @@
     <div>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
+      <button type="button" @click="suggested = []">Hide</button>
     </div>
     <div class="selection-box">
       <ul>
@@ -32,7 +33,10 @@
 
   <div v-if="outcomes.length">
     <br>
-    <div><strong>Selection</strong></div>
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="outcomes = []">Hide</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="o.id" v-for="(o, index) in outcomes">
@@ -284,7 +288,7 @@ export default {
         courseId: this.syllabus.course_id,
         curriculumYear: year,
         type: this.abbr === 'clo' ? 1 : 2,
-        limit: 10
+        limit: 30
       })).then((res) => {
         console.log(res.data)
         this.suggested = res.data.outcomes

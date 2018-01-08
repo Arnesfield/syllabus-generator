@@ -19,7 +19,10 @@
 
   <div v-if="res.length">
     <br>
-    <div><strong>Selection</strong></div>
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="res = []">Hide</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="course.id" v-for="(course, index) in res">

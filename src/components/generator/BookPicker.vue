@@ -27,6 +27,7 @@
     <div>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
+      <button type="button" @click="suggested = []">Hide</button>
     </div>
     <div class="selection-box">
       <ul>
@@ -43,7 +44,10 @@
   
   <div v-if="res.length">
     <br>
-    <div><strong>Selection</strong></div>
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="res = []">Hide</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="bfr.id" v-for="(bfr, index) in res">
@@ -125,7 +129,7 @@ export default {
     suggest() {
       this.$http.post(this.suggestUrl, qs.stringify({
         courseId: this.syllabus.course_id,
-        limit: 10
+        limit: 30
       })).then((res) => {
         this.suggested = res.data.books
       }).catch((e) => {

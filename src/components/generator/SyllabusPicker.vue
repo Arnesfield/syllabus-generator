@@ -14,7 +14,10 @@
 
   <div v-if="showSyllabi && syllabi.length">
     <br>
-    <div><strong>Selection</strong></div>
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="showSyllabi = false">Hide</button>
+    </div>
     <div class="selection-box">
       <ul>
         <li :key="index" v-for="(syllabus, index) in syllabi">
