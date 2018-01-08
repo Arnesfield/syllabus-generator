@@ -76,14 +76,14 @@
       <td
         @mouseover="over(cloIndex, poIndex, $event)"
         @mouseout="out(cloIndex, poIndex, $event)"
-        @click="click(cloIndex, typeof po.id !== 'undefined' ? po.id : poIndex)"
+        @click="click(cloIndex, abbr === 'clo' ? po.id : poIndex)"
         :key="poIndex"
         v-for="(po, poIndex) in supporting"
         style="text-align: center">
         <template v-if="
           typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
           syllabus.content[mapName][cloIndex].indexOf(
-            typeof po.id !== 'undefined' ? po.id : poIndex
+            abbr === 'clo' ? po.id : poIndex
           ) > -1
         ">x</template>
         <template v-else>&nbsp;</template>
@@ -176,16 +176,9 @@ export default {
         this.$set(this.syllabus.content[this.mapName], clo, [])
       }
 
-      let map = this.syllabus.content[this.mapName][clo]
-
+      let set = new Set(this.syllabus.content[this.mapName][clo])
       // if existing, remove it
-      if (map.indexOf(po) > -1) {
-        var set = new Set(map)
-        set.delete(po)
-      } else {
-        map.push(po)
-        var set = new Set(map)
-      }
+      set.has(po) ? set.delete(po) : set.add(po)
 
       this.syllabus.content[this.mapName][clo] = Array.from(set)
     },
@@ -193,15 +186,28 @@ export default {
     add(i) {
       this.selected.splice(i, 0, { content: '' })
       // move up
-      this.syllabus.content[this.mapName] = this.moveMap(this.syllabus.content[this.mapName], i, 1)
+      this._updateMap(this.syllabus.content[this.mapName], i, 1)
     },
     remove(i) {
       this.selected.splice(i, 1)
-      this.syllabus.content[this.mapName] = this.moveMap(this.syllabus.content[this.mapName], i, -1)
+      // move down
+      this._updateMap(this.syllabus.content[this.mapName], i, -1)
+    },
+
+    _updateMap(map, i, n) {
+      this.syllabus.content[this.mapName] = this.moveMap(map, i, n)
       // if connected map exists
-      if (this.connectedMapName.length) {
-        // this.syllabus.content[this.connectedMapName]
+      if (this.connectedMapName.length === 0) {
+        return
       }
+
+      // loop on all keys
+      // check arrays
+      // if add, add n to all numbers >= i
+      // else, remove i and subtract n to all numbers >= i
+
+      // assert that this is referenced
+      this.moveArray(this.syllabus.content[this.connectedMapName], i, n)
     },
 
     moveMap(map, i, n) {
@@ -222,6 +228,25 @@ export default {
         }
       })
       return newMap
+    },
+
+    moveArray(map, i, n) {
+      Object.keys(map).forEach(e => {
+        let newArr = map[e].reduce((filtered, m) => {
+          let num = Number(m)
+          if (num >= i) {
+            if (!(n === -1 && num === i)) {
+              filtered.push(num + n)
+            }
+          } else {
+            filtered.push(num)
+          }
+          return filtered
+        }, [])
+
+        map[e] = newArr
+      })
+      return map
     },
 
     query: debounce(function(e) {
