@@ -109,7 +109,6 @@ export default {
       this.$http.post(this.url, qs.stringify({
         courseId: this.course.id
       })).then((res) => {
-        console.log(res.data)
         let syllabi = res.data.syllabi
 
         // if no syllabi, create new syllabi from scratch

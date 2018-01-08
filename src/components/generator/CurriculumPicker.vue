@@ -138,7 +138,6 @@ export default {
 
     suggest(year) {
       this.$http.post(this.suggestUrl).then((res) => {
-        console.log(res.data)
         let suggested = res.data.years
         let assign = true
         if (typeof year !== 'undefined') {
@@ -176,7 +175,6 @@ export default {
       this.$http.post(this.curriculumUrl, qs.stringify({
         year: year
       })).then((res) => {
-        // console.log(JSON.stringify(res.data.curriculum))
         this.curriculum = res.data.curriculum
         // clear out years and set the search to that year
         this.years = []

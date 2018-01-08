@@ -290,7 +290,6 @@ export default {
         type: this.abbr === 'clo' ? 1 : 2,
         limit: 30
       })).then((res) => {
-        console.log(res.data)
         this.suggested = res.data.outcomes
       }).catch((e) => {
         console.error(e)

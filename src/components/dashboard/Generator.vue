@@ -14,47 +14,31 @@
         <book-picker :syllabus="syllabus"/>
         <hr>
         <curriculum-picker :syllabus="syllabus"/>
-        <hr>
-        <outcome-table
-          :syllabus="syllabus"
-          :supporting="syllabus.content.programOutcomes"
-          abbr="clo"
-          mainFieldName="courseLearningOutcomes"
-          supportingFieldName="programOutcomes"
-          mainTitle="Course Learning Outcomes (CLO)"
-          supportingTitle="Program Outcomes (PO)"
-          mapName="cloPoMap"
-          connectedMapName="iloCloMap"/>
-        <hr>
-        <outcome-table
-          :syllabus="syllabus"
-          :supporting="syllabus.content.courseLearningOutcomes"
-          abbr="ilo"
-          mainFieldName="intendedLearningOutcomes"
-          supportingFieldName="courseLearningOutcomes"
-          mainTitle="Intended Learning Outcomes (ILO)"
-          supportingTitle="Course Learning Outcomes (CLO)"
-          mapName="iloCloMap"/>
+        <template v-if="syllabus.content.programOutcomes.length">
+          <hr>
+          <outcome-table
+            :syllabus="syllabus"
+            :supporting="syllabus.content.programOutcomes"
+            abbr="clo"
+            mainFieldName="courseLearningOutcomes"
+            supportingFieldName="programOutcomes"
+            mainTitle="Course Learning Outcomes (CLO)"
+            supportingTitle="Program Outcomes (PO)"
+            mapName="cloPoMap"
+            connectedMapName="iloCloMap"/>
+          <hr>
+          <outcome-table
+            :syllabus="syllabus"
+            :supporting="syllabus.content.courseLearningOutcomes"
+            abbr="ilo"
+            mainFieldName="intendedLearningOutcomes"
+            supportingFieldName="courseLearningOutcomes"
+            mainTitle="Intended Learning Outcomes (ILO)"
+            supportingTitle="Course Learning Outcomes (CLO)"
+            mapName="iloCloMap"/>
+        </template>
       </template>
     </template>
-    
-    <!-- <outcome-mapper
-      ref="outcomeMapper"
-      :course="course"
-      @syllabus-fetched="onSyllabusFetched"
-      @ilo-add="iloAdd"
-      @ilo-remove="iloRemove"/>
-
-    <template v-if="syllabus">
-      <hr>
-      <activity-manager ref="activityManager" :syllabus="syllabus" @over="boxOver" @out="boxOut"/>
-      <hr>
-      <book-picker ref="bookPicker" :syllabus="syllabus"/>
-      <hr>
-      <used-materials-manager :syllabus="syllabus"/>
-      <hr>
-      <syllabus-info :syllabus="syllabus" :editor="editor"/>
-    </template> -->
 
     <br>
     <div>
@@ -71,11 +55,6 @@ import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
 import OutcomeTable from '@/components/generator/OutcomeTable'
 
-import OutcomeMapper from '@/components/generator/OutcomeMapper'
-import UsedMaterialsManager from '@/components/generator/UsedMaterialsManager'
-import ActivityManager from '@/components/generator/ActivityManager'
-import SyllabusInfo from '@/components/generator/SyllabusInfo'
-
 export default {
   name: 'generator',
   components: {
@@ -83,17 +62,11 @@ export default {
     CurriculumPicker,
     SyllabusPicker,
     BookPicker,
-    OutcomeTable,
-
-    OutcomeMapper,
-    UsedMaterialsManager,
-    ActivityManager,
-    SyllabusInfo
+    OutcomeTable
   },
   data: () => ({
     course: null,
-    syllabus: null,
-    editor: null
+    syllabus: null
   }),
 
   methods: {
@@ -107,27 +80,6 @@ export default {
     },
     onSyllabusSelected(syllabus) {
       this.syllabus = syllabus
-    },
-
-    onSyllabusFetched(syllabus, editor) {
-      this.syllabus = syllabus
-      this.editor = editor
-    },
-
-    // activity manager
-    boxOver(label) {
-      let iloTable = this.$refs.outcomeMapper.$refs.iloTable
-      iloTable.$refs['content-' + label][0].style.backgroundColor = '#ccc'
-    },
-    boxOut(label) {
-      let iloTable = this.$refs.outcomeMapper.$refs.iloTable
-      iloTable.$refs['content-' + label][0].style.backgroundColor = null
-    },
-    iloAdd(index) {
-      this.$refs.activityManager.iloAdd(index)
-    },
-    iloRemove(index) {
-      this.$refs.activityManager.iloRemove(index)
     }
   }
 }
