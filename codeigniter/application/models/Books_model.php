@@ -35,8 +35,8 @@ class Books_model extends MY_CRUD_Model {
       ->join('books b', 'b.id = bfr.book_id')
       ->join('fields f', 'f.id = bfr.field_id')
       ->where_in('bfr.field_id', $fields)
-      ->order_by('COUNT(*)', 'DESC')
       ->group_by('b.id')
+      ->order_by('COUNT(*)', 'DESC')
       ->limit($limit)
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;

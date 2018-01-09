@@ -6,9 +6,9 @@
   <table class="w-max collapsed" border="1">
     <tr>
       <th style="width: 1px">&nbsp;</th>
-      <th>Weeks</th>
-      <th :colspan="iloLength"
-        >Intended Learning Outcomes (ILO)</th>
+      <th style="width: 1px">Weeks</th>
+      <th style="width: 1px"
+        :colspan="iloLength">Intended Learning Outcomes (ILO)</th>
       <th>Topics</th>
       <th colspan="2">Teaching Activities and Learning Outcomes</th>
       <th>Assessment Tasks (AT)</th>
@@ -104,7 +104,9 @@ export default {
   methods: {
     add(i) {
       this.activities.splice(i, 0, {
-        noOfWeeks: 1
+        noOfWeeks: 1,
+        topics: [],
+        iloMap: []
       })
     },
     remove(i) {

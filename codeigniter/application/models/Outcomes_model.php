@@ -28,8 +28,8 @@ class Outcomes_model extends MY_CRUD_Model {
       ->join('fields f', 'f.id = ofr.field_id')
       ->where('o.type', $type)
       ->where_in('f.id', $fields)
-      ->order_by('COUNT(*)', 'DESC')
       ->group_by('o.id')
+      ->order_by('COUNT(*)', 'DESC')
       ->limit($limit)
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;

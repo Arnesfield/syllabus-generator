@@ -5,7 +5,7 @@
     <button type="button" @click="$emit('add', index + 1)">+</button>
   </td>
   <td>
-    <input type="number" v-model="act.noOfWeeks">
+    <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
   </td>
   <template v-if="iloLength">
     <td
@@ -21,20 +21,32 @@
     </td>
   </template>
   <td v-else>&nbsp;</td>
+  <topic-picker
+    :act="act"
+    :bus="topicBus"
+    :syllabus="syllabus"/>
 </tr>
 </template>
 
 <script>
+import Vue from 'vue'
+import TopicPicker from './activityWeek/TopicPicker'
 import moveArray from '@/assets/js/moveArray'
 
 export default {
   name: 'activity-week',
+  components: {
+    TopicPicker
+  },
   props: {
     act: Object,
     syllabus: Object,
     bus: Object,
     index: Number
   },
+  data: () => ({
+    topicBus: new Vue()
+  }),
 
   computed: {
     iloLength() {
@@ -48,6 +60,8 @@ export default {
         if (to !== null) {
           if (Number(to.noOfWeeks) <= 0) {
             this.act.noOfWeeks = 1
+          } else if (Number(to.noOfWeeks) > 99) {
+            this.act.noOfWeeks = 99
           }
         }
       },
@@ -79,6 +93,9 @@ export default {
       // if existing, remove it
       set.has(i) ? set.delete(i) : set.add(i)
       this.act.iloMap = Array.from(set)
+
+      // update topic suggestions
+      this.topicBus.$emit('update-suggestions')
     },
 
     onILOUpdated(i, n) {
@@ -87,3 +104,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.noOfWeeks {
+  width: 32px;
+  margin: 0 auto;
+  display: block;
+}
+</style>

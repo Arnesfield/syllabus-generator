@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2018 at 10:50 AM
+-- Generation Time: Jan 09, 2018 at 04:42 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -730,7 +730,11 @@ INSERT INTO `topics` (`id`, `label`, `name`, `description`, `reference`, `status
 (22, 'Module 3', 'Assignment and Formatting', '', '', 1),
 (23, 'Module 4', 'Program Control Structures', '', '', 1),
 (24, 'Module 5', 'Repetition Control Structure', '', '', 1),
-(25, 'Module 6', 'Introduction to Arrays', '', '', 1);
+(25, 'Module 6', 'Introduction to Arrays', '', '', 1),
+(26, '', 'PBL Orientation', '', '', 1),
+(27, '', '', 'Actual inspection and evaluation of the 50% software development.', '', 1),
+(28, '', '', 'Engage to student, client, and professional assessment of the developed software.', '', 1),
+(29, '', '', 'Actual inspection and evaluation of the 75% software development.', '', 1);
 
 -- --------------------------------------------------------
 
@@ -832,12 +836,64 @@ INSERT INTO `topic_field_relation` (`id`, `topic_id`, `field_id`, `status`) VALU
 (80, 25, 20, 1),
 (81, 25, 35, 1),
 (82, 25, 18, 1),
-(83, 0, 0, 0),
-(84, 0, 0, 0),
-(85, 0, 0, 0),
-(86, 0, 0, 0),
-(87, 0, 0, 0),
-(88, 0, 0, 0);
+(83, 27, 13, 1),
+(84, 27, 31, 1),
+(85, 27, 32, 1),
+(86, 28, 13, 1),
+(87, 28, 31, 1),
+(88, 28, 32, 1),
+(89, 29, 13, 1),
+(90, 29, 31, 1),
+(91, 29, 32, 1),
+(92, 0, 0, 0),
+(93, 0, 0, 0),
+(94, 0, 0, 0),
+(95, 0, 0, 0),
+(96, 0, 0, 0),
+(97, 0, 0, 0),
+(98, 0, 0, 0),
+(99, 0, 0, 0),
+(100, 0, 0, 0),
+(101, 0, 0, 0),
+(102, 0, 0, 0),
+(103, 0, 0, 0),
+(104, 0, 0, 0),
+(105, 0, 0, 0),
+(106, 0, 0, 0),
+(107, 0, 0, 0),
+(108, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `topic_outcome_relation`
+--
+
+CREATE TABLE `topic_outcome_relation` (
+  `id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  `outcome_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `topic_outcome_relation`
+--
+
+INSERT INTO `topic_outcome_relation` (`id`, `topic_id`, `outcome_id`, `status`) VALUES
+(1, 1, 8, 1),
+(2, 2, 9, 1),
+(3, 1, 10, 1),
+(4, 2, 10, 1),
+(5, 27, 11, 1),
+(6, 28, 11, 1),
+(7, 3, 12, 1),
+(8, 4, 12, 1),
+(9, 28, 13, 1),
+(10, 29, 13, 1),
+(11, 5, 14, 1),
+(12, 6, 14, 1),
+(13, 7, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -941,6 +997,12 @@ ALTER TABLE `topic_field_relation`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `topic_outcome_relation`
+--
+ALTER TABLE `topic_outcome_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1014,13 +1076,19 @@ ALTER TABLE `syllabi`
 -- AUTO_INCREMENT for table `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `topic_field_relation`
 --
 ALTER TABLE `topic_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+
+--
+-- AUTO_INCREMENT for table `topic_outcome_relation`
+--
+ALTER TABLE `topic_outcome_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`

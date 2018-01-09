@@ -29,6 +29,7 @@
   </div>
   <div v-else>
     <strong>Suggested</strong>. No suggestions to show.
+    <button type="button" @click="suggest()">Show</button>
   </div>
 
   <div v-if="outcomes.length">

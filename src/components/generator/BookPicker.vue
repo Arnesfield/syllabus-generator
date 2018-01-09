@@ -13,12 +13,14 @@
   <div v-if="selected.length">
     <br>
     <div><strong>Selected</strong></div>
-    <ul>
-      <li :key="bfr.id" v-for="(bfr, index) in selected">
-        <button type="button" @click="selected.splice(index, 1)">x</button>
-        <span>{{ bfr.citation }}</span>
-      </li>
-    </ul>
+    <div class="selection-box">
+      <ul>
+        <li :key="bfr.id" v-for="(bfr, index) in selected">
+          <button type="button" @click="selected.splice(index, 1)">x</button>
+          <span>{{ bfr.citation }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <br>
@@ -40,6 +42,7 @@
   </div>
   <div v-else>
     <strong>Suggested</strong>. No suggestions to show.
+    <button type="button" @click="suggest()">Show</button>
   </div>
   
   <div v-if="res.length">
