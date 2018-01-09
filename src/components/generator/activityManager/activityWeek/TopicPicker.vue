@@ -8,6 +8,7 @@
   </div>
 
   <div v-if="selected.length">
+    <br>
     <div><strong>Selected</strong></div>
     <div class="selection-box">
       <ul>

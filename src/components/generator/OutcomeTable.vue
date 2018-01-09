@@ -10,6 +10,22 @@
     <button type="button" v-if="outcomes.length" @click="outcomes = []">Hide Selection</button>
   </div>
 
+  <div v-if="outcomes.length">
+    <br>
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="outcomes = []">Hide</button>
+    </div>
+    <div class="selection-box">
+      <ul>
+        <li :key="o.id" v-for="(o, index) in outcomes">
+          <input type="checkbox" :id="'outcome-' + index" :value="o" v-model="selected">
+          <label :for="'outcome-' + index">{{ o.content }}</label>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <br>
 
   <div v-if="suggested.length">
@@ -30,22 +46,6 @@
   <div v-else>
     <strong>Suggested</strong>. No suggestions to show.
     <button type="button" @click="suggest()">Show</button>
-  </div>
-
-  <div v-if="outcomes.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="outcomes = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="o.id" v-for="(o, index) in outcomes">
-          <input type="checkbox" :id="'outcome-' + index" :value="o" v-model="selected">
-          <label :for="'outcome-' + index">{{ o.content }}</label>
-        </li>
-      </ul>
-    </div>
   </div>
 
   <br>

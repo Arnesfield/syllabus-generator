@@ -22,6 +22,22 @@
       </ul>
     </div>
   </div>
+  
+  <div v-if="res.length">
+    <br>
+    <div>
+      <strong>Selection</strong>
+      <button type="button" @click="res = []">Hide</button>
+    </div>
+    <div class="selection-box">
+      <ul>
+        <li :key="bfr.id" v-for="(bfr, index) in res">
+          <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
+          <label :for="'bfr-' + index">{{ bfr.citation }}</label>
+        </li>
+      </ul>
+    </div>
+  </div>
 
   <br>
   
@@ -43,22 +59,6 @@
   <div v-else>
     <strong>Suggested</strong>. No suggestions to show.
     <button type="button" @click="suggest()">Show</button>
-  </div>
-  
-  <div v-if="res.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="res = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="bfr.id" v-for="(bfr, index) in res">
-          <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-' + index">{{ bfr.citation }}</label>
-        </li>
-      </ul>
-    </div>
   </div>
   
 </div>
