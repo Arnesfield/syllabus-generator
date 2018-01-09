@@ -25,6 +25,22 @@ class Fields_model extends MY_CRUD_Model {
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
+
+  public function getOutcomesByTopicIds($topics, $type) {
+    if (!$topics) {
+      return FALSE;
+    }
+
+    $query = $this->db
+      ->select('o.id AS outcome_id')
+      ->distinct()
+      ->from('topic_outcome_relation tor')
+      ->join('outcomes o', 'o.id = tor.outcome_id')
+      ->where('o.type', $type)
+      ->where_in('tor.topic_id', $topics)
+      ->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
   
 }
 

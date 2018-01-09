@@ -103,6 +103,7 @@ class MY_Custom_Controller extends MY_View_Controller {
       $arr = array($arr => $val);
     }
     echo json_encode($arr);
+    exit;
   }
 }
 

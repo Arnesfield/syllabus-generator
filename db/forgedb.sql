@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2018 at 04:42 AM
+-- Generation Time: Jan 09, 2018 at 12:48 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -430,7 +430,19 @@ INSERT INTO `outcomes` (`id`, `content`, `type`, `status`) VALUES
 (16, 'Mock defense', 2, 1),
 (17, 'Project Final Defense/Presentation', 2, 1),
 (18, 'Revision of Software and Documents', 2, 1),
-(19, 'Submission of Final Requirements', 2, 1);
+(19, 'Submission of Final Requirements', 2, 1),
+(20, 'Discussion of the Guidelines', 3, 1),
+(21, 'Classroom Discussion', 3, 1),
+(22, 'Class/Library Activity; Research current trends in IT.', 3, 1),
+(23, 'Require instrument for software testing.', 3, 1),
+(24, 'Actual user acceptance', 3, 1),
+(25, 'Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.', 4, 1),
+(26, 'Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.', 4, 1),
+(27, 'Follow formulated testing instrument and comply with the checking and testing of the software.', 4, 1),
+(28, 'The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.', 4, 1),
+(29, 'The students can be able to produce Results and Discussion of the Proposal Paper.', 4, 1),
+(30, 'Conducts user acceptance testing', 4, 1),
+(31, '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -624,7 +636,53 @@ INSERT INTO `outcome_field_relation` (`id`, `outcome_id`, `field_id`, `status`) 
 (172, 7, 25, 1),
 (173, 7, 26, 1),
 (174, 7, 33, 1),
-(175, 7, 34, 1);
+(175, 7, 34, 1),
+(176, 20, 13, 1),
+(177, 20, 29, 1),
+(178, 21, 13, 1),
+(179, 21, 29, 1),
+(180, 22, 13, 1),
+(181, 22, 29, 1),
+(182, 23, 13, 1),
+(183, 23, 29, 1),
+(184, 23, 32, 1),
+(185, 23, 31, 1),
+(186, 24, 13, 1),
+(187, 24, 29, 1),
+(188, 24, 31, 1),
+(189, 24, 32, 1),
+(190, 24, 14, 1),
+(191, 25, 13, 1),
+(192, 25, 29, 1),
+(193, 26, 13, 1),
+(194, 26, 29, 1),
+(195, 27, 13, 1),
+(196, 27, 29, 1),
+(197, 27, 31, 1),
+(198, 27, 32, 1),
+(199, 28, 13, 1),
+(200, 28, 29, 1),
+(201, 28, 15, 1),
+(202, 28, 38, 1),
+(203, 28, 39, 1),
+(204, 28, 40, 1),
+(205, 29, 13, 1),
+(206, 29, 29, 1),
+(207, 29, 38, 1),
+(208, 29, 39, 1),
+(209, 29, 40, 1),
+(210, 30, 13, 1),
+(211, 30, 14, 1),
+(212, 30, 29, 1),
+(213, 30, 31, 1),
+(214, 30, 32, 1),
+(215, 0, 0, 0),
+(216, 0, 0, 0),
+(217, 0, 0, 0),
+(218, 0, 0, 0),
+(219, 0, 0, 0),
+(220, 0, 0, 0),
+(221, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -845,8 +903,8 @@ INSERT INTO `topic_field_relation` (`id`, `topic_id`, `field_id`, `status`) VALU
 (89, 29, 13, 1),
 (90, 29, 31, 1),
 (91, 29, 32, 1),
-(92, 0, 0, 0),
-(93, 0, 0, 0),
+(92, 26, 13, 1),
+(93, 26, 29, 1),
 (94, 0, 0, 0),
 (95, 0, 0, 0),
 (96, 0, 0, 0),
@@ -861,7 +919,8 @@ INSERT INTO `topic_field_relation` (`id`, `topic_id`, `field_id`, `status`) VALU
 (105, 0, 0, 0),
 (106, 0, 0, 0),
 (107, 0, 0, 0),
-(108, 0, 0, 0);
+(108, 0, 0, 0),
+(109, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -893,7 +952,32 @@ INSERT INTO `topic_outcome_relation` (`id`, `topic_id`, `outcome_id`, `status`) 
 (10, 29, 13, 1),
 (11, 5, 14, 1),
 (12, 6, 14, 1),
-(13, 7, 15, 1);
+(13, 7, 15, 1),
+(14, 26, 8, 1),
+(15, 26, 20, 1),
+(16, 1, 21, 1),
+(17, 2, 21, 1),
+(18, 1, 22, 1),
+(19, 2, 22, 1),
+(20, 27, 23, 1),
+(21, 28, 23, 1),
+(22, 29, 23, 1),
+(23, 3, 21, 1),
+(24, 4, 21, 1),
+(25, 5, 21, 1),
+(26, 6, 21, 1),
+(27, 7, 24, 1),
+(28, 7, 30, 1),
+(29, 5, 29, 1),
+(30, 6, 29, 1),
+(31, 26, 25, 1),
+(32, 1, 26, 1),
+(33, 2, 26, 1),
+(34, 27, 27, 1),
+(35, 28, 27, 1),
+(36, 29, 27, 1),
+(37, 3, 28, 1),
+(38, 4, 28, 1);
 
 -- --------------------------------------------------------
 
@@ -1052,13 +1136,13 @@ ALTER TABLE `fields`
 -- AUTO_INCREMENT for table `outcomes`
 --
 ALTER TABLE `outcomes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `outcome_field_relation`
 --
 ALTER TABLE `outcome_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
 -- AUTO_INCREMENT for table `outcome_relation`
@@ -1082,13 +1166,13 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT for table `topic_field_relation`
 --
 ALTER TABLE `topic_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `topic_outcome_relation`
 --
 ALTER TABLE `topic_outcome_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `users`

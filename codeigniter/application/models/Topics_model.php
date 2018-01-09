@@ -21,7 +21,7 @@ class Topics_model extends MY_CRUD_Model {
         ))
         like lower(concat('%', '$search', '%'))
       ")
-      ->group_by('id');
+      ->group_by('t.id');
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }

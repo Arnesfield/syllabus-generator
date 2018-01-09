@@ -11,6 +11,7 @@
         :colspan="iloLength">Intended Learning Outcomes (ILO)</th>
       <th>Topics</th>
       <th colspan="2">Teaching Activities and Learning Outcomes</th>
+      <th>Instructional Materials</th>
       <th>Assessment Tasks (AT)</th>
     </tr>
     <tr>
@@ -29,6 +30,7 @@
       <td class="t-center">Faculty</td>
       <td class="t-center">Students</td>
       <td>&nbsp;</td>
+      <td>&nbsp;</td>
     </tr>
     <activity-week
       :key="index"
@@ -43,7 +45,7 @@
     <tr>
       <td>&nbsp;</td>
       <td class="t-center">Total Week/s: {{ totalWeeks }}</td>
-      <td :colspan="iloLength + 5">
+      <td :colspan="iloLength + 6">
         <template v-if="highlighted.length">
           <strong>Highlighted:</strong> {{ highlighted }}
         </template>
@@ -106,7 +108,11 @@ export default {
       this.activities.splice(i, 0, {
         noOfWeeks: 1,
         topics: [],
-        iloMap: []
+        iloMap: [],
+        tlaFaculty: [],
+        tlaStudent: [],
+        materials: [],
+        assessmentTasks: []
       })
     },
     remove(i) {

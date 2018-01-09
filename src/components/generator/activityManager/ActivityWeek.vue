@@ -23,20 +23,35 @@
   <td v-else>&nbsp;</td>
   <topic-picker
     :act="act"
-    :bus="topicBus"
+    :index="index"
+    :bus="weekBus"
     :syllabus="syllabus"/>
+  <tla
+    :act="act"
+    :index="index"
+    :bus="weekBus"
+    :syllabus="syllabus"
+    :type="3"/>
+  <tla
+    :act="act"
+    :index="index"
+    :bus="weekBus"
+    :syllabus="syllabus"
+    :type="4"/>
 </tr>
 </template>
 
 <script>
 import Vue from 'vue'
 import TopicPicker from './activityWeek/TopicPicker'
+import Tla from './activityWeek/Tla'
 import moveArray from '@/assets/js/moveArray'
 
 export default {
   name: 'activity-week',
   components: {
-    TopicPicker
+    TopicPicker,
+    Tla
   },
   props: {
     act: Object,
@@ -45,7 +60,7 @@ export default {
     index: Number
   },
   data: () => ({
-    topicBus: new Vue()
+    weekBus: new Vue()
   }),
 
   computed: {
@@ -95,7 +110,7 @@ export default {
       this.act.iloMap = Array.from(set)
 
       // update topic suggestions
-      this.topicBus.$emit('update-suggestions')
+      this.weekBus.$emit('update-suggestions')
     },
 
     onILOUpdated(i, n) {

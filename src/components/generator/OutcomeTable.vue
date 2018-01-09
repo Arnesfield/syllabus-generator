@@ -38,6 +38,7 @@
       <ul>
         <li :key="clo.id" v-for="(clo, index) in suggested">
           <input type="checkbox" :id="abbr + '-suggested-' + index" :value="clo" v-model="selected">
+          <button type="button" @click="copy(clo.content)">Copy</button>
           <label :for="abbr + '-suggested-' + index">{{ clo.content }}</label>
         </li>
       </ul>
@@ -203,6 +204,9 @@ export default {
       this.selected.splice(i, 0, { content: '' })
       // move up
       this._updateMap(this.syllabus.content[this.mapName], i, 1)
+    },
+    copy(content) {
+      this.selected.push({ content: content })
     },
     remove(i) {
       this.selected.splice(i, 1)

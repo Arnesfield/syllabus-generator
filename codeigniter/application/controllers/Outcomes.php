@@ -19,12 +19,15 @@ class Outcomes extends MY_Custom_Controller {
   public function suggest() {
     $type = $this->input->post('type');
     $course_id = $this->input->post('courseId');
-    $book_ids = $this->input->post('bookIds');
+    $book_ids = $this->input->post('bookIds') ? $this->input->post('bookIds') : FALSE;
+    $topic_ids = $this->input->post('topicIds') ? $this->input->post('topicIds') : FALSE;
     $year = $this->input->post('curriculumYear');
     $limit = $this->input->post('limit');
-
+    
     // type 1 = clo
     // type 2 = ilo
+    // type 3 = tla faculty
+    // type 4 = tla student
 
     // get fields of course
     // get fields of books selected
@@ -32,6 +35,7 @@ class Outcomes extends MY_Custom_Controller {
 
     $cFields = $this->fields_model->getFieldsByCourseId($course_id);
     $bFields = $this->fields_model->getFieldsByBookIds($book_ids);
+    $tOutcomes = $this->fields_model->getOutcomesByTopicIds($topic_ids, $type);
     $fields = array();
     if (is_array($cFields)) {
       foreach ($cFields as $field) {
@@ -46,8 +50,14 @@ class Outcomes extends MY_Custom_Controller {
         }
       }
     }
+    $outcomesArr = array();
+    if (is_array($tOutcomes)) {
+      foreach ($tOutcomes as $outcome) {
+        array_push($outcomesArr, $outcome['outcome_id']);
+      }
+    }
 
-    $outcomes = $this->outcomes_model->getRelatedOutcomesWithFields($fields, $type, $limit);
+    $outcomes = $this->outcomes_model->getRelatedOutcomesWithFields($fields, $type, $limit, $outcomesArr);
     $this->_json('outcomes', $outcomes);
   }
 }

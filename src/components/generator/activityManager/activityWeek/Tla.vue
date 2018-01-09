@@ -2,10 +2,10 @@
 <td>
 
   <div>
-    <label for="topicPicker">Search Topics</label>
-    <input type="text" id="topicPicker" @input="topicPicker" @focus="topicPicker">
+    <label :for="'tla-' + index + '-' + type">Search</label>
+    <input type="text" :id="'tla-' + index + '-' + type" @input="tlaSearch" @focus="tlaSearch">
     <button type="button" v-if="!suggested.length" @click="suggest()">Show Suggestions</button>
-    <button type="button" v-if="topics.length" @click="topics = []">Hide Selection</button>
+    <button type="button" v-if="tla.length" @click="tla = []">Hide Selection</button>
   </div>
 
   <div v-if="selected.length">
@@ -13,27 +13,25 @@
     <div><strong>Selected</strong></div>
     <div class="selection-box">
       <ul>
-        <li :key="index" v-for="(t, index) in selected">
-          <button type="button" @click="selected.splice(index, 1)">x</button>
-          <topic :topic="t"/>
+        <li :key="i" v-for="(t, i) in selected">
+          <button type="button" @click="selected.splice(i, 1)">x</button>
+          <template>{{ t.content }}</template>
         </li>
       </ul>
     </div>
   </div>
 
-  <div v-if="topics.length">
+  <div v-if="tla.length">
     <br>
     <div>
       <strong>Selection</strong>
-      <button type="button" @click="topics = []">Hide</button>
+      <button type="button" @click="tla = []">Hide</button>
     </div>
     <div class="selection-box">
       <ul>
-        <li :key="i" v-for="(t, i) in topics">
-          <input type="checkbox" :id="'topic-' + index + '-' + i" :value="t" v-model="selected">
-          <label :for="'topic-' + index + '-' + i">
-            <topic :topic="t"/>
-          </label>
+        <li :key="i" v-for="(t, i) in tla">
+          <input type="checkbox" :id="'tla-' + index + '-' + type + '-' + i" :value="t" v-model="selected">
+          <label :for="'tla-' + index + '-' + type + '-' + i">{{ t.content }}</label>
         </li>
       </ul>
     </div>
@@ -49,74 +47,71 @@
     <div class="selection-box">
       <ul>
         <li :key="i" v-for="(t, i) in suggested">
-          <input type="checkbox" :id="'topic-suggested-' + index + '-' + i" :value="t" v-model="selected">
-          <label :for="'topic-suggested-' + index + '-' + i">
-            <topic :topic="t"/>
-          </label>
+          <input type="checkbox" :id="'tla-suggested-' + index + '-' + type + '-' + i" :value="t" v-model="selected">
+          <label :for="'tla-suggested-' + index + '-' + type + '-' + i">{{ t.content }}</label>
         </li>
       </ul>
     </div>
   </div>
 
-</td>  
+</td>
 </template>
 
 <script>
-import Topic from './topicPicker/Topic'
 import qs from 'qs'
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'topic-picker',
-  components: {
-    Topic
-  },
+  name: 'tla',
   props: {
     act: Object,
     syllabus: Object,
     index: Number,
+    type: Number,
     bus: {
       type: Object,
       default: null
     }
   },
   data: () => ({
-    url: '/topics',
-    suggestUrl: '/topics/suggest',
-    topics: [],
+    url: '/outcomes',
+    suggestUrl: '/outcomes/suggest',
+    tla: [],
     selected: [],
     suggested: []
   }),
 
   watch: {
     selected(to, from) {
-      // set to topics in syllabus
-      this.act.topics = to
-      // update outcomes on tla
-      this.bus.$emit('on-topics-updated')
+      if (this.type === 3) {
+        this.act.tlaFaculty = to
+      } else if (this.type === 4) {
+        this.act.tlaStudent = to
+      }
     }
   },
 
   created() {
     this.suggest()
     if (this.bus !== null) {
-      this.bus.$on('update-suggestions', this.suggest)
+      this.bus.$on('on-topics-updated', this.suggest)
     }
   },
 
   methods: {
-    topicPicker: debounce(function(e) {
+    tlaSearch: debounce(function(e) {
       // search for book if not empty
       const search = e.target.value
       if (!search) {
-        this.topics = []
+        this.tla = []
         return
       }
 
       this.$http.post(this.url, qs.stringify({
-        search: search
+        search: search,
+        type: this.type
       })).then((res) => {
-        this.topics = res.data.topics
+        this.tla = res.data.outcomes
       }).catch(e => {
         console.error(e)
       })
@@ -131,12 +126,11 @@ export default {
         })
       }
 
-      // include ilo ids
-      let iloIds = []
-      this.act.iloMap.forEach(e => {
-        let ilo = this.syllabus.content.intendedLearningOutcomes[e]
-        if (typeof ilo.id !== 'undefined') {
-          iloIds.push(ilo.id)
+      // include topic ids
+      let topicIds = []
+      this.act.topics.forEach(e => {
+        if (typeof e.id !== 'undefined') {
+          topicIds.push(e.id)
         }
       })
 
@@ -145,12 +139,13 @@ export default {
 
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
-        iloIds: iloIds,
+        topicIds: topicIds,
         courseId: this.syllabus.course_id,
         curriculumYear: year,
+        type: this.type,
         limit: 30
       })).then((res) => {
-        this.suggested = res.data.topics
+        this.suggested = res.data.outcomes
       }).catch((e) => {
         console.error(e)
       })

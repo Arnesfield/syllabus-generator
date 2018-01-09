@@ -13,12 +13,12 @@ class Outcomes_model extends MY_CRUD_Model {
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 
-  public function getRelatedOutcomesWithFields($fields, $type, $limit = 10) {
+  public function getRelatedOutcomesWithFields($fields, $type, $limit = 10, $outcomes = FALSE) {
     if (!$fields) {
       return FALSE;
     }
-
-    $query = $this->db
+    
+    $this->db
       ->select('
         o.id AS id,
         o.content AS content
@@ -27,11 +27,18 @@ class Outcomes_model extends MY_CRUD_Model {
       ->join('outcomes o', 'o.id = ofr.outcome_id')
       ->join('fields f', 'f.id = ofr.field_id')
       ->where('o.type', $type)
-      ->where_in('f.id', $fields)
+      ->where_in('f.id', $fields);
+    
+    if ($outcomes) {
+      $this->db->where_in('o.id', $outcomes);
+    }
+
+    $this->db
       ->group_by('o.id')
       ->order_by('COUNT(*)', 'DESC')
-      ->limit($limit)
-      ->get();
+      ->limit($limit);
+      
+    $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 }
