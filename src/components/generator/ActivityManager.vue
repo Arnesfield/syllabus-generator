@@ -111,7 +111,7 @@ export default {
         iloMap: [],
         tlaFaculty: [],
         tlaStudent: [],
-        materials: [],
+        instructionalMaterials: [],
         assessmentTasks: []
       })
     },

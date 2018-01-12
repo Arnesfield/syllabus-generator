@@ -41,7 +41,21 @@ class Fields_model extends MY_CRUD_Model {
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
-  
+
+  public function getMaterialsByTopicIds($topics) {
+    if (!$topics) {
+      return FALSE;
+    }
+
+    $query = $this->db
+      ->select('m.id AS material_id')
+      ->distinct()
+      ->from('topic_material_relation tmr')
+      ->join('materials m', 'm.id = tmr.material_id')
+      ->where_in('tmr.topic_id', $topics)
+      ->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
 }
 
 ?>
