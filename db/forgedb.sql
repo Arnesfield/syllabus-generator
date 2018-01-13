@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2018 at 12:48 PM
+-- Generation Time: Jan 10, 2018 at 09:42 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -397,6 +397,27 @@ INSERT INTO `fields` (`id`, `title`, `description`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `materials`
+--
+
+CREATE TABLE `materials` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `materials`
+--
+
+INSERT INTO `materials` (`id`, `name`, `status`) VALUES
+(1, 'Whiteboard', 1),
+(2, 'Net book', 1),
+(3, 'DLP', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `outcomes`
 --
 
@@ -747,6 +768,43 @@ INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `format_id`, `content`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `name`, `status`) VALUES
+(1, 'Assignment', 1),
+(2, 'Recitation', 1),
+(3, 'Short Quiz', 1),
+(4, 'Case Study 1', 1),
+(5, 'Seatwork/Boardwork', 1),
+(6, 'Lab Exercise 1', 1),
+(7, 'Case Study 3', 1),
+(8, 'Lab Exercise 2', 1),
+(9, 'Case Study 4', 1),
+(10, 'Lab Exercise 3', 1),
+(11, 'Case Study 5', 1),
+(12, 'Lab Exercise 4', 1),
+(13, 'Case Study 6', 1),
+(14, 'Lab Exercise 5', 1),
+(15, 'Lab Exercise 6', 1),
+(16, 'Case Study 7', 1),
+(17, 'Lab Exercise 7', 1),
+(18, 'Lab Exercise 8', 1),
+(19, 'Seatwork', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `topics`
 --
 
@@ -1045,6 +1103,12 @@ ALTER TABLE `fields`
   ADD UNIQUE KEY `title` (`title`);
 
 --
+-- Indexes for table `materials`
+--
+ALTER TABLE `materials`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `outcomes`
 --
 ALTER TABLE `outcomes`
@@ -1066,6 +1130,12 @@ ALTER TABLE `outcome_relation`
 -- Indexes for table `syllabi`
 --
 ALTER TABLE `syllabi`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1133,6 +1203,12 @@ ALTER TABLE `fields`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
+-- AUTO_INCREMENT for table `materials`
+--
+ALTER TABLE `materials`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `outcomes`
 --
 ALTER TABLE `outcomes`
@@ -1155,6 +1231,12 @@ ALTER TABLE `outcome_relation`
 --
 ALTER TABLE `syllabi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `topics`
