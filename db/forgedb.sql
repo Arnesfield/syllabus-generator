@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2018 at 09:42 AM
+-- Generation Time: Jan 13, 2018 at 11:07 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -403,6 +403,7 @@ INSERT INTO `fields` (`id`, `title`, `description`, `status`) VALUES
 CREATE TABLE `materials` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -410,10 +411,35 @@ CREATE TABLE `materials` (
 -- Dumping data for table `materials`
 --
 
-INSERT INTO `materials` (`id`, `name`, `status`) VALUES
-(1, 'Whiteboard', 1),
-(2, 'Net book', 1),
-(3, 'DLP', 1);
+INSERT INTO `materials` (`id`, `name`, `description`, `status`) VALUES
+(1, 'Whiteboard', '', 1),
+(2, 'Net book', '', 1),
+(3, 'DLP', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `material_field_relation`
+--
+
+CREATE TABLE `material_field_relation` (
+  `id` int(11) NOT NULL,
+  `material_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `material_field_relation`
+--
+
+INSERT INTO `material_field_relation` (`id`, `material_id`, `field_id`, `status`) VALUES
+(1, 1, 13, 1),
+(2, 1, 29, 1),
+(3, 2, 13, 1),
+(4, 2, 29, 1),
+(5, 3, 13, 1),
+(6, 3, 29, 1);
 
 -- --------------------------------------------------------
 
@@ -774,6 +800,7 @@ INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `format_id`, `content`, `
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -781,26 +808,26 @@ CREATE TABLE `tasks` (
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`id`, `name`, `status`) VALUES
-(1, 'Assignment', 1),
-(2, 'Recitation', 1),
-(3, 'Short Quiz', 1),
-(4, 'Case Study 1', 1),
-(5, 'Seatwork/Boardwork', 1),
-(6, 'Lab Exercise 1', 1),
-(7, 'Case Study 3', 1),
-(8, 'Lab Exercise 2', 1),
-(9, 'Case Study 4', 1),
-(10, 'Lab Exercise 3', 1),
-(11, 'Case Study 5', 1),
-(12, 'Lab Exercise 4', 1),
-(13, 'Case Study 6', 1),
-(14, 'Lab Exercise 5', 1),
-(15, 'Lab Exercise 6', 1),
-(16, 'Case Study 7', 1),
-(17, 'Lab Exercise 7', 1),
-(18, 'Lab Exercise 8', 1),
-(19, 'Seatwork', 1);
+INSERT INTO `tasks` (`id`, `name`, `description`, `status`) VALUES
+(1, 'Assignment', '', 1),
+(2, 'Recitation', '', 1),
+(3, 'Short Quiz', '', 1),
+(4, 'Case Study 1', '', 1),
+(5, 'Seatwork/Boardwork', '', 1),
+(6, 'Lab Exercise 1', '', 1),
+(7, 'Case Study 3', '', 1),
+(8, 'Lab Exercise 2', '', 1),
+(9, 'Case Study 4', '', 1),
+(10, 'Lab Exercise 3', '', 1),
+(11, 'Case Study 5', '', 1),
+(12, 'Lab Exercise 4', '', 1),
+(13, 'Case Study 6', '', 1),
+(14, 'Lab Exercise 5', '', 1),
+(15, 'Lab Exercise 6', '', 1),
+(16, 'Case Study 7', '', 1),
+(17, 'Lab Exercise 7', '', 1),
+(18, 'Lab Exercise 8', '', 1),
+(19, 'Seatwork', '', 1);
 
 -- --------------------------------------------------------
 
@@ -983,6 +1010,95 @@ INSERT INTO `topic_field_relation` (`id`, `topic_id`, `field_id`, `status`) VALU
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `topic_material_relation`
+--
+
+CREATE TABLE `topic_material_relation` (
+  `id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  `material_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `topic_material_relation`
+--
+
+INSERT INTO `topic_material_relation` (`id`, `topic_id`, `material_id`, `status`) VALUES
+(1, 1, 1, 1),
+(2, 2, 1, 1),
+(3, 3, 1, 1),
+(4, 4, 1, 1),
+(5, 5, 1, 1),
+(6, 6, 1, 1),
+(7, 8, 1, 1),
+(8, 9, 1, 1),
+(9, 10, 1, 1),
+(10, 11, 1, 1),
+(11, 18, 1, 1),
+(12, 19, 1, 1),
+(13, 26, 1, 1),
+(14, 19, 2, 1),
+(15, 20, 2, 1),
+(16, 21, 2, 1),
+(17, 22, 2, 1),
+(18, 23, 2, 1),
+(19, 24, 2, 1),
+(20, 25, 2, 1),
+(21, 1, 3, 1),
+(22, 2, 3, 1),
+(23, 3, 3, 1),
+(24, 4, 3, 1),
+(25, 5, 3, 1),
+(26, 6, 3, 1),
+(27, 8, 3, 1),
+(28, 9, 3, 1),
+(29, 10, 3, 1),
+(30, 11, 3, 1),
+(31, 12, 3, 1),
+(32, 13, 3, 1),
+(33, 14, 3, 1),
+(34, 15, 3, 1),
+(35, 16, 3, 1),
+(36, 17, 3, 1),
+(37, 18, 3, 1),
+(38, 19, 3, 1),
+(39, 20, 3, 1),
+(40, 21, 3, 1),
+(41, 22, 3, 1),
+(42, 23, 3, 1),
+(43, 24, 3, 1),
+(44, 25, 3, 1),
+(45, 26, 3, 1),
+(46, 27, 3, 1),
+(47, 28, 3, 1),
+(48, 29, 3, 1),
+(49, 0, 0, 0),
+(50, 0, 0, 0),
+(51, 0, 0, 0),
+(52, 0, 0, 0),
+(53, 0, 0, 0),
+(54, 0, 0, 0),
+(55, 0, 0, 0),
+(56, 0, 0, 0),
+(57, 0, 0, 0),
+(58, 0, 0, 0),
+(59, 0, 0, 0),
+(60, 0, 0, 0),
+(61, 0, 0, 0),
+(62, 0, 0, 0),
+(63, 0, 0, 0),
+(64, 0, 0, 0),
+(65, 0, 0, 0),
+(66, 0, 0, 0),
+(67, 0, 0, 0),
+(68, 0, 0, 0),
+(69, 0, 0, 0),
+(70, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `topic_outcome_relation`
 --
 
@@ -1109,6 +1225,12 @@ ALTER TABLE `materials`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `material_field_relation`
+--
+ALTER TABLE `material_field_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `outcomes`
 --
 ALTER TABLE `outcomes`
@@ -1148,6 +1270,12 @@ ALTER TABLE `topics`
 -- Indexes for table `topic_field_relation`
 --
 ALTER TABLE `topic_field_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `topic_material_relation`
+--
+ALTER TABLE `topic_material_relation`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1209,6 +1337,12 @@ ALTER TABLE `materials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `material_field_relation`
+--
+ALTER TABLE `material_field_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `outcomes`
 --
 ALTER TABLE `outcomes`
@@ -1249,6 +1383,12 @@ ALTER TABLE `topics`
 --
 ALTER TABLE `topic_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+
+--
+-- AUTO_INCREMENT for table `topic_material_relation`
+--
+ALTER TABLE `topic_material_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `topic_outcome_relation`

@@ -1,5 +1,5 @@
 <template>
-<div>
+<td>
   
   <div>
     <label :for="'search-materials-' + index">Search</label>
@@ -54,7 +54,7 @@
     </div>
   </div>
 
-</div>
+</td>
 </template>
 
 <script>
@@ -87,8 +87,9 @@ export default {
   },
 
   created() {
-    if (this.syllabus !== null) {
-      this.suggest()
+    this.suggest()
+    if (this.bus !== null) {
+      this.bus.$on('on-topics-updated', this.suggest)
     }
   },
 
