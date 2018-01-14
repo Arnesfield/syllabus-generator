@@ -1,14 +1,14 @@
 <template>
-<v-footer id="footer">
+<v-footer id="footer" absolute>
   <v-layout row wrap>
     <v-flex xs12 sm4 md3
       v-for="(item, i) in otherNav" :key="i"
-      class="blue-grey darken-3 pa-5">
+      class="blue-grey darken-3 px-5 part">
       <h5 class="title mb-3 white--text">{{ item.title }}</h5>
       <nav-list :list="item.list"/>
     </v-flex>
     <v-flex xs12 md3
-      class="blue-grey darken-2 pa-5">
+      class="blue-grey darken-2 px-5 part">
       <h5 class="title mb-3 white--text">Forge</h5>
       <nav-list :list="forge.list"/>
     </v-flex>
@@ -71,6 +71,12 @@ export default {
 <style>
 #footer {
   display: block;
+  height: auto;
+}
+
+#footer .part {
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 #footer ul {
