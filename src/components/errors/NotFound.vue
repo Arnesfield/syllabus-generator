@@ -6,9 +6,6 @@
 
 <script>
 export default {
-  name: 'not-found',
-  created() {
-    this.$emit('update-nav')
-  }
+  name: 'not-found'
 }
 </script>

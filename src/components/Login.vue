@@ -1,26 +1,35 @@
 <template>
-<div>
-  <form @submit.prevent="submit">
-    <div>
-      <label for="username">Username</label>
-      <input type="text" id="username" v-model="username">
-    </div>
+<v-content>
+  <v-container fluid>
+    <form @submit.prevent="submit">
+      <div>
+        <v-text-field
+          id="username"
+          label="Username"
+          v-model="username"/>
+      </div>
 
-    <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" v-model="password">
-    </div>
+      <div>
+        <v-text-field
+          id="password"
+          label="Password"
+          v-model="password"
+          :append-icon="passwordHide ? 'visibility' : 'visibility_off'"
+          :append-icon-cb="() => (passwordHide = !passwordHide)"
+          :type="passwordHide ? 'password' : 'text'"/>
+      </div>
 
-    <div>
-      <button type="submit">Login</button>
-    </div>
+      <div>
+        <v-btn color="primary" type="submit">Login</v-btn>
+      </div>
 
-    <template v-if="errorMsg">
-      <br>
-      <div>{{ errorMsg }}</div>
-    </template>
-  </form>
-</div>
+      <template v-if="errorMsg.length">
+        <br>
+        <div>{{ errorMsg }}</div>
+      </template>
+    </form>
+  </v-container>
+</v-content>
 </template>
 
 <script>
@@ -33,12 +42,9 @@ export default {
     loginUrl: '/login',
     username: '',
     password: '',
-    errorMsg: ''
+    errorMsg: '',
+    passwordHide: true
   }),
-
-  created() {
-    this.$emit('update-nav')
-  },
 
   methods: {
     submit() {
