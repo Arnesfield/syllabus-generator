@@ -1,16 +1,29 @@
 <template>
-<div>
-  <nav>
-    <ul>
-      <li :key="index" v-for="(nav, index) in navList" v-if="nav.logged == isLoggedIn">
-        <router-link :to="nav.to">{{ nav.title }}</router-link>
-      </li>
-      <li v-if="isLoggedIn">
-        <a @click="logout">Logout</a>
-      </li>
-    </ul>
-  </nav>
-</div>
+<v-navigation-drawer fixed app v-model="bus.drawer">
+  <v-list>
+    <v-list-tile
+      :key="i"
+      v-for="(nav, i) in navList"
+      v-if="nav.logged == isLoggedIn"
+      @click="$router.push(nav.to)">
+      <v-list-tile-action>
+        <v-icon>{{ nav.icon }}</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+
+    <v-list-tile v-if="isLoggedIn" @click="logout">
+      <v-list-tile-action>
+        <v-icon>exit_to_app</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>Logout</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+  </v-list>
+</v-navigation-drawer>
 </template>
 
 <script>
@@ -18,15 +31,21 @@ import storage from '@/assets/js/storage'
 
 export default {
   name: 'navigation',
+  props: {
+    bus: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     logoutUrl: '/logout',
     isLoggedIn: false,
     navList: [
-      { title: 'Home', to: '/', logged: false },
-      { title: 'Login', to: '/login', logged: false },
-      { title: 'Home', to: '/dashboard', logged: true },
-      { title: 'Syllabi', to: '/syllabi', logged: true },
-      { title: 'Generator', to: '/generator', logged: true }
+      { title: 'Home', icon: 'home', to: '/', logged: false },
+      { title: 'Login', icon: 'exit_to_app', to: '/login', logged: false },
+      { title: 'Home', icon: 'dashboard', to: '/dashboard', logged: true },
+      { title: 'Syllabi', icon: 'find_in_page', to: '/syllabi', logged: true },
+      { title: 'Generator', icon: 'build', to: '/generator', logged: true }
     ]
   }),
 

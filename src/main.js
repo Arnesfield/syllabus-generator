@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import Vuetify from 'vuetify'
 import routerCond from './assets/js/routerCond'
 
 // css
+import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
 
 const dev = true
@@ -18,6 +20,8 @@ Vue.prototype.$baseURL = baseURL
 Vue.prototype.$http = http
 
 routerCond(router, http)
+
+Vue.use(Vuetify)
 
 /* eslint-disable no-new */
 new Vue({
