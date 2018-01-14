@@ -5,6 +5,16 @@ import Components from '@/components'
 Vue.use(Router)
 
 const router = new Router({
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        selector: to.hash
+        // , offset: { x: 0, y: 10 }
+      }
+    }
+    return savedPosition ? savedPosition : { x: 0, y: 0 }
+  },
+
   routes: [
     {
       path: '/login',

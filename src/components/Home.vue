@@ -3,7 +3,7 @@
   <v-parallax :src="require('@/assets/images/bg.jpg')">
     <v-container fluid fill-height>
       <v-layout wrap class="align-center text-xs-center">
-        <div class="flex">
+        <v-flex>
           <h1 class="display-3 mb-2 white--text">Forge</h1>
           <div class="headline mb-3 white--text">Feutech Online Rundown Generator</div>
           <div class="mb-5">
@@ -21,7 +21,7 @@
           </div>
           <v-btn to="/login" class="mb-2 primary--text">Login</v-btn>
           <pre class="white--text">&lt;/code&gt;</pre>
-        </div>
+        </v-flex>
       </v-layout>
     </v-container>
   </v-parallax>
