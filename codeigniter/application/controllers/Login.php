@@ -47,7 +47,10 @@ class Login extends MY_Custom_Controller {
     $this->session->set_userdata(array(
       'user' => $user
     ));
-    $this->_json('success', TRUE);
+    $this->_json(array(
+      'success' => TRUE,
+      'user' => $user
+    ));
   }
 
 }
