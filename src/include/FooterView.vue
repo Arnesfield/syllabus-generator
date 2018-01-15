@@ -12,7 +12,7 @@
       <h5 class="title mb-3 white--text">Forge</h5>
       <nav-list :list="forge.list"/>
     </v-flex>
-    <v-flex xs12 class="text-xs-center blue-grey darken-4 pa-4 white--text">
+    <v-flex xs12 class="text-xs-center blue-grey darken-4 pa-3 white--text">
       <span class="blue-grey--text text--lighten-4" >
         &copy; {{ new Date().getFullYear() }}
         <pre class="blue-grey--text text--lighten-3" style="display: inline">&lt;/code&gt;</pre>.

@@ -1,84 +1,73 @@
 <template>
 <div>
-  <div>
-    <label for="coursePicker">Course</label>
-    <input type="text" id="coursePicker" @input="coursePicker" @focus="coursePicker">
-    <button type="button" v-if="res.length" @click="res = []">Hide Selection</button>
-  </div>
-
-  <div v-if="selected">
-    <br>
-    <div><strong>Selected</strong></div>
-    <ul>
-      <li>
-        <div>{{ selected.code }}</div>
-        <div>{{ selected.title }}</div>
-      </li>
-    </ul>
-  </div>
-
-  <div v-if="res.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="res = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="course.id" v-for="(course, index) in res">
-          <input type="radio" :id="'course-' + index" :value="course" v-model="selected">
-          <label :for="'course-' + index">
-            <div>{{ course.code }}</div>
-            <div>{{ course.title }}</div>
-          </label>
-        </li>
-      </ul>
-    </div>
-  </div>
-
+  <v-select
+    label="Select Course"
+    :items="courses"
+    :loading="loading"
+    :searchInput.sync="searchInput"
+    :filter="filterSearch"
+    item-text="code"
+    item-value="id"
+    v-model="selected"
+    autocomplete
+    return-object
+    debouce-search>
+    <template slot="item" slot-scope="data">
+      <v-list-tile-content>
+        <v-list-tile-title v-html="data.item.code"/>
+        <v-list-tile-sub-title v-html="data.item.title"/>
+      </v-list-tile-content>
+    </template>
+  </v-select>
 </div>
 </template>
 
 <script>
 import qs from 'qs'
-import debounce from 'lodash/debounce'
 
 export default {
   name: 'course-picker',
   data: () => ({
     url: '/courses',
-    res: [],
-    selected: null
+    courses: [],
+    selected: null,
+    // for select box
+    searchInput: null,
+    loading: false
   }),
 
   watch: {
     selected(to, from) {
-      if (to !== from) {
-        this.res = []
-      }
-      if (to !== null) {
-        this.$emit('course-selected', to)
-      }
+      this.$emit('course-selected', to)
+    },
+    searchInput(e) {
+      e && this.search(e)
     }
   },
 
   methods: {
-    coursePicker: debounce(function(e) {
-      // search for course if not empty
-      const search = e.target.value
-      if (!search) {
-        this.res = []
-        return
-      }
+    filterSearch(item, queryText, itemText) {
+      const hasValue = val => val != null ? val : ''
+      const title = hasValue(item.title).toString().toLowerCase()
+      const code = hasValue(item.code).toString().toLowerCase()
+      const query = hasValue(queryText).toString().toLowerCase()
+      return title.indexOf(query) > -1 || code.indexOf(query) > -1
+    },
 
+    search(search) {
+      // search for course if not empty
+      // assume that search is not empty
+      this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
-        this.res = res.data.courses
+        this.courses = typeof res.data.courses === 'object' ? res.data.courses : []
+        this.loading = false
       }).catch(e => {
         console.error(e)
+        this.loading = false
       })
-    }, 300)
+    }
   }
 }
 </script>
