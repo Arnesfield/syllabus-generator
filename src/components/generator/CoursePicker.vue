@@ -6,6 +6,8 @@
     :loading="loading"
     :searchInput.sync="searchInput"
     :filter="filterSearch"
+    :hint="selected ? selected.title : ''"
+    persistent-hint
     item-text="code"
     item-value="id"
     v-model="selected"

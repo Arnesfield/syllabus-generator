@@ -8,19 +8,19 @@
     v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</v-alert> 
   <v-alert type="info" :value="true" v-else>No existing syllabus. Syllabus started from scratch.</v-alert>
 
+  <v-btn class="primary" style="margin: 0" @click="startScratch">New</v-btn>
   <v-menu botom transition="slide-y-transition" @input="getSyllabi(true)">
     <v-btn slot="activator"
       v-if="selected && typeof selected.version !== 'undefined'">
       <span style="text-transform: lowercase">v</span>{{ selected.version }}
     </v-btn>
-    <v-btn v-else slot="activator">Check Exisiting Syllabi</v-btn>
+    <v-btn v-else slot="activator">Exisiting</v-btn>
     <v-list>
       <v-list-tile v-for="(s, i) in syllabi" :key="s.id" @click="selected = syllabi[i]">
         v{{ s.version }}
       </v-list-tile>
     </v-list>
   </v-menu>
-  <v-btn class="primary" @click="startScratch">Start from scratch</v-btn>
 </div>
 </template>
 

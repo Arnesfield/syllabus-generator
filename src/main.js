@@ -26,8 +26,8 @@ routerCond(router, http)
 
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.indigo.base,
-    secondary: colors.indigo.lighten4,
+    primary: colors.blue.base,
+    secondary: colors.blue.lighten4,
     accent: colors.pink.accent2
   }
 })
