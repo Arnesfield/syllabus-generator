@@ -1,14 +1,11 @@
 <template>
 <div>
-  <h1>Generator</h1>
-  <p>The core module. Information for syllabus is entered here.</p>
   <div>
     <!-- choose course -->
     <course-picker @course-selected="onCourseSelected"/>
+    <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
     
     <template v-if="course">
-      <hr>
-      <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
       <template v-if="syllabus">
         <hr>
         <book-picker :syllabus="syllabus"/>

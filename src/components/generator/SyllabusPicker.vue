@@ -1,32 +1,26 @@
 <template>
 <div v-if="course">
-  <div>
-    <span v-if="selected && typeof selected.version !== 'undefined'">
-      Based on syllabi version: {{ selected.version }}
-    </span>
-    <span v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</span> 
-    <span v-else>No existing syllabus. Syllabus started from scratch.</span>
+  <v-alert type="info" :value="true"
+    v-if="selected && typeof selected.version !== 'undefined'">
+    Based on syllabi version: <strong>v{{ selected.version }}</strong>
+  </v-alert>
+  <v-alert type="warning" :value="true"
+    v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</v-alert> 
+  <v-alert type="info" :value="true" v-else>No existing syllabus. Syllabus started from scratch.</v-alert>
 
-    <button type="button" v-if="!showSyllabi" @click="getSyllabi(true)">Check Exisiting Syllabi</button>
-    <button type="button" v-else @click="showSyllabi = false">Hide Selection</button>
-    <button type="button" @click="startScratch">Start from scratch</button>
-  </div>
-
-  <div v-if="showSyllabi && syllabi.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="showSyllabi = false">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="index" v-for="(syllabus, index) in syllabi">
-          <input type="radio" :id="'syllabus-' + index" :value="syllabus" v-model="selected">
-          <label :for="'syllabus-' + index">{{ syllabus.version }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <v-menu botom transition="slide-y-transition" @input="getSyllabi(true)">
+    <v-btn slot="activator"
+      v-if="selected && typeof selected.version !== 'undefined'">
+      <span style="text-transform: lowercase">v</span>{{ selected.version }}
+    </v-btn>
+    <v-btn v-else slot="activator">Check Exisiting Syllabi</v-btn>
+    <v-list>
+      <v-list-tile v-for="(s, i) in syllabi" :key="s.id" @click="selected = syllabi[i]">
+        v{{ s.version }}
+      </v-list-tile>
+    </v-list>
+  </v-menu>
+  <v-btn class="primary" @click="startScratch">Start from scratch</v-btn>
 </div>
 </template>
 
@@ -105,12 +99,12 @@ export default {
         this.showSyllabi = true
         return
       }
-
+      console.log('0')
       this.$http.post(this.url, qs.stringify({
         courseId: this.course.id
       })).then((res) => {
         let syllabi = res.data.syllabi
-
+        console.log('1')
         // if no syllabi, create new syllabi from scratch
         if (typeof syllabi !== 'object') {
           // start scratch only if not clicked on check existing
@@ -118,11 +112,13 @@ export default {
             this.startScratch()
           }
         } else {
+          console.log('2')
           // convert only if show
           if (show) {
             // convert content json str to json obj
             syllabi.forEach(e => {
               if (typeof e.content === 'string') {
+                console.log('main')
                 e.content = JSON.parse(e.content)
               }
             })
