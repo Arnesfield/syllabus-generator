@@ -56,6 +56,21 @@ class Fields_model extends MY_CRUD_Model {
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
+
+  public function getTasksByTopicIds($topics) {
+    if (!$topics) {
+      return FALSE;
+    }
+
+    $query = $this->db
+      ->select('t.id AS task_id')
+      ->distinct()
+      ->from('topic_task_relation ttr')
+      ->join('tasks t', 't.id = ttr.task_id')
+      ->where_in('ttr.topic_id', $topics)
+      ->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
 }
 
 ?>
