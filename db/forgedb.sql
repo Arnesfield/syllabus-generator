@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2018 at 11:07 AM
+-- Generation Time: Jan 18, 2018 at 08:50 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -827,7 +827,55 @@ INSERT INTO `tasks` (`id`, `name`, `description`, `status`) VALUES
 (16, 'Case Study 7', '', 1),
 (17, 'Lab Exercise 7', '', 1),
 (18, 'Lab Exercise 8', '', 1),
-(19, 'Seatwork', '', 1);
+(19, 'Seatwork', '', 1),
+(20, 'Group Dynamics', '', 1),
+(21, 'Group Presentation', '', 1),
+(22, 'Class Activity', '', 1),
+(23, 'Documentation', '', 1),
+(24, 'Testing', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_field_relation`
+--
+
+CREATE TABLE `task_field_relation` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `task_field_relation`
+--
+
+INSERT INTO `task_field_relation` (`id`, `task_id`, `field_id`, `status`) VALUES
+(1, 20, 13, 1),
+(2, 20, 29, 1),
+(3, 20, 0, 1),
+(4, 21, 13, 1),
+(5, 21, 29, 1),
+(6, 22, 13, 1),
+(7, 22, 29, 1),
+(8, 22, 14, 1),
+(9, 23, 13, 1),
+(10, 23, 29, 1),
+(11, 23, 38, 1),
+(12, 23, 39, 1),
+(13, 23, 40, 1),
+(14, 24, 13, 1),
+(15, 24, 29, 1),
+(16, 24, 31, 1),
+(17, 24, 32, 1),
+(18, 2, 13, 1),
+(19, 2, 29, 1),
+(20, 0, 0, 0),
+(21, 0, 0, 0),
+(22, 0, 0, 0),
+(23, 0, 0, 0),
+(24, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1156,6 +1204,57 @@ INSERT INTO `topic_outcome_relation` (`id`, `topic_id`, `outcome_id`, `status`) 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `topic_task_relation`
+--
+
+CREATE TABLE `topic_task_relation` (
+  `id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `topic_task_relation`
+--
+
+INSERT INTO `topic_task_relation` (`id`, `topic_id`, `task_id`, `status`) VALUES
+(1, 1, 2, 1),
+(2, 1, 20, 1),
+(3, 2, 2, 1),
+(4, 2, 20, 1),
+(5, 27, 21, 1),
+(6, 28, 21, 1),
+(7, 29, 21, 1),
+(8, 3, 22, 1),
+(9, 4, 22, 1),
+(10, 5, 23, 1),
+(11, 6, 23, 1),
+(12, 7, 24, 1),
+(13, 0, 0, 0),
+(14, 0, 0, 0),
+(15, 0, 0, 0),
+(16, 0, 0, 0),
+(17, 0, 0, 0),
+(18, 0, 0, 0),
+(19, 0, 0, 0),
+(20, 0, 0, 0),
+(21, 0, 0, 0),
+(22, 0, 0, 0),
+(23, 0, 0, 0),
+(24, 0, 0, 0),
+(25, 0, 0, 0),
+(26, 0, 0, 0),
+(27, 0, 0, 0),
+(28, 0, 0, 0),
+(29, 0, 0, 0),
+(30, 0, 0, 0),
+(31, 0, 0, 0),
+(32, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -1261,6 +1360,12 @@ ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `task_field_relation`
+--
+ALTER TABLE `task_field_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `topics`
 --
 ALTER TABLE `topics`
@@ -1282,6 +1387,12 @@ ALTER TABLE `topic_material_relation`
 -- Indexes for table `topic_outcome_relation`
 --
 ALTER TABLE `topic_outcome_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `topic_task_relation`
+--
+ALTER TABLE `topic_task_relation`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1370,7 +1481,13 @@ ALTER TABLE `syllabi`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `task_field_relation`
+--
+ALTER TABLE `task_field_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `topics`
@@ -1395,6 +1512,12 @@ ALTER TABLE `topic_material_relation`
 --
 ALTER TABLE `topic_outcome_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `topic_task_relation`
+--
+ALTER TABLE `topic_task_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`

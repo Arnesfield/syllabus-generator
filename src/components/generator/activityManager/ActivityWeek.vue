@@ -43,6 +43,11 @@
     :index="index"
     :bus="weekBus"
     :syllabus="syllabus"/>
+  <assessment-tasks
+    :act="act"
+    :index="index"
+    :bus="weekBus"
+    :syllabus="syllabus"/>
 </tr>
 </template>
 
@@ -51,6 +56,7 @@ import Vue from 'vue'
 import TopicPicker from './activityWeek/TopicPicker'
 import Tla from './activityWeek/Tla'
 import InstructionalMaterials from './activityWeek/InstructionalMaterials'
+import AssessmentTasks from './activityWeek/AssessmentTasks'
 import moveArray from '@/assets/js/moveArray'
 
 export default {
@@ -58,7 +64,8 @@ export default {
   components: {
     TopicPicker,
     Tla,
-    InstructionalMaterials
+    InstructionalMaterials,
+    AssessmentTasks
   },
   props: {
     act: Object,
