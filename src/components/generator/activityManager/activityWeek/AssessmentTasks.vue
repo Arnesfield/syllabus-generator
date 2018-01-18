@@ -1,5 +1,5 @@
 <template>
-<div>
+<td>
   
   <div>
     <label :for="'search-tasks-' + index">Search</label>
@@ -54,7 +54,7 @@
     </div>
   </div>
 
-</div>
+</td>
 </template>
 
 <script>
