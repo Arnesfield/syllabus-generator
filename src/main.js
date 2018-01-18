@@ -15,7 +15,7 @@ import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
 
 const dev = true
-const baseURL = dev ? 'http://localhost/school/thesisx/web/public/ci' : 'to be set'
+const baseURL = dev ? 'http://localhost/xforge/public/ci' : 'to be set'
 const http = axios.create({ baseURL: baseURL })
 
 Vue.config.productionTip = false
