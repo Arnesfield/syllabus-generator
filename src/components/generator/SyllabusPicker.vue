@@ -8,7 +8,7 @@
     v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</v-alert> 
   <v-alert type="info" :value="true" v-else>No existing syllabus. Syllabus started from scratch.</v-alert>
 
-  <v-btn class="primary" style="margin: 0" @click="startScratch">New</v-btn>
+  <v-btn class="primary" style="margin-right: 0" @click="startScratch">New</v-btn>
   <v-menu botom transition="slide-y-transition" @input="getSyllabi(true)">
     <v-btn slot="activator"
       v-if="selected && typeof selected.version !== 'undefined'">
@@ -99,12 +99,11 @@ export default {
         this.showSyllabi = true
         return
       }
-      console.log('0')
+
       this.$http.post(this.url, qs.stringify({
         courseId: this.course.id
       })).then((res) => {
         let syllabi = res.data.syllabi
-        console.log('1')
         // if no syllabi, create new syllabi from scratch
         if (typeof syllabi !== 'object') {
           // start scratch only if not clicked on check existing
@@ -112,13 +111,11 @@ export default {
             this.startScratch()
           }
         } else {
-          console.log('2')
           // convert only if show
           if (show) {
             // convert content json str to json obj
             syllabi.forEach(e => {
               if (typeof e.content === 'string') {
-                console.log('main')
                 e.content = JSON.parse(e.content)
               }
             })

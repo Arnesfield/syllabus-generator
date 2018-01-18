@@ -7,6 +7,7 @@
     :searchInput.sync="searchInput"
     :filter="filterSearch"
     :hint="selected ? selected.title : ''"
+    prepend-icon="search"
     persistent-hint
     item-text="code"
     item-value="id"

@@ -4,11 +4,10 @@
     <!-- choose course -->
     <course-picker @course-selected="onCourseSelected"/>
     <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
+    <book-picker :syllabus="syllabus"/>
     
     <template v-if="course">
       <template v-if="syllabus">
-        <hr>
-        <book-picker :syllabus="syllabus"/>
         <hr>
         <curriculum-picker :syllabus="syllabus"/>
         <template v-if="syllabus.content.programOutcomes.length">

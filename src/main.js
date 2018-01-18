@@ -26,9 +26,9 @@ routerCond(router, http)
 
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.blue.base,
-    secondary: colors.blue.lighten4,
-    accent: colors.pink.accent2
+    primary: '#008349', // colors.green.base,
+    secondary: '#C7E6C6', // colors.green.lighten4,
+    accent: '#FFC218' // colors.yellow.accent2
   }
 })
 

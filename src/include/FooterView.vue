@@ -60,8 +60,8 @@ export default {
         { title: 'Home', icon: 'fa-home', link: '/' },
         { title: 'Feutech', icon: 'fa-shield', link: 'http://www.feutech.edu.ph/', external: true },
         { title: 'Github', icon: 'fa-github', link: 'https://github.com/code-feutech', external: true },
-        { title: 'Facebook', icon: 'fa-facebook', link: '' },
-        { title: 'Twitter', icon: 'fa-twitter', link: '' }
+        // { title: 'Facebook', icon: 'fa-facebook', link: '' },
+        // { title: 'Twitter', icon: 'fa-twitter', link: '' }
       ]
     }
   })

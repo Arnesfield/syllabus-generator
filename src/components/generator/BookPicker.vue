@@ -1,45 +1,121 @@
 <template>
 <div v-if="syllabus">
 
-  <h4>References</h4>
   <div>
-    <label for="bookPicker">Book/Tag</label>
-    <input type="text" id="bookPicker" @input="bookPicker" @focus="bookPicker">
-    <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
-    <button type="button" v-else @click="suggest()">Show Suggestions</button>
-    <button type="button" v-if="res.length" @click="res = []">Hide Selection</button>
+    <!-- <label for="bookPicker">Book/Tag</label>
+    <input type="text" id="bookPicker" @input="search" @focus="search"> -->
+    <!-- <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
+    <button type="button" v-else @click="suggest()">Show Suggestions</button> -->
+    <!-- <button type="button" v-if="books.length" @click="books = []">Hide Selection</button> -->
+<!-- 
+    <v-select
+      label="Select Books"
+      :items="books"
+      :loading="loading"
+      :searchInput.sync="searchInput"
+      :filter="filterSearch"
+      item-text="citation"
+      item-value="id"
+      v-model="selected"
+      chips
+      multiple
+      autocomplete
+      return-object
+      debouce-search>
+      <template slot="selection" slot-scope="data"></template>
+    </v-select> -->
   </div>
 
-  <div v-if="selected.length">
-    <br>
-    <div><strong>Selected</strong></div>
-    <div class="selection-box">
-      <ul>
-        <li :key="bfr.id" v-for="(bfr, index) in selected">
-          <button type="button" @click="selected.splice(index, 1)">x</button>
-          <span>{{ bfr.citation }}</span>
-        </li>
-      </ul>
-    </div>
+  <div>
+    <v-list class="elevation-2">
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title v-text="'Selected books'"/>
+          <v-list-tile-sub-title v-text="'Total books selected: ' + selected.length"/>
+        </v-list-tile-content>
+      </v-list-tile>
+      <template v-for="(book, i) in selected">
+        <v-divider :key="JSON.stringify(book)"/>
+        <v-list-tile :key="JSON.stringify(book)">
+          <v-list-tile-action>
+            <v-btn flat icon @click="selected.splice(i, 1)">
+              <v-icon>close</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="book.citation"/>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
+      <v-divider/>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-select
+            label="Search Books"
+            :items="books"
+            :loading="loading"
+            :searchInput.sync="searchInput"
+            :filter="filterSearch"
+            prepend-icon="search"
+            item-text="citation"
+            item-value="id"
+            v-model="selected"
+            multiple
+            autocomplete
+            return-object
+            debouce-search>
+            <template slot="selection" slot-scope="data"></template>
+          </v-select>
+        <v-list-tile-content>
+      <v-list-tile>
+    </v-list>
+  </div>
+
+  <div class="mt-2">
+    <v-list class="elevation-2">
+      <v-list-tile>
+        <v-list-tile-action>
+          <v-btn flat icon @click="suggest()">
+            <v-icon>refresh</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title v-text="'Suggested books'"/>
+        </v-list-tile-content>
+      </v-list-tile>
+      <template v-for="(book, i) in suggested">
+        <v-divider :key="i"/>
+        <v-list-tile :key="i">
+          <v-list-tile-content>
+            <v-list-tile-title>
+            <v-checkbox
+              :label="book.citation"
+              :value="book"
+              v-model="selected"/>
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
+    </v-list>
   </div>
   
-  <div v-if="res.length">
+  <!-- <div v-if="books.length">
     <br>
     <div>
       <strong>Selection</strong>
-      <button type="button" @click="res = []">Hide</button>
+      <button type="button" @click="books = []">Hide</button>
     </div>
     <div class="selection-box">
       <ul>
-        <li :key="bfr.id" v-for="(bfr, index) in res">
+        <li :key="bfr.id" v-for="(bfr, index) in books">
           <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
           <label :for="'bfr-' + index">{{ bfr.citation }}</label>
         </li>
       </ul>
     </div>
-  </div>
+  </div> -->
 
-  <br>
+  <!-- <br>
   
   <div v-if="suggested.length">
     <div>
@@ -59,7 +135,7 @@
   <div v-else>
     <strong>Suggested</strong>. No suggestions to show.
     <button type="button" @click="suggest()">Show</button>
-  </div>
+  </div> -->
   
 </div>
 </template>
@@ -76,9 +152,11 @@ export default {
   data: () => ({
     url: '/books',
     suggestUrl: '/books/suggest',
-    res: [],
-    suggested: [],
-    selected: []
+    books: [],
+    selected: [],
+    // for select box
+    searchInput: null,
+    loading: false
   }),
 
   watch: {
@@ -94,6 +172,14 @@ export default {
     selected(to, from) {
       // set changes to syllabus content
       this.syllabus.content.bookReferences = to
+    },
+
+    searchInput(e) {
+      if (e) {
+        this.search(e)
+      } else {
+        this.suggest()
+      }
     }
   },
 
@@ -107,27 +193,32 @@ export default {
  
   methods: {
     clear() {
-      this.res = []
-      this.suggested = []
+      this.books = []
       this.selected = []
     },
 
-    bookPicker: debounce(function(e) {
-      // search for book if not empty
-      const search = e.target.value
-      if (!search) {
-        this.res = []
-        return
-      }
+    filterSearch(item, queryText, itemText) {
+      console.log(item)
+      const hasValue = val => val != null ? val : ''
+      const citation = hasValue(item.citation).toString().toLowerCase()
+      const query = hasValue(queryText).toString().toLowerCase()
+      return citation.indexOf(query) > -1
+    },
 
+    search(search) {
+      // search for book if not empty
+      // assume that search is not empty
+      this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
-        this.res = res.data.books
+        this.books = res.data.books
+        this.loading = false
       }).catch(e => {
         console.error(e)
+        this.loading = false
       })
-    }, 300),
+    },
 
     suggest() {
       this.$http.post(this.suggestUrl, qs.stringify({
