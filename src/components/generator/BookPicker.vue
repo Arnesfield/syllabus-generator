@@ -47,27 +47,36 @@
           </v-list-tile-content>
         </v-list-tile>
       </template>
-      <v-divider/>
+    </v-list>
+  </div>
+
+  <div class="mt-2">
+    <v-list class="elevation-2">
       <v-list-tile>
         <v-list-tile-content>
-          <v-select
+          <v-text-field
             label="Search Books"
-            :items="books"
-            :loading="loading"
-            :searchInput.sync="searchInput"
-            :filter="filterSearch"
             prepend-icon="search"
-            item-text="citation"
-            item-value="id"
-            v-model="selected"
-            multiple
-            autocomplete
-            return-object
-            debouce-search>
-            <template slot="selection" slot-scope="data"></template>
-          </v-select>
-        <v-list-tile-content>
-      <v-list-tile>
+            :loading="loading"
+            single-line
+            clearable
+            @input="search"
+            @change="search"/>
+        </v-list-tile-content>
+      </v-list-tile>
+      <template v-for="(book, i) in books">
+        <v-divider :key="JSON.stringify(book)"/>
+        <v-list-tile :key="JSON.stringify(book)">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              <v-checkbox
+                :label="book.citation"
+                :value="book"
+                v-model="selected"/>
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
     </v-list>
   </div>
 
@@ -75,7 +84,7 @@
     <v-list class="elevation-2">
       <v-list-tile>
         <v-list-tile-action>
-          <v-btn flat icon @click="suggest()">
+          <v-btn flat icon @click="suggest">
             <v-icon>refresh</v-icon>
           </v-btn>
         </v-list-tile-action>
@@ -83,7 +92,9 @@
           <v-list-tile-title v-text="'Suggested books'"/>
         </v-list-tile-content>
       </v-list-tile>
-      <template v-for="(book, i) in suggested">
+      <template
+        v-for="(book, i) in suggested"
+        v-if="suggested.filter(s => (s.id == book.id)).length">
         <v-divider :key="i"/>
         <v-list-tile :key="i">
           <v-list-tile-content>
@@ -153,9 +164,9 @@ export default {
     url: '/books',
     suggestUrl: '/books/suggest',
     books: [],
+    suggested: [],
     selected: [],
     // for select box
-    searchInput: null,
     loading: false
   }),
 
@@ -172,14 +183,6 @@ export default {
     selected(to, from) {
       // set changes to syllabus content
       this.syllabus.content.bookReferences = to
-    },
-
-    searchInput(e) {
-      if (e) {
-        this.search(e)
-      } else {
-        this.suggest()
-      }
     }
   },
 
@@ -207,7 +210,11 @@ export default {
 
     search(search) {
       // search for book if not empty
-      // assume that search is not empty
+      if (!search.length) {
+        this.books = []
+        this.loading = false
+        return
+      }
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: search
