@@ -10,6 +10,20 @@ table.collapsed {
   width: 100%;
 }
 
+.bg {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.no-bg {
+  background: none !important;
+}
+
+.dim {
+  background-color: rgba(0, 0, 0, 0.16) !important;
+}
+
 .outcome-highlighted {
   background-color: #ccc;
 }

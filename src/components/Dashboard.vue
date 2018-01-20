@@ -24,7 +24,7 @@ export default {
   data: () => ({
     bus: new Vue({
       data: () => ({
-        drawer: false
+        drawer: true
       })
     })
   }),

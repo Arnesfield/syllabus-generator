@@ -2,7 +2,7 @@
 <div>
 
 <v-content>
-  <v-parallax :src="require('@/assets/images/bg.jpg')">
+  <v-parallax src="./static/images/bg-1.jpg">
     <v-container fluid fill-height>
       <v-layout wrap class="align-center text-xs-center">
         <v-flex>

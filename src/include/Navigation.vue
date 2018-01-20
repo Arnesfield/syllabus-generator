@@ -2,9 +2,10 @@
 <v-navigation-drawer
   app
   fixed
+  width="272"
   v-model="bus.drawer">
-  <v-toolbar flat prominent extended>
-    <v-toolbar-title>
+  <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
+    <v-container fluid class="no-bg dim">
       <v-avatar class="primary">
         <template v-if="imgSrc">
           <img v-if="imgSrc.isImg" :src="imgSrc.text" alt="avatar">
@@ -14,16 +15,16 @@
           <span class="white--text headline">?</span>
         </template>
       </v-avatar>
-    </v-toolbar-title>
-    <v-list slot="extension">
+    </v-container>
+    <v-list class="no-bg dim">
       <v-list-tile>
         <v-list-tile-content>
-          <v-list-tile-title class="title">{{ fullname }}</v-list-tile-title>
-          <v-list-tile-sub-title>{{ username }}</v-list-tile-sub-title>
+          <v-list-tile-title class="title white--text">{{ fullname }}</v-list-tile-title>
+          <v-list-tile-sub-title class="grey--text text--lighten-3">{{ username }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
-  </v-toolbar>
+  </div>
   <v-list dense>
     <v-list-tile
       :key="i"
