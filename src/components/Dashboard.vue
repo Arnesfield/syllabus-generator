@@ -4,14 +4,13 @@
   <toolbar :bus="bus" :title="$route.meta.title"/>
   <v-content>
     <v-container fluid>
-      <router-view/>
+      <router-view :bus="bus"/>
     </v-container>
   </v-content>
 </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import Navigation from '@/include/Navigation'
 import Toolbar from '@/include/Toolbar'
 
@@ -21,13 +20,9 @@ export default {
     Navigation,
     Toolbar
   },
-  data: () => ({
-    bus: new Vue({
-      data: () => ({
-        drawer: true
-      })
-    })
-  }),
+  props: {
+    bus: Object
+  },
   mounted() {
     this.$refs.nav.updateNav()
   },

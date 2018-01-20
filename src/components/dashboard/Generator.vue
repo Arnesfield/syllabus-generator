@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import CoursePicker from '@/components/generator/CoursePicker'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
@@ -68,10 +67,12 @@ export default {
     OutcomeTable,
     ActivityManager
   },
+  props: {
+    bus: Object
+  },
   data: () => ({
     course: null,
-    syllabus: null,
-    bus: new Vue()
+    syllabus: null
   }),
 
   methods: {

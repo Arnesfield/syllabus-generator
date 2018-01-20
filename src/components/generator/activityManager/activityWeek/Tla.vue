@@ -68,10 +68,7 @@ export default {
     syllabus: Object,
     index: Number,
     type: Number,
-    bus: {
-      type: Object,
-      default: null
-    }
+    bus: Object
   },
   data: () => ({
     url: '/outcomes',

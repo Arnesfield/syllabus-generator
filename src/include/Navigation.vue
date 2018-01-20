@@ -6,7 +6,7 @@
   v-model="bus.drawer">
   <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
     <v-container fluid class="no-bg dim">
-      <v-avatar class="primary">
+      <v-avatar class="primary elevation-6">
         <template v-if="imgSrc">
           <img v-if="imgSrc.isImg" :src="imgSrc.text" alt="avatar">
           <span v-else class="white--text headline">{{ imgSrc.text }}</span>
@@ -27,6 +27,7 @@
   </div>
   <v-list dense>
     <v-list-tile
+      ripple
       :key="i"
       v-for="(nav, i) in navList"
       v-if="nav.logged == isLoggedIn"
@@ -39,7 +40,7 @@
       </v-list-tile-content>
     </v-list-tile>
 
-    <v-list-tile v-if="isLoggedIn" @click="logout">
+    <v-list-tile ripple v-if="isLoggedIn" @click="logout">
       <v-list-tile-action>
         <v-icon>exit_to_app</v-icon>
       </v-list-tile-action>
@@ -57,10 +58,7 @@ import storage from '@/assets/js/storage'
 export default {
   name: 'navigation',
   props: {
-    bus: {
-      type: Object,
-      required: true
-    }
+    bus: Object
   },
   data: () => ({
     logoutUrl: '/logout',
@@ -117,11 +115,13 @@ export default {
         if (!res.data.success) {
           throw new Error
         }
-        alert('Logged out successfully.')
         storage.destroy()
         storage.set({ loggedOut: true })
         this.updateNav()
         this.$router.push('/')
+        this.bus.$emit('show-snackbar', 'Logged out successfully.', (sb, e) => {
+          sb.snackbar = false
+        })
       }).catch(e => {
         console.error(e)
       })

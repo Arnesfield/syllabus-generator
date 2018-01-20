@@ -13,10 +13,7 @@ export default {
       type: String,
       default: 'Application'
     },
-    bus: {
-      type: Object,
-      required: true
-    }
+    bus: Object
   }
 }
 </script>

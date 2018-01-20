@@ -129,10 +129,7 @@ export default {
     supportingTitle: String,
     abbr: String,
     mapName: String,
-    bus: {
-      type: Object,
-      default: null
-    },
+    bus: Object,
     connectedMapName: {
       type: String,
       default: ''

@@ -24,35 +24,34 @@
   <topic-picker
     :act="act"
     :index="index"
-    :bus="weekBus"
+    :bus="bus"
     :syllabus="syllabus"/>
   <tla
     :act="act"
     :index="index"
-    :bus="weekBus"
+    :bus="bus"
     :syllabus="syllabus"
     :type="3"/>
   <tla
     :act="act"
     :index="index"
-    :bus="weekBus"
+    :bus="bus"
     :syllabus="syllabus"
     :type="4"/>
   <instructional-materials
     :act="act"
     :index="index"
-    :bus="weekBus"
+    :bus="bus"
     :syllabus="syllabus"/>
   <assessment-tasks
     :act="act"
     :index="index"
-    :bus="weekBus"
+    :bus="bus"
     :syllabus="syllabus"/>
 </tr>
 </template>
 
 <script>
-import Vue from 'vue'
 import TopicPicker from './activityWeek/TopicPicker'
 import Tla from './activityWeek/Tla'
 import InstructionalMaterials from './activityWeek/InstructionalMaterials'
@@ -73,9 +72,6 @@ export default {
     bus: Object,
     index: Number
   },
-  data: () => ({
-    weekBus: new Vue()
-  }),
 
   computed: {
     iloLength() {
@@ -124,7 +120,7 @@ export default {
       this.act.iloMap = Array.from(set)
 
       // update topic suggestions
-      this.weekBus.$emit('update-suggestions')
+      this.bus.$emit('update-suggestions')
     },
 
     onILOUpdated(i, n) {
