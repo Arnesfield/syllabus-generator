@@ -1,4 +1,6 @@
 <template>
+<div>
+
 <v-content>
   <v-parallax :src="require('@/assets/images/bg.jpg')">
     <v-container fluid fill-height>
@@ -26,10 +28,18 @@
     </v-container>
   </v-parallax>
 </v-content>
+<footer-view/>
+
+</div>
 </template>
 
 <script>
+import FooterView from '@/include/FooterView'
+
 export default {
-  name: 'home'
+  name: 'home',
+  components: {
+    FooterView
+  }
 }
 </script>
