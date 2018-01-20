@@ -57,8 +57,18 @@ export default {
           this.errorMsg = res.data.msg
           return
         }
+        let user = res.data.user
         // save credentials here
-        storage.set({ isSet: true })
+        storage.set({
+          isSet: true,
+          user: {
+            fname: user.fname,
+            mname: user.mname,
+            lname: user.lname,
+            username: user.username,
+            imgSrc: user.imgSrc
+          }
+        })
         this.$router.push('/dashboard')
       }).catch(e => {
         console.error(e)

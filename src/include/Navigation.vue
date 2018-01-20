@@ -1,6 +1,30 @@
 <template>
-<v-navigation-drawer fixed app v-model="bus.drawer">
-  <v-list>
+<v-navigation-drawer
+  app
+  fixed
+  v-model="bus.drawer">
+  <v-toolbar flat prominent extended>
+    <v-toolbar-title>
+      <v-avatar class="primary">
+        <template v-if="imgSrc">
+          <img v-if="imgSrc.isImg" :src="imgSrc.text" alt="avatar">
+          <span v-else class="white--text headline">{{ imgSrc.text }}</span>
+        </template>
+        <template v-else>
+          <span class="white--text headline">?</span>
+        </template>
+      </v-avatar>
+    </v-toolbar-title>
+    <v-list slot="extension">
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title class="title">{{ fullname }}</v-list-tile-title>
+          <v-list-tile-sub-title>{{ username }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+  </v-toolbar>
+  <v-list dense>
     <v-list-tile
       :key="i"
       v-for="(nav, i) in navList"
@@ -48,6 +72,40 @@ export default {
       { title: 'Generator', icon: 'build', to: '/generator', logged: true }
     ]
   }),
+
+  computed: {
+    // toolbar data
+    fullname() {
+      let user = storage.get('user')
+      if (typeof user !== 'object') {
+        return ''
+      }
+      return user.fname + ' ' + user.lname
+    },
+    username() {
+      let user = storage.get('user')
+      if (typeof user !== 'object') {
+        return ''
+      }
+      return user.username
+    },
+    imgSrc() {
+      let user = storage.get('user')
+      if (typeof user !== 'object') {
+        return null
+      }
+      if (typeof user.imgSrc !== 'string') {
+        return {
+          isImg: false,
+          text: user.fname.charAt(0).toUpperCase()
+        }
+      } 
+      return {
+        isImg: true,
+        text: user.imgSrc
+      }
+    }
+  },
 
   methods: {
     updateNav() {
