@@ -116,7 +116,7 @@ export default {
       this.$emit('course-selected', to)
     },
     searchInput(e) {
-      e && this.search(e)
+      this.search(e ? e : '')
     }
   },
 
