@@ -50,35 +50,31 @@
     </v-list>
   </div>
 
-  <div class="mt-2">
-    <v-list class="elevation-2">
-      <v-list-tile>
+  <v-text-field
+    class="mt-2"
+    label="Search Books"
+    prepend-icon="search"
+    :loading="loading"
+    solo
+    clearable
+    single-line
+    @input="search"/>
+
+  <v-list v-if="books.length" class="mt-2 elevation-2">
+    <template v-for="(book, i) in books">
+      <v-list-tile :key="JSON.stringify(book)">
         <v-list-tile-content>
-          <v-text-field
-            label="Search Books"
-            prepend-icon="search"
-            :loading="loading"
-            single-line
-            clearable
-            @input="search"
-            @change="search"/>
+          <v-list-tile-title>
+            <v-checkbox
+              :label="book.citation"
+              :value="book"
+              v-model="selected"/>
+          </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <template v-for="(book, i) in books">
-        <v-divider :key="JSON.stringify(book)"/>
-        <v-list-tile :key="JSON.stringify(book)">
-          <v-list-tile-content>
-            <v-list-tile-title>
-              <v-checkbox
-                :label="book.citation"
-                :value="book"
-                v-model="selected"/>
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </template>
-    </v-list>
-  </div>
+      <v-divider v-if="i < books.length-1" :key="JSON.stringify(book)"/>
+    </template>
+  </v-list>
 
   <div class="mt-2">
     <v-list class="elevation-2">
@@ -210,7 +206,7 @@ export default {
 
     search(search) {
       // search for book if not empty
-      if (!search.length) {
+      if (search === null || !search.length) {
         this.books = []
         this.loading = false
         return
