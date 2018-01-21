@@ -1,10 +1,10 @@
 <template>
 <div>
-  <navigation ref="nav" :bus="bus"/>
-  <toolbar :bus="bus" :title="$route.meta.title"/>
+  <navigation ref="nav"/>
+  <toolbar :title="$route.meta.title"/>
   <v-content>
     <v-container fluid>
-      <router-view :bus="bus"/>
+      <router-view/>
     </v-container>
   </v-content>
 </div>
@@ -19,9 +19,6 @@ export default {
   components: {
     Navigation,
     Toolbar
-  },
-  props: {
-    bus: Object
   },
   mounted() {
     this.$refs.nav.updateNav()

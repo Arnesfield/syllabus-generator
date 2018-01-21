@@ -74,11 +74,7 @@ export default {
   props: {
     act: Object,
     syllabus: Object,
-    index: Number,
-    bus: {
-      type: Object,
-      default: null
-    }
+    index: Number
   },
   data: () => ({
     url: '/topics',
@@ -93,15 +89,13 @@ export default {
       // set to topics in syllabus
       this.act.topics = to
       // update outcomes on tla
-      this.bus.$emit('on-topics-updated')
+      this.$bus.$emit('on-topics-updated')
     }
   },
 
   created() {
     this.suggest()
-    if (this.bus !== null) {
-      this.bus.$on('update-suggestions', this.suggest)
-    }
+    this.$bus.$on('update-suggestions', this.suggest)
   },
 
   methods: {

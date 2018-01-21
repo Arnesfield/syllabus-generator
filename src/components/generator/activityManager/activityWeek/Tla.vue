@@ -67,8 +67,7 @@ export default {
     act: Object,
     syllabus: Object,
     index: Number,
-    type: Number,
-    bus: Object
+    type: Number
   },
   data: () => ({
     url: '/outcomes',
@@ -90,9 +89,7 @@ export default {
 
   created() {
     this.suggest()
-    if (this.bus !== null) {
-      this.bus.$on('on-topics-updated', this.suggest)
-    }
+    this.$bus.$on('on-topics-updated', this.suggest)
   },
 
   methods: {

@@ -3,7 +3,7 @@
   app
   fixed
   width="272"
-  v-model="bus.drawer">
+  v-model="$bus.drawer">
   <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
     <v-container fluid class="no-bg dim">
       <v-avatar class="primary elevation-6">
@@ -57,9 +57,6 @@ import storage from '@/assets/js/storage'
 
 export default {
   name: 'navigation',
-  props: {
-    bus: Object
-  },
   data: () => ({
     logoutUrl: '/logout',
     isLoggedIn: false,
@@ -119,7 +116,9 @@ export default {
         storage.set({ loggedOut: true })
         this.updateNav()
         this.$router.push('/')
-        this.bus.$emit('show-snackbar', 'Logged out successfully.', (sb, e) => {
+        // hide drawer
+        this.$bus.drawer = null
+        this.$bus.$emit('show-snackbar', 'Logged out successfully.', (sb, e) => {
           sb.snackbar = false
         })
       }).catch(e => {

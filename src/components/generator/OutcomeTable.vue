@@ -129,7 +129,6 @@ export default {
     supportingTitle: String,
     abbr: String,
     mapName: String,
-    bus: Object,
     connectedMapName: {
       type: String,
       default: ''
@@ -212,9 +211,7 @@ export default {
     },
 
     _updateMap(map, i, n) {
-      if (this.bus !== null) {
-        this.bus.$emit('ilo-updated', i, n)
-      }
+      this.$bus.$emit('ilo-updated', i, n)
       this.syllabus.content[this.mapName] = this.moveMap(map, i, n)
       // if connected map exists
       if (this.connectedMapName.length === 0) {

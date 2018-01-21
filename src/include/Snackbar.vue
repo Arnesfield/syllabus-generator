@@ -19,9 +19,6 @@
 <script>
 export default {
   name: 'snackbar',
-  props: {
-    bus: Object
-  },
   data: () => ({
     snackbar: false,
     x: 'left',
@@ -33,7 +30,7 @@ export default {
   }),
   
   created() {
-    this.bus.$on('show-snackbar', (text, cb, options) => {
+    this.$bus.$on('show-snackbar', (text, cb, options) => {
       let hasValue = (val, prop) => typeof prop === 'undefined' ? val : prop
       this.text = text
       this.cb = typeof cb === 'function' ? cb : null

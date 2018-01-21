@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
-    <router-view :bus="bus"/>
-    <snackbar :bus="bus"/>
+    <router-view/>
+    <snackbar/>
   </v-app>
 </template>
 
@@ -13,14 +13,6 @@ export default {
   name: 'app',
   components: {
     Snackbar
-  },
-  data: () => ({
-    bus: new Vue({
-      data: () => ({
-        // toolbar
-        drawer: null
-      })
-    })
-  })
+  }
 }
 </script>

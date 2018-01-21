@@ -31,12 +31,9 @@
             supportingFieldName="courseLearningOutcomes"
             mainTitle="Intended Learning Outcomes (ILO)"
             supportingTitle="Course Learning Outcomes (CLO)"
-            mapName="iloCloMap"
-            :bus="bus"/>
+            mapName="iloCloMap"/>
           <hr>
-          <activity-manager
-            :syllabus="syllabus"
-            :bus="bus"/>
+          <activity-manager :syllabus="syllabus"/>
         </template>
       </template>
     </template>
@@ -66,9 +63,6 @@ export default {
     BookPicker,
     OutcomeTable,
     ActivityManager
-  },
-  props: {
-    bus: Object
   },
   data: () => ({
     course: null,

@@ -37,7 +37,6 @@
       :index="index"
       :act="activity"
       :syllabus="syllabus"
-      :bus="bus"
       v-for="(activity, index) in activities"
       @add="add"
       @remove="remove"
@@ -65,7 +64,6 @@ export default {
     ActivityWeek
   },
   props: {
-    bus: Object,
     syllabus: Object
   },
   data: () => ({

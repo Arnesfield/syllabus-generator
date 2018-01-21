@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="primary" dark app>
-    <v-toolbar-side-icon @click.stop="bus.drawer = !bus.drawer"></v-toolbar-side-icon>
+    <v-toolbar-side-icon @click.stop="$bus.drawer = !$bus.drawer"></v-toolbar-side-icon>
     <v-toolbar-title>{{ title }}</v-toolbar-title>
   </v-toolbar>
 </template>
@@ -12,8 +12,7 @@ export default {
     title: {
       type: String,
       default: 'Application'
-    },
-    bus: Object
+    }
   }
 }
 </script>

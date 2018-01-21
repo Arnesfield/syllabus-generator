@@ -24,29 +24,24 @@
   <topic-picker
     :act="act"
     :index="index"
-    :bus="bus"
     :syllabus="syllabus"/>
   <tla
     :act="act"
     :index="index"
-    :bus="bus"
     :syllabus="syllabus"
     :type="3"/>
   <tla
     :act="act"
     :index="index"
-    :bus="bus"
     :syllabus="syllabus"
     :type="4"/>
   <instructional-materials
     :act="act"
     :index="index"
-    :bus="bus"
     :syllabus="syllabus"/>
   <assessment-tasks
     :act="act"
     :index="index"
-    :bus="bus"
     :syllabus="syllabus"/>
 </tr>
 </template>
@@ -69,7 +64,6 @@ export default {
   props: {
     act: Object,
     syllabus: Object,
-    bus: Object,
     index: Number
   },
 
@@ -95,9 +89,7 @@ export default {
   },
 
   created() {
-    if (this.bus !== null) {
-      this.bus.$on('ilo-updated', this.onILOUpdated)
-    }
+    this.$bus.$on('ilo-updated', this.onILOUpdated)
   },
 
   methods: {
@@ -120,7 +112,7 @@ export default {
       this.act.iloMap = Array.from(set)
 
       // update topic suggestions
-      this.bus.$emit('update-suggestions')
+      this.$bus.$emit('update-suggestions')
     },
 
     onILOUpdated(i, n) {

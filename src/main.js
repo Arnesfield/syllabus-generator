@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import Vuetify from 'vuetify'
+import bus from './bus'
 
 // helpers
 import routerCond from './assets/js/routerCond'
@@ -21,6 +22,7 @@ const http = axios.create({ baseURL: baseURL })
 Vue.config.productionTip = false
 Vue.prototype.$baseURL = baseURL
 Vue.prototype.$http = http
+Vue.prototype.$bus = bus
 
 routerCond(router, http)
 
