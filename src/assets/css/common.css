@@ -6,6 +6,22 @@ table.collapsed {
   border-collapse: collapse;
 }
 
+/* syllabus-tbl */
+.scrollable-x {
+  overflow-x: auto;
+}
+
+table.syllabus-tbl {
+  background-color: white;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.syllabus-tbl th,
+table.syllabus-tbl td {
+  padding: 8px;
+}
+
 .w-max {
   width: 100%;
 }

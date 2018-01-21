@@ -51,57 +51,59 @@
 
   <br>
 
-  <table class="w-max collapsed" border="1">
-    <tr>
-      <th style="width: 1px">&nbsp;</th>
-      <th style="width: 50%">{{ mainTitle }}</th>
-      <th :colspan="supporting.length">{{ supportingTitle }}</th>
-    </tr>
-    <tr>
-      <td>
-        <button type="button" @click="add(0)">+</button>
-      </td>
-      <td>&nbsp;</td>
-      <template v-if="supporting.length">
-        <td class="t-center"
-          v-for="(po, index) in supporting"
-          :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
-      </template>
-      <td v-else>&nbsp;</td>
-    </tr>
-    <tr :key="cloIndex" v-for="(clo, cloIndex) in syllabus.content[mainFieldName]">
-      <td>
-        <button type="button" @click="remove(cloIndex)">x</button>
-        <button type="button" @click="add(cloIndex + 1)">+</button>
-      </td>
-      <td>
-        <span>{{ (cloIndex + 1) + '. ' }}</span>
-        <textarea
-          class="outcome-textarea"
-          v-if="typeof clo.id === 'undefined'"
-          v-model="clo.content"></textarea>
-        <template v-else>{{ clo.content }}</template>
-      </td>
-      <template v-if="supporting.length">
-        <td
-          class="t-center"
-          @mouseover="over(cloIndex, poIndex, $event)"
-          @mouseout="out(cloIndex, poIndex, $event)"
-          @click="click(cloIndex, abbr === 'clo' ? po.id : poIndex)"
-          v-for="(po, poIndex) in supporting"
-          :key="poIndex">
-          <template v-if="
-            typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
-            syllabus.content[mapName][cloIndex].indexOf(
-              abbr === 'clo' ? po.id : poIndex
-            ) > -1
-          ">x</template>
-          <template v-else>&nbsp;</template>
+  <div class="scrollable-x">
+    <table class="syllabus-tbl" border="1">
+      <tr>
+        <th style="width: 1px">&nbsp;</th>
+        <th style="width: 50%">{{ mainTitle }}</th>
+        <th :colspan="supporting.length">{{ supportingTitle }}</th>
+      </tr>
+      <tr>
+        <td>
+          <button type="button" @click="add(0)">+</button>
         </td>
-      </template>
-      <td v-else>&nbsp;</td>
-    </tr>
-  </table>
+        <td>&nbsp;</td>
+        <template v-if="supporting.length">
+          <td class="t-center"
+            v-for="(po, index) in supporting"
+            :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
+        </template>
+        <td v-else>&nbsp;</td>
+      </tr>
+      <tr :key="cloIndex" v-for="(clo, cloIndex) in syllabus.content[mainFieldName]">
+        <td>
+          <button type="button" @click="remove(cloIndex)">x</button>
+          <button type="button" @click="add(cloIndex + 1)">+</button>
+        </td>
+        <td>
+          <span>{{ (cloIndex + 1) + '. ' }}</span>
+          <textarea
+            class="outcome-textarea"
+            v-if="typeof clo.id === 'undefined'"
+            v-model="clo.content"></textarea>
+          <template v-else>{{ clo.content }}</template>
+        </td>
+        <template v-if="supporting.length">
+          <td
+            class="t-center"
+            @mouseover="over(cloIndex, poIndex, $event)"
+            @mouseout="out(cloIndex, poIndex, $event)"
+            @click="click(cloIndex, abbr === 'clo' ? po.id : poIndex)"
+            v-for="(po, poIndex) in supporting"
+            :key="poIndex">
+            <template v-if="
+              typeof syllabus.content[mapName][cloIndex] !== 'undefined' &&
+              syllabus.content[mapName][cloIndex].indexOf(
+                abbr === 'clo' ? po.id : poIndex
+              ) > -1
+            ">x</template>
+            <template v-else>&nbsp;</template>
+          </td>
+        </template>
+        <td v-else>&nbsp;</td>
+      </tr>
+    </table>
+  </div>
 
   <template v-if="highlighted.length">
     <br>

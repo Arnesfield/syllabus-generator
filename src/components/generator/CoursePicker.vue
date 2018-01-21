@@ -22,6 +22,76 @@
       </v-list-tile-content>
     </template>
   </v-select>
+
+  <template v-if="selected">
+    <div class="scrollable-x">
+      <table class="syllabus-tbl mt-3" border="1">
+        <tr>
+          <th>Course Code</th>
+          <th>Course Title</th>
+          <th>Units/Type</th>
+        </tr>
+        <tr>
+          <td>{{ selected.code }}</td>
+          <td>{{ selected.title }}</td>
+          <td>
+            <template v-if="Number(selected.unitsLec)"
+              >{{ selected.unitsLec }} {{ selected.unitsLec == 1 ? 'Unit' : 'Units' }} LEC
+            </template>
+            <template v-if="Number(selected.unitsLec) && Number(selected.unitsLab)">/</template>
+            <template v-if="Number(selected.unitsLab)"
+              >{{ selected.unitsLab }} {{ selected.unitsLab == 1 ? 'Unit' : 'Units' }} LAB
+            </template>
+          </td>
+        </tr>
+
+        <template v-if="selected.prerequisites">
+          <tr
+            :key="i"
+            v-for="(c, i) in selected.prerequisites">
+            <td>
+              <template v-if="i === 0"><strong>Prerequisites</strong></template>
+              <template v-else>&nbsp;</template>
+            </td>
+            <td>{{ c.code }}</td>
+            <td>{{ c.title }}</td>
+          </tr>
+        </template>
+        <tr v-else>
+          <td><strong>Prerequisites</strong></td>
+          <td colspan="2">None</td>
+        </tr>
+
+        <template v-if="selected.corequisites">
+          <tr
+            :key="i"
+            v-for="(c, i) in selected.corequisites">
+            <td>
+              <template v-if="i === 0"><strong>Corequisites</strong></template>
+              <template v-else>&nbsp;</template>
+            </td>
+            <td>{{ c.code }}</td>
+            <td>{{ c.title }}</td>
+          </tr>
+        </template>
+        <tr v-else>
+          <td><strong>Corequisites</strong></td>
+          <td colspan="2">None</td>
+        </tr>
+
+        <tr>
+          <td><strong>Course Description</strong></td>
+          <td colspan="2">{{ selected.description }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <v-btn
+      class="mt-3"
+      color="primary"
+      @click="$bus.tab = '1'">Next</v-btn>
+
+  </template>
 </div>
 </template>
 
@@ -32,6 +102,7 @@ export default {
   name: 'course-picker',
   data: () => ({
     url: '/courses',
+    relatedUrl: '/courses/related',
     courses: [],
     selected: null,
     // for select box
@@ -41,6 +112,7 @@ export default {
 
   watch: {
     selected(to, from) {
+      this.getRelated()
       this.$emit('course-selected', to)
     },
     searchInput(e) {
@@ -65,6 +137,20 @@ export default {
         search: search
       })).then((res) => {
         this.courses = typeof res.data.courses === 'object' ? res.data.courses : []
+        this.loading = false
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+      })
+    },
+
+    getRelated() {
+      this.loading = true
+      this.$http.post(this.relatedUrl, qs.stringify({
+        id: this.selected.id
+      })).then((res) => {
+        this.$set(this.selected, 'prerequisites', res.data.prerequisites)
+        this.$set(this.selected, 'corequisites', res.data.corequisites)
         this.loading = false
       }).catch(e => {
         console.error(e)

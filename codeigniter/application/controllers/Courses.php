@@ -13,6 +13,20 @@ class Courses extends MY_Custom_Controller {
     $courses = $this->courses_model->getByQuery($search);
     $this->_json('courses', $courses);
   }
+
+  public function related() {
+    $id = $this->input->post('id');
+
+    // prereq type 1
+    // coreq type 2
+
+    $prerequisites = $this->courses_model->getRelatedCoursesById($id, 1);
+    $corequisites = $this->courses_model->getRelatedCoursesById($id, 2);
+    $this->_json(array(
+      'prerequisites' => $prerequisites,
+      'corequisites' => $corequisites
+    ));
+  }
 }
 
 ?>

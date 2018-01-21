@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2018 at 10:43 AM
+-- Generation Time: Jan 21, 2018 at 04:49 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -209,12 +209,11 @@ INSERT INTO `book_field_relation` (`id`, `book_id`, `field_id`, `status`) VALUES
 
 CREATE TABLE `courses` (
   `id` int(11) NOT NULL,
-  `title` varchar(32) NOT NULL,
-  `code` varchar(16) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `code` varchar(32) NOT NULL,
   `description` text NOT NULL,
   `unitsLec` tinyint(4) NOT NULL,
   `unitsLab` tinyint(4) NOT NULL,
-  `unitsType` tinyint(4) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -222,12 +221,13 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `title`, `code`, `description`, `unitsLec`, `unitsLab`, `unitsType`, `status`) VALUES
-(1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', 3, 0, 1, 1),
-(2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', 2, 1, 3, 1),
-(3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', 2, 1, 3, 1),
-(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', 2, 1, 3, 1),
-(5, 'Introduction to Programming', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', 2, 1, 3, 1);
+INSERT INTO `courses` (`id`, `title`, `code`, `description`, `unitsLec`, `unitsLab`, `status`) VALUES
+(1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', 3, 0, 1),
+(2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', 2, 1, 1),
+(3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', 2, 1, 1),
+(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', 2, 1, 1),
+(5, 'Introduction to Programming', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', 2, 1, 1),
+(6, 'PROJECT MANAGEMENT FOR IT-WMA', 'ITWPROMAN', 'This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.', 3, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -289,6 +289,27 @@ INSERT INTO `course_field_relation` (`id`, `course_id`, `field_id`, `status`) VA
 (40, 0, 0, 1),
 (41, 0, 0, 1),
 (42, 0, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_relation`
+--
+
+CREATE TABLE `course_relation` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `related_course_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `course_relation`
+--
+
+INSERT INTO `course_relation` (`id`, `course_id`, `related_course_id`, `type`, `status`) VALUES
+(1, 1, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1305,6 +1326,12 @@ ALTER TABLE `course_field_relation`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `course_relation`
+--
+ALTER TABLE `course_relation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `curriculum`
 --
 ALTER TABLE `curriculum`
@@ -1422,13 +1449,19 @@ ALTER TABLE `book_field_relation`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `course_field_relation`
 --
 ALTER TABLE `course_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `course_relation`
+--
+ALTER TABLE `course_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `curriculum`
