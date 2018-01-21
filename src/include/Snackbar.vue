@@ -7,11 +7,10 @@
   :left="x === 'left'"
   :multi-line="mode === 'multi-line'"
   :vertical="mode === 'vertical'"
-  v-model="snackbar">
-  {{ text }}
+  v-model="snackbar">{{ text }}
   <v-btn
     flat
-    color="primary"
+    color="accent"
     @click.native="callCb">Close</v-btn>
 </v-snackbar>
 </template>

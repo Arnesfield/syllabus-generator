@@ -1,0 +1,13 @@
+/* override vuetify design */
+.snack .snack__content {
+  padding-right: 13px;
+}
+
+.snack .snack__content .btn {
+  min-width: 0;
+}
+
+.snack .snack__content .btn .btn__content {
+  padding-right: 8px;
+  padding-left: 8px;
+}
