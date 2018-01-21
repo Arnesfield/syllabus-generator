@@ -141,7 +141,6 @@ export default {
           courseLearningOutcomes: [],
           intendedLearningOutcomes: [],
           cloPoMap: {},
-          iloCloMap: {},
           weeklyActivities: []
         }
       }

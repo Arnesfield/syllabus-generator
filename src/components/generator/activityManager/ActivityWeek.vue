@@ -7,15 +7,15 @@
   <td>
     <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
   </td>
-  <template v-if="iloLength">
+  <template v-if="cloLength">
     <td
       class="t-center"
-      @mouseover="over(ilo - 1, $event)"
-      @mouseout="out(ilo - 1, $event)"
-      @click="click(ilo - 1)"
-      v-for="ilo in iloLength"
-      :key="ilo">
-      <template v-if="typeof act.iloMap !== 'undefined' && act.iloMap.indexOf(ilo - 1) > -1"
+      @mouseover="over(clo - 1, $event)"
+      @mouseout="out(clo - 1, $event)"
+      @click="click(clo - 1)"
+      v-for="clo in cloLength"
+      :key="clo">
+      <template v-if="typeof act.cloMap !== 'undefined' && act.cloMap.indexOf(clo - 1) > -1"
         >x</template>
       <template v-else>&nbsp;</template>
     </td>
@@ -68,8 +68,8 @@ export default {
   },
 
   computed: {
-    iloLength() {
-      return this.syllabus.content.intendedLearningOutcomes.length
+    cloLength() {
+      return this.syllabus.content.courseLearningOutcomes.length
     }
   },
 
@@ -89,7 +89,7 @@ export default {
   },
 
   created() {
-    this.$bus.$on('ilo-updated', this.onILOUpdated)
+    this.$bus.$on('clo-updated', this.onCLOUpdated)
   },
 
   methods: {
@@ -102,21 +102,21 @@ export default {
       this.$emit('highlighted', -1)
     },
     click(i) {
-      if (typeof this.act.iloMap === 'undefined') {
-        this.$set(this.act, 'iloMap', [])
+      if (typeof this.act.cloMap === 'undefined') {
+        this.$set(this.act, 'cloMap', [])
       }
 
-      let set = new Set(this.act.iloMap)
+      let set = new Set(this.act.cloMap)
       // if existing, remove it
       set.has(i) ? set.delete(i) : set.add(i)
-      this.act.iloMap = Array.from(set)
+      this.act.cloMap = Array.from(set)
 
       // update topic suggestions
       this.$bus.$emit('update-suggestions')
     },
 
-    onILOUpdated(i, n) {
-      this.act.iloMap = moveArray(this.act.iloMap, i, n)
+    onCLOUpdated(i, n) {
+      this.act.cloMap = moveArray(this.act.cloMap, i, n)
     }
   }
 }

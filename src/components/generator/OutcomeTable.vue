@@ -128,11 +128,7 @@ export default {
     mainTitle: String,
     supportingTitle: String,
     abbr: String,
-    mapName: String,
-    connectedMapName: {
-      type: String,
-      default: ''
-    }
+    mapName: String
   },
   data: () => ({
     url: '/outcomes',
@@ -211,20 +207,8 @@ export default {
     },
 
     _updateMap(map, i, n) {
-      this.$bus.$emit('ilo-updated', i, n)
+      this.$bus.$emit('clo-updated', i, n)
       this.syllabus.content[this.mapName] = this.moveMap(map, i, n)
-      // if connected map exists
-      if (this.connectedMapName.length === 0) {
-        return
-      }
-
-      // loop on all keys
-      // check arrays
-      // if add, add n to all numbers >= i
-      // else, remove i and subtract n to all numbers >= i
-
-      // assert that this is referenced
-      this.moveArray(this.syllabus.content[this.connectedMapName], i, n)
     },
 
     moveMap(map, i, n) {

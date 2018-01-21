@@ -8,8 +8,8 @@
       <th style="width: 1px">&nbsp;</th>
       <th style="width: 1px">Weeks</th>
       <th style="width: 1px"
-        :colspan="iloLength">Intended Learning Outcomes (ILO)</th>
-      <th>Topics</th>
+        :colspan="cloLength">CLO</th>
+      <th>Detailed Course Content</th>
       <th colspan="2">Teaching Activities and Learning Outcomes</th>
       <th>Instructional Materials</th>
       <th>Assessment Tasks (AT)</th>
@@ -19,11 +19,11 @@
         <button type="button" @click="add(0)">+</button>
       </td>
       <td>&nbsp;</td>
-      <template v-if="iloLength">
+      <template v-if="cloLength">
         <td
           class="t-center"
-          v-for="ilo in iloLength"
-          :key="ilo">{{ ilo }}</td>
+          v-for="clo in cloLength"
+          :key="clo">{{ clo }}</td>
       </template>
       <td v-else>&nbsp;</td>
       <td>&nbsp;</td>
@@ -44,7 +44,7 @@
     <tr>
       <td>&nbsp;</td>
       <td class="t-center">Total Week/s: {{ totalWeeks }}</td>
-      <td :colspan="iloLength + 6">
+      <td :colspan="cloLength + 6">
         <template v-if="highlighted.length">
           <strong>Highlighted:</strong> {{ highlighted }}
         </template>
@@ -72,8 +72,8 @@ export default {
   }),
 
   computed: {
-    iloLength() {
-      return this.syllabus.content.intendedLearningOutcomes.length
+    cloLength() {
+      return this.syllabus.content.courseLearningOutcomes.length
     },
     totalWeeks() {
       return this.activities.reduce((total, act) => {
@@ -106,7 +106,8 @@ export default {
       this.activities.splice(i, 0, {
         noOfWeeks: 1,
         topics: [],
-        iloMap: [],
+        ilo: [],
+        cloMap: [],
         tlaFaculty: [],
         tlaStudent: [],
         instructionalMaterials: [],
@@ -118,7 +119,7 @@ export default {
     },
 
     setHighlighted(i) {
-      this.highlighted = i === -1 ? '' : this.syllabus.content.intendedLearningOutcomes[i].content
+      this.highlighted = i === -1 ? '' : this.syllabus.content.courseLearningOutcomes[i].content
     },
 
     _setInitial() {

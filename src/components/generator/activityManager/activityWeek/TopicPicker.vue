@@ -125,12 +125,12 @@ export default {
         })
       }
 
-      // include ilo ids
-      let iloIds = []
-      this.act.iloMap.forEach(e => {
-        let ilo = this.syllabus.content.intendedLearningOutcomes[e]
-        if (typeof ilo.id !== 'undefined') {
-          iloIds.push(ilo.id)
+      // include clo ids
+      let cloIds = []
+      this.act.cloMap.forEach(e => {
+        let clo = this.syllabus.content.courseLearningOutcomes[e]
+        if (typeof clo.id !== 'undefined') {
+          cloIds.push(clo.id)
         }
       })
 
@@ -139,7 +139,7 @@ export default {
 
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
-        iloIds: iloIds,
+        cloIds: cloIds,
         courseId: this.syllabus.course_id,
         curriculumYear: year,
         limit: 30
