@@ -31,7 +31,7 @@ class Topics_model extends MY_CRUD_Model {
       return FALSE;
     }
 
-    $query = $this->db
+    $this->db
       ->select('
         t.id AS id,
         t.label AS label,
@@ -43,12 +43,18 @@ class Topics_model extends MY_CRUD_Model {
       ->join('topics t', 't.id = tfr.topic_id')
       ->join('fields f', 'f.id = tfr.field_id')
       ->join('outcomes o', 'o.id = tor.outcome_id')
-      ->where_in('f.id', $fields)
-      ->where_in('o.id', $outcomes)
+      ->where_in('f.id', $fields);
+    
+    if ($outcomes) {
+      $this->db->where("MATCH(o.content) AGAINST('$outcomes')", NULL, FALSE);
+    }
+
+    $this->db
       ->group_by('t.id')
       ->order_by('COUNT(*)', 'DESC')
-      ->limit($limit)
-      ->get();
+      ->limit($limit);
+
+    $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
 }

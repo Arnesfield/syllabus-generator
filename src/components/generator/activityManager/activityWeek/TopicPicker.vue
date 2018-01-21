@@ -125,12 +125,12 @@ export default {
         })
       }
 
-      // include clo ids
-      let cloIds = []
+      // include clo content
+      let cloContent = ''
       this.act.cloMap.forEach(e => {
         let clo = this.syllabus.content.courseLearningOutcomes[e]
-        if (typeof clo.id !== 'undefined') {
-          cloIds.push(clo.id)
+        if (typeof clo.content !== 'undefined') {
+          cloContent += ' ' + clo.content
         }
       })
 
@@ -139,7 +139,7 @@ export default {
 
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
-        cloIds: cloIds,
+        cloContent: cloContent,
         courseId: this.syllabus.course_id,
         curriculumYear: year,
         limit: 30

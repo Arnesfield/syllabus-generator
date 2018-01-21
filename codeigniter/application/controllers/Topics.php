@@ -18,7 +18,7 @@ class Topics extends MY_Custom_Controller {
   public function suggest() {
     $course_id = $this->input->post('courseId');
     $book_ids = $this->input->post('bookIds');
-    $clo_ids = $this->input->post('cloIds');
+    $clo_content = strip_tags(trim(addslashes($this->input->post('cloContent'))));
     $year = $this->input->post('curriculumYear');
     $limit = $this->input->post('limit');
 
@@ -44,7 +44,7 @@ class Topics extends MY_Custom_Controller {
       }
     }
 
-    $topics = $this->topics_model->getRelatedTopicsWithFieldsAndOutcomes($fields, $clo_ids, $limit);
+    $topics = $this->topics_model->getRelatedTopicsWithFieldsAndOutcomes($fields, $clo_content, $limit);
     $this->_json('topics', $topics);
   }
 }
