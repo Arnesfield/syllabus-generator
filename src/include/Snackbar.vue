@@ -8,10 +8,14 @@
   :multi-line="mode === 'multi-line'"
   :vertical="mode === 'vertical'"
   v-model="snackbar">{{ text }}
-  <v-btn
-    flat
-    color="accent"
-    @click.native="callCb">Close</v-btn>
+  <div style="margin-left: 40px">
+    <v-btn
+      :key="i"
+      v-for="(btn, i) in btns"
+      flat
+      :color="btn.color"
+      @click.native="callback(btn, $event)">{{ btn.text }}</v-btn>
+  </div>
 </v-snackbar>
 </template>
 
@@ -25,16 +29,15 @@ export default {
     mode: '',
     timeout: 4000,
     text: '',
-    cb: null
+    btns: []
   }),
   
   created() {
-    this.$bus.$on('show-snackbar', (text, cb, options) => {
+    this.$bus.$on('show-snackbar', (text, options, btns) => {
       let hasValue = (val, prop) => typeof prop === 'undefined' ? val : prop
       this.text = text
-      this.cb = typeof cb === 'function' ? cb : null
       // default
-      if (typeof options === 'undefined') {
+      if (typeof options === 'undefined' || options === null) {
         this.x = 'left'
         this.y = 'bottom'
         this.mode = ''
@@ -45,15 +48,31 @@ export default {
         this.mode = hasValue(this.mode, options.mode)
         this.timeout = hasValue(this.timeout, options.timeout)
       }
+
+      if (typeof btns === 'undefined') {
+        this.btns = []
+        this.btns.push({
+          color: 'accent',
+          text: 'close',
+          cb: (sb, e) => {
+            sb.snackbar = false
+          }
+        })
+      } else if (btns.constructor.name === 'Array') {
+        this.btns = btns
+      } else if (btns.constructor.name === 'Object') {
+        this.btns = []
+        this.btns.push(btns)
+      }
       this.snackbar = true
     })
   },
 
   methods: {
-    callCb(e) {
-      typeof this.cb === 'function'
-        ? this.cb(this, e)
-        : snackbar = false
+    callback(btn, e) {
+      if (typeof btn.cb === 'function') {
+        btn.cb(this, e)
+      }
     }
   }
 }

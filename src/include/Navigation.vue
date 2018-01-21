@@ -118,9 +118,7 @@ export default {
         this.$router.push('/')
         // hide drawer
         this.$bus.drawer = null
-        this.$bus.$emit('show-snackbar', 'Logged out successfully.', (sb, e) => {
-          sb.snackbar = false
-        })
+        this.$bus.$emit('show-snackbar', 'Logged out successfully.', null)
       }).catch(e => {
         console.error(e)
       })

@@ -70,6 +70,7 @@ export default {
           }
         })
         this.$router.push('/dashboard')
+        this.$bus.$emit('show-snackbar', 'Logged in successfully.', null)
       }).catch(e => {
         console.error(e)
       })

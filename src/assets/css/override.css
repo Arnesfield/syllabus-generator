@@ -5,6 +5,7 @@
 
 .snack .snack__content .btn {
   min-width: 0;
+  margin-left: 8px;
 }
 
 .snack .snack__content .btn .btn__content {
