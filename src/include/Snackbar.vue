@@ -7,6 +7,7 @@
   :left="x === 'left'"
   :multi-line="mode === 'multi-line'"
   :vertical="mode === 'vertical'"
+  :style="style"
   v-model="snackbar">{{ text }}
   <div style="margin-left: 40px">
     <v-btn
@@ -31,6 +32,20 @@ export default {
     text: '',
     btns: []
   }),
+
+  computed: {
+    style() {
+      if (this.x) {
+        let x = 'margin-' + this.x
+        let y = 'margin-' + this.y
+        let obj = {}
+        obj[x] = '16px'
+        obj[y] = '16px'
+        return obj
+      }
+      return null
+    }
+  },
   
   created() {
     this.$bus.$on('show-snackbar', (text, options, btns) => {
