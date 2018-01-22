@@ -24,8 +24,8 @@
   </v-select>
 
   <template v-if="selected">
-    <div class="scrollable-x">
-      <table class="syllabus-tbl mt-3" border="1">
+    <div class="scrollable-x mt-3">
+      <table class="syllabus-tbl" border="1">
         <tr>
           <th>Course Code</th>
           <th>Course Title</th>
