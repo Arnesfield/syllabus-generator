@@ -25,7 +25,7 @@ Vue.prototype.$baseURL = baseURL
 Vue.prototype.$http = http
 Vue.prototype.$bus = bus
 
-routerCond(router, http)
+routerCond(router, http, bus)
 
 Vue.use(Vuetify, {
   theme: {

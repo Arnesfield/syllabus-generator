@@ -12,3 +12,7 @@
   padding-right: 8px;
   padding-left: 8px;
 }
+
+.my-expansion-nav .list__tile__action {
+  min-width: 36px;
+}

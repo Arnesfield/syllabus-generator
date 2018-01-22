@@ -1,6 +1,6 @@
 import storage from './storage'
 
-export default function(router, http) {
+export default function(router, http, bus) {
 
   const proceed = function(title, cAuth, next) {
     // if session is set and page needs auth
@@ -39,6 +39,7 @@ export default function(router, http) {
       } else {
         // if set
         storage.set({ isSet: true })
+        bus.user = res.data.user
         proceed(title, cAuth, next)
       }
     }).catch(e => {

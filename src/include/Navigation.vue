@@ -32,7 +32,8 @@
       :key="i"
       v-for="(nav, i) in navList"
       v-if="nav.logged == isLoggedIn"
-      @click="$router.push(nav.to)">
+      :exact-active-class="nav.to"
+      :to="nav.to">
       <v-list-tile-action>
         <v-icon>{{ nav.icon }}</v-icon>
       </v-list-tile-action>
@@ -40,6 +41,32 @@
         <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
+
+    <v-list-group
+      v-for="list in manageList"
+      :key="list.title"
+      :prepend-icon="list.icon"
+      no-action>
+      <v-list-tile ripple slot="activator">
+        <v-list-tile-content>
+          <v-list-tile-title>{{ list.title }}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-list-tile
+        ripple
+        class="my-expansion-nav"
+        :key="item.title"
+        v-for="item in list.items"
+        :exact-active-class="item.to"
+        :to="item.to">
+        <v-list-tile-action>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list-group>
 
     <v-list-tile ripple v-if="isLoggedIn" @click="logout">
       <v-list-tile-action>
@@ -67,28 +94,40 @@ export default {
       { title: 'Home', icon: 'dashboard', to: '/dashboard', logged: true },
       { title: 'Syllabi', icon: 'find_in_page', to: '/syllabi', logged: true },
       { title: 'Generator', icon: 'build', to: '/generator', logged: true }
+    ],
+    manageList: [
+      {
+        title: 'Manage',
+        icon: 'settings_applications',
+        items: [
+          { title: 'Users', icon: 'account_circle', to: '/manage/users', },
+          { title: 'Courses', icon: 'assignment', to: '/manage/courses', },
+          { title: 'Syllabi', icon: 'description', to: '/manage/syllabi', },
+          { title: 'Books', icon: 'library_books', to: '/manage/books', }
+        ]
+      }
     ]
   }),
 
   computed: {
     // toolbar data
     fullname() {
-      let user = storage.get('user')
-      if (typeof user !== 'object') {
+      let user = this.$bus.user
+      if (typeof user !== 'object' || user === null) {
         return ''
       }
       return user.fname + ' ' + user.lname
     },
     username() {
-      let user = storage.get('user')
-      if (typeof user !== 'object') {
+      let user = this.$bus.user
+      if (typeof user !== 'object' || user === null) {
         return ''
       }
       return user.username
     },
     imgSrc() {
-      let user = storage.get('user')
-      if (typeof user !== 'object') {
+      let user = this.$bus.user
+      if (typeof user !== 'object' || user === null) {
         return null
       }
       if (typeof user.imgSrc !== 'string') {
