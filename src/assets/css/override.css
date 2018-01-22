@@ -1,6 +1,6 @@
 /* override vuetify design */
 .snack .snack__content {
-  padding-right: 13px;
+  padding-right: 16px;
 }
 
 .snack .snack__content .btn {

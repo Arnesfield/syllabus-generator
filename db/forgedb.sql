@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2018 at 04:49 PM
+-- Generation Time: Jan 22, 2018 at 08:34 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -212,6 +212,7 @@ CREATE TABLE `courses` (
   `title` varchar(255) NOT NULL,
   `code` varchar(32) NOT NULL,
   `description` text NOT NULL,
+  `objectives` text NOT NULL,
   `unitsLec` tinyint(4) NOT NULL,
   `unitsLab` tinyint(4) NOT NULL,
   `status` tinyint(4) NOT NULL
@@ -221,13 +222,13 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `title`, `code`, `description`, `unitsLec`, `unitsLab`, `status`) VALUES
-(1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', 3, 0, 1),
-(2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', 2, 1, 1),
-(3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', 2, 1, 1),
-(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', 2, 1, 1),
-(5, 'Introduction to Programming', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', 2, 1, 1),
-(6, 'PROJECT MANAGEMENT FOR IT-WMA', 'ITWPROMAN', 'This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.', 3, 0, 1);
+INSERT INTO `courses` (`id`, `title`, `code`, `description`, `objectives`, `unitsLec`, `unitsLab`, `status`) VALUES
+(1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', '', 3, 0, 1),
+(2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', '', 2, 1, 1),
+(3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', '', 2, 1, 1),
+(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', '<p>Upon successful completion of this course, the student will be able to:</p>\r\n<ul>\r\n  <li>To develop understanding of the context of Database Management including: (a) the Database environment and (b) the Database development process.</li>\r\n  <li>To build expertise in Database Analysis that includes: (a) Modeling data in the organization and (b) the Enhanced E-R Model and business rules.</li>\r\n  <li>To develop skills in Database Design including: (a) Logical Database design and (b) the Relational Model.</li>\r\n  <li>To develop and implement Databases and enhance skills in advanced database topics including: (a) SQL/ Advanced SQL, and (b) Data and Database Administration.</li>\r\n</ul>', 2, 1, 1),
+(5, 'Introduction to Programming', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', '<p>Upon successful completion of this course, the student will be able to:</p> <ul>   <li>Know the similarities and differences between C and C++</li>   <li>Translate logic formulation into algorithms and flowchart;</li>   <li>Create working C++ programs;</li>   <li>Test and debug C++ programs; and</li>   <li>Create simple programs for input and output operations</li>   <li>Use the visual studio IDE in running C++ programs.</li>   <li>Understand and apply different control structures of C++</li>   <li>Understand and apply the principles of data storage and array manipulation</li>   <li>Perform tests in programs by using the \"if\" and \"switch\" control flow branching statements and repeat code segments by including \"for, while,\" and \"do…while\" control flow loops</li>   <li>Use critical thinking skills to create and debug C programs.</li> </ul>', 2, 1, 1),
+(6, 'PROJECT MANAGEMENT FOR IT-WMA', 'ITWPROMAN', 'This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.', '', 3, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -925,16 +926,16 @@ INSERT INTO `topics` (`id`, `label`, `name`, `description`, `reference`, `status
 (5, 'Lesson 5', 'Writing Proposals', 'Results', '', 1),
 (6, 'Lesson 6', 'Writing Proposals', 'Discussion', '', 1),
 (7, '', 'Users\' Acceptance Testing', '', '', 1),
-(8, 'Module 1', 'The Database Environment and Development Process', 'Basic Concepts and Definitions | Traditional File Processing System | The Database Approach | Components of the Database Environment | Range of Database Applications | The Database Development Process\r\n', '', 1),
-(9, 'Module 2', 'Modeling Data in the Organization', 'E-R Model Notation | Modeling the Rules of the Organization | Modeling Entities and Attributes | Modeling Relationships | SQL Data Modeler\r\n', '', 1),
-(10, 'Module 3', 'Enhanced E-R Model', 'Representing Supertypes and Subtypes | Specifying Constraints in Supertype/Subtype Relationships | Entity Clustering', '', 1),
-(11, 'Module 4', 'Logical Database Design and the Relational Model', 'Relational Data Model | Integrity Constraints | Transforming EER Diagrams into Relations | Introduction to  Normalization', '', 1),
-(12, 'Module 5', 'Introduction to SQL', 'Origins of the SQL Standard | The SQL Environment | SQL Statements | SQL Developer and SQL *Plus', '', 1),
-(13, 'Module 6', 'Data Definition Language (DDL)', 'Create | Alter | Drop | Rename | Truncate | Comment\r\n', '', 1),
-(14, 'Module 7', 'Data Manipulation Language (DML) and Transaction Control', 'Insert | Update | Delete  | Merge | Select | Commit, Rollback and Savepoint\r\n', '', 1),
-(15, 'Module 8', 'Advanced SQL', 'Join  | Subqueries | Tips for Developing Queries', '', 1),
-(16, 'Module 9', 'Data Control Language (DCL)', 'Grant | Revoke', '', 1),
-(17, 'Module 10', 'Data and Database Administration', 'Role of Data and Database Administrators | Open Source Movement and Database Movement | Managing Data Securit | Database Software Data Security Features | Database Backup and Recovery | Recovery and Restart Procedures  | Types of Database Failure | Disaster Recovery | Controlling Concurrent Access | Database Performance Tuning | Data Availability', '', 1),
+(8, 'Module 1', 'The Database Environment and Development Process', '<ul>\r\n  <li>Basic Concepts and Definitions</li>\r\n  <li>Traditional File Processing System</li>\r\n  <li>The Database Approach</li>\r\n  <li>Components of the Database Environment</li>\r\n  <li>Range of Database Applications</li>\r\n  <li>The Database Development Process</li>\r\n</ul>', '', 1),
+(9, 'Module 2', 'Modeling Data in the Organization', '<ul>\r\n  <li>E-R Model Notation</li>\r\n  <li>Modeling the Rules of the Organization</li>\r\n  <li>Modeling Entities and Attributes</li>\r\n  <li>Modeling Relationships</li>\r\n  <li>SQL Data Modeler</li>\r\n</ul>', '', 1),
+(10, 'Module 3', 'Enhanced E-R Model', '<ul>\r\n  <li>Representing Supertypes and Subtypes</li>\r\n  <li>Specifying Constraints in Supertype/Subtype Relationships</li>\r\n  <li>Entity Clustering</li>\r\n</ul>', '', 1),
+(11, 'Module 4', 'Logical Database Design and the Relational Model', '<ul>\r\n  <li>Relational Data Model</li>\r\n  <li>Integrity Constraints</li>\r\n  <li>Transforming EER Diagrams into Relations</li>\r\n  <li>Introduction to Normalization</li>\r\n</ul>', '', 1),
+(12, 'Module 5', 'Introduction to SQL', '<ul>\r\n  <li>Origins of the SQL Standard</li>\r\n  <li>The SQL Environment</li>\r\n  <li>SQL Statements</li>\r\n  <li>SQL Developer and SQL *Plus</li>\r\n</ul>', '', 1),
+(13, 'Module 6', 'Data Definition Language (DDL)', '<ul>\r\n  <li>Create</li>\r\n  <li>Alter</li>\r\n  <li>Drop</li>\r\n  <li>Rename</li>\r\n  <li>Truncate</li>\r\n  <li>Comment</li>\r\n</ul>', '', 1),
+(14, 'Module 7', 'Data Manipulation Language (DML) and Transaction Control', '<ul>\r\n  <li>Insert</li>\r\n  <li>Update</li>\r\n  <li>Delete</li>\r\n  <li>Merge</li>\r\n  <li>Select</li>\r\n  <li>Commit, Rollback and Savepoint</li>\r\n</ul>', '', 1),
+(15, 'Module 8', 'Advanced SQL', '<ul>\r\n  <li>Join</li>\r\n  <li>Subqueries</li>\r\n  <li>Tips for Developing Queries</li>\r\n</ul>', '', 1),
+(16, 'Module 9', 'Data Control Language (DCL)', '<ul>\r\n  <li>Grant</li>\r\n  <li>Revoke</li>\r\n</ul>', '', 1),
+(17, 'Module 10', 'Data and Database Administration', '<ul>\r\n  <li>Role of Data and Database Administrators</li>\r\n  <li>Open Source Movement and Database Movement</li>\r\n  <li>Managing Data Securit</li>\r\n  <li>Database Software Data Security Features</li>\r\n  <li>Database Backup and Recovery</li>\r\n  <li>Recovery and Restart Procedures</li>\r\n  <li>Types of Database Failure</li>\r\n  <li>Disaster Recovery</li>\r\n  <li>Controlling Concurrent Access</li>\r\n  <li>Database Performance Tuning</li>\r\n  <li>Data Availability</li>\r\n</ul>', '', 1),
 (18, 'Module 1', 'Introduction to Programming', '', '', 1),
 (19, 'Module 2.1', 'Introduction to C++', '', '', 1),
 (20, 'Module 2.2', 'Basic Input and Output', '', '', 1),

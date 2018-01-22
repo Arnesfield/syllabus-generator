@@ -22,6 +22,10 @@ table.syllabus-tbl td {
   padding: 8px;
 }
 
+table.syllabus-tbl ul {
+  padding-left: 40px;
+}
+
 .w-max {
   width: 100%;
 }

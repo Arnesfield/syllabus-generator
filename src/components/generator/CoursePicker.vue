@@ -45,6 +45,12 @@
           </td>
         </tr>
 
+        <tr>
+          <th>&nbsp;</th>
+          <th>Course Code</th>
+          <th>Course Title</th>
+        </tr>
+
         <template v-if="selected.prerequisites">
           <tr
             :key="i"
@@ -81,7 +87,12 @@
 
         <tr>
           <td><strong>Course Description</strong></td>
-          <td colspan="2">{{ selected.description }}</td>
+          <td colspan="2" v-html="selected.description"></td>
+        </tr>
+
+        <tr>
+          <td><strong>Course Objectives</strong></td>
+          <td colspan="2" v-html="selected.objectives"></td>
         </tr>
       </table>
     </div>
