@@ -64,6 +64,21 @@ const router = new Router({
           meta: {
             title: 'Generator'
           }
+        },
+        {
+          path: '/manage',
+          component: Components.Manage,
+    
+          children: [
+            {
+              path: '/manage/users',
+              name: 'Manage Users',
+              component: Components.ManageUsers,
+              meta: {
+                title: 'Manage Users'
+              }
+            },
+          ]
         }
       ]
     },
