@@ -129,8 +129,8 @@ export default {
       let cloContent = ''
       this.act.cloMap.forEach(e => {
         let clo = this.syllabus.content.courseLearningOutcomes[e]
-        if (typeof clo.content !== 'undefined') {
-          cloContent += ' ' + clo.content
+        if (typeof clo !== 'undefined') {
+          cloContent += ' ' + clo
         }
       })
 

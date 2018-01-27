@@ -13,6 +13,14 @@ class Outcomes extends MY_Custom_Controller {
     $type = $this->input->post('type');
     $search = strip_tags(trim(addslashes($this->input->post('search'))));
     $outcomes = $this->outcomes_model->getByQuery($type, $search);
+
+    // change outcomes to string
+    if ($outcomes) {
+      foreach ($outcomes as $key => $outcome) {
+        $outcomes[$key] = $outcome['content'];
+      }
+    }
+
     $this->_json('outcomes', $outcomes);
   }
 
@@ -58,6 +66,14 @@ class Outcomes extends MY_Custom_Controller {
     }
 
     $outcomes = $this->outcomes_model->getRelatedOutcomesWithFields($fields, $type, $limit, $outcomesArr);
+
+    // change outcomes to string
+    if ($outcomes) {
+      foreach ($outcomes as $key => $outcome) {
+        $outcomes[$key] = $outcome['content'];
+      }
+    }
+
     $this->_json('outcomes', $outcomes);
   }
 }

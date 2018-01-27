@@ -15,7 +15,7 @@
       <ul>
         <li :key="i" v-for="(t, i) in selected">
           <button type="button" @click="selected.splice(i, 1)">x</button>
-          <template>{{ t.content }}</template>
+          <template>{{ t }}</template>
         </li>
       </ul>
     </div>
@@ -31,7 +31,7 @@
       <ul>
         <li :key="i" v-for="(t, i) in tla">
           <input type="checkbox" :id="'tla-' + index + '-' + type + '-' + i" :value="t" v-model="selected">
-          <label :for="'tla-' + index + '-' + type + '-' + i">{{ t.content }}</label>
+          <label :for="'tla-' + index + '-' + type + '-' + i">{{ t }}</label>
         </li>
       </ul>
     </div>
@@ -48,7 +48,7 @@
       <ul>
         <li :key="i" v-for="(t, i) in suggested">
           <input type="checkbox" :id="'tla-suggested-' + index + '-' + type + '-' + i" :value="t" v-model="selected">
-          <label :for="'tla-suggested-' + index + '-' + type + '-' + i">{{ t.content }}</label>
+          <label :for="'tla-suggested-' + index + '-' + type + '-' + i">{{ t }}</label>
         </li>
       </ul>
     </div>

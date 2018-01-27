@@ -122,7 +122,7 @@ export default {
     },
 
     setHighlighted(i) {
-      this.highlighted = i === -1 ? '' : this.syllabus.content.courseLearningOutcomes[i].content
+      this.highlighted = i === -1 ? '' : this.syllabus.content.courseLearningOutcomes[i]
     },
 
     _setInitial() {

@@ -1,32 +1,7 @@
 <template>
 <div v-if="syllabus && syllabus.content.programOutcomes.length">
 
-  <h4>{{ mainTitle }}</h4>
-  <div>
-    <label :for="'outcomeTable-' + abbr">Search Outcome</label>
-    <input type="text" :id="'outcomeTable-' + abbr" @input="query" @focus="query"/>
-    <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
-    <button type="button" v-else @click="suggest()">Show Suggestions</button>
-    <button type="button" v-if="outcomes.length" @click="outcomes = []">Hide Selection</button>
-  </div>
-
-  <div v-if="outcomes.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="outcomes = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="o.id" v-for="(o, index) in outcomes">
-          <input type="checkbox" :id="'outcome-' + index" :value="o" v-model="selected">
-          <label :for="'outcome-' + index">{{ o.content }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <br>
+  <h4 class="headline mb-2">{{ mainTitle }}</h4>
 
   <div v-if="suggested.length">
     <div>
@@ -38,8 +13,7 @@
       <ul>
         <li :key="clo.id" v-for="(clo, index) in suggested">
           <input type="checkbox" :id="abbr + '-suggested-' + index" :value="clo" v-model="selected">
-          <button type="button" @click="copy(clo.content)">Copy</button>
-          <label :for="abbr + '-suggested-' + index">{{ clo.content }}</label>
+          <label :for="abbr + '-suggested-' + index">{{ clo }}</label>
         </li>
       </ul>
     </div>
@@ -55,14 +29,14 @@
     <table class="syllabus-tbl" border="1">
       <tr>
         <th style="width: 1px">&nbsp;</th>
-        <th style="width: 50%">{{ mainTitle }}</th>
+        <th colspan="2" style="width: 50%">{{ mainTitle }}</th>
         <th :colspan="supporting.length">{{ supportingTitle }}</th>
       </tr>
       <tr>
         <td>
           <button type="button" @click="add(0)">+</button>
         </td>
-        <td>&nbsp;</td>
+        <td colspan="2">&nbsp;</td>
         <template v-if="supporting.length">
           <td class="t-center"
             v-for="(po, index) in supporting"
@@ -75,13 +49,22 @@
           <button type="button" @click="remove(cloIndex)">x</button>
           <button type="button" @click="add(cloIndex + 1)">+</button>
         </td>
-        <td>
-          <span>{{ (cloIndex + 1) + '. ' }}</span>
-          <textarea
-            class="outcome-textarea"
-            v-if="typeof clo.id === 'undefined'"
-            v-model="clo.content"></textarea>
-          <template v-else>{{ clo.content }}</template>
+        <td style="width: 0">{{ (cloIndex + 1) }}.</td>
+        <td style="padding: 0">
+          <v-select
+            label="Enter clo label"
+            :items="searches[cloIndex]"
+            :search-input.sync="searchInput[cloIndex]"
+            @update:searchInput="doSearch(cloIndex)"
+            v-model="selected[cloIndex]"
+            flat
+            solo
+            dense
+            combobox
+            hide-selected
+            debounce-search
+            autocomplete>
+          </v-select>
         </td>
         <template v-if="supporting.length">
           <td
@@ -138,34 +121,69 @@ export default {
     outcomes: [],
     selected: [],
     suggested: [],
-    highlighted: ''
+    highlighted: '',
+    // for vselect
+    searches: [],
+    searchInput: []
   }),
 
   watch: {
     syllabus(to, from) {
       this.clear()
       if (to !== null) {
-        // set selected
-        this.selected = this.syllabus.content[this.mainFieldName]
-        this.suggest()
+        this.doInitial()
       }
     },
 
     selected(to, from) {
       // set to syllabus once changed
       this.syllabus.content[this.mainFieldName] = to
+    },
+
+    searchInput: {
+      deep: true,
+      handler: function(to, from) {
+
+      }
     }
   },
 
   created() {
     if (this.syllabus !== null) {
-      // set selected
-      this.selected = this.syllabus.content[this.mainFieldName]
-      this.suggest()
+      this.doInitial()
     }
   },
 
   methods: {
+    doInitial() {
+      // set selected
+      this.syllabus.content[this.mainFieldName].forEach((e, i) => {
+        // make selected only string
+        this.$set(this.selected, i, typeof e === 'string' ? e : e.content)
+      })
+      this.suggest()
+    },
+
+    doSearch(i) {
+      // do search only if search input contains value
+      if (!this.searchInput[i]) {
+        return
+      }
+
+      // search
+      this.$http.post(this.url, qs.stringify({
+        search: this.searchInput[i],
+        type: this.abbr === 'clo' ? 1 : 2
+      })).then((res) => {
+        if (typeof res.data.outcomes !== 'object') {
+          return
+        }
+        this.$set(this.searches, i, res.data.outcomes)
+      }).catch(e => {
+        console.error(e)
+      })
+    },
+
     clear() {
       this.outcomes = []
       this.suggested = []
@@ -195,12 +213,9 @@ export default {
     },
 
     add(i) {
-      this.selected.splice(i, 0, { content: '' })
+      this.selected.splice(i, 0, null)
       // move up
       this._updateMap(this.syllabus.content[this.mapName], i, 1)
-    },
-    copy(content) {
-      this.selected.push({ content: content })
     },
     remove(i) {
       this.selected.splice(i, 1)
