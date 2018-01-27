@@ -25,6 +25,14 @@
 
   <br>
 
+  <v-layout row class="mb-2">
+    <v-flex xs3>
+      <v-text-field
+        label="Enter symbol for marked"
+        v-model="symbol"/>
+    </v-flex>
+  </v-layout>
+
   <div class="scrollable-x">
     <table class="syllabus-tbl" border="1">
       <tr>
@@ -50,7 +58,7 @@
           <button type="button" @click="add(cloIndex + 1)">+</button>
         </td>
         <td style="width: 0">{{ (cloIndex + 1) }}.</td>
-        <td style="padding: 0">
+        <td style="padding: 1px">
           <v-select
             label="Enter clo label"
             :items="searches[cloIndex]"
@@ -79,7 +87,7 @@
               syllabus.content[mapName][cloIndex].indexOf(
                 abbr === 'clo' ? po.id : poIndex
               ) > -1
-            ">x</template>
+            ">{{ symbol }}</template>
             <template v-else>&nbsp;</template>
           </td>
         </template>
@@ -101,7 +109,7 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
-import moveArray from '@/assets/js/moveArray'
+import moveMap from '@/assets/js/moveMap'
 
 export default {
   name: 'outcome-table',
@@ -122,6 +130,8 @@ export default {
     selected: [],
     suggested: [],
     highlighted: '',
+    // for textfield
+    symbol: 'x',
     // for vselect
     searches: [],
     searchInput: []
@@ -140,11 +150,9 @@ export default {
       this.syllabus.content[this.mainFieldName] = to
     },
 
-    searchInput: {
-      deep: true,
-      handler: function(to, from) {
-
-      }
+    symbol() {
+      // set symbol to syllabus
+      this.syllabus.content.cloSymbol = this.symbol
     }
   },
 
@@ -161,6 +169,8 @@ export default {
         // make selected only string
         this.$set(this.selected, i, typeof e === 'string' ? e : e.content)
       })
+      // set symbol
+      this.symbol = this.syllabus.content.cloSymbol || 'x'
       this.suggest()
     },
 
@@ -225,53 +235,8 @@ export default {
 
     _updateMap(map, i, n) {
       this.$bus.$emit('clo-updated', i, n)
-      this.syllabus.content[this.mapName] = this.moveMap(map, i, n)
+      this.syllabus.content[this.mapName] = moveMap(map, i, n)
     },
-
-    moveMap(map, i, n) {
-      let newMap = {}
-      Object.keys(map).forEach(e => {
-        // if is equal to i or more
-        // add n
-        let m = Number(e)
-        // check if n is -1
-        // if -1 and m == i, do not include
-        if (m >= i) {
-          if (!(n === -1 && m === i)) {
-            newMap[m + n] = map[e]
-          }
-        } else {
-          // else, retain it and add it to new map
-          newMap[e] = map[e]
-        }
-      })
-      return newMap
-    },
-
-    moveArray(map, i, n) {
-      Object.keys(map).forEach(e => {
-        map[e] = moveArray(map[e], i, n)
-      })
-      return map
-    },
-
-    query: debounce(function(e) {
-      // search for book if not empty
-      const search = e.target.value
-      if (!search) {
-        this.outcomes = []
-        return
-      }
-
-      this.$http.post(this.url, qs.stringify({
-        search: search,
-        type: this.abbr === 'clo' ? 1 : 2
-      })).then((res) => {
-        this.outcomes = res.data.outcomes
-      }).catch(e => {
-        console.error(e)
-      })
-    }, 300),
 
     suggest() {
       // include book ids
