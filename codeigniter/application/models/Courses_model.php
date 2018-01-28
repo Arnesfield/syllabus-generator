@@ -3,10 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Courses_model extends MY_CRUD_Model {
 
-  public function getByQuery($search) {
-    $this->db
-      ->from('courses')
-      ->where("lower(concat(IFNULL(title, ''), IFNULL(code, ''))) like lower(concat('%', '$search', '%'))");
+  public function getByQuery($search = FALSE) {
+    $this->db->from('courses');
+
+    if ($search) {
+      $this->db->where("lower(concat(IFNULL(title, ''), IFNULL(code, ''))) like lower(concat('%', '$search', '%'))");
+    }
+
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }

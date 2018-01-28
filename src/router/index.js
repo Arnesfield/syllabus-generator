@@ -78,6 +78,14 @@ const router = new Router({
                 title: 'Manage Users'
               }
             },
+            {
+              path: '/manage/courses',
+              name: 'Manage Courses',
+              component: Components.ManageCourses,
+              meta: {
+                title: 'Manage Courses'
+              }
+            },
           ]
         }
       ]

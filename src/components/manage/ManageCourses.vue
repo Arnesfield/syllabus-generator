@@ -5,7 +5,7 @@
     :loading="loading"
     :headers="headers"
     :pagination.sync="pagination"
-    :items="users">
+    :items="courses">
     <template slot="no-data">
       <td colspan="100%" class="text-xs-center" :class="{ 'py-4': !loading }">
         <template v-if="loading">Loading...</template>
@@ -14,30 +14,20 @@
           <v-btn @click="fetch">Refresh</v-btn>
         </template>
       </td>
-      <!-- <td v-else colspan="100%">
+      <!-- <td v-if="!loading" :colspan="headers.length" style="padding: 0">
         <v-alert
           style="margin: 0"
           :value="true"
           color="error"
-          icon="warning"></v-alert>
+          icon="warning">Sorry, nothing to display here :(</v-alert>
       </td> -->
     </template>
     <template slot="items" slot-scope="props">
       <td>{{ props.item.id }}</td>
-      <td>
-        <template v-if="props.item.img_src.length">
-          <img
-            class="tbl-img"
-            :src="'./uploads/' + props.item.img_src"
-            :alt="props.item.username">
-        </template>
-        <pre v-else>No image.</pre>
-      </td>
-      <td>{{ props.item.fname }}</td>
-      <td>{{ props.item.mname }}</td>
-      <td>{{ props.item.lname }}</td>
-      <td>{{ props.item.username }}</td>
-      <td>{{ props.item.type }}</td>
+      <td>{{ props.item.code }}</td>
+      <td>{{ props.item.title }}</td>
+      <td>{{ props.item.unitsLec }}</td>
+      <td>{{ props.item.unitsLab }}</td>
       <td>
         <v-tooltip top>
           <v-switch
@@ -61,22 +51,19 @@
 
 <script>
 export default {
-  name: 'manage-users',
+  name: 'manage-courses',
   data: () => ({
-    url: '/users',
+    url: '/courses',
     headers: [
       { text: 'Id', value: 'id', align: 'left' },
-      { text: 'Image', value: 'img_src', align: 'left', sortable: false },
-      { text: 'First Name', value: 'fname', align: 'left' },
-      { text: 'Middle Name', value: 'mname', align: 'left' },
-      { text: 'Surname', value: 'lname', align: 'left' },
-      { text: 'Username', value: 'username', align: 'left' },
-      { text: 'Type', value: 'type', align: 'left', sortable: false },
+      { text: 'Code', value: 'code', align: 'left' },
+      { text: 'Title', value: 'title', align: 'left' },
+      { text: 'Units Lec', value: 'unitsLec', align: 'left', sortable: false },
+      { text: 'Units Lab', value: 'unitsLab', align: 'left', sortable: false },
       { text: 'Status', value: 'status', align: 'left', sortable: false },
       { text: 'Actions', value: 'id', sortable: false }
     ],
-    users: [],
-    currId: null,
+    courses: [],
     // for data table
     loading: null,
     pagination: {}
@@ -99,9 +86,8 @@ export default {
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
-        let users = res.data.users
-        this.users = typeof users === 'object' ? users : []
-        this.currId = res.data.currId
+        let courses = res.data.courses
+        this.courses = typeof courses === 'object' ? courses : []
         this.loading = false
       }).catch(e => {
         console.error(e)

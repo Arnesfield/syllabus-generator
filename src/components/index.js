@@ -10,6 +10,7 @@ import Generator from './dashboard/Generator'
 import Manage from './dashboard/Manage'
 
 import ManageUsers from './manage/ManageUsers'
+import ManageCourses from './manage/ManageCourses'
 
 export default {
   Home,
@@ -21,6 +22,7 @@ export default {
   Syllabi,
   Generator,
   ManageUsers,
+  ManageCourses,
 
   NotFound
 }
