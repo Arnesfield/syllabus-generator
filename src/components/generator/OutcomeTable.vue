@@ -108,7 +108,6 @@
 
 <script>
 import qs from 'qs'
-import debounce from 'lodash/debounce'
 import moveMap from '@/assets/js/moveMap'
 
 export default {

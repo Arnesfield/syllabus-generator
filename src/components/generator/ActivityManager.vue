@@ -8,8 +8,7 @@
       <tr>
         <th style="width: 1px">&nbsp;</th>
         <th style="width: 1px">Weeks</th>
-        <th style="width: 1px"
-          :colspan="cloLength">CLO</th>
+        <th>CLO</th>
         <th>Detailed Course Content</th>
         <th colspan="2">Teaching Activities and Learning Outcomes</th>
         <th>Instructional Materials</th>
@@ -20,13 +19,7 @@
           <button type="button" @click="add(0)">+</button>
         </td>
         <td>&nbsp;</td>
-        <template v-if="cloLength">
-          <td
-            class="t-center"
-            v-for="clo in cloLength"
-            :key="clo">{{ clo }}</td>
-        </template>
-        <td v-else>&nbsp;</td>
+        <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td class="t-center">Faculty</td>
         <td class="t-center">Students</td>
@@ -40,17 +33,11 @@
         :syllabus="syllabus"
         v-for="(activity, index) in activities"
         @add="add"
-        @remove="remove"
-        @highlighted="setHighlighted"/>
+        @remove="remove"/>
       <tr>
         <td>&nbsp;</td>
         <td class="t-center">Total Week/s: {{ totalWeeks }}</td>
-        <td :colspan="cloLength + 6">
-          <template v-if="highlighted.length">
-            <strong>Highlighted:</strong> {{ highlighted }}
-          </template>
-          <template v-else>&nbsp;</template>
-        </td>
+        <td :colspan="cloLength + 6">&nbsp;</td>
       </tr>
     </table>
   </div>
@@ -70,8 +57,7 @@ export default {
     syllabus: Object
   },
   data: () => ({
-    activities: [],
-    highlighted: ''
+    activities: []
   }),
 
   computed: {
@@ -119,10 +105,6 @@ export default {
     },
     remove(i) {
       this.activities.splice(i, 1)
-    },
-
-    setHighlighted(i) {
-      this.highlighted = i === -1 ? '' : this.syllabus.content.courseLearningOutcomes[i]
     },
 
     _setInitial() {

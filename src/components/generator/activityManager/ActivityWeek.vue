@@ -7,20 +7,21 @@
   <td>
     <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
   </td>
-  <template v-if="cloLength">
-    <td
-      class="t-center"
-      @mouseover="over(clo - 1, $event)"
-      @mouseout="out(clo - 1, $event)"
-      @click="click(clo - 1)"
-      v-for="clo in cloLength"
-      :key="clo">
-      <template v-if="typeof act.cloMap !== 'undefined' && act.cloMap.indexOf(clo - 1) > -1"
-        >x</template>
-      <template v-else>&nbsp;</template>
-    </td>
-  </template>
-  <td v-else>&nbsp;</td>
+  <td>
+    <v-select
+      :items="cloNumbers"
+      v-model="act.cloMap"
+      dense
+      multiple>
+      <template slot="selection" slot-scope="data"
+        >{{ (Number(data.item) + 1) + (data.index < data.parent.value.length - 1 ? ', ' : '') }}</template>
+      <template slot="item" slot-scope="data">
+        <v-list-tile-content>
+          <v-list-tile-title>{{ (Number(data.item) + 1) + '. ' + (clos[data.item] ? clos[data.item] : '') }}</v-list-tile-title>
+        </v-list-tile-content>
+      </template>
+    </v-select>
+  </td>
   <topic-picker
     :act="act"
     :index="index"
@@ -70,11 +71,18 @@ export default {
   computed: {
     cloLength() {
       return this.syllabus.content.courseLearningOutcomes.length
+    },
+    cloNumbers() {
+      return this.syllabus.content.courseLearningOutcomes.map((e, i) => i)
+    },
+    clos() {
+      return this.syllabus.content.courseLearningOutcomes
     }
   },
 
   watch: {
     act: {
+      deep: true,
       handler: function(to, from) {
         if (to !== null) {
           if (Number(to.noOfWeeks) <= 0) {
@@ -83,8 +91,12 @@ export default {
             this.act.noOfWeeks = 99
           }
         }
-      },
-      deep: true
+      }
+    },
+
+    'act.cloMap': function(to, from) {
+      // update topic suggestions when map changes
+      this.$bus.$emit('update-suggestions')
     }
   },
 
@@ -93,28 +105,6 @@ export default {
   },
 
   methods: {
-    over(i, e) {
-      e.target.classList.add('outcome-highlighted')
-      this.$emit('highlighted', i)
-    },
-    out(i, e) {
-      e.target.classList.remove('outcome-highlighted')
-      this.$emit('highlighted', -1)
-    },
-    click(i) {
-      if (typeof this.act.cloMap === 'undefined') {
-        this.$set(this.act, 'cloMap', [])
-      }
-
-      let set = new Set(this.act.cloMap)
-      // if existing, remove it
-      set.has(i) ? set.delete(i) : set.add(i)
-      this.act.cloMap = Array.from(set)
-
-      // update topic suggestions
-      this.$bus.$emit('update-suggestions')
-    },
-
     onCLOUpdated(i, n) {
       this.act.cloMap = moveArray(this.act.cloMap, i, n)
     }
