@@ -3,6 +3,7 @@
 
   <h4 class="headline mb-2">Weekly Activities</h4>
 
+  <suggest-alert/>
   <div class="scrollable-x">
     <table class="syllabus-tbl" border="1">
       <tr>
@@ -47,11 +48,13 @@
 
 <script>
 import ActivityWeek from './activityManager/ActivityWeek'
+import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'activity-manager',
   components: {
-    ActivityWeek
+    ActivityWeek,
+    SuggestAlert
   },
   props: {
     syllabus: Object

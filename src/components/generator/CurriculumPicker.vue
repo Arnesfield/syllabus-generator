@@ -9,9 +9,8 @@
     <button type="button" v-if="years.length" @click="years = []">Hide Selection</button>
   </div>
 
-  <br>
-
-  <div v-if="suggested.length">
+  <suggest-alert v-if="!$bus.generator.suggestions"/>
+  <div v-else-if="suggested.length">
     <span>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
@@ -58,9 +57,13 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
+import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'curriculum-picker',
+  components: {
+    SuggestAlert
+  },
   props: {
     syllabus: Object
   },

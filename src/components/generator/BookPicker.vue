@@ -76,7 +76,8 @@
     </template>
   </v-list>
 
-  <div class="mt-2">
+  <suggest-alert v-if="!$bus.generator.suggestions"/>
+  <div class="mt-2" v-else>
     <v-list class="elevation-2">
       <v-list-tile>
         <v-list-tile-action>
@@ -149,10 +150,13 @@
 
 <script>
 import qs from 'qs'
-import debounce from 'lodash/debounce'
+import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'book-picker',
+  components: {
+    SuggestAlert
+  },
   props: {
     syllabus: Object
   },

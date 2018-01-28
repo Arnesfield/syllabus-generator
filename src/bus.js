@@ -8,6 +8,11 @@ export default new Vue({
     drawer: null,
     tab: null,
     tabs: null,
-    tabItems: null
+    tabItems: null,
+    menu: null,
+    // generator
+    generator: {
+      suggestions: true
+    }
   })
 })

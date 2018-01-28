@@ -39,7 +39,8 @@
     </div>
   </div>
 
-  <div v-if="suggested.length">
+  <template v-if="!$bus.generator.suggestions"></template>
+  <div v-else-if="suggested.length">
     <br>
     <div>
       <strong>Suggested</strong>

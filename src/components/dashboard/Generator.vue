@@ -92,6 +92,11 @@ export default {
         } else {
           this.$bus.tabItems = this.tabs.noCurriculum
         }
+
+        if (to !== null) {
+          // show suggestions if syllabus is new
+          this.$bus.generator.suggestions = typeof this.syllabus.id === 'undefined'
+        }
       }
     }
   },
@@ -100,12 +105,14 @@ export default {
     this.$bus.tabs = true
     this.$bus.tab = null
     this.$bus.tabItems = ['course']
+    this.$bus.generator.suggestions = true
   },
 
   beforeDestroy() {
     this.$bus.tabs = null
     this.$bus.tab = null
     this.$bus.tabItems = null
+    this.$bus.generator.suggestions = true
   },
 
   methods: {

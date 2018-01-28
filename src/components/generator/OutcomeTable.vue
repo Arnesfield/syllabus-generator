@@ -3,7 +3,8 @@
 
   <h4 class="headline mb-2">{{ mainTitle }}</h4>
 
-  <div v-if="suggested.length">
+  <suggest-alert v-if="!$bus.generator.suggestions"/>
+  <div v-else-if="suggested.length">
     <div>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
@@ -23,9 +24,7 @@
     <button type="button" @click="suggest()">Show</button>
   </div>
 
-  <br>
-
-  <v-layout row class="mb-2">
+  <v-layout row class="mb-2 mt-3">
     <v-flex xs3>
       <v-text-field
         label="Enter symbol for marked"
@@ -60,7 +59,7 @@
         <td style="width: 0">{{ (cloIndex + 1) }}.</td>
         <td style="padding: 1px">
           <v-select
-            label="Enter clo label"
+            label="Enter CLO"
             :items="searches[cloIndex]"
             :search-input.sync="searchInput[cloIndex]"
             @update:searchInput="doSearch(cloIndex)"
@@ -109,9 +108,13 @@
 <script>
 import qs from 'qs'
 import moveMap from '@/assets/js/moveMap'
+import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'outcome-table',
+  components: {
+    SuggestAlert
+  },
   props: {
     syllabus: Object,
     supporting: Array,
