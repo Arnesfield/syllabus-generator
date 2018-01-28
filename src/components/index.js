@@ -11,6 +11,7 @@ import Manage from './dashboard/Manage'
 
 import ManageUsers from './manage/ManageUsers'
 import ManageCourses from './manage/ManageCourses'
+import ManageBooks from './manage/ManageBooks'
 
 export default {
   Home,
@@ -23,6 +24,7 @@ export default {
   Generator,
   ManageUsers,
   ManageCourses,
+  ManageBooks,
 
   NotFound
 }

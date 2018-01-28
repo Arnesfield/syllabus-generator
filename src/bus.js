@@ -12,7 +12,16 @@ export default new Vue({
     menu: null,
     // generator
     generator: {
-      suggestions: true
+      suggestions: true,
+      warn: true
     }
-  })
+  }),
+
+  watch: {
+    'generator.suggestions': function(to, from) {
+      if (to == false && this.generator.warn == false) {
+        this.generator.warn = true
+      }
+    }
+  }
 })
