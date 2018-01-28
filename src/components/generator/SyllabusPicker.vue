@@ -1,12 +1,12 @@
 <template>
 <div v-if="course">
-  <v-alert class="elevation-1" type="info" :value="true"
+  <v-alert type="info" :value="true"
     v-if="selected && typeof selected.version !== 'undefined'">
     Based on syllabi version: <strong>v{{ selected.version }}</strong>
   </v-alert>
-  <v-alert class="elevation-1" type="warning" :value="true"
+  <v-alert type="warning" :value="true"
     v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</v-alert> 
-  <v-alert class="elevation-1" type="info" :value="true" v-else>No existing syllabus. Syllabus started from scratch.</v-alert>
+  <v-alert type="info" :value="true" v-else>No existing syllabus. Syllabus started from scratch.</v-alert>
 
   <v-btn class="primary" style="margin-right: 0" @click="startScratch">New</v-btn>
   <v-menu botom transition="slide-y-transition" @input="getSyllabi(true)">

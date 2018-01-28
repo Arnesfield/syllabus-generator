@@ -22,8 +22,8 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td class="t-center">Faculty</td>
-        <td class="t-center">Students</td>
+        <td class="text-xs-center">Faculty</td>
+        <td class="text-xs-center">Students</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
       </tr>
@@ -37,7 +37,7 @@
         @remove="remove"/>
       <tr>
         <td>&nbsp;</td>
-        <td class="t-center">Total Week/s: {{ totalWeeks }}</td>
+        <td class="text-xs-center">Total Week/s: {{ totalWeeks }}</td>
         <td :colspan="cloLength + 6">&nbsp;</td>
       </tr>
     </table>

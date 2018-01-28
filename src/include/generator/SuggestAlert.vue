@@ -1,6 +1,6 @@
 <template>
 <div v-if="!$bus.generator.suggestions" class="mt-3 mb-3">
-  <v-alert class="elevation-1" type="warning" :value="true">
+  <v-alert type="warning" :value="true">
     <span>Suggestions are off.</span>
     <v-btn
       @click="$bus.generator.suggestions = true"

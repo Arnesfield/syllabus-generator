@@ -45,7 +45,7 @@
         </td>
         <td colspan="2">&nbsp;</td>
         <template v-if="supporting.length">
-          <td class="t-center"
+          <td class="text-xs-center"
             v-for="(po, index) in supporting"
             :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
         </template>
@@ -75,7 +75,7 @@
         </td>
         <template v-if="supporting.length">
           <td
-            class="t-center"
+            class="text-xs-center"
             @mouseover="over(cloIndex, poIndex, $event)"
             @mouseout="out(cloIndex, poIndex, $event)"
             @click="click(cloIndex, abbr === 'clo' ? po.id : poIndex)"
