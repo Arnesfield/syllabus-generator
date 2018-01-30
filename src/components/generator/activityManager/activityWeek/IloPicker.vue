@@ -135,7 +135,7 @@ export default {
       })
 
       // include number of clos for limit
-      let limit = this.syllabus.content.courseLearningOutcomes.length
+      let cloLimit = Object.keys(this.act.cloMap).length
 
       let po = this.syllabus.content.programOutcomes
       let year = po.length ? po[0].year : 0
@@ -147,7 +147,8 @@ export default {
         courseId: this.syllabus.course_id,
         curriculumYear: year,
         type: 2,
-        limit: limit
+        limit: 30,
+        cloLimit: cloLimit
       })).then((res) => {
         this.suggested = res.data.outcomes
       }).catch((e) => {

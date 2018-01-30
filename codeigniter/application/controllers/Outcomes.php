@@ -31,6 +31,7 @@ class Outcomes extends MY_Custom_Controller {
     $topic_ids = $this->input->post('topicIds') ? $this->input->post('topicIds') : FALSE;
     $year = $this->input->post('curriculumYear');
     $limit = $this->input->post('limit');
+    $cloLimit = $this->input->post('cloLimit');
 
     // clo content only when suggesting ilos
     $clo_content = $this->input->post('cloContent') ? $this->input->post('cloContent') : FALSE;
@@ -48,7 +49,7 @@ class Outcomes extends MY_Custom_Controller {
     $cFields = $this->fields_model->getFieldsByCourseId($course_id);
     $bFields = $this->fields_model->getFieldsByBookIds($book_ids);
     $tOutcomes = $this->fields_model->getOutcomesByTopicIds($topic_ids, $type);
-    $ilosFromClos = $this->outcomes_model->getILOsFromCLOs($clo_content, $limit);
+    $ilosFromClos = $this->outcomes_model->getILOsFromCLOs($clo_content, $cloLimit);
 
     $fields = array();
     if (is_array($cFields)) {
