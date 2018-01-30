@@ -7,21 +7,10 @@
   <td>
     <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
   </td>
-  <td>
-    <v-select
-      :items="cloNumbers"
-      v-model="act.cloMap"
-      dense
-      multiple>
-      <template slot="selection" slot-scope="data"
-        >{{ (Number(data.item) + 1) + (data.index < data.parent.value.length - 1 ? ', ' : '') }}</template>
-      <template slot="item" slot-scope="data">
-        <v-list-tile-content>
-          <v-list-tile-title>{{ (Number(data.item) + 1) + '. ' + (clos[data.item] ? clos[data.item] : '') }}</v-list-tile-title>
-        </v-list-tile-content>
-      </template>
-    </v-select>
-  </td>
+  <ilo-picker
+    :act="act"
+    :index="index"
+    :syllabus="syllabus"/>
   <topic-picker
     :act="act"
     :index="index"
@@ -44,6 +33,21 @@
     :act="act"
     :index="index"
     :syllabus="syllabus"/>
+  <td>
+    <v-select
+      :items="cloNumbers"
+      v-model="act.cloMap"
+      dense
+      multiple>
+      <template slot="selection" slot-scope="data"
+        >{{ (Number(data.item) + 1) + (data.index < data.parent.value.length - 1 ? ', ' : '') }}</template>
+      <template slot="item" slot-scope="data">
+        <v-list-tile-content>
+          <v-list-tile-title>{{ (Number(data.item) + 1) + '. ' + (clos[data.item] ? clos[data.item] : '') }}</v-list-tile-title>
+        </v-list-tile-content>
+      </template>
+    </v-select>
+  </td>
 </tr>
 </template>
 
@@ -52,6 +56,7 @@ import TopicPicker from './activityWeek/TopicPicker'
 import Tla from './activityWeek/Tla'
 import InstructionalMaterials from './activityWeek/InstructionalMaterials'
 import AssessmentTasks from './activityWeek/AssessmentTasks'
+import IloPicker from './activityWeek/IloPicker'
 import moveArray from '@/assets/js/moveArray'
 
 export default {
@@ -60,7 +65,8 @@ export default {
     TopicPicker,
     Tla,
     InstructionalMaterials,
-    AssessmentTasks
+    AssessmentTasks,
+    IloPicker
   },
   props: {
     act: Object,

@@ -9,11 +9,12 @@
       <tr>
         <th style="width: 1px">&nbsp;</th>
         <th style="width: 1px">Weeks</th>
-        <th>CLO</th>
+        <th>Intended Learning Outcomes (ILO)</th>
         <th>Detailed Course Content</th>
         <th colspan="2">Teaching Activities and Learning Outcomes</th>
         <th>Instructional Materials</th>
         <th>Assessment Tasks (AT)</th>
+        <th>CLO</th>
       </tr>
       <tr>
         <td>
@@ -24,6 +25,7 @@
         <td>&nbsp;</td>
         <td class="text-xs-center">Faculty</td>
         <td class="text-xs-center">Students</td>
+        <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
       </tr>
@@ -38,7 +40,7 @@
       <tr>
         <td>&nbsp;</td>
         <td class="text-xs-center">Total Week/s: {{ totalWeeks }}</td>
-        <td :colspan="cloLength + 6">&nbsp;</td>
+        <td :colspan="cloLength + 7">&nbsp;</td>
       </tr>
     </table>
   </div>

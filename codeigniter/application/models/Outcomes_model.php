@@ -41,6 +41,27 @@ class Outcomes_model extends MY_CRUD_Model {
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
+  
+  public function getILOsFromCLOs($clo_content = FALSE, $limit = 10) {
+    if (!$clo_content) {
+      return FALSE;
+    }
+
+    $this->db
+      ->select('ilo.id AS outcome_id')
+      ->from('outcome_relation r')
+      ->join('outcomes clo', 'clo.id = r.clo_id')
+      ->join('outcomes ilo', 'ilo.id = r.ilo_id')
+      ->where('clo.type', 1)
+      ->where('ilo.type', 2)
+      ->where("MATCH(clo.content) AGAINST('$clo_content')", NULL, FALSE)
+      ->group_by('ilo.id')
+      ->order_by('COUNT(*)', 'DESC')
+      ->limit($limit);
+
+    $query = $this->db->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
 }
 
 ?>
