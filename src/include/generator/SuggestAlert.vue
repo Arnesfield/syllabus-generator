@@ -1,5 +1,5 @@
 <template>
-<div v-if="!$bus.generator.suggestions" class="mt-3 mb-3">
+<div v-if="!$bus.generator.suggestions && $bus.generator.warn" class="mt-3 mb-3">
   <v-alert
     type="warning"
     v-model="$bus.generator.warn"
