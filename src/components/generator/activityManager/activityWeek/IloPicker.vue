@@ -80,6 +80,7 @@ export default {
   watch: {
     selected(to, from) {
       this.act.ilo = to
+      this.$bus.$emit('on-ilo-updated')
     }
   },
 

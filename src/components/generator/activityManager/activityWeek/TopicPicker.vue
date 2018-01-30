@@ -97,6 +97,7 @@ export default {
   created() {
     this.suggest()
     this.$bus.$on('update-suggestions', this.suggest)
+    this.$bus.$on('on-ilo-updated', this.suggest)
   },
 
   methods: {
@@ -135,12 +136,16 @@ export default {
         }
       })
 
+      // include ilo content
+      let iloContent = this.act.ilo.reduce((filtered, e) => filtered + ' ' + e, '')
+
+      let outcomes = cloContent + iloContent;
       let po = this.syllabus.content.programOutcomes
       let year = po.length ? po[0].year : 0
 
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
-        cloContent: cloContent,
+        outcomes: outcomes,
         courseId: this.syllabus.course_id,
         curriculumYear: year,
         limit: 30
