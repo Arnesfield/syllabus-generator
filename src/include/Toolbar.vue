@@ -25,6 +25,17 @@
 
     <template v-if="$route.path === '/generator'">
       <v-spacer/>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          @click="$bus.generator.suggestions = !$bus.generator.suggestions"
+          slot="activator">
+          <v-icon v-if="$bus.generator.suggestions">visibility</v-icon>
+          <v-icon v-else>visibility_off</v-icon>
+        </v-btn>
+        <span v-if="$bus.generator.suggestions">Hide Suggestions</span>
+        <span v-else>Show Suggestions</span>
+      </v-tooltip>
       <v-menu
         :close-on-content-click="false"
         bottom left offset-y>
