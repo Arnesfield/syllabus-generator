@@ -112,6 +112,8 @@ export default {
   },
 
   created() {
+    // do suggest when bus generator suggestions changes
+    this.$bus.$on('on-bus-generator-suggestion-change', this.suggest)
     if (this.syllabus !== null) {
       // removed suggest since setting 'selected' will trigger suggest(n)
       if (!this.setFromSyllabus()) {
@@ -141,6 +143,10 @@ export default {
     },
 
     suggest(year) {
+      // do no execute sugget when bus suggestions is off
+      if (!this.$bus.generator.suggestions) {
+        return
+      }
       this.$http.post(this.suggestUrl).then((res) => {
         let suggested = res.data.years
         let assign = true

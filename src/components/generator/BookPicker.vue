@@ -187,6 +187,8 @@ export default {
   },
 
   created() {
+    // do suggest when bus generator suggestions changes
+    this.$bus.$on('on-bus-generator-suggestion-change', this.suggest)
     if (this.syllabus !== null) {
       // set selected as book content from syllabus
       this.selected = this.syllabus.content.bookReferences
@@ -228,6 +230,10 @@ export default {
     },
 
     suggest() {
+      // do no execute sugget when bus suggestions is off
+      if (!this.$bus.generator.suggestions) {
+        return
+      }
       this.$http.post(this.suggestUrl, qs.stringify({
         courseId: this.syllabus.course_id,
         limit: 30

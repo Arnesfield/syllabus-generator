@@ -89,8 +89,10 @@ export default {
   },
 
   created() {
-    this.suggest()
     this.$bus.$on('on-topics-updated', this.suggest)
+    // do suggest when bus generator suggestions changes
+    this.$bus.$on('on-bus-generator-suggestion-change', this.suggest)
+    this.suggest()
   },
 
   methods: {
@@ -113,6 +115,10 @@ export default {
     }, 300),
 
     suggest() {
+      // do no execute sugget when bus suggestions is off
+      if (!this.$bus.generator.suggestions) {
+        return
+      }
       // include book ids
       let bookIds = []
       if (typeof this.syllabus.content.bookReferences !== 'undefined') {

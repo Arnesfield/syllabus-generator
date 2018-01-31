@@ -22,6 +22,7 @@ export default new Vue({
       if (to == false && this.generator.warn == false) {
         this.generator.warn = true
       }
+      this.$emit('on-bus-generator-suggestion-change')
     }
   }
 })
