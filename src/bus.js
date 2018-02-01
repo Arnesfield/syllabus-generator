@@ -14,6 +14,19 @@ export default new Vue({
     generator: {
       suggestions: true,
       warn: true
+    },
+    // fab
+    fab: {
+      model: false,
+      manageUsers: {
+        color: 'accent',
+        before: 'add',
+        after: 'close',
+        btns: [
+          { icon: 'person_add', tip: 'Add User', cb: 'on-fab-manage-users-person-add' },
+          { icon: 'file_upload', tip: 'Upload CSV file', cb: 'on-fab-manage-users-file-upload' }
+        ]
+      }
     }
   }),
 
@@ -23,6 +36,16 @@ export default new Vue({
         this.generator.warn = true
       }
       this.$emit('on-bus-generator-suggestion-change')
+    }
+  },
+
+  methods: {
+    fabProp(path) {
+      switch (path) {
+        case '/manage/users':
+          return this.fab.manageUsers
+      }
+      return null
     }
   }
 })
