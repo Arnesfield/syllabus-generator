@@ -5,11 +5,13 @@ export default new Vue({
     // all
     user: null,
     // toolbar
-    drawer: null,
-    tab: null,
-    tabs: null,
-    tabItems: null,
-    menu: null,
+    toolbar: {
+      drawer: null,
+      tab: null,
+      tabs: null,
+      tabItems: null,
+      menu: null
+    },
     // generator
     generator: {
       suggestions: true,

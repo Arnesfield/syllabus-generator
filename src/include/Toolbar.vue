@@ -1,9 +1,9 @@
 <template>
-  <v-toolbar color="primary" dark app :tabs="$bus.tabs">
-    <v-toolbar-side-icon @click.stop="$bus.drawer = !$bus.drawer"></v-toolbar-side-icon>
+  <v-toolbar color="primary" dark app :tabs="$bus.toolbar.tabs">
+    <v-toolbar-side-icon @click.stop="$bus.toolbar.drawer = !$bus.toolbar.drawer"></v-toolbar-side-icon>
     <v-toolbar-title>{{ title }}</v-toolbar-title>
 
-    <template v-if="$bus.menu !== null">
+    <template v-if="$bus.toolbar.menu !== null">
       <v-spacer/>
       <v-menu bottom left offset-y>
         <v-btn icon slot="activator" dark>
@@ -12,7 +12,7 @@
         <v-list>
           <v-list-tile
             :key="i"
-            v-for="(item, i) in $bus.menu"
+            v-for="(item, i) in $bus.toolbar.menu"
             @click="item.click">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -57,12 +57,12 @@
       align-with-title
       show-arrows
       color="primary"
-      v-if="$bus.tabs"
-      v-model="$bus.tab"
+      v-if="$bus.toolbar.tabs"
+      v-model="$bus.toolbar.tab"
       slot="extension">
       <v-tabs-slider color="accent"/>
       <v-tab
-        v-for="tab in $bus.tabItems"
+        v-for="tab in $bus.toolbar.tabItems"
         :key="tab">{{ tab }}</v-tab>
     </v-tabs>
   </v-toolbar>

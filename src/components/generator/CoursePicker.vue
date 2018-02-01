@@ -100,7 +100,7 @@
     <v-btn
       class="mt-3"
       color="primary"
-      @click="$bus.tab = '1'">Next</v-btn>
+      @click="$bus.toolbar.tab = '1'">Next</v-btn>
 
   </template>
 </div>

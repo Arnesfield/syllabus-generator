@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-tabs-items v-model="$bus.tab">
+  <v-tabs-items v-model="$bus.toolbar.tab">
     <v-tab-item key="course">
       <course-picker @course-selected="onCourseSelected"/>
     </v-tab-item>
@@ -77,7 +77,7 @@ export default {
 
   watch: {
     course(to, from) {
-      this.$bus.tabItems = to === null
+      this.$bus.toolbar.tabItems = to === null
         ? this.tabs.course : this.tabs.syllabi
     },
 
@@ -85,28 +85,28 @@ export default {
       deep: true,
       handler: function(to, from) {
         if (to === null) {
-          this.$bus.tabItems = this.course === null
+          this.$bus.toolbar.tabItems = this.course === null
             ? this.tabs.course : this.tabs.syllabi
         } else if (to.content.programOutcomes.length) {
-          this.$bus.tabItems = this.tabs.all
+          this.$bus.toolbar.tabItems = this.tabs.all
         } else {
-          this.$bus.tabItems = this.tabs.noCurriculum
+          this.$bus.toolbar.tabItems = this.tabs.noCurriculum
         }
       }
     }
   },
 
   created() {
-    this.$bus.tabs = true
-    this.$bus.tab = null
-    this.$bus.tabItems = ['course']
+    this.$bus.toolbar.tabs = true
+    this.$bus.toolbar.tab = null
+    this.$bus.toolbar.tabItems = ['course']
     this.$bus.generator.suggestions = true
   },
 
   beforeDestroy() {
-    this.$bus.tabs = null
-    this.$bus.tab = null
-    this.$bus.tabItems = null
+    this.$bus.toolbar.tabs = null
+    this.$bus.toolbar.tab = null
+    this.$bus.toolbar.tabItems = null
     this.$bus.generator.suggestions = true
   },
 

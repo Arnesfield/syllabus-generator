@@ -4,7 +4,7 @@
   app
   fixed
   width="272"
-  v-model="$bus.drawer">
+  v-model="$bus.toolbar.drawer">
   <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
     <v-container fluid class="no-bg dim">
       <v-avatar class="primary elevation-6">
@@ -157,7 +157,7 @@ export default {
         this.updateNav()
         this.$router.push('/')
         // hide drawer
-        this.$bus.drawer = null
+        this.$bus.toolbar.drawer = null
         this.$bus.$emit('show-snackbar', 'Logged out successfully.', null)
       }).catch(e => {
         console.error(e)
