@@ -12,6 +12,12 @@ export default new Vue({
       tabItems: null,
       menu: null
     },
+    // dialogs
+    dialog: {
+      addUser: {
+        model: false
+      }
+    },
     // generator
     generator: {
       suggestions: true,

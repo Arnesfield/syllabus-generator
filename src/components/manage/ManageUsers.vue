@@ -56,12 +56,20 @@
       </td>
     </template>
   </v-data-table>
+
+  <add-user/>
+
 </div>
 </template>
 
 <script>
+import AddUser from '@/include/dialogs/AddUser'
+
 export default {
   name: 'manage-users',
+  components: {
+    AddUser
+  },
   data: () => ({
     url: '/users',
     headers: [
@@ -92,10 +100,15 @@ export default {
   },
 
   created() {
+    this.$bus.$on('on-fab-manage-users-person-add', this.addUser)
     this.fetch()
   },
 
   methods: {
+    addUser() {
+      this.$bus.dialog.addUser.model = true
+    },
+
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
