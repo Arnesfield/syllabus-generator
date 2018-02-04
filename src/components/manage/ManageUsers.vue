@@ -64,18 +64,18 @@
     </template>
   </v-data-table>
 
-  <add-user/>
+  <dialog-add-user/>
 
 </div>
 </template>
 
 <script>
-import AddUser from '@/include/dialogs/AddUser'
+import DialogAddUser from '@/include/dialogs/DialogAddUser'
 
 export default {
   name: 'manage-users',
   components: {
-    AddUser
+    DialogAddUser
   },
   data: () => ({
     url: '/users',

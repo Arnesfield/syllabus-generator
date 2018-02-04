@@ -80,7 +80,7 @@
 import qs from 'qs'
 
 export default {
-  name: 'add-user',
+  name: 'dialog-add-user',
   data: () => ({
     url: '/users/add',
     formValid: false,
