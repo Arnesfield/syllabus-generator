@@ -12,6 +12,9 @@ export default new Vue({
       tabItems: null,
       menu: null
     },
+    progress: {
+      active: false
+    },
     // dialogs
     dialog: {
       addUser: {
