@@ -13,6 +13,10 @@ class Users_model extends MY_CRUD_Model {
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
+
+  public function insert($user) {
+    return $this->_create('users', $user);
+  }
 }
 
 ?>

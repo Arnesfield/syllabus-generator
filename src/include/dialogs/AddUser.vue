@@ -58,6 +58,9 @@
           single-line
           return-object
           bottom/>
+        <v-switch
+          :label="'Status: ' + (status ? 'Activated' : 'Deactivated')"
+          v-model="status"/>
         <v-btn
           color="primary"
           @click="submit">Add</v-btn>
@@ -74,9 +77,12 @@
 </template>
 
 <script>
+import qs from 'qs'
+
 export default {
   name: 'add-user',
   data: () => ({
+    url: '/users/add',
     formValid: false,
     fname: null,
     mname: null,
@@ -85,6 +91,7 @@ export default {
     password: null,
     passconf: null,
     type: null,
+    status: true,
     hidePass: {
       password: true,
       passconf: true
@@ -97,7 +104,27 @@ export default {
 
   methods: {
     submit() {
-      this.$refs.form.validate()
+      if (this.$refs.form.validate()) {
+        this.$http.post(this.url, qs.stringify({
+          fname: this.fname,
+          mname: this.mname,
+          lname: this.lname,
+          username: this.username,
+          password: this.password,
+          type: this.type.value,
+          status: this.status ? 1 : 0
+        })).then((res) => {
+          if (!res.data.success) {
+            throw new Error
+          }
+          this.$bus.dialog.addUser.model = false
+          this.$bus.$emit('show-snackbar', 'Added user successfully.')
+          this.$bus.$emit('update-manage-users')
+        }).catch((e) => {
+          console.error(e)
+          this.$bus.$emit('show-snackbar', 'Cannot add user.')
+        })
+      }
     },
     clear() {
       this.$refs.form.reset()

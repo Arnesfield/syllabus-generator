@@ -19,12 +19,19 @@
       <td>{{ props.item.id }}</td>
       <td>{{ props.item.citation }}</td>
       <td>
-        <v-tooltip top>
-          <v-switch
-            slot="activator"
-            v-model="props.item.status"/>
-          <span>{{ props.item.status == 1 ? 'Actived' : 'Deactivated' }}</span>
-        </v-tooltip>
+        <div class="justify-center layout">
+          <v-tooltip top>
+            <template slot="activator">
+              <v-icon
+                v-if="props.item.status == 1"
+                color="success">check_circle</v-icon>
+              <v-icon
+                v-else
+                color="error">cancel</v-icon>
+            </template>
+            <span>{{ props.item.status == 1 ? 'Activated' : 'Deactivated' }}</span>
+          </v-tooltip>
+        </div>
       </td>
       <td class="justify-center layout px-0">
         <v-btn icon class="mx-0">
