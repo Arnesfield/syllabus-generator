@@ -90,15 +90,15 @@ export default {
       // set to topics in syllabus
       this.act.topics = to
       // update outcomes on tla
-      this.$bus.$emit('on-topics-updated')
+      this.$bus.$emit('topics-updated')
     }
   },
 
   created() {
     this.$bus.$on('update-suggestions', this.suggest)
-    this.$bus.$on('on-ilo-updated', this.suggest)
+    this.$bus.$on('ilo-updated', this.suggest)
     // do suggest when bus generator suggestions changes
-    this.$bus.$on('on-bus-generator-suggestion-change', this.suggest)
+    this.$bus.$on('bus-generator-suggestion-change', this.suggest)
     this.suggest()
   },
 

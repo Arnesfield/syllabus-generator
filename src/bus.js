@@ -34,8 +34,8 @@ export default new Vue({
         before: 'add',
         after: 'close',
         btns: [
-          { icon: 'person_add', tip: 'Add User', cb: 'on-fab-manage-users-person-add' },
-          { icon: 'file_upload', tip: 'Upload CSV file', cb: 'on-fab-manage-users-file-upload' }
+          { icon: 'person_add', tip: 'Add User', cb: 'fab-manage-users-person-add' },
+          { icon: 'file_upload', tip: 'Upload CSV file', cb: 'fab-manage-users-file-upload' }
         ]
       }
     }
@@ -46,7 +46,7 @@ export default new Vue({
       if (to == false && this.generator.warn == false) {
         this.generator.warn = true
       }
-      this.$emit('on-bus-generator-suggestion-change')
+      this.$emit('bus-generator-suggestion-change')
     }
   },
 

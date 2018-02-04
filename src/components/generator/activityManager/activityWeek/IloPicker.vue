@@ -80,15 +80,15 @@ export default {
   watch: {
     selected(to, from) {
       this.act.ilo = to
-      this.$bus.$emit('on-ilo-updated')
+      this.$bus.$emit('ilo-updated')
     }
   },
 
   created() {
     this.$bus.$on('update-suggestions', this.suggest)
-    this.$bus.$on('on-topics-updated', this.suggest)
+    this.$bus.$on('topics-updated', this.suggest)
     // do suggest when bus generator suggestions changes
-    this.$bus.$on('on-bus-generator-suggestion-change', this.suggest)
+    this.$bus.$on('bus-generator-suggestion-change', this.suggest)
     this.suggest()
   },
 

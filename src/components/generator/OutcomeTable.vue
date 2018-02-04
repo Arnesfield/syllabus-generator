@@ -160,7 +160,7 @@ export default {
 
   created() {
     // do suggest when bus generator suggestions changes
-    this.$bus.$on('on-bus-generator-suggestion-change', this.suggest)
+    this.$bus.$on('bus-generator-suggestion-change', this.suggest)
     if (this.syllabus !== null) {
       this.doInitial()
     }
