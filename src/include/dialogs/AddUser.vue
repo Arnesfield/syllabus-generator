@@ -120,6 +120,7 @@ export default {
           this.$bus.dialog.addUser.model = false
           this.$bus.$emit('show-snackbar', 'Added user successfully.')
           this.$bus.$emit('update-manage-users')
+          this.clear()
         }).catch((e) => {
           console.error(e)
           this.$bus.$emit('show-snackbar', 'Cannot add user.')
