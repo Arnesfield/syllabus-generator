@@ -29,6 +29,15 @@ class Courses extends MY_Custom_Controller {
       'corequisites' => $corequisites
     ));
   }
+
+  public function add() {
+    $post_values = array('title', 'code', 'description', 'objectives', 'unitsLec', 'unitsLab', 'status');
+    foreach ($post_values as $value) {
+      $course[$value] = $this->_filter($this->input->post($value));
+    }
+    $res = $this->courses_model->insert($course);
+    $this->_json('success', $res);
+  }
 }
 
 ?>

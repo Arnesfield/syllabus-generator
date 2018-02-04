@@ -101,8 +101,8 @@ export default {
         icon: 'settings_applications',
         items: [
           { title: 'Users', icon: 'account_circle', to: '/manage/users', },
-          { title: 'Courses', icon: 'assignment', to: '/manage/courses', },
-          { title: 'Syllabi', icon: 'description', to: '/manage/syllabi', },
+          { title: 'Courses', icon: 'school', to: '/manage/courses', },
+          { title: 'Syllabi', icon: 'assignment', to: '/manage/syllabi', },
           { title: 'Books', icon: 'library_books', to: '/manage/books', }
         ]
       }

@@ -53,12 +53,20 @@
       </td>
     </template>
   </v-data-table>
+
+  <dialog-add-course/>
+
 </div>
 </template>
 
 <script>
+import DialogAddCourse from '@/include/dialogs/DialogAddCourse'
+
 export default {
   name: 'manage-courses',
+  components: {
+    DialogAddCourse
+  },
   data: () => ({
     url: '/courses',
     headers: [
@@ -86,10 +94,16 @@ export default {
   },
 
   created() {
+    this.$bus.$on('fab-manage-courses-course-add', this.addCourse)
+    this.$bus.$on('update-manage-courses', this.fetch)
     this.fetch()
   },
 
   methods: {
+    addCourse() {
+      this.$bus.dialog.addCourse.model = true
+    },
+
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {

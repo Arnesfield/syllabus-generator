@@ -19,6 +19,9 @@ export default new Vue({
     dialog: {
       addUser: {
         model: false
+      },
+      addCourse: {
+        model: false
       }
     },
     // generator
@@ -36,6 +39,15 @@ export default new Vue({
         btns: [
           { icon: 'person_add', tip: 'Add User', cb: 'fab-manage-users-person-add' },
           { icon: 'file_upload', tip: 'Upload CSV file', cb: 'fab-manage-users-file-upload' }
+        ]
+      },
+      manageCourses: {
+        color: 'accent',
+        before: 'add',
+        after: 'close',
+        btns: [
+          { icon: 'school', tip: 'Add Course', cb: 'fab-manage-courses-course-add' },
+          { icon: 'file_upload', tip: 'Upload CSV file', cb: 'fab-manage-courses-file-upload' }
         ]
       }
     }
@@ -55,6 +67,8 @@ export default new Vue({
       switch (path) {
         case '/manage/users':
           return this.fab.manageUsers
+        case '/manage/courses':
+          return this.fab.manageCourses
       }
       return null
     }
