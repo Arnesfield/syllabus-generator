@@ -10,7 +10,7 @@ class Materials extends MY_Custom_Controller {
   }
   
   public function index() {
-    $search = strip_tags(trim(addslashes($this->input->post('search'))));
+    $search = $this->_filter($this->input->post('search'));
     $materials = $this->materials_model->getByQuery($search);
     $this->_json('materials', $materials);
   }

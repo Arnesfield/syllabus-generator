@@ -19,7 +19,7 @@ class Curriculum extends MY_Custom_Controller {
     if ($this->uri->segment(3) === 'suggest') {
       $limit = 1;
     }
-    $search = strtolower(strip_tags(trim(addslashes($this->input->post('search')))));
+    $search = strtolower($this->_filter($this->input->post('search')));
     $years = $this->curriculum_model->getYearsByQuery($search, $limit);
     $this->_json('years', $years);
   }

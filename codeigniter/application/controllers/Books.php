@@ -11,7 +11,7 @@ class Books extends MY_Custom_Controller {
   
   public function index() {
     $search = $this->input->post('search')
-      ? strip_tags(trim(addslashes($this->input->post('search'))))
+      ? $this->_filter($this->input->post('search'))
       : '';
     $books = $this->books_model->getByQuery($search);
     $this->_json('books', $books);

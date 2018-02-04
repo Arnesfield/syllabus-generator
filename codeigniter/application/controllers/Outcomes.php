@@ -11,7 +11,7 @@ class Outcomes extends MY_Custom_Controller {
   
   public function index() {
     $type = $this->input->post('type');
-    $search = strip_tags(trim(addslashes($this->input->post('search'))));
+    $search = $this->_filter($this->input->post('search'));
     $outcomes = $this->outcomes_model->getByQuery($type, $search);
 
     // change outcomes to string

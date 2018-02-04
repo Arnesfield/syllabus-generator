@@ -10,7 +10,7 @@ class Topics extends MY_Custom_Controller {
   }
   
   public function index() {
-    $search = strip_tags(trim(addslashes($this->input->post('search'))));
+    $search = $this->_filter($this->input->post('search'));
     $topics = $this->topics_model->getByQuery($search);
     $this->_json('topics', $topics);
   }
@@ -18,7 +18,7 @@ class Topics extends MY_Custom_Controller {
   public function suggest() {
     $course_id = $this->input->post('courseId');
     $book_ids = $this->input->post('bookIds');
-    $outcomes = strip_tags(trim(addslashes($this->input->post('outcomes'))));
+    $outcomes = $this->_filter($this->input->post('outcomes'));
     $year = $this->input->post('curriculumYear');
     $limit = $this->input->post('limit');
 
