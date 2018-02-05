@@ -58,6 +58,10 @@ class Books_model extends MY_CRUD_Model {
   public function insert($book) {
     return $this->_create('books', $book);
   }
+
+  public function insertMultiple($books) {
+    return $this->db->insert_batch('books', $books);
+  }
 }
 
 ?>

@@ -13,7 +13,8 @@ export default new Vue({
       menu: null
     },
     progress: {
-      active: false
+      active: false,
+      indeterminate: true
     },
     // dialogs
     dialog: {
@@ -24,6 +25,9 @@ export default new Vue({
         model: false
       },
       addBook: {
+        model: false
+      },
+      csvBook: {
         model: false
       }
     },

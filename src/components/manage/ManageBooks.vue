@@ -45,17 +45,20 @@
   </v-data-table>
 
   <dialog-add-book/>
+  <dialog-csv-books/>
 
 </div>
 </template>
 
 <script>
 import DialogAddBook from '@/include/dialogs/DialogAddBook'
+import DialogCsvBooks from '@/include/dialogs/DialogCsvBooks'
 
 export default {
   name: 'manage-books',
   components: {
-    DialogAddBook
+    DialogAddBook,
+    DialogCsvBooks
   },
   data: () => ({
     url: '/books/only',
@@ -82,6 +85,7 @@ export default {
 
   created() {
     this.$bus.$on('fab-manage-books-book-add', this.addBook)
+    this.$bus.$on('fab-manage-books-file-upload', this.csvBook)
     this.$bus.$on('update-manage-books', this.fetch)
     this.fetch()
   },
@@ -89,6 +93,9 @@ export default {
   methods: {
     addBook() {
       this.$bus.dialog.addBook.model = true
+    },
+    csvBook() {
+      this.$bus.dialog.csvBook.model = true
     },
 
     fetch() {

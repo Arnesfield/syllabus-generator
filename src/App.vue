@@ -6,7 +6,7 @@
       style="margin-top: 0; margin-bottom: 0; z-index: 1000"
       v-if="$bus.progress.active"
       :active="$bus.progress.active"
-      :indeterminate="true"/>
+      :indeterminate="$bus.progress.indeterminate"/>
     <router-view/>
     <snackbar/>
     <fab :currRoute="$route.path"/>
