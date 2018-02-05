@@ -107,7 +107,7 @@ export default {
   },
 
   created() {
-    this.$bus.$on('fab-manage-users-person-add', this.addUser)
+    this.$bus.$on('fab-manage-users-user-add', this.addUser)
     this.$bus.$on('update-manage-users', this.fetch)
     this.fetch()
   },

@@ -22,6 +22,9 @@ export default new Vue({
       },
       addCourse: {
         model: false
+      },
+      addBook: {
+        model: false
       }
     },
     // generator
@@ -37,7 +40,7 @@ export default new Vue({
         before: 'add',
         after: 'close',
         btns: [
-          { icon: 'person_add', tip: 'Add User', cb: 'fab-manage-users-person-add' },
+          { icon: 'person_add', tip: 'Add User', cb: 'fab-manage-users-user-add' },
           { icon: 'file_upload', tip: 'Upload CSV file', cb: 'fab-manage-users-file-upload' }
         ]
       },
@@ -48,6 +51,15 @@ export default new Vue({
         btns: [
           { icon: 'school', tip: 'Add Course', cb: 'fab-manage-courses-course-add' },
           { icon: 'file_upload', tip: 'Upload CSV file', cb: 'fab-manage-courses-file-upload' }
+        ]
+      },
+      manageBooks: {
+        color: 'accent',
+        before: 'add',
+        after: 'close',
+        btns: [
+          { icon: 'book', tip: 'Add Book', cb: 'fab-manage-books-book-add' },
+          { icon: 'file_upload', tip: 'Upload CSV file', cb: 'fab-manage-books-file-upload' }
         ]
       }
     }
@@ -69,6 +81,8 @@ export default new Vue({
           return this.fab.manageUsers
         case '/manage/courses':
           return this.fab.manageCourses
+        case '/manage/books':
+          return this.fab.manageBooks
       }
       return null
     }

@@ -27,6 +27,20 @@ class Books extends MY_Custom_Controller {
     $books = $this->books_model->getRelatedBooksWithFields($fields, $limit);
     $this->_json('books', $books);
   }
+
+  public function only() {
+    $books = $this->books_model->get();
+    $this->_json('books', $books);
+  }
+
+  public function add() {
+    $post_values = array('citation', 'status');
+    foreach ($post_values as $value) {
+      $course[$value] = $this->_filter($this->input->post($value));
+    }
+    $res = $this->books_model->insert($course);
+    $this->_json('success', $res);
+  }
 }
 
 ?>

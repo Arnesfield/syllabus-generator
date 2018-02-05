@@ -26,6 +26,12 @@ class Books_model extends MY_CRUD_Model {
     $query = $this->db->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
   }
+  
+  public function get() {
+    $this->db->from('books');
+    $query = $this->db->get();
+    return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
 
   public function getRelatedBooksWithFields($fields, $limit = 10) {
     if (!$fields) {
@@ -47,6 +53,10 @@ class Books_model extends MY_CRUD_Model {
       ->limit($limit)
       ->get();
     return $query->num_rows() > 0 ? $query->result_array() : FALSE;
+  }
+
+  public function insert($book) {
+    return $this->_create('books', $book);
   }
 }
 

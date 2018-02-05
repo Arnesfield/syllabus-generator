@@ -43,14 +43,22 @@
       </td>
     </template>
   </v-data-table>
+
+  <dialog-add-book/>
+
 </div>
 </template>
 
 <script>
+import DialogAddBook from '@/include/dialogs/DialogAddBook'
+
 export default {
   name: 'manage-books',
+  components: {
+    DialogAddBook
+  },
   data: () => ({
-    url: '/books',
+    url: '/books/only',
     headers: [
       { text: 'Id', value: 'id', align: 'left' },
       { text: 'Citation', value: 'citation', align: 'left' },
@@ -73,10 +81,16 @@ export default {
   },
 
   created() {
+    this.$bus.$on('fab-manage-books-book-add', this.addBook)
+    this.$bus.$on('update-manage-books', this.fetch)
     this.fetch()
   },
 
   methods: {
+    addBook() {
+      this.$bus.dialog.addBook.model = true
+    },
+
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
