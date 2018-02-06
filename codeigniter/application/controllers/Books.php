@@ -44,9 +44,6 @@ class Books extends MY_Custom_Controller {
 
   public function addCsv() {
     $books = $this->input->post('books');
-    foreach ($books as $key => $book) {
-      $books[$key]['citation'] = $this->_filter($book['citation']);
-    }
     $res = $this->books_model->insertMultiple($books);
     $this->_json('success', $res);
   }

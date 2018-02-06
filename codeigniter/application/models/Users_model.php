@@ -17,6 +17,10 @@ class Users_model extends MY_CRUD_Model {
   public function insert($user) {
     return $this->_create('users', $user);
   }
+
+  public function insertMultiple($users) {
+    return $this->db->insert_batch('users', $users);
+  }
 }
 
 ?>

@@ -90,6 +90,7 @@ export default {
     username: null,
     password: null,
     passconf: null,
+    img_src: null,
     type: null,
     status: true,
     hidePass: {
@@ -111,6 +112,7 @@ export default {
           lname: this.lname,
           username: this.username,
           password: this.password,
+          img_src: '',
           type: this.type.value,
           status: this.status ? 1 : 0
         })).then((res) => {

@@ -21,6 +21,9 @@ export default new Vue({
       addUser: {
         model: false
       },
+      csvUser: {
+        model: false
+      },
       addCourse: {
         model: false
       },

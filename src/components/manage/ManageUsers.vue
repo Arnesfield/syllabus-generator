@@ -65,17 +65,20 @@
   </v-data-table>
 
   <dialog-add-user/>
+  <dialog-csv-users/>
 
 </div>
 </template>
 
 <script>
 import DialogAddUser from '@/include/dialogs/DialogAddUser'
+import DialogCsvUsers from '@/include/dialogs/DialogCsvUsers'
 
 export default {
   name: 'manage-users',
   components: {
-    DialogAddUser
+    DialogAddUser,
+    DialogCsvUsers
   },
   data: () => ({
     url: '/users',
@@ -108,6 +111,7 @@ export default {
 
   created() {
     this.$bus.$on('fab-manage-users-user-add', this.addUser)
+    this.$bus.$on('fab-manage-users-file-upload', this.csvUser)
     this.$bus.$on('update-manage-users', this.fetch)
     this.fetch()
   },
@@ -115,6 +119,9 @@ export default {
   methods: {
     addUser() {
       this.$bus.dialog.addUser.model = true
+    },
+    csvUser() {
+      this.$bus.dialog.csvUser.model = true
     },
 
     fetch() {
