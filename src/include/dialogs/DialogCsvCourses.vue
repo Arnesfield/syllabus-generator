@@ -1,6 +1,6 @@
 <template>
 <v-dialog
-  v-model="$bus.dialog.csvBooks.model"
+  v-model="$bus.dialog.csvCourses.model"
   fullscreen
   transition="dialog-bottom-transition"
   :overlay="false"
@@ -10,10 +10,10 @@
     <!-- toolbar -->
     
     <v-toolbar dark color="primary">
-      <v-btn icon @click.native="$bus.dialog.csvBooks.model = false" dark>
+      <v-btn icon @click.native="$bus.dialog.csvCourses.model = false" dark>
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title>Upload Books</v-toolbar-title>
+      <v-toolbar-title>Upload Courses</v-toolbar-title>
     </v-toolbar>
 
     <!-- end of toolbar -->
@@ -43,9 +43,9 @@ import qs from 'qs'
 import Papa from 'papaparse'
 
 export default {
-  name: 'dialog-csv-books',
+  name: 'dialog-csv-courses',
   data: () => ({
-    url: '/books/addCsv',
+    url: '/courses/addCsv',
     file: null,
     formValid: false
   }),
@@ -75,31 +75,31 @@ export default {
         dynamicTyping: true,
         complete: (result) => {
           console.log(result)
-          let books = result.data.reduce((filtered, e) => {
-            if (e.citation) {
+          let courses = result.data.reduce((filtered, e) => {
+            if (e.title && e.code) {
               filtered.push(e)
             }
             return filtered
           }, [])
-          console.log(books)
+          console.log(courses)
 
           // post
           this.$http.post(this.url, qs.stringify({
-            books: books
+            courses: courses
           })).then((res) => {
             console.log(res.data)
             if (typeof res.data.success !== 'number') {
               throw new Error
             }
             this.$bus.progress.active = false
-            this.$bus.dialog.csvBooks.model = false
-            this.$bus.$emit('show-snackbar', 'Added books successfully.')
-            this.$bus.$emit('update-manage-books')
+            this.$bus.dialog.csvCourses.model = false
+            this.$bus.$emit('show-snackbar', 'Added courses successfully.')
+            this.$bus.$emit('update-manage-courses')
             this.clear()
           }).catch((e) => {
             console.error(e)
             this.$bus.progress.active = false
-            this.$bus.$emit('show-snackbar', 'Cannot add books.')
+            this.$bus.$emit('show-snackbar', 'Cannot add courses.')
           })
         }
       })

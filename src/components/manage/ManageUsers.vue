@@ -111,7 +111,7 @@ export default {
 
   created() {
     this.$bus.$on('fab-manage-users-user-add', this.addUser)
-    this.$bus.$on('fab-manage-users-file-upload', this.csvUser)
+    this.$bus.$on('fab-manage-users-file-upload', this.csvUsers)
     this.$bus.$on('update-manage-users', this.fetch)
     this.fetch()
   },
@@ -120,8 +120,8 @@ export default {
     addUser() {
       this.$bus.dialog.addUser.model = true
     },
-    csvUser() {
-      this.$bus.dialog.csvUser.model = true
+    csvUsers() {
+      this.$bus.dialog.csvUsers.model = true
     },
 
     fetch() {

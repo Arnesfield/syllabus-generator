@@ -21,16 +21,19 @@ export default new Vue({
       addUser: {
         model: false
       },
-      csvUser: {
+      csvUsers: {
         model: false
       },
       addCourse: {
         model: false
       },
+      csvCourses: {
+        model: false
+      },
       addBook: {
         model: false
       },
-      csvBook: {
+      csvBooks: {
         model: false
       }
     },

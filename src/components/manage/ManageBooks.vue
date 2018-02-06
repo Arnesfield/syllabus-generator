@@ -85,7 +85,7 @@ export default {
 
   created() {
     this.$bus.$on('fab-manage-books-book-add', this.addBook)
-    this.$bus.$on('fab-manage-books-file-upload', this.csvBook)
+    this.$bus.$on('fab-manage-books-file-upload', this.csvBooks)
     this.$bus.$on('update-manage-books', this.fetch)
     this.fetch()
   },
@@ -94,8 +94,8 @@ export default {
     addBook() {
       this.$bus.dialog.addBook.model = true
     },
-    csvBook() {
-      this.$bus.dialog.csvBook.model = true
+    csvBooks() {
+      this.$bus.dialog.csvBooks.model = true
     },
 
     fetch() {

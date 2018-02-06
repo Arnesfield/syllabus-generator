@@ -38,6 +38,12 @@ class Courses extends MY_Custom_Controller {
     $res = $this->courses_model->insert($course);
     $this->_json('success', $res);
   }
+
+  public function addCsv() {
+    $courses = $this->input->post('courses');
+    $res = $this->courses_model->insertMultiple($courses);
+    $this->_json('success', $res);
+  }
 }
 
 ?>

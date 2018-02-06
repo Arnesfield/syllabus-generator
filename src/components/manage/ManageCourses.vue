@@ -55,17 +55,20 @@
   </v-data-table>
 
   <dialog-add-course/>
+  <dialog-csv-courses/>
 
 </div>
 </template>
 
 <script>
 import DialogAddCourse from '@/include/dialogs/DialogAddCourse'
+import DialogCsvCourses from '@/include/dialogs/DialogCsvCourses'
 
 export default {
   name: 'manage-courses',
   components: {
-    DialogAddCourse
+    DialogAddCourse,
+    DialogCsvCourses
   },
   data: () => ({
     url: '/courses',
@@ -95,6 +98,7 @@ export default {
 
   created() {
     this.$bus.$on('fab-manage-courses-course-add', this.addCourse)
+    this.$bus.$on('fab-manage-courses-file-upload', this.csvCourses)
     this.$bus.$on('update-manage-courses', this.fetch)
     this.fetch()
   },
@@ -102,6 +106,9 @@ export default {
   methods: {
     addCourse() {
       this.$bus.dialog.addCourse.model = true
+    },
+    csvCourses() {
+      this.$bus.dialog.csvCourses.model = true
     },
 
     fetch() {

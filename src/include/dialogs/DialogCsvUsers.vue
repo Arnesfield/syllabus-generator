@@ -1,6 +1,6 @@
 <template>
 <v-dialog
-  v-model="$bus.dialog.csvUser.model"
+  v-model="$bus.dialog.csvUsers.model"
   fullscreen
   transition="dialog-bottom-transition"
   :overlay="false"
@@ -10,7 +10,7 @@
     <!-- toolbar -->
     
     <v-toolbar dark color="primary">
-      <v-btn icon @click.native="$bus.dialog.csvUser.model = false" dark>
+      <v-btn icon @click.native="$bus.dialog.csvUsers.model = false" dark>
         <v-icon>close</v-icon>
       </v-btn>
       <v-toolbar-title>Upload Users</v-toolbar-title>
@@ -45,7 +45,7 @@ import Papa from 'papaparse'
 export default {
   name: 'dialog-csv-users',
   data: () => ({
-    url: 'users/addCsv',
+    url: '/users/addCsv',
     file: null,
     formValid: false
   }),
@@ -92,7 +92,7 @@ export default {
               throw new Error
             }
             this.$bus.progress.active = false
-            this.$bus.dialog.csvUser.model = false
+            this.$bus.dialog.csvUsers.model = false
             this.$bus.$emit('show-snackbar', 'Added users successfully.')
             this.$bus.$emit('update-manage-users')
             this.clear()

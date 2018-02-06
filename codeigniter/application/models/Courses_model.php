@@ -29,6 +29,10 @@ class Courses_model extends MY_CRUD_Model {
   public function insert($course) {
     return $this->_create('courses', $course);
   }
+
+  public function insertMultiple($courses) {
+    return $this->db->insert_batch('courses', $courses);
+  }
 }
 
 ?>

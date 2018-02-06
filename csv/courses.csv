@@ -1,0 +1,6 @@
+﻿title,code,description,objectives,unitsLec,unitsLab,status
+SOME COURSE TITLE 1,NEWCOURSE1,"Some description with <h1>Header</h1> and ' "" this \ ?","Some objectives with <h1>Header</h1> and ' "" this \ ?",2,1,0
+SOME COURSE TITLE 2,NEWCOURSE2,"Some description with <h1>Header</h1> and ' "" this \ ?","Some objectives with <h1>Header</h1> and ' "" this \ ?",3,0,1
+SOME COURSE TITLE 3,NEWCOURSE3,"Some description with <h1>Header</h1> and ' "" this \ ?","Some objectives with <h1>Header</h1> and ' "" this \ ?",3,0,0
+SOME COURSE TITLE 4,NEWCOURSE4,"Some description with <h1>Header</h1> and ' "" this \ ?","Some objectives with <h1>Header</h1> and ' "" this \ ?",2,1,1
+SOME COURSE TITLE 5,NEWCOURSE5,"Some description with <h1>Header</h1> and ' "" this \ ?","Some objectives with <h1>Header</h1> and ' "" this \ ?",3,0,1
