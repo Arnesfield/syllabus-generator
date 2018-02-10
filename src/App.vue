@@ -71,6 +71,7 @@
 
 <script>
 export default {
+  name: 'App',
   data () {
     return {
       clipped: false,
@@ -86,6 +87,10 @@ export default {
       title: 'Vuetify.js'
     }
   },
-  name: 'App'
+  created() {
+    this.$bus.$on('GET_ROUTE', (emit) => {
+      this.$bus.$emit(emit, this.$route)
+    })
+  }
 }
 </script>

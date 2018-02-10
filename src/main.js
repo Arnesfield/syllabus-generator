@@ -4,16 +4,47 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
+import axios from 'axios'
+
+import bus from './bus'
+import routerCond from './router/cond'
+
 import 'vuetify/dist/vuetify.min.css'
 
-Vue.use(Vuetify)
+const dev = true
+const baseURL = dev ? 'http://localhost/xforge/public/api' : 'to be set'
+const http = axios.create({
+  baseURL: baseURL,
+  withCredentials: true
+})
+
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#008349', // colors.green.base,
+    secondary: '#C7E6C6', // colors.green.lighten4,
+    accent: '#FFC218' // colors.yellow.accent2
+  }
+})
 
 Vue.config.productionTip = false
+Vue.prototype.$http = http
+Vue.prototype.$bus = bus
+
+routerCond(router, http, bus)
 
 /* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+// before creating instance, check if session exists
+http.post('/sess').then((res) => {
+  if (!res.data.success) {
+    throw new Error('Request failure.')
+  }
+  bus.sessionSet(res.data)
+  new Vue({
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
+  })
+}).catch(e => {
+  console.error(e)
 })
