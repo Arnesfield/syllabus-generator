@@ -45,7 +45,7 @@ export default {
   name: 'fab',
   computed: {
     fab() {
-      return this.$bus.fab.inst[this.$route.path] || null
+      return this.$bus.fab.inst[this.$route.name] || null
     }
   },
 

@@ -4,6 +4,8 @@ import nav from './nav'
 import dialog from './dialog'
 import session from './session'
 import progress from './progress'
+import tabs from './tabs'
+import generator from './generator'
 import settings from './settings'
 
 export default new Vue({
@@ -13,6 +15,8 @@ export default new Vue({
     dialog: dialog,
     session: session,
     progress: progress,
+    tabs: tabs,
+    generator: generator,
     settings: settings
   }),
 
@@ -23,6 +27,12 @@ export default new Vue({
     'dialog.global.confirm': function(to, from) {
       this.$emit('watch--dialog.global.confirm', to, from)
     },
+    'generator.suggestions': function(to, from) {
+      if (to == false && this.generator.warn == false) {
+        this.generator.warn = true
+      }
+      this.$emit('bus-generator-suggestion-change')
+    }
   },
 
   computed: {

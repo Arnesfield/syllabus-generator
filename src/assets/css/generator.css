@@ -1,0 +1,37 @@
+table.collapsed {
+  border-collapse: collapse;
+}
+
+/* syllabus-tbl */
+.scrollable-x {
+  overflow-x: auto;
+}
+
+table.syllabus-tbl {
+  background-color: white;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.syllabus-tbl th,
+table.syllabus-tbl td {
+  padding: 8px;
+}
+
+table.syllabus-tbl ul {
+  padding-left: 40px;
+}
+
+.tbl-img {
+  height: 64px;
+}
+
+.outcome-highlighted {
+  background-color: #ccc;
+}
+
+.selection-box {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+

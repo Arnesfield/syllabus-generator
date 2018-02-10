@@ -4,7 +4,9 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
-import NotFound from '@/components/NotFound'
+import Generator from '@/components/Generator'
+
+import NotFound from '@/components/errors/NotFound'
 
 Vue.use(Router)
 
@@ -43,7 +45,17 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: 3
+        auth: 3,
+        icon: 'dashboard'
+      }
+    },
+    {
+      path: '/generator',
+      name: 'Generator',
+      component: Generator,
+      meta: {
+        auth: 3,
+        icon: 'build'
       }
     },
 

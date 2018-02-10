@@ -1,7 +1,7 @@
 export default {
   model: false,
   inst: {
-    '/manage/users': {
+    ManageUsers: {
       color: 'accent',
       before: 'add',
       after: 'close',
