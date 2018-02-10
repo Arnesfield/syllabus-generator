@@ -8,8 +8,10 @@ import axios from 'axios'
 
 import bus from './bus'
 import routerCond from './router/cond'
+import formRules from './assets/js/formRules'
 
 import 'vuetify/dist/vuetify.min.css'
+import './assets/css/common.css'
 
 const dev = true
 const baseURL = dev ? 'http://localhost/xforge/public/api' : 'to be set'
@@ -29,6 +31,7 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 Vue.prototype.$http = http
 Vue.prototype.$bus = bus
+Vue.prototype.$fRule = formRules
 
 routerCond(router, http, bus)
 

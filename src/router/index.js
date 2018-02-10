@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import HelloWorld from '@/components/HelloWorld'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
+import Dashboard from '@/components/Dashboard'
+import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
@@ -38,11 +39,22 @@ export default new Router({
     },
     // auth 3
     {
-      path: '/hello',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
       meta: {
         auth: 3
+      }
+    },
+
+    // last resort
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound,
+      meta: {
+        title: 'Error 404',
+        auth: 10
       }
     }
   ]

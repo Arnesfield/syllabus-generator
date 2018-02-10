@@ -1,10 +1,16 @@
 import Vue from 'vue'
+import fab from './fab'
+import nav from './nav'
+import dialog from './dialog'
 import session from './session'
 import progress from './progress'
 import settings from './settings'
 
 export default new Vue({
   data: () => ({
+    fab: fab,
+    nav: nav,
+    dialog: dialog,
     session: session,
     progress: progress,
     settings: settings
@@ -13,16 +19,20 @@ export default new Vue({
   watch: {
     'session.auth': function(to, from) {
       this.$emit('GET_ROUTE', 'watch--session.auth')
-    }
+    },
+    'dialog.global.confirm': function(to, from) {
+      this.$emit('watch--dialog.global.confirm', to, from)
+    },
   },
 
   computed: {
-    componentWithAuth() {
-      return this.session.auth >= 3
-    }
   },
-
+  
   methods: {
+    authCheck(routeAuth) {
+      return this.session.auth >= 3 && routeAuth < 10
+    },
+
     sessionCheck(route, http) {
       http.post('/sess').then((res) => {
         this.sessionSet(res.data)
@@ -46,12 +56,12 @@ export default new Vue({
       }
 
       const settingsFields = [
-        { key: 'dark', def: false }
+        { key: 'dark', type: 'boolean', def: false }
       ]
 
       let settings = JSON.parse(data.user.settings)
       settingsFields.forEach(e => {
-        this.settings[e] = settings[e] ? settings[e] : e.def
+        this.settings[e] = typeof settings[e] === e.type ? settings[e] : e.def
       })
     }
   }

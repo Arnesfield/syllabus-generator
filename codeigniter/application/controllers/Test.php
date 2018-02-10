@@ -13,7 +13,7 @@ class Test extends MY_View_Controller {
     echo '</pre>';
   }
 
-  public function delete() {
+  public function destroy() {
     session_destroy();
   }
 }

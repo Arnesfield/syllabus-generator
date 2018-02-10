@@ -1,0 +1,40 @@
+.bg {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.no-bg {
+  background: none !important;
+}
+
+.dim {
+  background-color: rgba(0, 0, 0, 0.24) !important;
+}
+
+.clean-a {
+  text-decoration: none;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.center-y {
+  align-items: center;
+}
+
+.bg-dim {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* override */
+.multi-line-textarea textarea {
+  min-height: 32px;
+  height: 64px;
+  max-height: 256px;
+}
