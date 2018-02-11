@@ -34,11 +34,21 @@ export default new Vue({
       this.$emit('watch--generator.suggestions')
     }
   },
-
-  computed: {
-  },
   
   methods: {
+    navToggle() {
+      if (this.nav.model) {
+        if (this.nav.miniVariant) {
+          this.nav.model = false
+        } else {
+          this.nav.miniVariant = true
+        }
+      } else {
+        this.nav.model = true
+        this.nav.miniVariant = false
+      }
+    },
+
     authCheck(routeAuth) {
       return this.session.auth >= 3 && routeAuth < 10
     },
