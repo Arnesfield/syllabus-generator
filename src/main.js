@@ -13,6 +13,7 @@ import formRules from './assets/js/formRules'
 import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
 import './assets/css/generator.css'
+import './assets/css/override.css'
 
 const dev = true
 const baseURL = dev ? 'http://localhost/xforge/public/api' : 'to be set'

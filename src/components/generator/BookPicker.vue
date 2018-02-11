@@ -35,8 +35,8 @@
         </v-list-tile-content>
       </v-list-tile>
       <template v-for="(book, i) in selected">
-        <v-divider :key="JSON.stringify(book)"/>
-        <v-list-tile :key="JSON.stringify(book)">
+        <v-divider :key="'divider-' + i"/>
+        <v-list-tile :key="'tile-' + i">
           <v-list-tile-action>
             <v-btn flat icon @click="selected.splice(i, 1)">
               <v-icon>close</v-icon>
@@ -62,7 +62,7 @@
 
   <v-list v-if="books.length" class="mt-2 elevation-2">
     <template v-for="(book, i) in books">
-      <v-list-tile :key="JSON.stringify(book)">
+      <v-list-tile :key="'tile-' + i">
         <v-list-tile-content>
           <v-list-tile-title>
             <v-checkbox
@@ -72,7 +72,7 @@
           </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider v-if="i < books.length-1" :key="JSON.stringify(book)"/>
+      <v-divider v-if="i < books.length-1" :key="'divider-' + i"/>
     </template>
   </v-list>
 

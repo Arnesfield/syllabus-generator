@@ -55,12 +55,6 @@
             </div>
             <v-spacer/>
             <v-btn
-              to="/"
-              flat
-              color="primary"
-              :disabled="loading"
-            >Sign Up</v-btn>
-            <v-btn
               tabindex="1"
               color="primary"
               :disabled="loading"

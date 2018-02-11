@@ -1,0 +1,4 @@
+.btn--floating .btn__content :not(:only-child):last-child {
+  left: 0;
+  top: 0;
+}
