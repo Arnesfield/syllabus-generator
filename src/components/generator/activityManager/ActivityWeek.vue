@@ -102,12 +102,12 @@ export default {
 
     'act.cloMap': function(to, from) {
       // update topic suggestions when map changes
-      this.$bus.$emit('update-suggestions')
+      this.$bus.$emit('gen--suggestions.update')
     }
   },
 
   created() {
-    this.$bus.$on('clo-updated', this.onCLOUpdated)
+    this.$bus.$on('gen--clo.updated', this.onCLOUpdated)
   },
 
   methods: {

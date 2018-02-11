@@ -113,7 +113,7 @@ export default {
 
   created() {
     // do suggest when bus generator suggestions changes
-    this.$bus.$on('bus-generator-suggestion-change', this.suggest)
+    this.$bus.$on('watch--generator.suggestions', this.suggest)
     if (this.syllabus !== null) {
       // removed suggest since setting 'selected' will trigger suggest(n)
       if (!this.setFromSyllabus()) {

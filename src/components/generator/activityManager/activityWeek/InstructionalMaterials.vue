@@ -84,9 +84,9 @@ export default {
   },
 
   created() {
-    this.$bus.$on('topics-updated', this.suggest)
+    this.$bus.$on('gen--topics.updated', this.suggest)
     // do suggest when bus generator suggestions changes
-    this.$bus.$on('bus-generator-suggestion-change', this.suggest)
+    this.$bus.$on('watch--generator.suggestions', this.suggest)
     this.suggest()
   },
 

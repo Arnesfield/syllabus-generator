@@ -160,7 +160,7 @@ export default {
 
   created() {
     // do suggest when bus generator suggestions changes
-    this.$bus.$on('bus-generator-suggestion-change', this.suggest)
+    this.$bus.$on('watch--generator.suggestions', this.suggest)
     if (this.syllabus !== null) {
       this.doInitial()
     }
@@ -238,7 +238,7 @@ export default {
     },
 
     _updateMap(map, i, n) {
-      this.$bus.$emit('clo-updated', i, n)
+      this.$bus.$emit('gen--clo.updated', i, n)
       this.syllabus.content[this.mapName] = moveMap(map, i, n)
     },
 

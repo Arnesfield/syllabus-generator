@@ -31,7 +31,7 @@ export default new Vue({
       if (to == false && this.generator.warn == false) {
         this.generator.warn = true
       }
-      this.$emit('bus-generator-suggestion-change')
+      this.$emit('watch--generator.suggestions')
     }
   },
 
