@@ -12,6 +12,36 @@
     </v-btn>
     <v-toolbar-title v-text="title"></v-toolbar-title>
 
+    <template v-if="$route.name === 'Generator'">
+      <v-spacer/>
+      <v-tooltip left>
+        <v-btn
+          icon
+          @click="$bus.generator.suggestions = !$bus.generator.suggestions"
+          slot="activator">
+          <v-icon v-if="$bus.generator.suggestions">visibility</v-icon>
+          <v-icon v-else>visibility_off</v-icon>
+        </v-btn>
+        <span v-if="$bus.generator.suggestions">Hide Suggestions</span>
+        <span v-else>Show Suggestions</span>
+      </v-tooltip>
+      <!-- <v-menu
+        :close-on-content-click="false"
+        bottom left offset-y>
+        <v-btn icon slot="activator" dark>
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-switch v-model="$bus.generator.suggestions"/>
+            </v-list-tile-action>
+            <v-list-tile-title>Show suggestions</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu> -->
+    </template>
+
     <v-tabs
       align-with-title
       show-arrows

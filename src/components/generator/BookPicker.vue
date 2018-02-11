@@ -92,8 +92,8 @@
       <template
         v-for="(book, i) in suggested"
         v-if="suggested.filter(s => (s.id == book.id)).length">
-        <v-divider :key="i"/>
-        <v-list-tile :key="i">
+        <v-divider :key="'divider-' + i"/>
+        <v-list-tile :key="'tile-' + i">
           <v-list-tile-content>
             <v-list-tile-title>
             <v-checkbox
