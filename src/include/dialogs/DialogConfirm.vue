@@ -20,7 +20,7 @@
         <v-progress-circular
           indeterminate
           :active="loading"
-          color="grey"
+          color="primary"
         />
         <span style="height: auto" class="subheader px-2">Loading...</span>
       </template>

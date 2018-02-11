@@ -1,6 +1,6 @@
 <template>
   <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
-    <v-container fluid class="no-bg dim">
+    <v-container fluid class="no-bg dim pa-3">
       <v-avatar class="accent elevation-6">
         <template v-if="imgSrc">
           <img v-if="imgSrc.isImg" :src="imgSrc.text" alt="avatar">

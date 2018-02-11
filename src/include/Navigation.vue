@@ -44,34 +44,32 @@
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <span>{{ item.title }}</span>
+        <span>{{ item.tip || item.title }}</span>
       </v-tooltip>
     </template>
   </v-list>
 
-  <v-footer fixed :height="null" style="background-color: inherit">
-    <v-list class="full-width">
-      <v-tooltip right :disabled="!$bus.nav.miniVariant">
-        <v-list-tile
-          ripple
-          tabindex="1"
-          slot="activator"
-          @click="$bus.nav.miniVariant = !$bus.nav.miniVariant">
-          <v-list-tile-action>
-            <v-btn
-              icon
-              tabindex="1"
-              :ripple="false"
-              @click.stop="$bus.nav.miniVariant = !$bus.nav.miniVariant">
-              <v-icon v-html="$bus.nav.miniVariant ? 'chevron_right' : 'chevron_left'"/>
-            </v-btn>
-          </v-list-tile-action>
-          <v-list-tile-content>{{ collapseText }}</v-list-tile-content>
-        </v-list-tile>
-        <span>{{ collapseText }}</span>
-      </v-tooltip>
-    </v-list>
-  </v-footer>
+  <v-list class="pa-0">
+    <v-tooltip right :disabled="!$bus.nav.miniVariant">
+      <v-list-tile
+        ripple
+        tabindex="1"
+        slot="activator"
+        @click="$bus.nav.miniVariant = !$bus.nav.miniVariant">
+        <v-list-tile-action>
+          <v-btn
+            icon
+            tabindex="1"
+            :ripple="false"
+            @click.stop="$bus.nav.miniVariant = !$bus.nav.miniVariant">
+            <v-icon v-html="$bus.nav.miniVariant ? 'chevron_right' : 'chevron_left'"/>
+          </v-btn>
+        </v-list-tile-action>
+        <v-list-tile-content>{{ collapseText }}</v-list-tile-content>
+      </v-list-tile>
+      <span>{{ collapseText }}</span>
+    </v-tooltip>
+  </v-list>
 </v-navigation-drawer>
 </template>
 
@@ -96,9 +94,11 @@ export default {
       },
       {
         header: 'Manage',
-        auth: 2,
+        auth: 3,
         items: [
-          { title: 'Users', icon: 'account_circle', to: '/manage/users' },
+          { title: 'Users', icon: 'account_circle', tip: 'Manage Users', to: '/manage/users' },
+          { title: 'Courses', icon: 'school', tip: 'Manage Courses', to: '/manage/courses' },
+          { title: 'Books', icon: 'library_books', tip: 'Manage Books', to: '/manage/books' }
         ]
       },
       // logout

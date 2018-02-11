@@ -51,7 +51,9 @@ export default {
 
   methods: {
     onFabClick(emit, e) {
-      this.$bus.$emit(emit, e)
+      if (typeof emit === 'string') {
+        this.$bus.$emit(emit, e)
+      }
     }
   }
 }

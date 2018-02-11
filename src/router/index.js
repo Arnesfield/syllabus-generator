@@ -6,6 +6,10 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
 
+import ManageUsers from '@/components/manage/ManageUsers'
+import ManageCourses from '@/components/manage/ManageCourses'
+import ManageBooks from '@/components/manage/ManageBooks'
+
 import NotFound from '@/components/errors/NotFound'
 
 Vue.use(Router)
@@ -58,6 +62,41 @@ export default new Router({
         icon: 'build'
       }
     },
+
+    // manage
+
+    {
+      path: '/manage/users',
+      name: 'ManageUsers',
+      component: ManageUsers,
+      meta: {
+        auth: 3,
+        title: 'Manage Users',
+        icon: 'account_circle'
+      }
+    },
+    {
+      path: '/manage/courses',
+      name: 'ManageCourses',
+      component: ManageCourses,
+      meta: {
+        auth: 3,
+        title: 'Manage Courses',
+        icon: 'school'
+      }
+    },
+    {
+      path: '/manage/books',
+      name: 'ManageBooks',
+      component: ManageBooks,
+      meta: {
+        auth: 3,
+        title: 'Manage Books',
+        icon: 'library_books'
+      }
+    },
+
+    // end of manage
 
     // last resort
     {
