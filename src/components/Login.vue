@@ -130,6 +130,7 @@ export default {
           return
         }
 
+        this.$bus.$emit('snackbar--show', 'Login successfully.')
         this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)

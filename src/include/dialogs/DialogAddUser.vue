@@ -152,12 +152,12 @@ export default {
             throw new Error
           }
           this.$bus.dialog.ManageUsers.add = false
-          this.$bus.$emit('show-snackbar', 'Added user successfully.')
+          this.$bus.$emit('snackbar--show', 'Added user successfully.')
           this.$bus.$emit('manage--users.update')
           this.clear()
         }).catch((e) => {
           console.error(e)
-          this.$bus.$emit('show-snackbar', 'Cannot add user.')
+          this.$bus.$emit('snackbar--show', 'Cannot add user.')
         })
       }
     },

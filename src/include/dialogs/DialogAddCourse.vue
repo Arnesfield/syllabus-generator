@@ -130,12 +130,12 @@ export default {
             throw new Error
           }
           this.$bus.dialog.ManageCourses.add = false
-          this.$bus.$emit('show-snackbar', 'Added course successfully.')
+          this.$bus.$emit('snackbar--show', 'Added course successfully.')
           this.$bus.$emit('manage--courses.update')
           this.clear()
         }).catch((e) => {
           console.error(e)
-          this.$bus.$emit('show-snackbar', 'Cannot add course.')
+          this.$bus.$emit('snackbar--show', 'Cannot add course.')
         })
       }
     },

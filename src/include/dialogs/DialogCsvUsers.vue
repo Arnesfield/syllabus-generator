@@ -118,13 +118,13 @@ export default {
             }
             this.$bus.progress.active = false
             this.$bus.dialog.ManageUsers.csv = false
-            this.$bus.$emit('show-snackbar', 'Added users successfully.')
+            this.$bus.$emit('snackbar--show', 'Added users successfully.')
             this.$bus.$emit('manage--users.update')
             this.clear()
           }).catch((e) => {
             console.error(e)
             this.$bus.progress.active = false
-            this.$bus.$emit('show-snackbar', 'Cannot add users.')
+            this.$bus.$emit('snackbar--show', 'Cannot add users.')
           })
         }
       })

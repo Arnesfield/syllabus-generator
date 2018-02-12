@@ -16,6 +16,7 @@
       <fab/>
       <dialog-confirm/>
     </v-content>
+    <snackbar/>
   </v-app>
 </template>
 
@@ -25,6 +26,7 @@ import Fab from '@/include/Fab'
 import Toolbar from '@/include/Toolbar'
 import ToolbarContent from '@/include/ToolbarContent'
 import DialogConfirm from '@/include/dialogs/DialogConfirm'
+import Snackbar from '@/include/Snackbar'
 
 export default {
   name: 'App',
@@ -33,7 +35,8 @@ export default {
     Fab,
     Toolbar,
     ToolbarContent,
-    DialogConfirm
+    DialogConfirm,
+    Snackbar
   },
   computed: {
     authCheck() {

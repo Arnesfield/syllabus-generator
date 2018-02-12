@@ -118,13 +118,13 @@ export default {
             }
             this.$bus.progress.active = false
             this.$bus.dialog.ManageBooks.csv = false
-            this.$bus.$emit('show-snackbar', 'Added books successfully.')
+            this.$bus.$emit('snackbar--show', 'Added books successfully.')
             this.$bus.$emit('manage--books.update')
             this.clear()
           }).catch((e) => {
             console.error(e)
             this.$bus.progress.active = false
-            this.$bus.$emit('show-snackbar', 'Cannot add books.')
+            this.$bus.$emit('snackbar--show', 'Cannot add books.')
           })
         }
       })

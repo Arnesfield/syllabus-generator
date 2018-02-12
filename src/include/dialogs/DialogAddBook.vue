@@ -98,12 +98,12 @@ export default {
             throw new Error
           }
           this.$bus.dialog.ManageBooks.add = false
-          this.$bus.$emit('show-snackbar', 'Added book successfully.')
+          this.$bus.$emit('snackbar--show', 'Added book successfully.')
           this.$bus.$emit('manage--books.update')
           this.clear()
         }).catch((e) => {
           console.error(e)
-          this.$bus.$emit('show-snackbar', 'Cannot add book.')
+          this.$bus.$emit('snackbar--show', 'Cannot add book.')
         })
       }
     },

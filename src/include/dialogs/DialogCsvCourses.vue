@@ -118,13 +118,13 @@ export default {
             }
             this.$bus.progress.active = false
             this.$bus.dialog.ManageCourses.csv = false
-            this.$bus.$emit('show-snackbar', 'Added courses successfully.')
+            this.$bus.$emit('snackbar--show', 'Added courses successfully.')
             this.$bus.$emit('manage--courses.update')
             this.clear()
           }).catch((e) => {
             console.error(e)
             this.$bus.progress.active = false
-            this.$bus.$emit('show-snackbar', 'Cannot add courses.')
+            this.$bus.$emit('snackbar--show', 'Cannot add courses.')
           })
         }
       })
