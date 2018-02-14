@@ -42,6 +42,27 @@
       </v-menu> -->
     </template>
 
+    <template v-if="$route.name === 'Assign'">
+      <v-spacer/>
+      <v-tooltip left>
+        <v-btn
+          icon
+          @click="$bus.$emit('assign--refresh')"
+          slot="activator"
+        >
+          <v-progress-circular
+            indeterminate
+            :width="6"
+            :size="18"
+            v-if="$bus.progress.circular.Assign.refresh"
+          />
+          <v-icon v-else>refresh</v-icon>
+        </v-btn>
+        <span v-if="$bus.progress.circular.Assign.refresh">Refreshing</span>
+        <span v-else>Refresh</span>
+      </v-tooltip>
+    </template>
+
     <v-tabs
       align-with-title
       show-arrows

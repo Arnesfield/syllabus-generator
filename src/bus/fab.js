@@ -27,6 +27,13 @@ export default {
         { icon: 'book', tip: 'Add Book', cb: 'manage--books.add' },
         { icon: 'file_upload', tip: 'Upload CSV file', cb: 'manage--books.upload' }
       ]
+    },
+    Assign: {
+      color: 'accent',
+      before: 'add',
+      after: 'close',
+      click: 'assign--add',
+      btns: null
     }
   }
 }

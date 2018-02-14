@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2018 at 01:38 PM
+-- Generation Time: Feb 14, 2018 at 12:28 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -21,6 +21,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `forgedb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assigns`
+--
+
+CREATE TABLE `assigns` (
+  `id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `assigns`
+--
+
+INSERT INTO `assigns` (`id`, `content`, `created_at`, `updated_at`, `status`) VALUES
+(1, '{\"course\":1,\"assigned\":1,\"sub\":[{\"id\":2,\"status\":2},{\"id\":3,\"status\":2}]}', 1518436312, 1518436327, 2),
+(2, '{\"course\":2,\"assigned\":2,\"sub\":[{\"id\":3,\"status\":2},{\"id\":1,\"status\":2}]}', 1518607114, 1518607114, 2);
 
 -- --------------------------------------------------------
 
@@ -238,7 +260,8 @@ INSERT INTO `courses` (`id`, `title`, `code`, `description`, `objectives`, `unit
 (8, 'SOME COURSE TITLE 2', 'NEWCOURSE2', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, 1),
 (9, 'SOME COURSE TITLE 3', 'NEWCOURSE3', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, 0),
 (10, 'SOME COURSE TITLE 4', 'NEWCOURSE4', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 2, 1, 1),
-(11, 'SOME COURSE TITLE 5', 'NEWCOURSE5', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, 1);
+(11, 'SOME COURSE TITLE 5', 'NEWCOURSE5', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, 1),
+(12, '', '', '', '', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1307,11 +1330,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `img_src`, `status`, `type`) VALUES
-(1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', 1, 3);
+(1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', 1, 3),
+(2, 'Jane', '', 'Doe', 'charlyn', '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', 1, 1),
+(3, 'Smith', '', 'Paul', 'ralph', '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', 1, 2);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `assigns`
+--
+ALTER TABLE `assigns`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `books`
@@ -1446,6 +1477,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `assigns`
+--
+ALTER TABLE `assigns`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
@@ -1461,7 +1498,7 @@ ALTER TABLE `book_field_relation`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `course_field_relation`
@@ -1569,7 +1606,7 @@ ALTER TABLE `topic_task_relation`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
