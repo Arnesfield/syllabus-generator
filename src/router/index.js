@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
+import Assign from '@/components/Assign'
 
 import ManageUsers from '@/components/manage/ManageUsers'
 import ManageCourses from '@/components/manage/ManageCourses'
@@ -60,6 +61,15 @@ export default new Router({
       meta: {
         auth: 3,
         icon: 'build'
+      }
+    },
+    {
+      path: '/assign',
+      name: 'Assign',
+      component: Assign,
+      meta: {
+        auth: 3,
+        icon: 'supervisor_account'
       }
     },
 

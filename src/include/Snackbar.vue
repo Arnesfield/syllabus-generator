@@ -52,7 +52,7 @@ export default {
         this.snackbar = false
         setTimeout(() => {
           this.createSnackbar(options)
-        }, 250)
+        }, 300)
       } else {
         this.createSnackbar(options)
       }

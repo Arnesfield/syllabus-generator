@@ -90,6 +90,7 @@ export default {
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
           { title: 'Generator', icon: 'build', to: '/generator' },
+          { title: 'Assign', icon: 'supervisor_account', to: '/assign' }
         ]
       },
       {
