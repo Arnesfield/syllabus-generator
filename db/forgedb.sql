@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2018 at 12:28 PM
+-- Generation Time: Feb 15, 2018 at 06:56 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -31,6 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `assigns` (
   `id` int(11) NOT NULL,
   `content` text NOT NULL,
+  `created_by` int(11) NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
@@ -40,9 +41,9 @@ CREATE TABLE `assigns` (
 -- Dumping data for table `assigns`
 --
 
-INSERT INTO `assigns` (`id`, `content`, `created_at`, `updated_at`, `status`) VALUES
-(1, '{\"course\":1,\"assigned\":1,\"sub\":[{\"id\":2,\"status\":2},{\"id\":3,\"status\":2}]}', 1518436312, 1518436327, 2),
-(2, '{\"course\":2,\"assigned\":2,\"sub\":[{\"id\":3,\"status\":2},{\"id\":1,\"status\":2}]}', 1518607114, 1518607114, 2);
+INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
+(1, '{\"course\":1,\"assigned\":1,\"sub\":[{\"id\":2,\"status\":2},{\"id\":3,\"status\":2}]}', 2, 1518436312, 1518436327, 3),
+(2, '{\"course\":2,\"assigned\":2,\"sub\":[{\"id\":3,\"status\":2},{\"id\":1,\"status\":2}]}', 1, 1518607114, 1518607114, 3);
 
 -- --------------------------------------------------------
 

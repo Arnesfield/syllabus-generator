@@ -25,11 +25,17 @@
 
     <v-card-actions>
       <div>
-        <v-tooltip top>
+        <v-tooltip top v-if="$bus.session.user.id == assign.created_by">
           <v-btn icon slot="activator">
-            <v-icon color="teal">edit</v-icon>
+            <v-icon color="grey">edit</v-icon>
           </v-btn>
           <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip top v-if="Number(assign.status) != 3">
+          <v-btn icon slot="activator">
+            <v-icon color="grey">visibility</v-icon>
+          </v-btn>
+          <span>View Syllabus</span>
         </v-tooltip>
       </div>
       <v-spacer/>

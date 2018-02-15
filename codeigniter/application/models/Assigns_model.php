@@ -4,9 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Assigns_model extends MY_Custom_Model {
 
   public function get($id = NULL) {
-    $this->db
-      ->select('id, content, created_at, updated_at, status')
-      ->from('assigns');
+    $this->db->from('assigns');
 
     if ($id) {
       $this->db->where('id', $id);
