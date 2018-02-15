@@ -13,25 +13,7 @@
             <v-list-tile :key="'tile-' + i">
               <v-list-tile-action style="min-width: 36px; width: 36px">
                 <v-list-tile-action>
-                  <v-tooltip top>
-                    <v-btn icon slot="activator">
-                      <v-icon
-                        v-if="Number(u.status) == 1"
-                        color="success"
-                      >check_circle</v-icon>
-                      <v-icon
-                        v-else-if="Number(u.status) == 2"
-                        color="warning"
-                      >indeterminate_check_box</v-icon>
-                      <v-icon
-                        v-else-if="Number(u.status) == 0"
-                        color="error"
-                      >cancel</v-icon>
-                    </v-btn>
-                    <span v-if="Number(u.status) == 1">Approved</span>
-                    <span v-else-if="Number(u.status) == 2">Undecided</span>
-                    <span v-else-if="Number(u.status) == 0">Denied</span>
-                  </v-tooltip>
+                  <status :item="u"/>
                 </v-list-tile-action>
               </v-list-tile-action>
               <v-list-tile-title v-html="getFullname(u.user)"/>
@@ -53,25 +35,7 @@
       <v-spacer/>
       <div class="px-2 pb-1 subheading">
         <span>Status</span>
-        <v-tooltip top>
-          <v-btn icon slot="activator">
-            <v-icon
-              v-if="Number(assign.status) == 1"
-              color="success"
-            >check_circle</v-icon>
-            <v-icon
-              v-else-if="Number(assign.status) == 2"
-              color="warning"
-            >indeterminate_check_box</v-icon>
-            <v-icon
-              v-else-if="Number(assign.status) == 0"
-              color="error"
-            >cancel</v-icon>
-          </v-btn>
-          <span v-if="Number(assign.status) == 1">Approved</span>
-          <span v-else-if="Number(assign.status) == 2">Undecided</span>
-          <span v-else-if="Number(assign.status) == 0">Denied</span>
-        </v-tooltip>
+        <status :item="assign"/>
       </div>
     </v-card-actions>
   </v-card>
@@ -79,8 +43,13 @@
 </template>
 
 <script>
+import Status from '@/include/Status'
+
 export default {
   name: 'assign-inst',
+  components: {
+    Status
+  },
   props: {
     assign: {
       type: Object,
