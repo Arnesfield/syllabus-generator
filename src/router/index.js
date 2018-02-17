@@ -56,9 +56,10 @@ export default new Router({
       }
     },
     {
-      path: '/generator',
+      path: '/generator/:courseId?/:syllabusId?',
       name: 'Generator',
       component: Generator,
+      props: true,
       meta: {
         auth: 3,
         icon: 'build'

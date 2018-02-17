@@ -2,7 +2,11 @@
 <v-container fluid>
   <v-tabs-items v-model="$bus.tabs.Generator.tab">
     <v-tab-item key="course">
-      <course-picker @course-selected="onCourseSelected"/>
+      <course-picker
+        ref="coursePicker"
+        :picker="!courseId"
+        @course-selected="onCourseSelected"
+      />
     </v-tab-item>
     <v-tab-item key="syllabi" v-if="course">
       <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
@@ -46,6 +50,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import CoursePicker from '@/components/generator/CoursePicker'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
@@ -63,7 +68,12 @@ export default {
     OutcomeTable,
     ActivityManager
   },
+  props: {
+    courseId: String,
+    syllabusId: String
+  },
   data: () => ({
+    courseUrl: '/courses/id',
     course: null,
     syllabus: null,
     // for navigation
@@ -79,6 +89,19 @@ export default {
     course(to, from) {
       this.$bus.tabs.Generator.items = to === null
         ? this.tabs.course : this.tabs.syllabi
+    },
+
+    courseId(to, from) {
+      if (to) {
+        this.$bus.$on('generator--course.refresh', this.fetchCourse)
+        this.fetchCourse()
+      } else {
+        // remove course
+        this.course = null
+        if (this.$refs.coursePicker) {
+          this.$refs.coursePicker.selected = null
+        }
+      }
     },
 
     syllabus: {
@@ -101,6 +124,13 @@ export default {
     this.$bus.tabs.Generator.tab = null
     this.$bus.tabs.Generator.items = ['course']
     this.$bus.generator.suggestions = true
+
+    if (this.courseId !== null) {
+      this.$bus.$on('generator--course.refresh', this.fetchCourse)
+      // do async and set the course
+      // also set refresh button if failed
+      this.fetchCourse()
+    }
   },
 
   beforeDestroy() {
@@ -125,6 +155,35 @@ export default {
         this.$bus.generator.suggestions = typeof syllabus.id === 'undefined'
       }
       this.syllabus = syllabus
+    },
+
+    fetchCourse() {
+      if (!this.courseId) {
+        return
+      }
+
+      this.$bus.generator.courseRefresh = true
+      this.$http.post(this.courseUrl, qs.stringify({
+        id: this.courseId
+      })).then((res) => {
+        console.error(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+
+        this.course = res.data.course
+        // also set this course in course picker
+        if (this.$refs.coursePicker) {
+          this.$refs.coursePicker.selected = this.course
+        }
+
+        // hide refresh button
+        this.$bus.generator.courseRefresh = false
+      }).catch(e => {
+        console.error(e)
+        // show refresh button
+        this.$bus.generator.courseRefresh = true
+      })
     }
   }
 }

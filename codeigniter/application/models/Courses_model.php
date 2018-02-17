@@ -25,6 +25,15 @@ class Courses_model extends MY_Custom_Model {
       ->get();
     return $this->_res($query);
   }
+  
+  public function getWhere($where) {
+    $this->db
+      ->from('courses')
+      ->where($where);
+    
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
 
   public function insert($course) {
     return $this->_create('courses', $course);

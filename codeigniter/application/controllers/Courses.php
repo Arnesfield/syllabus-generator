@@ -30,6 +30,24 @@ class Courses extends MY_Custom_Controller {
     ));
   }
 
+  public function id() {
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
+
+    if (!$id) {
+      $this->_json(FALSE);
+    }
+
+    $courses = $this->courses_model->getWhere(array('id' => $id));
+
+    if (!$courses) {
+      $this->_json(FALSE);
+    }
+
+    $course = $courses[0];
+
+    $this->_json(TRUE, 'course', $course);
+  }
+
   public function add() {
     $post_values = array('title', 'code', 'description', 'objectives', 'unitsLec', 'unitsLab', 'status');
     foreach ($post_values as $value) {

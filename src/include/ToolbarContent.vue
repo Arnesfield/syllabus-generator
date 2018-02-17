@@ -14,7 +14,10 @@
 
     <template v-if="$route.name === 'Generator'">
       <v-spacer/>
-      <v-tooltip left>
+      <v-tooltip
+        :left="!$bus.generator.courseRefresh"
+        :bottom="$bus.generator.courseRefresh"
+      >
         <v-btn
           icon
           @click="$bus.generator.suggestions = !$bus.generator.suggestions"
@@ -24,6 +27,26 @@
         </v-btn>
         <span v-if="$bus.generator.suggestions">Hide Suggestions</span>
         <span v-else>Show Suggestions</span>
+      </v-tooltip>
+      <v-tooltip
+        bottom
+        v-if="$bus.generator.courseRefresh"
+      >
+        <v-btn
+          icon
+          @click="$bus.$emit('generator--course.refresh')"
+          slot="activator"
+        >
+          <v-progress-circular
+            indeterminate
+            :width="6"
+            :size="18"
+            v-if="$bus.progress.circular.Generator.course"
+          />
+          <v-icon v-else>refresh</v-icon>
+        </v-btn>
+        <span v-if="$bus.progress.circular.Generator.course">Refreshing</span>
+        <span v-else>Refresh</span>
       </v-tooltip>
       <!-- <v-menu
         :close-on-content-click="false"
@@ -91,7 +114,6 @@
       v-if="typeof $bus.tabs[$route.name] !== 'undefined'"
       v-model="$bus.tabs[$route.name].tab"
       slot="extension">
-      <v-tabs-slider color="accent"/>
       <v-tab
         v-for="tab in $bus.tabs[$route.name].items"
         :key="tab">{{ tab }}</v-tab>

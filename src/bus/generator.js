@@ -1,4 +1,5 @@
 export default {
   warn: true,
-  suggestions: true
+  suggestions: true,
+  courseRefresh: false
 }

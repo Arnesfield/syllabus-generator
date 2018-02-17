@@ -14,7 +14,9 @@
     v-model="selected"
     autocomplete
     return-object
-    debouce-search>
+    debouce-search
+    v-if="picker"
+  >
     <template slot="item" slot-scope="data">
       <v-list-tile-content>
         <v-list-tile-title v-html="data.item.code"/>
@@ -111,6 +113,12 @@ import qs from 'qs'
 
 export default {
   name: 'course-picker',
+  props: {
+    picker: {
+      type: Boolean,
+      default: true
+    }
+  },
   data: () => ({
     url: '/courses',
     relatedUrl: '/courses/related',

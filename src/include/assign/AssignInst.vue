@@ -31,7 +31,7 @@
             <v-icon color="grey">info</v-icon>
           </v-btn>
           <span>
-            <div>Created at: {{ $wrap.date(assign.created_at, false) }}</div>
+            <div>Assigned at: {{ $wrap.date(assign.created_at, false) }}</div>
             <div
               v-if="assign.created_at !== assign.updated_at"
             >Last updated at: {{ $wrap.date(assign.updated_at, false) }}</div>
@@ -42,6 +42,12 @@
             <v-icon color="grey">edit</v-icon>
           </v-btn>
           <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip top v-if="$bus.session.user.id == assigned().id">
+          <v-btn icon slot="activator" @click="createSyllabus">
+            <v-icon color="grey">arrow_forward</v-icon>
+          </v-btn>
+          <span>Create Syllabus</span>
         </v-tooltip>
         <v-tooltip top v-if="Number(assign.status) != 3">
           <v-btn icon slot="activator">
@@ -76,6 +82,9 @@ export default {
   },
 
   methods: {
+    createSyllabus() {
+      this.$router.push('/generator/' + this.course().id)
+    },
     course() {
       return this.assign.content.course
     },
