@@ -16,16 +16,21 @@
       </v-flex>
     </v-layout>
   </template>
+
+  <dialog-add-assign/>
+
 </v-container>
 </template>
 
 <script>
 import AssignInst from '@/include/assign/AssignInst'
+import DialogAddAssign from '@/include/dialogs/DialogAddAssign'
 
 export default {
   name: 'assign',
   components: {
-    AssignInst
+    AssignInst,
+    DialogAddAssign
   },
   data: () => ({
     url: '/assigns',
@@ -46,11 +51,16 @@ export default {
   },
 
   created() {
+    this.$bus.$on('assign--add', this.addAssign)
     this.$bus.$on('assign--refresh', this.fetch)
     this.fetch()
   },
 
   methods: {
+    addAssign() {
+      this.$bus.dialog.Assign.add = true
+    },
+
     countAssigns(n) {
       // check assigns with status n
       // return the length

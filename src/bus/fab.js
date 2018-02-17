@@ -33,6 +33,7 @@ export default {
       before: 'add',
       after: 'close',
       click: 'assign--add',
+      tip: 'Assign',
       btns: null
     }
   }

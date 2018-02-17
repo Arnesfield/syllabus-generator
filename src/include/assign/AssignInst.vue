@@ -5,7 +5,7 @@
       <div>
         <div
           class="headline"
-        >{{ getFullname(assigned()) }}</div>
+        >{{ $wrap.fullname(assigned()) }}</div>
         <div>{{ course().code + ' – ' + course().title }}</div>
         <v-list>
           <template v-for="(u, i) in sub()" v-if="u.user">
@@ -16,7 +16,7 @@
                   <status :item="u"/>
                 </v-list-tile-action>
               </v-list-tile-action>
-              <v-list-tile-title v-html="getFullname(u.user)"/>
+              <v-list-tile-title v-html="$wrap.fullname(u.user)"/>
             </v-list-tile>
           </template>
         </v-list>
@@ -72,10 +72,6 @@ export default {
     },
     sub() {
       return this.assign.content.sub
-    },
-    
-    getFullname(user) {
-      return user.fname + ' ' + user.mname + (user.mname.length ? ' ' : '') + user.lname
     }
   }
 }

@@ -44,6 +44,10 @@ class Assigns_model extends MY_Custom_Model {
     $query = $this->db->get();
     return $this->_res($query);
   }
+
+  public function insert($data) {
+    return $this->db->insert('assigns', $data);
+  }
 }
 
 ?>

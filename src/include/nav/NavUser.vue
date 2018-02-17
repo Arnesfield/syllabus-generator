@@ -28,7 +28,7 @@ export default {
   computed: {
     fullname() {
       let user = this.$bus.session.user
-      return user && (user.fname || user.lname) ? user.fname + ' ' + user.lname : ''
+      return this.$wrap.fullname(user)
     },
     username() {
       let user = this.$bus.session.user

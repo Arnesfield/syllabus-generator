@@ -4,6 +4,7 @@
   width="800"
   :overlay="false"
   :persistent="loading"
+  transition="fade-transition"
   scrollable>
   <v-card>
     

@@ -4,6 +4,7 @@
   width="800"
   :overlay="false"
   :persistent="loading"
+  transition="fade-transition"
   scrollable>
   <v-card>
     
@@ -128,8 +129,8 @@ export default {
       passconf: true
     },
     types: [
-      { text: 'Admin', value: 1 },
-      { text: 'Faculty', value: 2 }
+      { text: 'Admin', value: 3 },
+      { text: 'Faculty', value: 4 }
     ],
     
     loading: false

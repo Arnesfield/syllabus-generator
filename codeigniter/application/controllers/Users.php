@@ -16,6 +16,12 @@ class Users extends MY_Custom_Controller {
     ));
   }
 
+  public function search() {
+    $search = $this->_filter($this->input->post('search'));
+    $users = $this->users_model->getByQuery($search);
+    $this->_json(TRUE, 'users', $users);
+  }
+
   // admin
   public function add() {
     $post_values = array('fname', 'mname', 'lname', 'username', 'password', 'img_src', 'type', 'status');

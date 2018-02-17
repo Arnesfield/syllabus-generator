@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2018 at 06:56 AM
+-- Generation Time: Feb 15, 2018 at 07:16 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -1332,8 +1332,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `img_src`, `status`, `type`) VALUES
 (1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', 1, 3),
-(2, 'Jane', '', 'Doe', 'charlyn', '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', 1, 1),
-(3, 'Smith', '', 'Paul', 'ralph', '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', 1, 2);
+(2, 'Jane', '', 'Doe', 'charlyn', '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', 1, 3),
+(3, 'Smith', '', 'Paul', 'ralph', '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', 1, 4);
 
 --
 -- Indexes for dumped tables

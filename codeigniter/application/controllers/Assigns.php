@@ -17,6 +17,7 @@ class Assigns extends MY_Custom_Controller {
         $assigns[$key]['content'] = json_decode($assign['content'], TRUE);
       }
 
+      $created_by = $this->assigns_model->_to_col($assigns, 'created_by');
       // get "content"
       $content = $this->assigns_model->_to_col($assigns, 'content');
       $assigned = $this->assigns_model->_to_col($content, 'assigned');
@@ -44,7 +45,7 @@ class Assigns extends MY_Custom_Controller {
         }
       }
 
-      $listedUsers = array_unique(array_merge($assigned, $subUsers));
+      $listedUsers = array_unique(array_merge($assigned, $subUsers, $created_by));
 
       // get all users with ids from $listedUsers
       $assignedUsers = $this->assigns_model->getUsersWithIds($listedUsers);
@@ -61,6 +62,7 @@ class Assigns extends MY_Custom_Controller {
         // add the course info
         $assigns[$key]['content']['course'] = $newCourseData[$assign['content']['course']];
         $assigns[$key]['content']['assigned'] = $newAssignedUsers[$assign['content']['assigned']];
+        $assigns[$key]['created_by'] = $newAssignedUsers[$assign['created_by']];
 
         // also set "user" prop in "sub"
         foreach ($assign['content']['sub'] as $subkey => $sub) {
@@ -74,6 +76,22 @@ class Assigns extends MY_Custom_Controller {
     }
 
     $this->_json(TRUE, 'assigns', $assigns);
+  }
+
+  public function add() {
+    $uid = $this->session->userdata('user')['id'];
+    $content = $this->input->post('content');
+    
+    $data = array(
+      'content' => $content,
+      'created_by' => $uid,
+      'created_at' => time(),
+      'updated_at' => time(),
+      'status' => 3
+    );
+
+    $res = $this->assigns_model->insert($data);
+    $this->_json($res);
   }
 }
 
