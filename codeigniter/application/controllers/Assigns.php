@@ -10,7 +10,34 @@ class Assigns extends MY_Custom_Controller {
   
   public function index() {
     $assigns = $this->assigns_model->get();
+    $assigns = $this->createAssigns($assigns);
+    $this->_json(TRUE, 'assigns', $assigns);
+  }
+  
+  public function my() {
+    $id = $this->session->userdata('user')['id'];
+    $assigns = $this->assigns_model->getAssigned($id);
+    $assigns = $this->createAssigns($assigns);
+    $this->_json(TRUE, 'assigns', $assigns);
+  }
 
+  public function add() {
+    $uid = $this->session->userdata('user')['id'];
+    $content = $this->input->post('content');
+    
+    $data = array(
+      'content' => $content,
+      'created_by' => $uid,
+      'created_at' => time(),
+      'updated_at' => time(),
+      'status' => 3
+    );
+
+    $res = $this->assigns_model->insert($data);
+    $this->_json($res);
+  }
+
+  private function createAssigns($assigns) {
     if ($assigns) {
       // parse all "content"
       foreach ($assigns as $key => $assign) {
@@ -75,23 +102,7 @@ class Assigns extends MY_Custom_Controller {
       
     }
 
-    $this->_json(TRUE, 'assigns', $assigns);
-  }
-
-  public function add() {
-    $uid = $this->session->userdata('user')['id'];
-    $content = $this->input->post('content');
-    
-    $data = array(
-      'content' => $content,
-      'created_by' => $uid,
-      'created_at' => time(),
-      'updated_at' => time(),
-      'status' => 3
-    );
-
-    $res = $this->assigns_model->insert($data);
-    $this->_json($res);
+    return $assigns;
   }
 }
 

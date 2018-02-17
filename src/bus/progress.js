@@ -3,6 +3,9 @@ export default {
   circular: {
     Assign: {
       refresh: false
+    },
+    Assignments: {
+      refresh: false
     }
   }
 }

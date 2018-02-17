@@ -30,25 +30,21 @@
     </v-layout>
   </template>
 
-  <dialog-add-assign/>
-
 </v-container>
 </template>
 
 <script>
 import AssignInst from '@/include/assign/AssignInst'
 import ManageNoData from '@/include/ManageNoData'
-import DialogAddAssign from '@/include/dialogs/DialogAddAssign'
 
 export default {
-  name: 'assign',
+  name: 'assignments',
   components: {
     AssignInst,
-    ManageNoData,
-    DialogAddAssign
+    ManageNoData
   },
   data: () => ({
-    url: '/assigns',
+    url: '/assigns/my',
     assigns: [],
     loading: false,
     size: 'lg',
@@ -61,21 +57,16 @@ export default {
   }),
   watch: {
     loading(to, from) {
-      this.$bus.progress.circular.Assign.refresh = to
+      this.$bus.progress.circular.Assignments.refresh = to
     }
   },
 
   created() {
-    this.$bus.$on('assign--add', this.addAssign)
-    this.$bus.$on('assign--refresh', this.fetch)
+    this.$bus.$on('assignments--refresh', this.fetch)
     this.fetch()
   },
 
   methods: {
-    addAssign() {
-      this.$bus.dialog.Assign.add = true
-    },
-
     countAssigns(n) {
       // check assigns with status n
       // return the length

@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
+import Assignments from '@/components/Assignments'
 import Assign from '@/components/Assign'
 
 import ManageUsers from '@/components/manage/ManageUsers'
@@ -61,6 +62,15 @@ export default new Router({
       meta: {
         auth: 3,
         icon: 'build'
+      }
+    },
+    {
+      path: '/assignments',
+      name: 'Assignments',
+      component: Assignments,
+      meta: {
+        auth: 3,
+        icon: 'assignment'
       }
     },
     {

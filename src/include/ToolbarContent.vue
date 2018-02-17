@@ -63,6 +63,27 @@
       </v-tooltip>
     </template>
 
+    <template v-if="$route.name === 'Assignments'">
+      <v-spacer/>
+      <v-tooltip left>
+        <v-btn
+          icon
+          @click="$bus.$emit('assignments--refresh')"
+          slot="activator"
+        >
+          <v-progress-circular
+            indeterminate
+            :width="6"
+            :size="18"
+            v-if="$bus.progress.circular.Assignments.refresh"
+          />
+          <v-icon v-else>refresh</v-icon>
+        </v-btn>
+        <span v-if="$bus.progress.circular.Assignments.refresh">Refreshing</span>
+        <span v-else>Refresh</span>
+      </v-tooltip>
+    </template>
+
     <v-tabs
       align-with-title
       show-arrows
