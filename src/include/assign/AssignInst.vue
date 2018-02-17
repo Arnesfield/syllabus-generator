@@ -6,7 +6,8 @@
         <div
           class="headline"
         >{{ $wrap.fullname(assigned()) }}</div>
-        <div>{{ course().code + ' – ' + course().title }}</div>
+        <div class="subheading">{{ course().code + ' – ' + course().title }}</div>
+        <div class="grey--text">Assigned by: {{ $wrap.fullname(assign.created_by) }}</div>
         <v-list>
           <template v-for="(u, i) in sub()" v-if="u.user">
             <v-divider v-if="i != 0" :key="'divider-' + i"/>
@@ -25,7 +26,18 @@
 
     <v-card-actions>
       <div>
-        <v-tooltip top v-if="$bus.session.user.id == assign.created_by">
+        <v-tooltip top>
+          <v-btn icon slot="activator">
+            <v-icon color="grey">info</v-icon>
+          </v-btn>
+          <span>
+            <div>Created at: {{ $wrap.date(assign.created_at, false) }}</div>
+            <div
+              v-if="assign.created_at !== assign.updated_at"
+            >Last updated at: {{ $wrap.date(assign.updated_at, false) }}</div>
+          </span>
+        </v-tooltip>
+        <v-tooltip top v-if="$bus.session.user.id == assign.created_by.id">
           <v-btn icon slot="activator">
             <v-icon color="grey">edit</v-icon>
           </v-btn>

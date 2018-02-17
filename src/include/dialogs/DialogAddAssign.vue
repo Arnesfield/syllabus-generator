@@ -10,7 +10,7 @@
     
     <!-- toolbar -->
     
-    <v-toolbar dark color="primary">
+    <v-toolbar dark flat color="primary">
       <v-btn
         icon
         dark
@@ -335,7 +335,9 @@ export default {
       }
     },
     clear() {
-      this.$refs.form.reset()
+      if (this.$refs.form) {
+        this.$refs.form.reset()
+      }
 
       this.assigned = null
       this.sub = []

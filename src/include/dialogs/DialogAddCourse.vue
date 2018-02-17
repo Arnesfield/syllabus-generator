@@ -10,7 +10,7 @@
     
     <!-- toolbar -->
     
-    <v-toolbar dark color="primary">
+    <v-toolbar dark flat color="primary">
       <v-btn
         icon
         dark
