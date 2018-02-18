@@ -115,6 +115,8 @@ export default {
     _setInitial() {
       if (typeof this.syllabus.content.weeklyActivities === 'undefined') {
         this.$set(this.syllabus.content, 'weeklyActivities', this.activities)
+      } else {
+        this.activities = this.syllabus.content.weeklyActivities
       }
     },
   }

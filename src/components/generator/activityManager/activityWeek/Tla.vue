@@ -92,6 +92,16 @@ export default {
     this.$bus.$on('gen--topics.updated', this.suggest)
     // do suggest when bus generator suggestions changes
     this.$bus.$on('watch--generator.suggestions', this.suggest)
+
+    // set tla
+    if (this.act) {
+      if (this.type === 3) {
+        this.selected = this.act.tlaFaculty
+      } else if (this.type === 4) {
+        this.selected = this.act.tlaStudent
+      }
+    }
+
     this.suggest()
   },
 

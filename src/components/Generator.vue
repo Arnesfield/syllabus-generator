@@ -9,7 +9,11 @@
       />
     </v-tab-item>
     <v-tab-item key="syllabi" v-if="course">
-      <syllabus-picker :course="course" @syllabus-selected="onSyllabusSelected"/>
+      <syllabus-picker
+        ref="syllabusPicker"
+        :course="course"
+        @syllabus-selected="onSyllabusSelected"
+      />
     </v-tab-item>
 
     <template v-if="syllabus">
@@ -93,6 +97,8 @@ export default {
       all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'done']
     },
 
+    tempSyllabus: null,
+
     saveLoading: false,
     courseLoading: false
   }),
@@ -141,6 +147,12 @@ export default {
 
   created() {
     this.$bus.$on('generator--save', this.save)
+    this.$bus.$on('syllabus-picker--syllabus.set', () => {
+      // set syllabus in picker
+      if (this.$refs.syllabusPicker) {
+        this.$refs.syllabusPicker.selected = this.tempSyllabus
+      }
+    })
 
     this.$bus.tabs.Generator.tabs = true
     this.$bus.tabs.Generator.tab = null
@@ -184,7 +196,7 @@ export default {
         return
       }
 
-      let syllabus = JSON.stringify(this.syllabus)
+      let syllabus = JSON.stringify(this.syllabus ? this.syllabus.content : null)
       this.saveLoading = true
       this.$http.post(this.saveUrl, qs.stringify({
         assignId: this.assignId,
@@ -232,6 +244,13 @@ export default {
         if (!res.data.success) {
           this.course = null
           throw new Error('Request failure.')
+        }
+
+        // if syllabus exists, also add that
+        if (res.data.syllabus) {
+          // but first, parse that json string
+          res.data.syllabus.content = JSON.parse(res.data.syllabus.content)
+          this.tempSyllabus = res.data.syllabus
         }
 
         this.course = res.data.course

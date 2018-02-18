@@ -79,8 +79,8 @@ export default {
 
   watch: {
     selected(to, from) {
-      // set to topics in syllabus
-      this.act.topics = to
+      // set to tasks in syllabus
+      this.act.assessmentTasks = to
     }
   },
 
@@ -88,6 +88,12 @@ export default {
     this.$bus.$on('gen--topics.updated', this.suggest)
     // do suggest when bus generator suggestions changes
     this.$bus.$on('watch--generator.suggestions', this.suggest)
+
+    // set tasks
+    if (this.act) {
+      this.selected = this.act.assessmentTasks
+    }
+
     this.suggest()
   },
 

@@ -65,8 +65,18 @@ class Courses extends MY_Custom_Controller {
     }
 
     $course = $courses[0];
+    $data = array('course' => $course);
+    
+    // also send the syllabi if it exists
+    $this->load->model('syllabi_model');
+    $syllabi = $this->syllabi_model->getByAssignId($assignId);
 
-    $this->_json(TRUE, 'course', $course);
+    if ($syllabi) {
+      // if syllabus exists
+      $data['syllabus'] = $syllabi[0];
+    }
+
+    $this->_json(TRUE, $data);
   }
 
   public function add() {

@@ -99,6 +99,12 @@ export default {
     this.$bus.$on('gen--ilo.updated', this.suggest)
     // do suggest when bus generator suggestions changes
     this.$bus.$on('watch--generator.suggestions', this.suggest)
+
+    // set topics
+    if (this.act) {
+      this.selected = this.act.topics
+    }
+
     this.suggest()
   },
 

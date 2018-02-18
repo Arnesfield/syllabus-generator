@@ -46,6 +46,7 @@ export default {
       // if null, just clear
       this.clear()
       if (to !== null) {
+        this.$bus.$emit('syllabus-picker--syllabus.set')
         this.getSyllabi()
       }
     },
