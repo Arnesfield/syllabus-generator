@@ -49,7 +49,7 @@
 
   <manage-no-data
     :fetch="fetchCourse"
-    :loading="loading"
+    :loading="courseLoading"
     v-if="assignId && !course"
   />
 
@@ -81,6 +81,7 @@ export default {
     assignId: String
   },
   data: () => ({
+    saveUrl: '/syllabi/save',
     courseUrl: '/courses/assign_id',
     course: null,
     syllabus: null,
@@ -92,15 +93,23 @@ export default {
       all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'done']
     },
 
-    loading: false
+    saveLoading: false,
+    courseLoading: false
   }),
 
   watch: {
-    loading(to, from) {
+    courseLoading(to, from) {
       this.$bus.progress.circular.Generator.course = to
+    },
+    saveLoading(to, from) {
+      this.$bus.progress.circular.Generator.save = to
     },
 
     course(to, from) {
+      // set course picker course here
+      if (this.$refs.coursePicker) {
+        this.$refs.coursePicker.selected = to
+      }
       this.$bus.tabs.Generator.items = to === null
         ? this.tabs.course : this.tabs.syllabi
     },
@@ -112,9 +121,6 @@ export default {
       } else {
         // remove course
         this.course = null
-        if (this.$refs.coursePicker) {
-          this.$refs.coursePicker.selected = null
-        }
       }
     },
 
@@ -134,6 +140,8 @@ export default {
   },
 
   created() {
+    this.$bus.$on('generator--save', this.save)
+
     this.$bus.tabs.Generator.tabs = true
     this.$bus.tabs.Generator.tab = null
     this.$bus.tabs.Generator.items = ['course']
@@ -171,37 +179,65 @@ export default {
       this.syllabus = syllabus
     },
 
+    save() {
+      if (!this.assignId) {
+        return
+      }
+
+      let syllabus = JSON.stringify(this.syllabus)
+      this.saveLoading = true
+      this.$http.post(this.saveUrl, qs.stringify({
+        assignId: this.assignId,
+        syllabus: syllabus
+      })).then((res) => {
+        console.error(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.saveLoading = false
+        this.$bus.$emit('snackbar--show', 'Syllabus saved.')
+      }).catch(e => {
+        console.error(e)
+        this.saveLoading = false
+        this.$bus.$emit('snackbar--show', {
+          text: 'Unable to save syllabus.',
+          btns: {
+            text: 'Resave',
+            icon: false,
+            color: 'accent',
+            cb: (sb, e) => {
+              this.save()
+              sb.snackbar = false
+            }
+          }
+        })
+      })
+    },
+
     fetchCourse() {
       if (!this.assignId) {
         return
       }
 
-      this.loading = true
+      this.courseLoading = true
       this.$bus.generator.courseRefresh = true
       this.$http.post(this.courseUrl, qs.stringify({
-        id: this.assignId
+        assignId: this.assignId
       })).then((res) => {
         console.error(res.data)
         // hide refresh button
-        this.loading = false
+        this.courseLoading = false
         this.$bus.generator.courseRefresh = false
 
         if (!res.data.success) {
           this.course = null
-          if (this.$refs.coursePicker) {
-            this.$refs.coursePicker.selected = null
-          }
           throw new Error('Request failure.')
         }
 
         this.course = res.data.course
-        // also set this course in course picker
-        if (this.$refs.coursePicker) {
-          this.$refs.coursePicker.selected = this.course
-        }
       }).catch(e => {
         console.error(e)
-        this.loading = false
+        this.courseLoading = false
         // show refresh button
         this.$bus.generator.courseRefresh = true
       })

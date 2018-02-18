@@ -2,7 +2,8 @@ export default {
   active: false,
   circular: {
     Generator: {
-      course: false
+      course: false,
+      save: false
     },
     Assign: {
       refresh: false

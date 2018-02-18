@@ -14,10 +14,7 @@
 
     <template v-if="$route.name === 'Generator'">
       <v-spacer/>
-      <v-tooltip
-        :left="!$bus.generator.courseRefresh"
-        :bottom="$bus.generator.courseRefresh"
-      >
+      <v-tooltip bottom>
         <v-btn
           icon
           @click="$bus.generator.suggestions = !$bus.generator.suggestions"
@@ -27,6 +24,24 @@
         </v-btn>
         <span v-if="$bus.generator.suggestions">Hide Suggestions</span>
         <span v-else>Show Suggestions</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          @click="$bus.$emit('generator--save')"
+          slot="activator"
+        >
+          <v-progress-circular
+            indeterminate
+            :width="6"
+            :size="18"
+            v-if="$bus.progress.circular.Generator.save"
+          />
+          <v-icon v-else>save</v-icon>
+        </v-btn>
+        <span>Save</span>
+        <span v-if="$bus.progress.circular.Generator.save">Saving</span>
+        <span v-else>Save</span>
       </v-tooltip>
       <v-tooltip
         bottom

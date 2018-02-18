@@ -31,15 +31,15 @@ class Courses extends MY_Custom_Controller {
   }
 
   public function assign_id() {
-    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
+    $assignId = $this->input->post('assignId') ? $this->input->post('assignId') : FALSE;
 
-    if (!$id) {
+    if (!$assignId) {
       $this->_json(FALSE);
     }
 
     // get assign
     $this->load->model('assigns_model');
-    $assigns = $this->assigns_model->get($id);
+    $assigns = $this->assigns_model->get($assignId);
 
     if (!$assigns) {
       $this->_json(FALSE);
