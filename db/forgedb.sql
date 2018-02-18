@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2018 at 07:16 AM
+-- Generation Time: Feb 18, 2018 at 08:35 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -43,7 +43,8 @@ CREATE TABLE `assigns` (
 
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
 (1, '{\"course\":1,\"assigned\":1,\"sub\":[{\"id\":2,\"status\":2},{\"id\":3,\"status\":2}]}', 2, 1518436312, 1518436327, 3),
-(2, '{\"course\":2,\"assigned\":2,\"sub\":[{\"id\":3,\"status\":2},{\"id\":1,\"status\":2}]}', 1, 1518607114, 1518607114, 3);
+(2, '{\"course\":2,\"assigned\":2,\"sub\":[{\"id\":3,\"status\":2},{\"id\":1,\"status\":2}]}', 1, 1518607114, 1518607114, 3),
+(3, '{\"assigned\":\"3\",\"course\":\"6\",\"sub\":[{\"id\":\"1\",\"status\":2},{\"id\":\"2\",\"status\":2}]}', 1, 1518846036, 1518846036, 3);
 
 -- --------------------------------------------------------
 
@@ -1481,7 +1482,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assigns`
 --
 ALTER TABLE `assigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `books`

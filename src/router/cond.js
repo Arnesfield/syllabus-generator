@@ -26,7 +26,8 @@ export default function(router, http, bus) {
       // if session auth but route not auth
       else if (bus.session.auth >= 3) {
         // if component is also >= 3 auth
-        if (to.meta.auth >= 3) {
+        // component should be greater than or equal to session auth
+        if (to.meta.auth >= 3 && to.meta.auth >= bus.session.auth) {
           document.title = title
           next()
           return

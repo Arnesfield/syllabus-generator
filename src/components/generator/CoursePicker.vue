@@ -131,7 +131,9 @@ export default {
 
   watch: {
     selected(to, from) {
-      this.getRelated()
+      if (to !== null) {
+        this.getRelated()
+      }
       this.$emit('course-selected', to)
     },
     searchInput(e) {

@@ -83,7 +83,7 @@ export default {
 
   methods: {
     createSyllabus() {
-      this.$router.push('/generator/' + this.course().id)
+      this.$router.push('/generator/' + this.assign.id)
     },
     course() {
       return this.assign.content.course

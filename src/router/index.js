@@ -51,17 +51,17 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: 3,
+        auth: 4,
         icon: 'dashboard'
       }
     },
     {
-      path: '/generator/:courseId?/:syllabusId?',
+      path: '/generator/:assignId?',
       name: 'Generator',
       component: Generator,
       props: true,
       meta: {
-        auth: 3,
+        auth: 4,
         icon: 'build'
       }
     },
@@ -70,7 +70,7 @@ export default new Router({
       name: 'Assignments',
       component: Assignments,
       meta: {
-        auth: 3,
+        auth: 4,
         icon: 'assignment'
       }
     },

@@ -30,14 +30,35 @@ class Courses extends MY_Custom_Controller {
     ));
   }
 
-  public function id() {
+  public function assign_id() {
     $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
 
     if (!$id) {
       $this->_json(FALSE);
     }
 
-    $courses = $this->courses_model->getWhere(array('id' => $id));
+    // get assign
+    $this->load->model('assigns_model');
+    $assigns = $this->assigns_model->get($id);
+
+    if (!$assigns) {
+      $this->_json(FALSE);
+    }
+
+    $assign = $assigns[0];
+    $content = json_decode($assign['content'], TRUE);
+
+    $uid = $this->session->userdata('user')['id'];
+
+    // if uid is not the same as assigned, do not proceed
+    if ($uid != $content['assigned']) {
+      $this->_json(FALSE);
+    }
+
+    // get course id from assign
+    $cid = $content['course'];
+
+    $courses = $this->courses_model->getWhere(array('id' => $cid));
 
     if (!$courses) {
       $this->_json(FALSE);

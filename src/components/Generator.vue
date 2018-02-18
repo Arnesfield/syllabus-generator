@@ -4,7 +4,7 @@
     <v-tab-item key="course">
       <course-picker
         ref="coursePicker"
-        :picker="!courseId"
+        :picker="!assignId"
         @course-selected="onCourseSelected"
       />
     </v-tab-item>
@@ -46,6 +46,13 @@
 
     </template>
   </v-tabs-items>
+
+  <manage-no-data
+    :fetch="fetchCourse"
+    :loading="loading"
+    v-if="assignId && !course"
+  />
+
 </v-container>
 </template>
 
@@ -57,6 +64,7 @@ import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
 import OutcomeTable from '@/components/generator/OutcomeTable'
 import ActivityManager from '@/components/generator/ActivityManager'
+import ManageNoData from '@/include/ManageNoData'
 
 export default {
   name: 'generator',
@@ -66,14 +74,14 @@ export default {
     SyllabusPicker,
     BookPicker,
     OutcomeTable,
-    ActivityManager
+    ActivityManager,
+    ManageNoData
   },
   props: {
-    courseId: String,
-    syllabusId: String
+    assignId: String
   },
   data: () => ({
-    courseUrl: '/courses/id',
+    courseUrl: '/courses/assign_id',
     course: null,
     syllabus: null,
     // for navigation
@@ -82,16 +90,22 @@ export default {
       syllabi: ['course', 'syllabi'],
       noCurriculum: ['course', 'syllabi', 'books', 'curriculum'],
       all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'done']
-    }
+    },
+
+    loading: false
   }),
 
   watch: {
+    loading(to, from) {
+      this.$bus.progress.circular.Generator.course = to
+    },
+
     course(to, from) {
       this.$bus.tabs.Generator.items = to === null
         ? this.tabs.course : this.tabs.syllabi
     },
 
-    courseId(to, from) {
+    assignId(to, from) {
       if (to) {
         this.$bus.$on('generator--course.refresh', this.fetchCourse)
         this.fetchCourse()
@@ -125,7 +139,7 @@ export default {
     this.$bus.tabs.Generator.items = ['course']
     this.$bus.generator.suggestions = true
 
-    if (this.courseId !== null) {
+    if (this.assignId !== null) {
       this.$bus.$on('generator--course.refresh', this.fetchCourse)
       // do async and set the course
       // also set refresh button if failed
@@ -158,16 +172,25 @@ export default {
     },
 
     fetchCourse() {
-      if (!this.courseId) {
+      if (!this.assignId) {
         return
       }
 
+      this.loading = true
       this.$bus.generator.courseRefresh = true
       this.$http.post(this.courseUrl, qs.stringify({
-        id: this.courseId
+        id: this.assignId
       })).then((res) => {
         console.error(res.data)
+        // hide refresh button
+        this.loading = false
+        this.$bus.generator.courseRefresh = false
+
         if (!res.data.success) {
+          this.course = null
+          if (this.$refs.coursePicker) {
+            this.$refs.coursePicker.selected = null
+          }
           throw new Error('Request failure.')
         }
 
@@ -176,11 +199,9 @@ export default {
         if (this.$refs.coursePicker) {
           this.$refs.coursePicker.selected = this.course
         }
-
-        // hide refresh button
-        this.$bus.generator.courseRefresh = false
       }).catch(e => {
         console.error(e)
+        this.loading = false
         // show refresh button
         this.$bus.generator.courseRefresh = true
       })
