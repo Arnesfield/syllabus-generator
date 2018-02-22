@@ -53,7 +53,28 @@ export default new Vue({
     },
 
     authCheck(routeAuth) {
-      return this.session.auth >= 3 && routeAuth < 10
+      // check if routeAuth in session auth
+      return this.authHas(routeAuth, this.session.auth)
+        && !this.authHas(routeAuth, [0, 10])
+    },
+
+    authHas(auth, n, concat) {
+      // convert to array
+      if (typeof auth !== 'object') {
+        auth = [auth]
+      }
+      // also convert n to array
+      if (typeof n !== 'object') {
+        n = [n]
+      }
+      // do concat
+      if (typeof concat === 'object' || typeof concat === 'number') {
+        n = n.concat(concat)
+      }
+      // check if some n exists in auth
+      let result = false
+      auth.every(e => !(result = n.indexOf(e) > -1))
+      return result
     },
 
     sessionCheck(route, http) {

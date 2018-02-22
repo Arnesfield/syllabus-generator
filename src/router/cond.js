@@ -3,19 +3,57 @@ export default function(router, http, bus) {
   let beforeEach = function(to, from, next) {
     // set title
     const title = to.meta.title || to.name
+
     // do loading
     bus.progress.active = true
 
-    // if router auth not the same with session auth
-    // if component auth is 10
-    // console.log(to.meta.auth + ' ' + bus.session.auth)
-    if (to.meta.auth < bus.session.auth || bus.session.auth == 0 || to.meta.auth == 10) {
+    // convert to array
+    let toAuth = to.meta.auth
+    if (typeof toAuth !== 'object') {
+      toAuth = [toAuth]
+    }
+    let sessAuth = bus.session.auth
+    if (typeof sessAuth !== 'object') {
+      sessAuth = [sessAuth]
+    }
+
+    const nonauth = [0, 10]
+    const auth = [1, 3, 4]
+
+    const SESS_EXISTS = bus.authHas(sessAuth, auth)
+    const TO_HAS_SESS = bus.authHas(toAuth, sessAuth, 10)
+    const IS_ADMIN = bus.authHas(sessAuth, 1)
+    const IS_FACULTY = bus.authHas(sessAuth, [3, 4])
+
+    if (TO_HAS_SESS) {
+      document.title = title
+      next()
+    } else {
+      next(false)
+      if (SESS_EXISTS) {
+        if (IS_ADMIN) {
+          router.push('/manage/users')
+        } else if (IS_FACULTY) {
+          router.push('/dashboard')
+        }
+      } else {
+        router.push('/login')
+      }
+    }
+
+    bus.progress.active = false
+    return;
+
+    // skip
+
+    // no sess auth || nonauth to
+    if (!bus.authCheck(to.meta.auth) || bus.authHas(to.meta.auth, [0, 10])) {
       bus.progress.active = false
       
       // go to login if user is not set
-      if (bus.session.auth == 0 || to.meta.auth == 10) {
+      if (bus.authHas(bus.session.auth, 0) || bus.authHas(to.meta.auth, 10)) {
         // if component is also 0 auth
-        if (to.meta.auth == 0 || to.meta.auth == 10) {
+        if (bus.authHas(to.meta.auth, [0, 10])) {
           document.title = title
           next()
           return
@@ -24,16 +62,21 @@ export default function(router, http, bus) {
         router.push('/login')
       }
       // if session auth but route not auth
-      else if (bus.session.auth >= 3) {
+      else if (bus.authHas(bus.session.auth, [1, 3, 4])) {
         // if component is also >= 3 auth
         // component should be greater than or equal to session auth
-        if (to.meta.auth >= 3 && to.meta.auth >= bus.session.auth) {
+        if (bus.authCheck(to.meta.auth)) {
           document.title = title
           next()
           return
         }
         next(false)
-        router.push('/dashboard')
+        // go to manage users if auth is admin
+        if (bus.authHas(bus.session.auth, 1)) {
+          router.push('/manage/users')
+        } else {
+          router.push('/dashboard')
+        }
       }
       return
     }

@@ -51,7 +51,7 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: 4,
+        auth: [3, 4],
         icon: 'dashboard'
       }
     },
@@ -61,7 +61,7 @@ export default new Router({
       component: Generator,
       props: true,
       meta: {
-        auth: 4,
+        auth: [3, 4],
         icon: 'build'
       }
     },
@@ -70,7 +70,7 @@ export default new Router({
       name: 'Assignments',
       component: Assignments,
       meta: {
-        auth: 4,
+        auth: [3, 4],
         icon: 'assignment'
       }
     },
@@ -79,7 +79,7 @@ export default new Router({
       name: 'Assign',
       component: Assign,
       meta: {
-        auth: 3,
+        auth: [3, 4],
         icon: 'supervisor_account'
       }
     },
@@ -91,7 +91,7 @@ export default new Router({
       name: 'ManageUsers',
       component: ManageUsers,
       meta: {
-        auth: 3,
+        auth: 1,
         title: 'Manage Users',
         icon: 'account_circle'
       }
@@ -101,7 +101,7 @@ export default new Router({
       name: 'ManageCourses',
       component: ManageCourses,
       meta: {
-        auth: 3,
+        auth: 1,
         title: 'Manage Courses',
         icon: 'school'
       }
@@ -111,7 +111,7 @@ export default new Router({
       name: 'ManageBooks',
       component: ManageBooks,
       meta: {
-        auth: 3,
+        auth: 1,
         title: 'Manage Books',
         icon: 'library_books'
       }

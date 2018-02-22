@@ -43,10 +43,13 @@ class Login extends MY_Custom_Controller {
       ));
     }
 
+    // parse auth field
+    $user['auth'] = json_decode($user['auth'], TRUE);
+
     // set session
     $this->session->set_userdata(array(
       'user' => $user,
-      'auth' => $user['type']
+      'auth' => $user['auth']
     ));
 
     $this->_json(TRUE, array(

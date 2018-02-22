@@ -16,7 +16,7 @@
     "qs": "^6.5.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.0.1"
+    "vuetify": "^1.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2018 at 02:06 PM
+-- Generation Time: Feb 22, 2018 at 06:21 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -44,7 +44,8 @@ CREATE TABLE `assigns` (
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
 (1, '{\"course\":1,\"assigned\":1,\"sub\":[{\"id\":2,\"status\":2},{\"id\":3,\"status\":2}]}', 2, 1518436312, 1518436327, 3),
 (2, '{\"course\":2,\"assigned\":2,\"sub\":[{\"id\":3,\"status\":2},{\"id\":1,\"status\":2}]}', 1, 1518607114, 1518607114, 3),
-(3, '{\"assigned\":\"3\",\"course\":\"6\",\"sub\":[{\"id\":\"1\",\"status\":2},{\"id\":\"2\",\"status\":2}]}', 1, 1518846036, 1518846036, 3);
+(3, '{\"assigned\":\"3\",\"course\":\"6\",\"sub\":[{\"id\":\"1\",\"status\":2},{\"id\":\"2\",\"status\":2}]}', 1, 1518846036, 1518846036, 3),
+(4, '{\"assigned\":\"3\",\"course\":\"1\",\"sub\":[]}', 1, 1519283122, 1519283122, 3);
 
 -- --------------------------------------------------------
 
@@ -1325,17 +1326,18 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `img_src` text NOT NULL,
   `status` tinyint(4) NOT NULL,
-  `type` tinyint(4) NOT NULL
+  `type` tinyint(4) NOT NULL,
+  `auth` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `img_src`, `status`, `type`) VALUES
-(1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', 1, 3),
-(2, 'Jane', '', 'Doe', 'charlyn', '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', 1, 3),
-(3, 'Smith', '', 'Paul', 'ralph', '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', 1, 4);
+INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `img_src`, `status`, `type`, `auth`) VALUES
+(1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', 1, 1, '[1]'),
+(2, 'Jane', '', 'Doe', 'charlyn', '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', 1, 3, '[3]'),
+(3, 'Smith', '', 'Paul', 'ralph', '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', 1, 4, '[4]');
 
 --
 -- Indexes for dumped tables
@@ -1483,7 +1485,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assigns`
 --
 ALTER TABLE `assigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `books`

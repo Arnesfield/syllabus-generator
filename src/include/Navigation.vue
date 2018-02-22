@@ -12,7 +12,7 @@
     class="pb-0"
     :class="{ 'py-0': i != 0 }"
     :key="i"
-    v-if="list.auth >= $bus.session.auth"
+    v-if="$bus.authHas(list.auth, $bus.session.auth, 10)"
     v-for="(list, i) in lists"
     :subheader="Boolean(list.header)"
   >
@@ -86,7 +86,7 @@ export default {
     lists: [
       {
         header: '',
-        auth: 4,
+        auth: [3, 4],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
           { title: 'Generator', icon: 'build', to: '/generator' }
@@ -94,21 +94,21 @@ export default {
       },
       {
         header: '',
-        auth: 4,
+        auth: [3, 4],
         items: [
           { title: 'Assignments', icon: 'assignment', to: '/assignments' }
         ]
       },
       {
         header: '',
-        auth: 3,
+        auth: [3, 4],
         items: [
           { title: 'Assign', icon: 'supervisor_account', to: '/assign' }
         ]
       },
       {
         header: 'Manage',
-        auth: 3,
+        auth: 1,
         items: [
           { title: 'Users', icon: 'account_circle', tip: 'Manage Users', to: '/manage/users' },
           { title: 'Courses', icon: 'school', tip: 'Manage Courses', to: '/manage/courses' },
