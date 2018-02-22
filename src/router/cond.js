@@ -42,49 +42,6 @@ export default function(router, http, bus) {
     }
 
     bus.progress.active = false
-    return;
-
-    // skip
-
-    // no sess auth || nonauth to
-    if (!bus.authCheck(to.meta.auth) || bus.authHas(to.meta.auth, [0, 10])) {
-      bus.progress.active = false
-      
-      // go to login if user is not set
-      if (bus.authHas(bus.session.auth, 0) || bus.authHas(to.meta.auth, 10)) {
-        // if component is also 0 auth
-        if (bus.authHas(to.meta.auth, [0, 10])) {
-          document.title = title
-          next()
-          return
-        }
-        next(false)
-        router.push('/login')
-      }
-      // if session auth but route not auth
-      else if (bus.authHas(bus.session.auth, [1, 3, 4])) {
-        // if component is also >= 3 auth
-        // component should be greater than or equal to session auth
-        if (bus.authCheck(to.meta.auth)) {
-          document.title = title
-          next()
-          return
-        }
-        next(false)
-        // go to manage users if auth is admin
-        if (bus.authHas(bus.session.auth, 1)) {
-          router.push('/manage/users')
-        } else {
-          router.push('/dashboard')
-        }
-      }
-      return
-    }
-    
-    document.title = title
-    next()
-    // stop loading
-    bus.progress.active = false
   }
 
   bus.$on('watch--session.auth', (route) => {
