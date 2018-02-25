@@ -6,7 +6,7 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
 import Assignments from '@/components/Assignments'
-import Assign from '@/components/Assign'
+import Workflow from '@/components/Workflow'
 
 import ManageUsers from '@/components/manage/ManageUsers'
 import ManageCourses from '@/components/manage/ManageCourses'
@@ -75,9 +75,9 @@ export default new Router({
       }
     },
     {
-      path: '/assign',
-      name: 'Assign',
-      component: Assign,
+      path: '/workflow',
+      name: 'Workflow',
+      component: Workflow,
       meta: {
         auth: [3, 4],
         icon: 'supervisor_account'

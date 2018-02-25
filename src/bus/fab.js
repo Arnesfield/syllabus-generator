@@ -28,12 +28,12 @@ export default {
         { icon: 'file_upload', tip: 'Upload CSV file', cb: 'manage--books.upload' }
       ]
     },
-    Assign: {
+    Workflow: {
       color: 'accent',
       before: 'add',
       after: 'close',
-      click: 'assign--add',
-      tip: 'Assign',
+      click: 'workflow--add',
+      tip: 'Create workflow',
       btns: null
     }
   }

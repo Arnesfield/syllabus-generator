@@ -326,7 +326,7 @@ export default {
           }
           this.$bus.dialog.Assign.add = false
           this.$bus.$emit('snackbar--show', 'Assigned successfully.')
-          this.$bus.$emit('assign--refresh')
+          this.$bus.$emit('workflow--refresh')
           this.clear()
         }).catch((e) => {
           console.error(e)

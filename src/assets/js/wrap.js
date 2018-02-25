@@ -26,6 +26,17 @@ export default {
       (showSeconds ? ':' + secs : '')
   },
 
+  status(e) {
+    const status = {
+      0: 'Denied',
+      1: 'Approved',
+      2: 'Undecided',
+      3: 'Not yet submitted'
+    }
+    
+    return status[e]
+  },
+
   fullname(user, mname) {
     if (typeof user !== 'object') {
       return ''
@@ -39,5 +50,9 @@ export default {
     fullname += user.lname
 
     return fullname
+  },
+  localImg(url) {
+    // change this
+    return 'http://localhost/xforge/public/uploads/images/' + url
   }
 }

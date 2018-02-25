@@ -103,7 +103,7 @@ export default {
         header: '',
         auth: [3, 4],
         items: [
-          { title: 'Assign', icon: 'supervisor_account', to: '/assign' }
+          { title: 'Workflow', icon: 'supervisor_account', to: '/workflow' }
         ]
       },
       {

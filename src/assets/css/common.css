@@ -32,6 +32,11 @@
   background-color: rgba(0, 0, 0, 0.08);
 }
 
+.thin-action {
+  width: 42px;
+  min-width: 42px;
+}
+
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;

@@ -1,23 +1,24 @@
 <template>
-<v-container
-  :fill-height="!assigns.length"
-  v-bind="{ ['grid-list-' + size]: true }"
->
+<v-container :fill-height="!assigns.length">
   <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
     <v-subheader :key="'subheader-' + i">{{ t.title }}</v-subheader>
-    <v-layout :key="'layout-' + i" row wrap>
-      <v-flex
-        md4
-        lg3
-        xs12
-        sm6
-        :key="i"
+    <v-list
+      :key="'list-' + i"
+      three-line
+      class="elevation-1"
+    >
+      <template
         v-for="(assign, i) in assigns"
         v-if="Number(assign.status) == t.n"
       >
-        <assign-inst :assign='assign'/>
-      </v-flex>
-    </v-layout>
+        <workflow-inst
+          :key="'inst-' + i"
+          :assign='assign'
+          @view="onView(assign)"
+        />
+        <v-divider v-if="i != assigns.length-1" :key="'divider-' + i"/>
+      </template>
+    </v-list>
   </template>
 
   <template v-if="!assigns.length">
@@ -31,21 +32,24 @@
   </template>
 
   <dialog-add-assign/>
+  <dialog-detailed-workflow/>
 
 </v-container>
 </template>
 
 <script>
-import AssignInst from '@/include/assign/AssignInst'
+import WorkflowInst from '@/include/assign/WorkflowInst'
 import ManageNoData from '@/include/ManageNoData'
 import DialogAddAssign from '@/include/dialogs/DialogAddAssign'
+import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 
 export default {
-  name: 'assign',
+  name: 'workflow',
   components: {
-    AssignInst,
+    WorkflowInst,
     ManageNoData,
-    DialogAddAssign
+    DialogAddAssign,
+    DialogDetailedWorkflow
   },
   data: () => ({
     url: '/assigns',
@@ -66,12 +70,16 @@ export default {
   },
 
   created() {
-    this.$bus.$on('assign--add', this.addAssign)
-    this.$bus.$on('assign--refresh', this.fetch)
+    this.$bus.$on('workflow--add', this.addAssign)
+    this.$bus.$on('workflow--refresh', this.fetch)
     this.fetch()
   },
 
   methods: {
+    onView(assign) {
+      this.$bus.$emit('dialog--detailed-workflow.show', assign)
+    },
+
     addAssign() {
       this.$bus.dialog.Assign.add = true
     },

@@ -85,7 +85,7 @@
       <v-tooltip left>
         <v-btn
           icon
-          @click="$bus.$emit('assign--refresh')"
+          @click="$bus.$emit('workflow--refresh')"
           slot="activator"
         >
           <v-progress-circular
