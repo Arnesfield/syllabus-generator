@@ -8,12 +8,36 @@
     <status :item="assign"/>
   </v-list-tile-action>
   <v-list-tile-content>
-    <v-list-tile-title v-text="course().code"/>
+    <v-list-tile-title>
+      <v-layout>
+        <v-flex xs12 md4 v-text="course().code"/>
+        <v-flex
+          xs12
+          md4
+          hidden-xs-only
+          v-text="$wrap.fullname(assigned())"/>
+        <v-flex xs12 md4 hidden-xs-only>
+          <div
+            class="caption"
+          >Last update:
+          <template
+            v-if="assign.updated_at != assign.created_at"
+          >{{ $wrap.date(assign.updated_at) }}</template>
+          <strong v-else>None</strong>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-list-tile-title>
     <v-list-tile-sub-title>
-      <div>{{ course().title }}</div>
-      <div>Assigned to:
-        <strong>{{ $wrap.fullname(assigned()) }}</strong>
-      </div>
+      <v-layout hidden-xs-only hidden-sm-only>
+        <v-flex xs12 md4 v-text="course().title"/>
+        <v-flex xs12 md4>Assigned</v-flex>
+        <v-flex
+          xs12
+          md4
+          class="caption"
+        >Created: {{ $wrap.date(assign.created_at) }}</v-flex>
+      </v-layout>
     </v-list-tile-sub-title>
   </v-list-tile-content>
   <v-list-tile-action>

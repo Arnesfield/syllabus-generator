@@ -8,7 +8,6 @@
     <v-layout :key="'layout-' + i" row wrap>
       <v-flex
         md4
-        lg3
         xs12
         sm6
         :key="i"

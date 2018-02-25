@@ -14,7 +14,7 @@ class Syllabi extends MY_Custom_Controller {
     $this->_json(TRUE, 'syllabi', $syllabi);
   }
 
-  public function save() {
+  public function save($return = FALSE) {
     $assignId = $this->input->post('assignId');
     $syllabus = $this->input->post('syllabus');
 
@@ -26,7 +26,11 @@ class Syllabi extends MY_Custom_Controller {
     $assigns = $this->assigns_model->get($assignId);
 
     if (!$assigns) {
-      $this->_json(FALSE);
+      if ($return) {
+        return FALSE;
+      } else {
+        $this->_json(FALSE);
+      }
     }
 
     // get course id
@@ -52,7 +56,11 @@ class Syllabi extends MY_Custom_Controller {
         'status' => 2
       );
       $res = $this->syllabi_model->insert($data);
-      $this->_json($res);
+      if ($return) {
+        return $res;
+      } else {
+        $this->_json($res);
+      }
     }
 
     // update here
@@ -65,6 +73,30 @@ class Syllabi extends MY_Custom_Controller {
     );
 
     $res = $this->syllabi_model->update($data, array('id' => $sid));
+    if ($return) {
+      return $res;
+    } else {
+      $this->_json($res);
+    }
+  }
+
+  public function submit() {
+    $res = $this->save(true);
+
+    if (!$res) {
+      $this->_json(FALSE);
+    }
+
+    // assigns model already loaded
+    $assignId = $this->input->post('assignId');
+
+    $data = array(
+      'status' => 2,
+      'updated_at' => time()
+    );
+    $where = array('id' => $assignId);
+
+    $res = $this->assigns_model->update($data, $where);
     $this->_json($res);
   }
 }

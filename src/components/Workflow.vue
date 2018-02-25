@@ -5,7 +5,7 @@
     <v-list
       :key="'list-' + i"
       three-line
-      class="elevation-1"
+      class="elevation-1 py-0"
     >
       <template
         v-for="(assign, i) in assigns"
@@ -16,7 +16,7 @@
           :assign='assign'
           @view="onView(assign)"
         />
-        <v-divider v-if="i != assigns.length-1" :key="'divider-' + i"/>
+        <v-divider :key="'divider-' + i"/>
       </template>
     </v-list>
   </template>

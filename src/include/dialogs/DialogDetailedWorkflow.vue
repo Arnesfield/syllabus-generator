@@ -16,7 +16,7 @@
 
     <v-card-text class="pt-0">
 
-      <v-layout>
+      <v-layout row wrap>
         <v-flex xs12 sm6 class="pr-4">
           <div class="body-1 grey--text">Workflow by</div>
           <v-list>
@@ -38,6 +38,24 @@
           </v-list>
 
           <v-list dense class="mb-3">
+
+            <v-list-tile
+              ripple
+              v-if="assign.status != 3"
+              @click="() => {}"
+            >
+              <v-list-tile-action class="thin-action">
+                <v-tooltip top>
+                  <v-btn icon slot="activator" @click="() => {}">
+                    <v-icon color="grey">visibility</v-icon>
+                  </v-btn>
+                  <span>View syllabus</span>
+                </v-tooltip>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="'View syllabus'"/>
+              </v-list-tile-content>
+            </v-list-tile>
 
             <v-list-tile @click="() => {}">
               <v-list-tile-action class="thin-action">
@@ -79,20 +97,6 @@
                 <v-list-tile-title>Status:
                   <strong>{{ $wrap.status(assign.status) }}</strong>
                 </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-
-            <v-list-tile v-if="assign.status != 3" @click="() => {}">
-              <v-list-tile-action class="thin-action">
-                <v-tooltip top>
-                  <v-btn icon slot="activator" @click="() => {}">
-                    <v-icon color="grey">visibility</v-icon>
-                  </v-btn>
-                  <span>View syllabus</span>
-                </v-tooltip>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title v-text="'View syllabus'"/>
               </v-list-tile-content>
             </v-list-tile>
 

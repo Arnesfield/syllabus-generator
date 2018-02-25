@@ -85,6 +85,7 @@ export default {
     assignId: String
   },
   data: () => ({
+    submitUrl: '/syllabi/submit',
     saveUrl: '/syllabi/save',
     courseUrl: '/courses/assign_id',
     course: null,
@@ -178,6 +179,39 @@ export default {
     submit() {
       // handle submit
       console.log(this.syllabus)
+
+      if (!this.assignId) {
+        return
+      }
+
+      let syllabus = JSON.stringify(this.syllabus ? this.syllabus.content : null)
+      this.saveLoading = true
+      this.$http.post(this.submitUrl, qs.stringify({
+        assignId: this.assignId,
+        syllabus: syllabus
+      })).then(res => {
+        console.error(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.saveLoading = false
+        this.$bus.$emit('snackbar--show', 'Syllabus submitted.')
+      }).catch(e => {
+        console.error(e)
+        this.saveLoading = false
+        this.$bus.$emit('snackbar--show', {
+          text: 'Unable to submit syllabus.',
+          btns: {
+            text: 'Retry',
+            icon: false,
+            color: 'accent',
+            cb: (sb, e) => {
+              this.submit()
+              sb.snackbar = false
+            }
+          }
+        })
+      })
     },
 
     onCourseSelected(course) {
