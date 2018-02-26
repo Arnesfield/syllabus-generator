@@ -1,0 +1,39 @@
+.syllabus-container-large {
+  height: 420px;
+  overflow: scroll;
+  background-color: #ccc;
+  padding: 52px;
+}
+
+.paper-8-5-11 {
+  width: 1063px;
+  height: 1375px;
+}
+
+.syllabus-inst {
+  background-color: white;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.syllabus-inst table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.syllabus-inst table th {
+  text-transform: uppercase;
+  background-color: rgba(0,0,0,0.08);
+}
+
+.syllabus-inst table th {
+  text-align: left;
+}
+
+.syllabus-inst table th,
+.syllabus-inst table td {
+  padding: 2px 8px
+}
+
+.syllabus-inst .syllabus-content {
+  padding: 96px;
+}

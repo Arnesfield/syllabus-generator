@@ -13,6 +13,7 @@ import wrap from './assets/js/wrap'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
+import './assets/css/syllabus.css'
 import './assets/css/generator.css'
 import './assets/css/override.css'
 

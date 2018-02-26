@@ -41,10 +41,23 @@
           <activity-manager :syllabus="syllabus"/>
         </v-tab-item>
         <v-tab-item key="done">
-          <div>Syllabus is shown here.</div>
-          <v-btn
-            color="primary"
-            @click="submit">Submit for Approval</v-btn>
+          <div class="syllabus-container-large">
+            <syllabus-inst
+              :syllabus="syllabus"
+              style="margin: 0 auto"
+            />
+          </div>
+          <v-layout class="mt-2">
+            <v-btn
+              flat
+              @click="generate"
+            >Preview</v-btn>
+            <v-spacer/>
+            <v-btn
+              color="primary"
+              @click="submit"
+            >Submit for Approval</v-btn>
+          </v-layout>
         </v-tab-item>
       </template>
 
@@ -62,6 +75,7 @@
 
 <script>
 import qs from 'qs'
+import content from '@/assets/js/content'
 import CoursePicker from '@/components/generator/CoursePicker'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
@@ -69,6 +83,7 @@ import BookPicker from '@/components/generator/BookPicker'
 import OutcomeTable from '@/components/generator/OutcomeTable'
 import ActivityManager from '@/components/generator/ActivityManager'
 import ManageNoData from '@/include/ManageNoData'
+import SyllabusInst from '@/include/SyllabusInst'
 
 export default {
   name: 'generator',
@@ -79,7 +94,8 @@ export default {
     BookPicker,
     OutcomeTable,
     ActivityManager,
-    ManageNoData
+    ManageNoData,
+    SyllabusInst
   },
   props: {
     assignId: String
@@ -176,6 +192,17 @@ export default {
   },
 
   methods: {
+    generate() {
+      this.stringifySyllabus()
+    },
+
+    stringifySyllabus() {
+      // should not be fixed
+      Object.assign(this.syllabus.content, content)
+      Object.assign(this.syllabus.content, { course: this.course })
+      return JSON.stringify(this.syllabus ? this.syllabus.content : null)
+    },
+
     submit() {
       // handle submit
       console.log(this.syllabus)
@@ -184,7 +211,7 @@ export default {
         return
       }
 
-      let syllabus = JSON.stringify(this.syllabus ? this.syllabus.content : null)
+      let syllabus = this.stringifySyllabus()
       this.saveLoading = true
       this.$http.post(this.submitUrl, qs.stringify({
         assignId: this.assignId,
@@ -230,7 +257,7 @@ export default {
         return
       }
 
-      let syllabus = JSON.stringify(this.syllabus ? this.syllabus.content : null)
+      let syllabus = this.stringifySyllabus()
       this.saveLoading = true
       this.$http.post(this.saveUrl, qs.stringify({
         assignId: this.assignId,

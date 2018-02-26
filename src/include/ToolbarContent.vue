@@ -7,7 +7,7 @@
     :fixed="false"
     class="primary lighten-1"
   >
-    <v-btn icon dark>
+    <v-btn icon dark @click="$bus.navToggle">
       <v-icon>{{ $route.meta.icon }}</v-icon>
     </v-btn>
     <v-toolbar-title v-text="title"></v-toolbar-title>
@@ -39,7 +39,6 @@
           />
           <v-icon v-else>save</v-icon>
         </v-btn>
-        <span>Save</span>
         <span v-if="$bus.progress.circular.Generator.save">Saving</span>
         <span v-else>Save</span>
       </v-tooltip>

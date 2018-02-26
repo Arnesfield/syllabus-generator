@@ -37,13 +37,7 @@
           <td>{{ selected.code }}</td>
           <td>{{ selected.title }}</td>
           <td>
-            <template v-if="Number(selected.unitsLec)"
-              >{{ selected.unitsLec }} {{ selected.unitsLec == 1 ? 'Unit' : 'Units' }} LEC
-            </template>
-            <template v-if="Number(selected.unitsLec) && Number(selected.unitsLab)">/</template>
-            <template v-if="Number(selected.unitsLab)"
-              >{{ selected.unitsLab }} {{ selected.unitsLab == 1 ? 'Unit' : 'Units' }} LAB
-            </template>
+            <course-units :course="selected"/>
           </td>
         </tr>
 
@@ -110,9 +104,13 @@
 
 <script>
 import qs from 'qs'
+import CourseUnits from '@/include/CourseUnits'
 
 export default {
   name: 'course-picker',
+  components: {
+    CourseUnits
+  },
   props: {
     picker: {
       type: Boolean,
