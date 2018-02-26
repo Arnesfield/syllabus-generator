@@ -1,7 +1,7 @@
 <template>
 <div
   v-if="value"
-  class="syllabus-inst elevation-1 paper-8-5-11"
+  class="syllabus-inst elevation-4 paper-8-5-11"
 >
   <div class="syllabus-content">
     <table border="1">
