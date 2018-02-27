@@ -43,3 +43,8 @@
   height: 64px;
   max-height: 256px;
 }
+
+i {
+  /* visibility: hidden;
+  width: 24px; */
+}

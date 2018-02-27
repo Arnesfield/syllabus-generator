@@ -1,8 +1,12 @@
+.syllabus-pdf-viewer {
+  width: 100%;
+  height: 450px;
+}
+
 .syllabus-container-large {
   height: 420px;
   overflow: scroll;
   background-color: #ccc;
-  padding: 52px;
 }
 
 .paper-8-5-11 {
@@ -34,6 +38,6 @@
   padding: 2px 8px
 }
 
-.syllabus-inst .syllabus-content {
+.syllabus-inst {
   padding: 96px;
 }

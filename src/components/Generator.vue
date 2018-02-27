@@ -41,8 +41,9 @@
           <activity-manager :syllabus="syllabus"/>
         </v-tab-item>
         <v-tab-item key="done">
-          <div class="syllabus-container-large">
+          <div class="syllabus-container-larges">
             <syllabus-inst
+              ref="syllabusInst"
               :syllabus="syllabus"
               style="margin: 0 auto"
             />
@@ -194,6 +195,9 @@ export default {
   methods: {
     generate() {
       this.stringifySyllabus()
+      if (this.$refs.syllabusInst) {
+        this.$refs.syllabusInst.createPDF()
+      }
     },
 
     stringifySyllabus() {
