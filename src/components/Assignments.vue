@@ -75,7 +75,7 @@ export default {
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

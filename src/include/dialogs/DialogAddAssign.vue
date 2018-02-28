@@ -320,7 +320,7 @@ export default {
         this.$http.post(this.url, qs.stringify({
           content: content
         })).then((res) => {
-          console.error(res.data)
+          console.warn(res.data)
           if (!res.data.success) {
             throw new Error
           }

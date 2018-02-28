@@ -8,10 +8,10 @@ let _date = function(e, short) {
 
   let date = new Date((Number(e)/*  + 24*60*60 */) * 1000)
 
-  let year = date.getUTCFullYear()
-  let temp = monthNames[date.getUTCMonth()]
+  let year = date.getFullYear()
+  let temp = monthNames[date.getMonth()]
   let month = short ? shortMonth(temp) : temp
-  let day = leadZero(date.getUTCDate())
+  let day = leadZero(date.getDate())
   
   return month + ' ' + day + ', ' + year
 }

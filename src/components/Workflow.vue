@@ -1,7 +1,10 @@
 <template>
 <v-container :fill-height="!assigns.length">
   <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
-    <v-subheader :key="'subheader-' + i">{{ t.title }}</v-subheader>
+    <v-subheader
+      class="mt-3"
+      :key="'subheader-' + i"
+    >{{ t.title }}</v-subheader>
     <v-list
       :key="'list-' + i"
       three-line
@@ -93,7 +96,7 @@ export default {
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

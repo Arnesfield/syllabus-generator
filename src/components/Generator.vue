@@ -234,7 +234,7 @@ export default {
         assignId: this.assignId,
         syllabus: syllabus
       })).then(res => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
@@ -280,7 +280,7 @@ export default {
         assignId: this.assignId,
         syllabus: syllabus
       })).then((res) => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
@@ -314,7 +314,7 @@ export default {
       this.$http.post(this.courseUrl, qs.stringify({
         assignId: this.assignId
       })).then((res) => {
-        console.error(res.data)
+        console.warn(res.data)
         // hide refresh button
         this.courseLoading = false
         this.$bus.generator.courseRefresh = false

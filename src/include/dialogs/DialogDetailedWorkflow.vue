@@ -42,11 +42,11 @@
             <v-list-tile
               ripple
               v-if="assign.status != 3"
-              @click="() => {}"
+              :to="'/syllabus/' + assign.id"
             >
               <v-list-tile-action class="thin-action">
                 <v-tooltip top>
-                  <v-btn icon slot="activator" @click="() => {}">
+                  <v-btn icon slot="activator" :to="'/syllabus/' + assign.id">
                     <v-icon color="grey">visibility</v-icon>
                   </v-btn>
                   <span>View syllabus</span>

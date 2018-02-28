@@ -3,9 +3,9 @@
   app
   fixed
   :mini-variant="$bus.nav.miniVariant"
-  :clipped="$bus.nav.clipped"
+  :clipped="$route.name != 'Syllabus'"
+  :temporary="$route.name == 'Syllabus'"
   v-model="$bus.nav.model"
-  tabindex="1"
 >
   <nav-user/>
   <v-list
@@ -89,7 +89,7 @@ export default {
         auth: [3, 4],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
-          { title: 'Generator', icon: 'build', to: '/generator' }
+          // { title: 'Generator', icon: 'build', to: '/generator' }
         ]
       },
       {
@@ -129,6 +129,14 @@ export default {
   computed: {
     collapseText() {
       return this.$bus.nav.miniVariant ? 'Expand' : 'Collapse'
+    }
+  },
+
+  watch: {
+    $route(to, from) {
+      if (to.name !== 'Syllabus' && from.name === 'Syllabus') {
+        this.$bus.nav.model = null
+      }
     }
   },
 

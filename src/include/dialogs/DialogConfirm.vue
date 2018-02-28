@@ -7,7 +7,15 @@
 >
   <v-card>
 
-    <v-card-title primary-title>
+    <v-progress-linear
+      color="accent"
+      :active="loading"
+      :indeterminate="true"
+      height="3"
+      class="pb-0"
+    />
+
+    <v-card-title>
       <div>
         <div class="headline">{{ title }}</div>
         <div class="subheading" v-html="subtitle"></div>
@@ -16,14 +24,6 @@
 
     <v-card-text v-html="msg"/>
     <v-card-actions>
-      <template v-if="loading">
-        <v-progress-circular
-          indeterminate
-          :active="loading"
-          color="primary"
-        />
-        <span style="height: auto" class="subheader px-2">Loading...</span>
-      </template>
       <v-spacer/>
       <v-btn
         flat
@@ -78,15 +78,16 @@ export default {
     doConfirm() {
       if (typeof this.fn === 'function') {
         this.loading = true
-        this.fn(this.onSuccess, this.onError)
+        this.fn(this.onSuccess, this.onError, this.doClose, this.fn)
       }
     },
-    doClose() {
-      this.$bus.dialog.global.confirm = false
+    doClose(e) {
+      e = typeof e === 'boolean' ? !e : false
+      this.$bus.dialog.global.confirm = e
     },
     onSuccess() {
       this.loading = false
-      this.$bus.dialog.global.confirm = false
+      this.doClose()
     },
     onError() {
       this.loading = false

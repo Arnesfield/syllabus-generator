@@ -50,7 +50,7 @@
           <span>Create Syllabus</span>
         </v-tooltip>
         <v-tooltip top v-if="Number(assign.status) != 3">
-          <v-btn icon slot="activator">
+          <v-btn icon slot="activator" :to="'/syllabus/' + assign.id">
             <v-icon color="grey">visibility</v-icon>
           </v-btn>
           <span>View Syllabus</span>

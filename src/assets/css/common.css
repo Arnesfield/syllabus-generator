@@ -37,6 +37,11 @@
   min-width: 42px;
 }
 
+.thinner-action {
+  width: 36px;
+  min-width: 36px;
+}
+
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;

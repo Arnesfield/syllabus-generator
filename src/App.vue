@@ -9,13 +9,13 @@
       class="ma-0"
     />
     <navigation v-if="authCheck"/>
-    <toolbar v-if="authCheck"/>
     <v-content>
       <toolbar-content v-if="authCheck"/>
       <router-view/>
       <fab/>
       <dialog-confirm/>
     </v-content>
+    <toolbar v-if="authCheck"/>
     <snackbar/>
   </v-app>
 </template>

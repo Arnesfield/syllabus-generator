@@ -7,6 +7,7 @@ import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
 import Assignments from '@/components/Assignments'
 import Workflow from '@/components/Workflow'
+import Syllabus from '@/components/Syllabus'
 
 import ManageUsers from '@/components/manage/ManageUsers'
 import ManageCourses from '@/components/manage/ManageCourses'
@@ -56,7 +57,7 @@ export default new Router({
       }
     },
     {
-      path: '/generator/:assignId?',
+      path: '/generator/:assignId',
       name: 'Generator',
       component: Generator,
       props: true,
@@ -81,6 +82,16 @@ export default new Router({
       meta: {
         auth: [3, 4],
         icon: 'supervisor_account'
+      }
+    },
+    {
+      path: '/syllabus/:assignId',
+      name: 'Syllabus',
+      component: Syllabus,
+      props: true,
+      meta: {
+        auth: [3, 4],
+        icon: 'subject'
       }
     },
 

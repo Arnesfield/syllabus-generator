@@ -14,6 +14,7 @@
   >Loading...</div>
 
   <div
+    ref="container"
     :style="pdf != false ? { height: 0, overflow: 'hidden' } : null"
     :class="{ 'syllabus-container-large': !pdf }"
     v-if="c"
@@ -445,6 +446,8 @@
 
   </div>
 
+  <dialog-loading/>
+
 </div>
 </template>
 
@@ -453,12 +456,14 @@ import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import Topic from '@/components/generator/activityManager/activityWeek/topicPicker/Topic'
 import CourseUnits from '@/include/CourseUnits'
+import DialogLoading from '@/include/dialogs/DialogLoading'
 
 export default {
   name: 'syllabus-inst',
   components: {
     Topic,
-    CourseUnits
+    CourseUnits,
+    DialogLoading
   },
   props: {
     syllabus: {
@@ -526,6 +531,8 @@ export default {
         return
       }
 
+      // do loading
+      this.$bus.$emit('dialog--loading', true)
       Object.keys(this.pages).forEach(e => {
         html2canvas(this.$refs['page' + e]).then((canvas) => {
           this.pages[e] = canvas.toDataURL('img/png')
@@ -568,6 +575,7 @@ export default {
         }, 10)
       }).then(blob => {
         this.encoded = URL.createObjectURL(blob)
+        this.$bus.$emit('dialog--loading', false)
       })
     },
 
