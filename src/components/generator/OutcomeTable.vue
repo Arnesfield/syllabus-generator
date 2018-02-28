@@ -154,7 +154,7 @@ export default {
 
     symbol() {
       // set symbol to syllabus
-      this.syllabus.content.cloSymbol = this.symbol
+      this.$set(this.syllabus.content, 'cloSymbol', this.symbol)
     }
   },
 
@@ -163,6 +163,7 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
     if (this.syllabus !== null) {
       this.doInitial()
+      this.$set(this.syllabus.content, 'cloSymbol', this.symbol)
     }
   },
 

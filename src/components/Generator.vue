@@ -41,18 +41,23 @@
           <activity-manager :syllabus="syllabus"/>
         </v-tab-item>
         <v-tab-item key="done">
-          <div class="syllabus-container-larges">
+          <div>
             <syllabus-inst
               ref="syllabusInst"
               :syllabus="syllabus"
               style="margin: 0 auto"
+              :pdf.sync="pdf"
             />
           </div>
           <v-layout class="mt-2">
             <v-btn
               flat
-              @click="generate"
+              @click="generate(false)"
             >Preview</v-btn>
+            <v-btn
+              flat
+              @click="generate(true)"
+            >PDF</v-btn>
             <v-spacer/>
             <v-btn
               color="primary"
@@ -114,6 +119,7 @@ export default {
       noCurriculum: ['course', 'syllabi', 'books', 'curriculum'],
       all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'done']
     },
+    pdf: false,
 
     tempSyllabus: null,
 
@@ -156,6 +162,7 @@ export default {
             ? this.tabs.course : this.tabs.syllabi
         } else if (to.content.programOutcomes.length) {
           this.$bus.tabs.Generator.items = this.tabs.all
+          this.stringifySyllabus()
         } else {
           this.$bus.tabs.Generator.items = this.tabs.noCurriculum
         }
@@ -193,17 +200,23 @@ export default {
   },
 
   methods: {
-    generate() {
+    generate(e) {
+      this.pdf = e
       this.stringifySyllabus()
       if (this.$refs.syllabusInst) {
-        this.$refs.syllabusInst.createPDF()
+        this.$refs.syllabusInst.generate(e)
       }
     },
 
     stringifySyllabus() {
       // should not be fixed
-      Object.assign(this.syllabus.content, content)
-      Object.assign(this.syllabus.content, { course: this.course })
+      // loop on content keys instead
+      Object.keys(content).forEach(e => {
+        this.$set(this.syllabus.content, e, content[e])
+      })
+      // Object.assign(this.syllabus.content, content)
+      // Object.assign(this.syllabus.content, { course: this.course })
+      this.$set(this.syllabus.content, 'course', this.course)
       return JSON.stringify(this.syllabus ? this.syllabus.content : null)
     },
 

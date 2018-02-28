@@ -31,10 +31,10 @@
             <v-icon color="grey">info</v-icon>
           </v-btn>
           <span>
-            <div>Assigned at: {{ $wrap.date(assign.created_at, false) }}</div>
+            <div>Assigned at: {{ $wrap.datetime(assign.created_at, true, false) }}</div>
             <div
               v-if="assign.created_at !== assign.updated_at"
-            >Last updated at: {{ $wrap.date(assign.updated_at, false) }}</div>
+            >Last updated at: {{ $wrap.datetime(assign.updated_at, true, false) }}</div>
           </span>
         </v-tooltip>
         <v-tooltip top v-if="$bus.session.user.id == assign.created_by.id">

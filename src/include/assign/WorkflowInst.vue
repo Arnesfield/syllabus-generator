@@ -22,7 +22,7 @@
           >Last update:
           <template
             v-if="assign.updated_at != assign.created_at"
-          >{{ $wrap.date(assign.updated_at) }}</template>
+          >{{ $wrap.datetime(assign.updated_at) }}</template>
           <strong v-else>None</strong>
           </div>
         </v-flex>
@@ -36,7 +36,7 @@
           xs12
           md4
           class="caption"
-        >Created: {{ $wrap.date(assign.created_at) }}</v-flex>
+        >Created: {{ $wrap.datetime(assign.created_at) }}</v-flex>
       </v-layout>
     </v-list-tile-sub-title>
   </v-list-tile-content>

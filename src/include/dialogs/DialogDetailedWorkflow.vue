@@ -68,7 +68,7 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  {{ $wrap.date(assign.updated_at) }}
+                  {{ $wrap.datetime(assign.updated_at) }}
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -84,7 +84,7 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  {{ $wrap.date(assign.created_at) }}
+                  {{ $wrap.datetime(assign.created_at) }}
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
