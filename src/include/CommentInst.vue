@@ -1,5 +1,5 @@
 <template>
-<v-card class="elevation-1 mb-2">
+<v-card class="mb-2">
   <v-card-title class="pr-2 pt-2">
     <icon-img
       caption

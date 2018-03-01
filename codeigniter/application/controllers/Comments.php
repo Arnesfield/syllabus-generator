@@ -9,7 +9,45 @@ class Comments extends MY_Custom_Controller {
   }
   
   public function index() {
+    $this->load->model('assigns_model');
+
+    $uid = $this->session->userdata('user')['id'];
     $assignId = $this->input->post('assignId');
+
+    $assigns = $this->assigns_model->get($assignId);
+
+    if (!$assigns) {
+      $this->_json(FALSE);
+    }
+
+    // get assign
+    // check if uid exists in assign inst
+
+    $assign = $assigns[0];
+    $content = json_decode($assign['content'], TRUE);
+    $assigned = $content['assigned'];
+    $subs = $content['sub'];
+    $subs_ids = array();
+    if ($subs) {
+      $subs_ids = $this->assigns_model->_to_col($subs, 'id');
+    }
+    $listOfValidIDs = $subs_ids;
+    // push assigned to subs
+    array_push($listOfValidIDs, $assigned);
+    $allowAction = in_array($uid, $subs_ids);
+    $allowComment = in_array($uid, $listOfValidIDs);
+
+    // also get status of uid
+    $myStatus = false;
+    $indexOfUid = array_search($uid, $subs_ids);
+    if ($indexOfUid !== FALSE) {
+      if ($subs[$indexOfUid]['status'] == 1) {
+        $myStatus = 'accept';
+      } else if ($subs[$indexOfUid]['status'] == 0) {
+        $myStatus = 'reject';
+      }
+    }
+
     $comments = $this->comments_model->get($assignId);
     
     // get user of comments
@@ -27,7 +65,12 @@ class Comments extends MY_Custom_Controller {
       $comments[$key]['user'] = $newUsers[$comment['user_id']];
     }
 
-    $this->_json(TRUE, 'comments', $comments);
+    $this->_json(TRUE, array(
+      'comments' => $comments,
+      'allowComment' => $allowComment,
+      'allowAction' => $allowAction,
+      'myStatus' => $myStatus
+    ));
   }
   
   public function comment() {
