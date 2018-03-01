@@ -3,6 +3,7 @@ export default {
   clipped: true,
   miniVariant: false,
   comments: {
-    model: null
+    model: null,
+    pdf: false
   }
 }

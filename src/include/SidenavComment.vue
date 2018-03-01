@@ -33,6 +33,7 @@
 
     <template v-if="assign && (assign.status == 0 || assign.status == 1)">
       <v-alert
+        :icon="statusAlertIcon"
         :type="statusAlertType"
         :value="true"
         class="mb-2"
@@ -49,8 +50,10 @@
 
     <v-alert
       :type="alertType"
+      :icon="alertIcon"
       :value="Boolean(myStatus)"
-      class="mb-2"
+      class="mb-2 grey--text"
+      color="grey lighten-5"
     >
       <template
         v-if="myStatus == 'approve'"
@@ -185,6 +188,14 @@ export default {
       }
       return 'info'
     },
+    alertIcon() {
+      if (this.myStatus == 'approve') {
+        return 'check_circle'
+      } else if (this.myStatus == 'disapprove') {
+        return 'cancel'
+      }
+      return 'info'
+    },
     statusAlertType() {
       if (this.assign) {
         if (this.assign.status == 0) {
@@ -194,7 +205,17 @@ export default {
         }
       }
       return 'info'
-    }
+    },
+    statusAlertIcon() {
+      if (this.assign) {
+        if (this.assign.status == 0) {
+          return 'cancel'
+        } else if (this.assign.status == 1) {
+          return 'check_circle'
+        }
+      }
+      return 'info'
+    },
   },
 
   created() {
@@ -211,53 +232,35 @@ export default {
     doAction(value) {
       let vm = this
       
-      let title = value == 1 ? 'Approve syllabus' : 'Disapprove syllabus'
-      let msg = value == 1 ? 'This will approve the syllabus.' : 'This will disapprove the syllabus.'
-      let btnText = value == 1 ? 'Approve' : 'Disapprove'
-      let btnColor = value == 1 ? 'success' : 'error'
-      let snackSuccessMsg = value == 1 ? 'Approved syllabus.' : 'Disapproved syllabus.'
+      let snackSuccessMsg = value == 1 ? 'Syllabus approved.' : 'Syllabus disapproved.'
       let snackErrorMsg = value == 1 ? 'Unable to approve syllabus.' : 'Unable to disapprove syllabus.'
 
-      this.$bus.$emit('dialog--global.confirm.show', {
-        item: this.assignId,
-        title: title,
-        msg: msg,
-        btn: {
-          text: btnText,
-          color: btnColor
-        },
-        fn(onSuccess, onError, doClose, fn) {
-          vm.$http.post(vm.approvalActionUrl, qs.stringify({
-            assignId: vm.assignId,
-            value: value
-          })).then(res => {
-            console.warn(res.data)
-            if (!res.data.success) {
-              throw new Error('Request failure.')
-            }
-
-            vm.$bus.$emit('snackbar--show', snackSuccessMsg)
-            vm.fetch()
-            onSuccess()
-          }).catch(e => {
-            console.error(e)
-            vm.$bus.$emit('snackbar--show', {
-              text: snackErrorMsg,
-              btns: {
-                text: 'Retry',
-                icon: false,
-                color: 'accent',
-                cb: (sb, e) => {
-                  sb.snackbar = false
-                  fn(onSuccess, onError, doClose, fn)
-                  // this.deleteComment(item)
-                }
-              }
-            })
-            onError()
-            doClose()
-          })
+      this.$http.post(this.approvalActionUrl, qs.stringify({
+        assignId: this.assignId,
+        value: value
+      })).then(res => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
         }
+
+        this.$bus.$emit('snackbar--show', snackSuccessMsg)
+        this.fetch()
+      }).catch(e => {
+        console.error(e)
+        this.$bus.$emit('snackbar--show', {
+          text: snackErrorMsg,
+          btns: {
+            text: 'Retry',
+            icon: false,
+            color: 'accent',
+            cb: (sb, e) => {
+              sb.snackbar = false
+              // fn(onSuccess, onError, doClose, fn)
+              this.doAction(value)
+            }
+          }
+        })
       })
     },
 

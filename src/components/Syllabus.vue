@@ -11,6 +11,8 @@
       :syllabus="syllabus"
       style="margin: 0 auto"
       :pdf.sync="pdf"
+      standardHeight="calc(100vh - 112px)"
+      pdfHeight="calc(100vh - 112px)"
     />
     <sidenav-comment :assignId="assignId"/>
   </template>
@@ -67,24 +69,20 @@ export default {
         this.pdf = false
         this.fetch()
       }
-    },
-    syllabus: {
-      deep: true,
-      handler(to, from) {
-        if (to !== null) {
-          setTimeout(() => {
-            if (this.$refs.syllabusInst) {
-              let container = this.$refs.syllabusInst.$refs.container
-              container.style.height = 'calc(100vh - 112px)'
-            }
-          }, 1)
-        }
-      }
     }
   },
 
   created() {
+    this.$bus.$on('syllabus--pdf.toggle', () => {
+      this.$bus.nav.comments.pdf = !this.$bus.nav.comments.pdf
+      this.pdf = this.$bus.nav.comments.pdf
+      if (this.$refs.syllabusInst) {
+        this.$refs.syllabusInst.generate(this.pdf)
+      }
+    })
     this.fetch()
+    // reset
+    this.$bus.nav.comments.pdf = false
   },
 
   methods: {

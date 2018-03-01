@@ -5,7 +5,9 @@
     v-if="pdf && encoded"
     :src="encoded"
     frameborder="0"
+    ref="pdfContainer"
     class="syllabus-pdf-viewer"
+    :style="{ height: pdfHeight }"
   ></iframe>
 
   <div
@@ -15,7 +17,7 @@
 
   <div
     ref="container"
-    :style="pdf != false ? { height: 0, overflow: 'hidden' } : null"
+    :style="pdf != false ? { height: 0, overflow: 'hidden' } : { height: standardHeight }"
     :class="{ 'syllabus-container-large': !pdf }"
     v-if="c"
   >
@@ -473,6 +475,14 @@ export default {
     pdf: {
       type: Boolean,
       default: false
+    },
+    pdfHeight: {
+      type: String,
+      default: '480px'
+    },
+    standardHeight: {
+      type: String,
+      default: '480px'
     }
   },
   data: () => ({

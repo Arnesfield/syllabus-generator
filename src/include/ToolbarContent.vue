@@ -127,6 +127,18 @@
         <v-btn
           icon
           slot="activator"
+          @click="$bus.$emit('syllabus--pdf.toggle')"
+        >
+          <v-icon v-if="$bus.nav.comments.pdf">subject</v-icon>
+          <v-icon v-else>assignment</v-icon>
+        </v-btn>
+        <span v-if="$bus.nav.comments.pdf">View standard</span>
+        <span v-else>View as PDF</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          slot="activator"
           @click="$bus.$emit('syllabus--info.show')"
         >
           <v-icon>info_outline</v-icon>
