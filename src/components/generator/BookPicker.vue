@@ -191,6 +191,12 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
     if (this.syllabus !== null) {
       // set selected as book content from syllabus
+      if (this.syllabus.content === null) {
+        this.syllabus.content = {}
+      }
+      if (!this.syllabus.content.bookReferences) {
+        this.$set(this.syllabus.content, 'bookReferences', [])
+      }
       this.selected = this.syllabus.content.bookReferences
       this.suggest()
     }

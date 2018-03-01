@@ -42,83 +42,28 @@
         <span v-if="$bus.progress.circular.Generator.save">Saving</span>
         <span v-else>Save</span>
       </v-tooltip>
-      <v-tooltip
-        bottom
+      <btn-refresh
+        tip="bottom"
+        click="generator--course.refresh"
         v-if="$bus.generator.courseRefresh"
-      >
-        <v-btn
-          icon
-          @click="$bus.$emit('generator--course.refresh')"
-          slot="activator"
-        >
-          <v-progress-circular
-            indeterminate
-            :width="6"
-            :size="18"
-            v-if="$bus.progress.circular.Generator.course"
-          />
-          <v-icon v-else>refresh</v-icon>
-        </v-btn>
-        <span v-if="$bus.progress.circular.Generator.course">Refreshing</span>
-        <span v-else>Refresh</span>
-      </v-tooltip>
-      <!-- <v-menu
-        :close-on-content-click="false"
-        bottom left offset-y>
-        <v-btn icon slot="activator" dark>
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-switch v-model="$bus.generator.suggestions"/>
-            </v-list-tile-action>
-            <v-list-tile-title>Show suggestions</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu> -->
+        :refresh="$bus.progress.circular.Generator.course"
+      />
     </template>
 
-    <template v-if="$route.name === 'Assign'">
+    <template v-if="$route.name === 'Workflow'">
       <v-spacer/>
-      <v-tooltip left>
-        <v-btn
-          icon
-          @click="$bus.$emit('workflow--refresh')"
-          slot="activator"
-        >
-          <v-progress-circular
-            indeterminate
-            :width="6"
-            :size="18"
-            v-if="$bus.progress.circular.Assign.refresh"
-          />
-          <v-icon v-else>refresh</v-icon>
-        </v-btn>
-        <span v-if="$bus.progress.circular.Assign.refresh">Refreshing</span>
-        <span v-else>Refresh</span>
-      </v-tooltip>
+      <btn-refresh
+        click="workflow--refresh"
+        :refresh="$bus.progress.circular.Workflow.refresh"
+      />
     </template>
 
     <template v-if="$route.name === 'Assignments'">
       <v-spacer/>
-      <v-tooltip left>
-        <v-btn
-          icon
-          @click="$bus.$emit('assignments--refresh')"
-          slot="activator"
-        >
-          <v-progress-circular
-            indeterminate
-            :width="6"
-            :size="18"
-            v-if="$bus.progress.circular.Assignments.refresh"
-          />
-          <v-icon v-else>refresh</v-icon>
-        </v-btn>
-        <span v-if="$bus.progress.circular.Assignments.refresh">Refreshing</span>
-        <span v-else>Refresh</span>
-      </v-tooltip>
+      <btn-refresh
+        click="assignments--refresh"
+        :refresh="$bus.progress.circular.Assignments.refresh"
+      />
     </template>
 
     <template v-if="$route.name === 'Syllabus'">
@@ -158,7 +103,6 @@
     </template>
 
     <template v-if="$route.name === 'Workflow' || $route.name === 'Assignments'">
-      <v-spacer v-if="$route.name === 'Workflow'"/>
       <v-tooltip bottom>
         <v-btn
           icon
@@ -189,8 +133,13 @@
 </template>
 
 <script>
+import BtnRefresh from '@/include/BtnRefresh'
+
 export default {
   name: 'toolbar-content',
+  components: {
+    BtnRefresh
+  },
   computed: {
     title() {
       return this.$route.meta.title || this.$route.name || 'Application'

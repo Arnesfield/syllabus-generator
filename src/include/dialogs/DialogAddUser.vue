@@ -129,8 +129,8 @@ export default {
       passconf: true
     },
     types: [
-      { text: 'Admin', value: 3 },
-      { text: 'Faculty', value: 4 }
+      { text: 'Admin', value: 1 },
+      { text: 'Faculty', value: 3 }
     ],
     
     loading: false

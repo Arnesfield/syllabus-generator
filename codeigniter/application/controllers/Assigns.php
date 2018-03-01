@@ -16,7 +16,7 @@ class Assigns extends MY_Custom_Controller {
   
   public function my() {
     $id = $this->session->userdata('user')['id'];
-    $assigns = $this->assigns_model->getAssigned($id);
+    $assigns = $this->assigns_model->getRelated($id);
     $assigns = $this->_createAssigns($assigns);
     $this->_json(TRUE, 'assigns', $assigns);
   }

@@ -8,6 +8,7 @@ import toolbar from './toolbar'
 import tabs from './tabs'
 import generator from './generator'
 import settings from './settings'
+import toNumberArray from '@/assets/js/toNumberArray'
 
 export default new Vue({
   data: () => ({
@@ -62,16 +63,13 @@ export default new Vue({
 
     authHas(auth, n, concat) {
       // convert to array
-      if (typeof auth !== 'object') {
-        auth = [auth]
-      }
+      auth = toNumberArray(auth)
       // also convert n to array
-      if (typeof n !== 'object') {
-        n = [n]
-      }
+      n = toNumberArray(n)
+      
       // do concat
       if (typeof concat === 'object' || typeof concat === 'number') {
-        n = n.concat(concat)
+        n = toNumberArray(n.concat(concat))
       }
       // check if some n exists in auth
       let result = false

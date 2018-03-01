@@ -26,7 +26,6 @@
   </template>
   <template v-else-if="assigns.length && !$bus.toolbar.sortByStatus">
     <v-list
-      :key="'list-' + i"
       three-line
       class="elevation-1 py-0 mb-3"
     >
@@ -85,7 +84,7 @@ export default {
   }),
   watch: {
     loading(to, from) {
-      this.$bus.progress.circular.Assign.refresh = to
+      this.$bus.progress.circular.Workflow.refresh = to
     }
   },
 

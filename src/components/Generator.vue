@@ -25,7 +25,7 @@
         <curriculum-picker :syllabus="syllabus"/>
       </v-tab-item>
 
-      <template v-if="syllabus.content.programOutcomes">
+      <template v-if="syllabus.content && syllabus.content.programOutcomes">
         <v-tab-item key="clo">
           <outcome-table
             :syllabus="syllabus"
@@ -160,7 +160,11 @@ export default {
         if (to === null) {
           this.$bus.tabs.Generator.items = this.course === null
             ? this.tabs.course : this.tabs.syllabi
-        } else if (to.content.programOutcomes.length) {
+        } else if (
+          to.content &&
+          to.content.programOutcomes &&
+          to.content.programOutcomes.length
+        ) {
           this.$bus.tabs.Generator.items = this.tabs.all
           this.stringifySyllabus()
         } else {

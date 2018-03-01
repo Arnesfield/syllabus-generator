@@ -1,3 +1,5 @@
+import toNumberArray from '@/assets/js/toNumberArray'
+
 export default function(router, http, bus) {
 
   let beforeEach = function(to, from, next) {
@@ -8,14 +10,8 @@ export default function(router, http, bus) {
     bus.progress.active = true
 
     // convert to array
-    let toAuth = to.meta.auth
-    if (typeof toAuth !== 'object') {
-      toAuth = [toAuth]
-    }
-    let sessAuth = bus.session.auth
-    if (typeof sessAuth !== 'object') {
-      sessAuth = [sessAuth]
-    }
+    let toAuth = toNumberArray(to.meta.auth)
+    let sessAuth = toNumberArray(bus.session.auth)
 
     const nonauth = [0, 10]
     const auth = [1, 3, 4]

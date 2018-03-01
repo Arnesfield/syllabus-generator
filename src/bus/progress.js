@@ -5,7 +5,7 @@ export default {
       course: false,
       save: false
     },
-    Assign: {
+    Workflow: {
       refresh: false
     },
     Assignments: {

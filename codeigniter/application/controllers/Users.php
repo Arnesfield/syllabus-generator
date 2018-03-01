@@ -29,12 +29,17 @@ class Users extends MY_Custom_Controller {
       $initial = $this->_filter($this->input->post($value));
       $user[$value] = $value == 'password' ? password_hash($initial, PASSWORD_BCRYPT) : $initial;
     }
+    $user['auth'] = json_encode(array($user['type']));
     $res = $this->users_model->insert($user);
     $this->_json($res);
   }
 
   public function addCsv() {
     $users = $this->input->post('users');
+    // foreach user, add auth
+    foreach ($users as $key => $user) {
+      $users[$key]['auth'] = json_encode(array($user['type']));
+    }
     $res = $this->users_model->insertMultiple($users);
     $this->_json($res);
   }

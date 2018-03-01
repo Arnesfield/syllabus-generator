@@ -38,6 +38,7 @@
     <v-layout justify-center align-center>
       <manage-no-data
         class="mb-5"
+        msg="You have no assignments ;)"
         :loading="loading"
         :fetch="fetch"
       />
