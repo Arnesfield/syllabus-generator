@@ -18,7 +18,7 @@ import './assets/css/generator.css'
 import './assets/css/override.css'
 
 const dev = true
-const baseURL = dev ? 'http://localhost/xforge/public/api' : 'to be set'
+const baseURL = dev ? 'http://localhost/xforge/public/api' : 'http://codegenerator.x10host.com/api'
 const http = axios.create({
   baseURL: baseURL,
   withCredentials: true

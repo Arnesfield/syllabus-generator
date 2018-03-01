@@ -29,7 +29,7 @@
       </v-layout>
     </v-list-tile-title>
     <v-list-tile-sub-title>
-      <v-layout hidden-xs-only hidden-sm-only>
+      <v-layout hidden-xs-only hidden-sm-only class="full-width">
         <v-flex xs12 md4 v-text="course().title"/>
         <v-flex xs12 md4>Assigned</v-flex>
         <v-flex

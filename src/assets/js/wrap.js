@@ -63,7 +63,8 @@ export default {
     return fullname
   },
   localImg(url) {
-    // change this
-    return 'http://localhost/xforge/public/uploads/images/' + url
+    dev = true
+    return dev ? 'http://localhost/xforge/public/uploads/images/' + url
+      : 'http://codegenerator.x10host.com/uploads/images/' + url
   }
 }
