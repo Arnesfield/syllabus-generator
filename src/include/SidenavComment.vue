@@ -5,7 +5,7 @@
   :mini-variant="false"
   :clipped="true"
   width="380"
-  v-model="$bus.nav.comments.model"
+  v-model="$bus.toolbar.comments.model"
   right
   style="padding-bottom: 0"
   class="grey lighten-4"
@@ -21,7 +21,7 @@
       <v-btn
         icon
         slot="activator"
-        @click="$bus.nav.comments.model = false"
+        @click="$bus.toolbar.comments.model = false"
       >
         <v-icon>chevron_right</v-icon>
       </v-btn>

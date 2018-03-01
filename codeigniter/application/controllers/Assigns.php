@@ -80,6 +80,7 @@ class Assigns extends MY_Custom_Controller {
 
     $data = array(
       'content' => $content,
+      'updated_at' => time(),
       'status' => $status
     );
     $where = array('id' => $assignId);

@@ -4,6 +4,7 @@ import nav from './nav'
 import dialog from './dialog'
 import session from './session'
 import progress from './progress'
+import toolbar from './toolbar'
 import tabs from './tabs'
 import generator from './generator'
 import settings from './settings'
@@ -15,6 +16,7 @@ export default new Vue({
     dialog: dialog,
     session: session,
     progress: progress,
+    toolbar: toolbar,
     tabs: tabs,
     generator: generator,
     settings: settings

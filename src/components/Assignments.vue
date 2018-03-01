@@ -3,16 +3,31 @@
   :fill-height="!assigns.length"
   v-bind="{ ['grid-list-' + size]: true }"
 >
-  <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
-    <v-subheader :key="'subheader-' + i">{{ t.title }}</v-subheader>
-    <v-layout :key="'layout-' + i" row wrap>
+  <template v-if="assigns.length && $bus.toolbar.sortByStatus">
+    <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
+      <v-subheader :key="'subheader-' + i">{{ t.title }}</v-subheader>
+      <v-layout :key="'layout-' + i" row wrap>
+        <v-flex
+          md4
+          xs12
+          sm6
+          :key="i"
+          v-for="(assign, i) in assigns"
+          v-if="Number(assign.status) == t.n"
+        >
+          <assign-inst :assign='assign'/>
+        </v-flex>
+      </v-layout>
+    </template>
+  </template>
+  <template v-else-if="assigns.length && !$bus.toolbar.sortByStatus">
+    <v-layout row wrap>
       <v-flex
         md4
         xs12
         sm6
         :key="i"
         v-for="(assign, i) in assigns"
-        v-if="Number(assign.status) == t.n"
       >
         <assign-inst :assign='assign'/>
       </v-flex>

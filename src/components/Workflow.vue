@@ -1,19 +1,36 @@
 <template>
 <v-container :fill-height="!assigns.length">
-  <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
-    <v-subheader
-      class="mt-3"
-      :key="'subheader-' + i"
-    >{{ t.title }}</v-subheader>
+  <template v-if="assigns.length && $bus.toolbar.sortByStatus">
+    <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
+      <v-subheader
+        :key="'subheader-' + i"
+      >{{ t.title }}</v-subheader>
+      <v-list
+        :key="'list-' + i"
+        three-line
+        class="elevation-1 py-0 mb-3"
+      >
+        <template
+          v-for="(assign, i) in assigns"
+          v-if="Number(assign.status) == t.n"
+        >
+          <workflow-inst
+            :key="'inst-' + i"
+            :assign='assign'
+            @view="onView(assign)"
+          />
+          <v-divider :key="'divider-' + i"/>
+        </template>
+      </v-list>
+    </template>
+  </template>
+  <template v-else-if="assigns.length && !$bus.toolbar.sortByStatus">
     <v-list
       :key="'list-' + i"
       three-line
-      class="elevation-1 py-0"
+      class="elevation-1 py-0 mb-3"
     >
-      <template
-        v-for="(assign, i) in assigns"
-        v-if="Number(assign.status) == t.n"
-      >
+      <template v-for="(assign, i) in assigns">
         <workflow-inst
           :key="'inst-' + i"
           :assign='assign'

@@ -74,15 +74,15 @@ export default {
 
   created() {
     this.$bus.$on('syllabus--pdf.toggle', () => {
-      this.$bus.nav.comments.pdf = !this.$bus.nav.comments.pdf
-      this.pdf = this.$bus.nav.comments.pdf
+      this.$bus.toolbar.comments.pdf = !this.$bus.toolbar.comments.pdf
+      this.pdf = this.$bus.toolbar.comments.pdf
       if (this.$refs.syllabusInst) {
         this.$refs.syllabusInst.generate(this.pdf)
       }
     })
     this.fetch()
     // reset
-    this.$bus.nav.comments.pdf = false
+    this.$bus.toolbar.comments.pdf = false
   },
 
   methods: {

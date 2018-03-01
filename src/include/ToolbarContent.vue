@@ -129,10 +129,10 @@
           slot="activator"
           @click="$bus.$emit('syllabus--pdf.toggle')"
         >
-          <v-icon v-if="$bus.nav.comments.pdf">subject</v-icon>
+          <v-icon v-if="$bus.toolbar.comments.pdf">subject</v-icon>
           <v-icon v-else>assignment</v-icon>
         </v-btn>
-        <span v-if="$bus.nav.comments.pdf">View standard</span>
+        <span v-if="$bus.toolbar.comments.pdf">View standard</span>
         <span v-else>View as PDF</span>
       </v-tooltip>
       <v-tooltip bottom>
@@ -145,15 +145,31 @@
         </v-btn>
         <span>View info</span>
       </v-tooltip>
-      <v-tooltip bottom v-if="$bus.nav.comments.model == false">
+      <v-tooltip bottom v-if="$bus.toolbar.comments.model == false">
         <v-btn
           icon
           slot="activator"
-          @click="$bus.nav.comments.model = true"
+          @click="$bus.toolbar.comments.model = true"
         >
           <v-icon>chevron_left</v-icon>
         </v-btn>
         <span>Reveal</span>
+      </v-tooltip>
+    </template>
+
+    <template v-if="$route.name === 'Workflow' || $route.name === 'Assignments'">
+      <v-spacer v-if="$route.name === 'Workflow'"/>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          slot="activator"
+          @click="$bus.toolbar.sortByStatus = !$bus.toolbar.sortByStatus"
+        >
+          <v-icon v-if="$bus.toolbar.sortByStatus">date_range</v-icon>
+          <v-icon v-else>sort</v-icon>
+        </v-btn>
+        <span v-if="$bus.toolbar.sortByStatus">By date</span>
+        <span v-else>By status</span>
       </v-tooltip>
     </template>
 
