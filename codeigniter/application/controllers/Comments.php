@@ -24,6 +24,8 @@ class Comments extends MY_Custom_Controller {
     // check if uid exists in assign inst
 
     $assign = $assigns[0];
+    $newAssigns = $this->_createAssigns($assigns);
+
     $content = json_decode($assign['content'], TRUE);
     $assigned = $content['assigned'];
     $subs = $content['sub'];
@@ -42,9 +44,9 @@ class Comments extends MY_Custom_Controller {
     $indexOfUid = array_search($uid, $subs_ids);
     if ($indexOfUid !== FALSE) {
       if ($subs[$indexOfUid]['status'] == 1) {
-        $myStatus = 'accept';
+        $myStatus = 'approve';
       } else if ($subs[$indexOfUid]['status'] == 0) {
-        $myStatus = 'reject';
+        $myStatus = 'disapprove';
       }
     }
 
@@ -66,6 +68,7 @@ class Comments extends MY_Custom_Controller {
     }
 
     $this->_json(TRUE, array(
+      'assign' => $newAssigns[0],
       'comments' => $comments,
       'allowComment' => $allowComment,
       'allowAction' => $allowAction,

@@ -29,6 +29,8 @@
     </v-layout>
   </v-container>
 
+  <dialog-detailed-workflow/>
+
 </div>
 </template>
 
@@ -37,6 +39,7 @@ import qs from 'qs'
 import SyllabusInst from '@/include/SyllabusInst'
 import SidenavComment from '@/include/SidenavComment'
 import ManageNoData from '@/include/ManageNoData'
+import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 
 export default {
   name: 'syllabus',
@@ -46,7 +49,8 @@ export default {
   components: {
     SyllabusInst,
     SidenavComment,
-    ManageNoData
+    ManageNoData,
+    DialogDetailedWorkflow
   },
   data: () => ({
     url: '/syllabus',

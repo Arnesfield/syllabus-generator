@@ -5,7 +5,7 @@
   :mini-variant="false"
   :clipped="true"
   width="380"
-  v-model="model"
+  v-model="$bus.nav.comments.model"
   right
   style="padding-bottom: 0"
   class="grey lighten-4"
@@ -16,9 +16,36 @@
     color="white"
   >
     <v-toolbar-title v-html="'Comments'"/>
+    <v-spacer/>
+    <v-tooltip bottom>
+      <v-btn
+        icon
+        slot="activator"
+        @click="$bus.nav.comments.model = false"
+      >
+        <v-icon>chevron_right</v-icon>
+      </v-btn>
+      <span>Hide</span>
+    </v-tooltip>
   </v-toolbar>
 
   <v-container fluid>
+
+    <template v-if="assign && (assign.status == 0 || assign.status == 1)">
+      <v-alert
+        :type="statusAlertType"
+        :value="true"
+        class="mb-2"
+      >
+        <template
+          v-if="assign.status == 1"
+        >This syllabus is approved :)</template>
+        <template
+          v-else-if="assign.status == 0"
+        >This syllabus is disapproved :(</template>
+      </v-alert>
+      <v-divider class="mb-2"/>
+    </template>
 
     <v-alert
       :type="alertType"
@@ -26,11 +53,11 @@
       class="mb-2"
     >
       <template
-        v-if="myStatus == 'accept'"
-      >You accepted this syllabus.</template>
+        v-if="myStatus == 'approve'"
+      >You approved this syllabus.</template>
       <template
-        v-if="myStatus == 'reject'"
-      >You rejected this syllabus.</template>
+        v-else-if="myStatus == 'disapprove'"
+      >You disapproved this syllabus.</template>
     </v-alert>
     
     <v-layout v-if="Boolean(myStatus) && !revealAction" class="mb-2">
@@ -57,7 +84,7 @@
         @click="doAction(0)"
       >
         <v-icon>close</v-icon>
-        <span>Reject</span>
+        <span>Disapprove</span>
       </v-btn>
     </v-layout>
 
@@ -124,13 +151,13 @@ export default {
     ManageNoData
   },
   data: () => ({
-    approveRejectUrl: '/assigns/approve_reject',
+    approvalActionUrl: '/assigns/approval_action',
     commentUrl: '/comments/comment',
     url: '/comments',
-    model: null,
     comment: null,
     comments: [],
 
+    assign: null,
     allowComment: false,
     allowAction: false,
     myStatus: false,
@@ -151,16 +178,32 @@ export default {
   },
   computed: {
     alertType() {
-      if (this.myStatus == 'accept') {
+      if (this.myStatus == 'approve') {
         return 'success'
-      } else if (this.myStatus == 'reject') {
+      } else if (this.myStatus == 'disapprove') {
         return 'error'
+      }
+      return 'info'
+    },
+    statusAlertType() {
+      if (this.assign) {
+        if (this.assign.status == 0) {
+          return 'error'
+        } else if (this.assign.status == 1) {
+          return 'success'
+        }
       }
       return 'info'
     }
   },
 
   created() {
+    this.$bus.$on('syllabus--info.show', () => {
+      if (!this.assign) {
+        return
+      }
+      this.$bus.$emit('dialog--detailed-workflow.show', this.assign)
+    })
     this.fetch()
   },
 
@@ -168,12 +211,12 @@ export default {
     doAction(value) {
       let vm = this
       
-      let title = value == 1 ? 'Approve syllabus' : 'Reject syllabus'
-      let msg = value == 1 ? 'This will approve the syllabus.' : 'This will reject the syllabus.'
-      let btnText = value == 1 ? 'Approve' : 'Reject'
+      let title = value == 1 ? 'Approve syllabus' : 'Disapprove syllabus'
+      let msg = value == 1 ? 'This will approve the syllabus.' : 'This will disapprove the syllabus.'
+      let btnText = value == 1 ? 'Approve' : 'Disapprove'
       let btnColor = value == 1 ? 'success' : 'error'
-      let snackSuccessMsg = value == 1 ? 'Approved syllabus.' : 'Rejected syllabus.'
-      let snackErrorMsg = value == 1 ? 'Unable to approve syllabus.' : 'Unable to reject syllabus.'
+      let snackSuccessMsg = value == 1 ? 'Approved syllabus.' : 'Disapproved syllabus.'
+      let snackErrorMsg = value == 1 ? 'Unable to approve syllabus.' : 'Unable to disapprove syllabus.'
 
       this.$bus.$emit('dialog--global.confirm.show', {
         item: this.assignId,
@@ -184,7 +227,7 @@ export default {
           color: btnColor
         },
         fn(onSuccess, onError, doClose, fn) {
-          vm.$http.post(vm.approveRejectUrl, qs.stringify({
+          vm.$http.post(vm.approvalActionUrl, qs.stringify({
             assignId: vm.assignId,
             value: value
           })).then(res => {
@@ -296,6 +339,7 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
+        this.assign = res.data.assign
         this.allowAction = res.data.allowAction
         this.allowComment = res.data.allowComment
         this.myStatus = res.data.myStatus

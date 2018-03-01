@@ -63,7 +63,7 @@ export default {
       { title: 'Approved', n: 1 },
       { title: 'Undecided', n: 2 },
       { title: 'Not yet submitted', n: 3 },
-      { title: 'Denied', n: 0 }
+      { title: 'Disapproved', n: 0 }
     ],
   }),
   watch: {

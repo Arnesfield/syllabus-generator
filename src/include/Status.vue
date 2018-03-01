@@ -26,7 +26,7 @@ export default {
     msg: {
       type: Object,
       default: () => ({
-        0: 'Denied',
+        0: 'Disapproved',
         1: 'Approved',
         2: 'Undecided',
         3: 'Not yet submitted'

@@ -112,6 +112,74 @@ class MY_Custom_Controller extends MY_View_Controller {
     echo json_encode($master);
     exit;
   }
+
+  public function _createAssigns($assigns) {
+    if ($assigns) {
+      // parse all "content"
+      foreach ($assigns as $key => $assign) {
+        $assigns[$key]['content'] = json_decode($assign['content'], TRUE);
+      }
+
+      $created_by = $this->assigns_model->_to_col($assigns, 'created_by');
+      // get "content"
+      $content = $this->assigns_model->_to_col($assigns, 'content');
+      $assigned = $this->assigns_model->_to_col($content, 'assigned');
+      $courses = $this->assigns_model->_to_col($content, 'course');
+      $subs = $this->assigns_model->_to_col($content, 'sub');
+
+      // get "course" data
+      $courseData = $this->assigns_model->getCoursesWithIds($courses);
+
+      // convert $courseData to id => value instead of index => value
+      $newCourseData = array();
+      foreach ($courseData as $key => $course) {
+        $newCourseData[$course['id']] = $course;
+      }
+
+      // users included in this fetch
+      $subUsers = array();
+
+      // $subs is an array of array of objects
+      foreach ($subs as $key => $sub) {
+        // $sub is an array of objects
+        // add id to $subUsers
+        foreach ($sub as $subkey => $value) {
+          array_push($subUsers, $value['id']);
+        }
+      }
+
+      $listedUsers = array_unique(array_merge($assigned, $subUsers, $created_by));
+
+      // get all users with ids from $listedUsers
+      $assignedUsers = $this->assigns_model->getUsersWithIds($listedUsers);
+      
+      // now these users are in index => value
+      // make these as uid => value
+      $newAssignedUsers = array();
+      foreach ($assignedUsers as $key => $user) {
+        $newAssignedUsers[$user['id']] = $user;
+      }
+
+      // now based on that, put those users in the "assigned" in $assigns
+      foreach ($assigns as $key => $assign) {
+        // add the course info
+        $assigns[$key]['content']['course'] = $newCourseData[$assign['content']['course']];
+        $assigns[$key]['content']['assigned'] = $newAssignedUsers[$assign['content']['assigned']];
+        $assigns[$key]['created_by'] = $newAssignedUsers[$assign['created_by']];
+
+        // also set "user" prop in "sub"
+        foreach ($assign['content']['sub'] as $subkey => $sub) {
+          // check if user exists
+          if (array_key_exists($sub['id'], $newAssignedUsers)) {
+            $assigns[$key]['content']['sub'][$subkey]['user'] = $newAssignedUsers[$sub['id']];
+          }
+        }
+      }
+      
+    }
+
+    return $assigns;
+  }
 }
 
 ?>

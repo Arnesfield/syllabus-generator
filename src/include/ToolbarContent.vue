@@ -121,6 +121,30 @@
       </v-tooltip>
     </template>
 
+    <template v-if="$route.name === 'Syllabus'">
+      <v-spacer/>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          slot="activator"
+          @click="$bus.$emit('syllabus--info.show')"
+        >
+          <v-icon>info_outline</v-icon>
+        </v-btn>
+        <span>View info</span>
+      </v-tooltip>
+      <v-tooltip bottom v-if="$bus.nav.comments.model == false">
+        <v-btn
+          icon
+          slot="activator"
+          @click="$bus.nav.comments.model = true"
+        >
+          <v-icon>chevron_left</v-icon>
+        </v-btn>
+        <span>Reveal</span>
+      </v-tooltip>
+    </template>
+
     <v-tabs
       align-with-title
       show-arrows
