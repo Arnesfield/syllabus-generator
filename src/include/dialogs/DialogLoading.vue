@@ -30,9 +30,16 @@ export default {
   }),
 
   created() {
-    this.$bus.$on('dialog--loading', (e) => {
+    this.$bus.$on('dialog--loading', this.dialogLoading)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--loading', this.dialogLoading)
+  },
+
+  methods: {
+    dialogLoading(e) {
       this.show = e
-    })
+    }
   }
 }
 </script>

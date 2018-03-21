@@ -89,6 +89,11 @@ export default {
     this.$bus.$on('manage--books.update', this.fetch)
     this.fetch()
   },
+  beforeDestroy() {
+    this.$bus.$off('manage--books.add', this.addBook)
+    this.$bus.$off('manage--books.upload', this.csvBooks)
+    this.$bus.$off('manage--books.update', this.fetch)
+  },
 
   methods: {
     addBook() {

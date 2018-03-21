@@ -96,6 +96,10 @@ export default {
 
     this.suggest()
   },
+  beforeDestroy() {
+    this.$bus.$off('gen--topics.updated', this.suggest)
+    this.$bus.$off('watch--generator.suggestions', this.suggest)
+  },
 
   methods: {
     search: debounce(function(e) {

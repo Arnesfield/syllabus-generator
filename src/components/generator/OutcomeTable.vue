@@ -209,6 +209,9 @@ export default {
       this.doInitial()
     }
   },
+  beforeDestroy() {
+    this.$bus.$off('watch--generator.suggestions', this.suggest)
+  },
 
   methods: {
     doInitial() {

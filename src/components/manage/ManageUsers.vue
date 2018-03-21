@@ -115,6 +115,11 @@ export default {
     this.$bus.$on('manage--users.update', this.fetch)
     this.fetch()
   },
+  beforeDestroy() {
+    this.$bus.$off('manage--users.add', this.addUser)
+    this.$bus.$off('manage--users.upload', this.csvUsers)
+    this.$bus.$off('manage--users.update', this.fetch)
+  },
 
   methods: {
     addUser() {

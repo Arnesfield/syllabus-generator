@@ -45,9 +45,16 @@ export default {
   },
 
   created() {
-    this.$bus.$on('GET_ROUTE', (emit) => {
+    this.$bus.$on('GET_ROUTE', this.getRoute)
+  },
+  beforeDestroy() {
+    this.$bus.$off('GET_ROUTE', this.getRoute)
+  },
+
+  methods: {
+    getRoute(emit) {
       this.$bus.$emit(emit, this.$route)
-    })
+    }
   }
 }
 </script>

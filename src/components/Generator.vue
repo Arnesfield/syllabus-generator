@@ -1,5 +1,11 @@
 <template>
-<v-container fluid>
+<v-container
+  fluid
+  :style="!syllabus ? {
+    display: 'flex',
+    height: 'calc(100% - 160px)'
+  } : null"
+>
   <v-tabs-items v-model="$bus.tabs.Generator.tab">
     <v-tab-item key="course">
       <course-picker
@@ -67,11 +73,16 @@
     </template>
   </v-tabs-items>
 
-  <manage-no-data
-    :fetch="fetchCourse"
-    :loading="courseLoading"
+  <v-layout
+    justify-center
+    align-center
     v-if="assignId && !course"
-  />
+  >
+    <manage-no-data
+      :fetch="fetchCourse"
+      :loading="courseLoading"
+    />
+  </v-layout>
 
 </v-container>
 </template>
@@ -143,7 +154,7 @@ export default {
 
     assignId(to, from) {
       if (to) {
-        this.$bus.$on('generator--course.refresh', this.fetchCourse)
+        // this.$bus.$on('generator--course.refresh', this.fetchCourse)
         this.fetchCourse()
       } else {
         // remove course
@@ -173,12 +184,7 @@ export default {
 
   created() {
     this.$bus.$on('generator--save', this.save)
-    this.$bus.$on('syllabus-picker--syllabus.set', () => {
-      // set syllabus in picker
-      if (this.$refs.syllabusPicker) {
-        this.$refs.syllabusPicker.selected = this.tempSyllabus
-      }
-    })
+    this.$bus.$on('syllabus-picker--syllabus.set', this.syllabusSet)
 
     this.$bus.tabs.Generator.tabs = true
     this.$bus.tabs.Generator.tab = null
@@ -198,9 +204,20 @@ export default {
     this.$bus.tabs.Generator.tab = null
     this.$bus.tabs.Generator.items = null
     this.$bus.generator.suggestions = true
+
+    this.$bus.$off('generator--save', this.save)
+    this.$bus.$off('syllabus-picker--syllabus.set', this.syllabusSet)
+    this.$bus.$off('generator--course.refresh', this.fetchCourse)
   },
 
   methods: {
+    syllabusSet() {
+      // set syllabus in picker
+      if (this.$refs.syllabusPicker) {
+        this.$refs.syllabusPicker.selected = this.tempSyllabus
+      }
+    },
+
     generate(e) {
       this.pdf = e
       this.stringifySyllabus()
@@ -210,6 +227,10 @@ export default {
     },
 
     stringifySyllabus() {
+      // if syllabus not yet set
+      if (this.syllabus === null) {
+        return JSON.stringify(null)
+      }
       // should not be fixed
       // loop on content keys instead
       Object.keys(content).forEach(e => {

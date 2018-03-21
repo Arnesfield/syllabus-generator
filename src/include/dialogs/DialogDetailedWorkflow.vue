@@ -198,13 +198,18 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--detailed-workflow.show', (e) => {
-      this.assign = e
-      this.show = true
-    })
+    this.$bus.$on('dialog--detailed-workflow.show', this.dialogDetailedWorkflow)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--detailed-workflow.show', this.dialogDetailedWorkflow)
   },
 
   methods: {
+    dialogDetailedWorkflow(e) {
+      this.assign = e
+      this.show = true
+    },
+
     clear() {
       this.assign = null
       this.show = false

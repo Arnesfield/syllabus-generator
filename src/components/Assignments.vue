@@ -1,7 +1,10 @@
 <template>
 <v-container
-  :fill-height="!assigns.length"
-  v-bind="{ ['grid-list-' + size]: true }"
+  grid-list-lg
+  :style="assigns.length ? null : {
+    display: 'flex',
+    height: 'calc(100% - 96px)'
+  }"
 >
   <template v-if="assigns.length && $bus.toolbar.sortByStatus">
     <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
@@ -62,7 +65,6 @@ export default {
     url: '/assigns/my',
     assigns: [],
     loading: false,
-    size: 'lg',
     type: [
       { title: 'Approved', n: 1 },
       { title: 'Undecided', n: 2 },
@@ -79,6 +81,9 @@ export default {
   created() {
     this.$bus.$on('assignments--refresh', this.fetch)
     this.fetch()
+  },
+  beforeDestroy() {
+    this.$bus.$off('assignments--refresh', this.fetch)
   },
 
   methods: {

@@ -3,7 +3,7 @@
   v-model="$bus.dialog.Assign.add"
   width="800"
   :overlay="false"
-  :persistent="loading"
+  :persistent="true"
   transition="fade-transition"
   scrollable>
   <v-card>
@@ -210,16 +210,21 @@ export default {
   },
 
   created() {
-    this.$bus.$on('watch--dialog.Assign.add', (to, from) => {
+    this.$bus.$on('watch--dialog.Assign.add', this.watchDialogAssign)
+  },
+  beforeDestroy() {
+    this.$bus.$off('watch--dialog.Assign.add', this.watchDialogAssign)
+  },
+
+  methods: {
+    watchDialogAssign(to, from) {
       if (to === true) {
         this.searchUser('', this.selectAssigned)
       } else {
         this.clear()
       }
-    })
-  },
+    },
 
-  methods: {
     courseFilter(item, queryText, itemText) {
       const hasValue = val => val != null ? val : ''
       const lower = val => hasValue(val).toString().toLowerCase()

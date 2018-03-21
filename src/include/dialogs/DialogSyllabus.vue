@@ -22,9 +22,16 @@ export default {
     show: false
   }),
   created() {
-    this.$bus.$on('dialog--syllabus.show', (e) => {
+    this.$bus.$on('dialog--syllabus.show', this.dialogSyllabusShow)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--syllabus.show', this.dialogSyllabusShow)
+  },
+
+  methods: {
+    dialogSyllabusShow(e) {
       this.syllabus = e
-    })
+    }
   }
 }
 </script>

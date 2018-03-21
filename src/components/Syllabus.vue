@@ -73,19 +73,24 @@ export default {
   },
 
   created() {
-    this.$bus.$on('syllabus--pdf.toggle', () => {
+    this.$bus.$on('syllabus--pdf.toggle', this.pdfToggle)
+    this.fetch()
+    // reset
+    this.$bus.toolbar.comments.pdf = false
+  },
+  beforeDestroy() {
+    this.$bus.$off('syllabus--pdf.toggle', this.pdfToggle)
+  },
+
+  methods: {
+    pdfToggle() {
       this.$bus.toolbar.comments.pdf = !this.$bus.toolbar.comments.pdf
       this.pdf = this.$bus.toolbar.comments.pdf
       if (this.$refs.syllabusInst) {
         this.$refs.syllabusInst.generate(this.pdf)
       }
-    })
-    this.fetch()
-    // reset
-    this.$bus.toolbar.comments.pdf = false
-  },
+    },
 
-  methods: {
     fetch() {
       if (!this.assignId) {
         return

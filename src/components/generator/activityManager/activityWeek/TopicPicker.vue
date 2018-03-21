@@ -107,6 +107,11 @@ export default {
 
     this.suggest()
   },
+  beforeDestroy() {
+    this.$bus.$off('gen--suggestions.update', this.suggest)
+    this.$bus.$off('gen--ilo.updated', this.suggest)
+    this.$bus.$off('watch--generator.suggestions', this.suggest)
+  },
 
   methods: {
     topicPicker: debounce(function(e) {

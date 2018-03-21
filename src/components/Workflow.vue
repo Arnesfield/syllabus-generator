@@ -1,5 +1,10 @@
 <template>
-<v-container :fill-height="!assigns.length">
+<v-container
+  :style="assigns.length ? null : {
+    display: 'flex',
+    height: 'calc(100% - 96px)'
+  }"
+>
   <template v-if="assigns.length && $bus.toolbar.sortByStatus">
     <template v-for="(t, i) in type" v-if="countAssigns(t.n)">
       <v-subheader
@@ -92,6 +97,10 @@ export default {
     this.$bus.$on('workflow--add', this.addAssign)
     this.$bus.$on('workflow--refresh', this.fetch)
     this.fetch()
+  },
+  beforeDestroy() {
+    this.$bus.$off('workflow--add', this.addAssign)
+    this.$bus.$off('workflow--refresh', this.fetch)
   },
 
   methods: {

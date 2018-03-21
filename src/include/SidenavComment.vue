@@ -219,16 +219,21 @@ export default {
   },
 
   created() {
-    this.$bus.$on('syllabus--info.show', () => {
+    this.$bus.$on('syllabus--info.show', this.infoShow)
+    this.fetch()
+  },
+  beforeDestroy() {
+    this.$bus.$off('syllabus--info.show', this.infoShow)
+  },
+
+  methods: {
+    infoShow() {
       if (!this.assign) {
         return
       }
       this.$bus.$emit('dialog--detailed-workflow.show', this.assign)
-    })
-    this.fetch()
-  },
+    },
 
-  methods: {
     doAction(value) {
       let vm = this
       

@@ -58,23 +58,30 @@ export default {
     loading: false
   }),
   created() {
-    this.$bus.$on('watch--dialog.global.confirm', (to, from) => {
+    this.$bus.$on('watch--dialog.global.confirm', this.watchDialogConfirm)
+    this.$bus.$on('dialog--global.confirm.show', this.confirmShow)
+  },
+  beforeDestroy() {
+    this.$bus.$off('watch--dialog.global.confirm', this.watchDialogConfirm)
+    this.$bus.$off('dialog--global.confirm.show', this.confirmShow)
+  },
+
+  methods: {
+    watchDialogConfirm(to, from) {
       // if closed, reset
       if (!to) {
         this.item = null
       }
-    })
+    },
 
-    this.$bus.$on('dialog--global.confirm.show', (props) => {
+    confirmShow(props) {
       const validKeys = ['item', 'title', 'subtitle', 'msg', 'fn', 'btn']
       validKeys.forEach(e => {
         this[e] = props[e] ? props[e] : null
       })
       this.$bus.dialog.global.confirm = true
-    })
-  },
+    },
 
-  methods: {
     doConfirm() {
       if (typeof this.fn === 'function') {
         this.loading = true

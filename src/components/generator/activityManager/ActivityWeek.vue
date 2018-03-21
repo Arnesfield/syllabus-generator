@@ -109,6 +109,9 @@ export default {
   created() {
     this.$bus.$on('gen--clo.updated', this.onCLOUpdated)
   },
+  beforeDestroy() {
+    this.$bus.$off('gen--clo.updated', this.onCLOUpdated)
+  },
 
   methods: {
     onCLOUpdated(i, n) {

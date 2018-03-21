@@ -201,6 +201,9 @@ export default {
       this.suggest()
     }
   },
+  beforeDestroy() {
+    this.$bus.$off('watch--generator.suggestions', this.suggest)
+  },
  
   methods: {
     clear() {

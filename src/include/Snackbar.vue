@@ -46,7 +46,14 @@ export default {
   }),
   
   created() {
-    this.$bus.$on('snackbar--show', (options) => {
+    this.$bus.$on('snackbar--show', this.showSnackbar)
+  },
+  beforeDestroy() {
+    this.$bus.$off('snackbar--show', this.showSnackbar)
+  },
+
+  methods: {
+    showSnackbar(options) {
       if (this.snackbar) {
         // close current snackbar
         this.snackbar = false
@@ -56,10 +63,8 @@ export default {
       } else {
         this.createSnackbar(options)
       }
-    })
-  },
+    },
 
-  methods: {
     callback(btn, e) {
       if (typeof btn.cb === 'function') {
         btn.cb(this, e)
