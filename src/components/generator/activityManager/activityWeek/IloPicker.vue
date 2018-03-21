@@ -5,21 +5,18 @@
     <v-btn
       small
       block
-      color="primary"
+      color="primary lighten-1"
       @click="dialog = true"
-    >
-      <v-icon small>add</v-icon>
-      <span>Add ILO</span>
-    </v-btn>
+    >Add ILO</v-btn>
   </div>
 
   <div
     v-if="selected.length"
-    class="selection-box"
+    class="selection-box mt-2"
   >
     <ul>
       <li :key="i" v-for="(t, i) in selected">
-        <button type="button" @click="selected.splice(i, 1)">x</button>
+        <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
         <template>{{ t }}</template>
       </li>
     </ul>
@@ -48,7 +45,7 @@
       :indeterminate="true"
       color="accent"
       class="my-0"
-      height="3"
+      :height="loading ? 3 : 0"
       background-color="white"
     />
 
@@ -89,6 +86,7 @@
       <span
         slot="item"
         slot-scope="props"
+        class="select-list-item"
       >{{ props.item }}</span>
     </select-list>
 

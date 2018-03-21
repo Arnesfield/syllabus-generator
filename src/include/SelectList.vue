@@ -7,7 +7,7 @@
     <v-list class="pt-0 mt-0">
       <template v-for="(item, i) in items">
         <v-list-tile
-          ripple
+          :ripple="!editable"
           :key="'tile-' + i"
           @click="() => {}"
           class="tile-select"
@@ -24,7 +24,6 @@
             <label
               class="clickable full-width full-height pr-3"
               style="display: block;"
-              :style="!editable ? { padding: '12px 0' } : undefined"
               :for="!editable ? id + i : undefined"
               :class="{ 'primary--text': selectedCheck(item) }"
             >

@@ -1,7 +1,7 @@
 <template>
 <tr>
   <td>
-    <button type="button" @click="$emit('remove', index)">x</button>
+    <button type="button" @click="$emit('remove', index)" class="red--text">&times;</button>
     <button type="button" @click="$emit('add', index + 1)">+</button>
   </td>
   <td>

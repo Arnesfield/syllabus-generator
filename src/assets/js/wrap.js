@@ -1,3 +1,4 @@
+import baseURL from './baseURL'
 import monthNames from './months'
 
 const leadZero = (num) => (num < 10 ? '0' : '') + num
@@ -63,8 +64,6 @@ export default {
     return fullname
   },
   localImg(url) {
-    dev = true
-    return dev ? 'http://localhost/xforge/public/uploads/images/' + url
-      : 'http://codegenerator.x10host.com/uploads/images/' + url
+    return baseURL + 'uploads/images/' + ur;
   }
 }

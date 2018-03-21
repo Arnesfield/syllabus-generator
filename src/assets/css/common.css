@@ -51,6 +51,11 @@
   min-width: 36px;
 }
 
+.select-list-item {
+  display: block;
+  padding: 12px 0;
+}
+
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;

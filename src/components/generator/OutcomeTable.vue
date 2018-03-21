@@ -45,7 +45,7 @@
       </tr>
       <tr :key="cloIndex" v-for="(clo, cloIndex) in c.courseLearningOutcomes">
         <td>
-          <button type="button" @click="remove(cloIndex)">x</button>
+          <button type="button" @click="remove(cloIndex)" class="red--text">&times;</button>
           <button type="button" @click="add(cloIndex + 1)">+</button>
         </td>
         <td style="width: 0">{{ (cloIndex + 1) }}.</td>

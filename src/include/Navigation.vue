@@ -137,6 +137,12 @@ export default {
       if (to.name !== 'Syllabus' && from.name === 'Syllabus') {
         this.$bus.nav.model = null
       }
+      if (to.name === 'Generator') {
+        if (this.$bus.nav.model) {
+          this.$bus.nav.model = true
+          this.$bus.nav.miniVariant = true
+        }
+      }
     }
   },
 

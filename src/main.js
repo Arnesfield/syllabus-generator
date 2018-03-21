@@ -10,6 +10,8 @@ import bus from './bus'
 import routerCond from './router/cond'
 import formRules from './assets/js/formRules'
 import wrap from './assets/js/wrap'
+import base_url from './assets/js/baseURL'
+import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
@@ -17,8 +19,7 @@ import './assets/css/syllabus.css'
 import './assets/css/generator.css'
 import './assets/css/override.css'
 
-const dev = true
-const baseURL = dev ? 'http://localhost/xforge/public/api' : 'http://codegenerator.x10host.com/api'
+const baseURL = base_url + 'api'
 const http = axios.create({
   baseURL: baseURL,
   withCredentials: true
@@ -28,7 +29,8 @@ Vue.use(Vuetify, {
   theme: {
     primary: '#008349', // colors.green.base,
     secondary: '#C7E6C6', // colors.green.lighten4,
-    accent: '#FFC218' // colors.yellow.accent2
+    accent: '#FFC218', // colors.yellow.accent2,
+    warning: colors.deepOrange.lighten1
   }
 })
 

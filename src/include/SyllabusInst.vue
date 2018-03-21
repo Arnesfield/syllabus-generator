@@ -236,7 +236,11 @@
                 :key="'topic-' + i"
                 v-for="(topic, i) in act.topics"
               >
-                <topic :topic="topic"/>
+                <topic
+                  v-if="typeof topic === 'object'"
+                  :topic="topic"
+                />
+                <template v-else>{{ topic }}</template>
               </li>
             </ul>
           </td>

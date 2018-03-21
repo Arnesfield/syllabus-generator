@@ -14,7 +14,7 @@
     <div class="selection-box">
       <ul>
         <li :key="i" v-for="(t, i) in selected">
-          <button type="button" @click="selected.splice(i, 1)">x</button>
+          <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
           <template>{{ t.name }}</template>
         </li>
       </ul>
