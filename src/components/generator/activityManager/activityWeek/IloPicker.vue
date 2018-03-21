@@ -17,7 +17,7 @@
     <ul>
       <li :key="i" v-for="(t, i) in selected">
         <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
-        <template>{{ t }}</template>
+        <span v-html="$md.makeHtml(t)"/>
       </li>
     </ul>
   </div>
@@ -64,8 +64,7 @@
         slot="item"
         slot-scope="props"
       >
-        <textarea
-          class="my-textarea mt-2 mb-1"
+        <markdown-textarea
           v-model="selected[props.index]"
         />
       </template>
@@ -87,7 +86,8 @@
         slot="item"
         slot-scope="props"
         class="select-list-item"
-      >{{ props.item }}</span>
+        v-html="$md.makeHtml(props.item)"
+      />
     </select-list>
 
   </v-dialog>
@@ -99,11 +99,13 @@
 import qs from 'qs'
 import debounce from 'lodash/debounce'
 import SelectList from '@/include/SelectList'
+import MarkdownTextarea from '@/include/MarkdownTextarea'
 
 export default {
   name: 'ilo-picker',
   components: {
-    SelectList
+    SelectList,
+    MarkdownTextarea
   },
   props: {
     act: Object,

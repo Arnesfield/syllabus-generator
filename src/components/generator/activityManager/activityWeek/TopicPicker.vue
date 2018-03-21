@@ -17,11 +17,7 @@
     <ul>
       <li :key="i" v-for="(t, i) in selected">
         <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
-        <topic
-          v-if="typeof t === 'object'"
-          :topic="t"
-        />
-        <template v-else>{{ t }}</template>
+        <span v-html="$md.makeHtml(t)"/>
       </li>
     </ul>
   </div>
@@ -56,7 +52,7 @@
     <select-list
       v-model="selected"
       :items="selected"
-      id="selected-ilo-"
+      id="selected-topic-"
       max-height="25vh"
       :editable="true"
       :is-selected="(items, item) => items.indexOf(item) > -1"
@@ -68,21 +64,16 @@
         slot="item"
         slot-scope="props"
       >
-        <textarea
-          class="my-textarea mt-2 mb-1"
+        <markdown-textarea
           v-model="selected[props.index]"
-          v-if="typeof props.item === 'string'"
         />
-        <span v-else class="my-2" style="display: block">
-          <topic :topic="props.item"/>
-        </span>
       </template>
     </select-list>
 
     <select-list
       v-model="selected"
       :items="topics"
-      id="ilo-"
+      id="topic-"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >
@@ -95,9 +86,8 @@
         slot="item"
         slot-scope="props"
         class="select-list-item"
-      >
-        <topic :topic="props.item"/>
-      </span>
+        v-html="$md.makeHtml(props.item)"
+      />
     </select-list>
 
   </v-dialog>
@@ -106,16 +96,16 @@
 </template>
 
 <script>
-import Topic from './topicPicker/Topic'
 import qs from 'qs'
 import debounce from 'lodash/debounce'
 import SelectList from '@/include/SelectList'
+import MarkdownTextarea from '@/include/MarkdownTextarea'
 
 export default {
   name: 'topic-picker',
   components: {
-    Topic,
-    SelectList
+    SelectList,
+    MarkdownTextarea
   },
   props: {
     act: Object,
@@ -192,6 +182,7 @@ export default {
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
+        console.warn(res.data)
         this.loading = false
         this.topics = res.data.topics
       }).catch(e => {
@@ -238,6 +229,7 @@ export default {
         curriculumYear: year,
         limit: 30
       })).then((res) => {
+        console.warn(res.data)
         this.loading = false
         this.topics = res.data.topics
       }).catch((e) => {

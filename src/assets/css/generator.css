@@ -22,6 +22,10 @@ table.syllabus-tbl ul {
   padding-left: 24px;
 }
 
+table.syllabus-tbl ul ul {
+  padding-left: 12px;
+}
+
 .tbl-img {
   height: 64px;
 }

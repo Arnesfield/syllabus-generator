@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import axios from 'axios'
+import Showdown from 'showdown'
 
 import bus from './bus'
 import routerCond from './router/cond'
@@ -19,6 +20,7 @@ import './assets/css/syllabus.css'
 import './assets/css/generator.css'
 import './assets/css/override.css'
 
+const converter = new Showdown.Converter()
 const baseURL = base_url + 'api'
 const http = axios.create({
   baseURL: baseURL,
@@ -39,6 +41,7 @@ Vue.prototype.$http = http
 Vue.prototype.$bus = bus
 Vue.prototype.$fRule = formRules
 Vue.prototype.$wrap = wrap
+Vue.prototype.$md = converter
 
 routerCond(router, http, bus)
 

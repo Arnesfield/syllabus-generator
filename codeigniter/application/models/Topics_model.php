@@ -7,17 +7,14 @@ class Topics_model extends MY_Custom_Model {
     $this->db
       ->select('
         t.id AS id,
-        t.label AS label,
-        t.name AS name,
-        t.description AS description
+        t.name AS name
       ')
       ->from('topic_field_relation tfr')
       ->join('topics t', 't.id = tfr.topic_id')
       ->join('fields f', 'f.id = tfr.field_id')
       ->where("
         lower(concat(
-          IFNULL(f.title, ''),
-          IFNULL(t.label, ''), IFNULL(t.name, ''), IFNULL(t.description, '')
+          IFNULL(f.title, ''), IFNULL(t.name, '')
         ))
         like lower(concat('%', '$search', '%'))
       ")
@@ -34,9 +31,7 @@ class Topics_model extends MY_Custom_Model {
     $this->db
       ->select('
         t.id AS id,
-        t.label AS label,
-        t.name AS name,
-        t.description AS description
+        t.name AS name
       ')
       ->from('topic_field_relation tfr')
       ->join('topic_outcome_relation tor', 'tfr.topic_id = tor.topic_id')

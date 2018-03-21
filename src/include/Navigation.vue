@@ -139,7 +139,7 @@ export default {
       }
       if (to.name === 'Generator') {
         if (this.$bus.nav.model) {
-          this.$bus.nav.model = true
+          this.$bus.nav.model = null
           this.$bus.nav.miniVariant = true
         }
       }

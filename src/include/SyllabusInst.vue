@@ -2,7 +2,7 @@
 <div v-if="value">
 
   <iframe
-    v-if="pdf && encoded"
+    v-if="dPdf && encoded"
     :src="encoded"
     frameborder="0"
     ref="pdfContainer"
@@ -11,14 +11,14 @@
   ></iframe>
 
   <div
-    v-if="pdf && !encoded"
+    v-if="dPdf && !encoded"
     class="text-xs-center pa-3 caption"
   >Loading...</div>
 
   <div
     ref="container"
-    :style="pdf != false ? { height: 0, overflow: 'hidden' } : { height: standardHeight }"
-    :class="{ 'syllabus-container-large': !pdf }"
+    :style="dPdf != false ? { height: 0, overflow: 'hidden' } : { height: standardHeight }"
+    :class="{ 'syllabus-container-large': !dPdf }"
     v-if="c"
   >
     <div
@@ -225,8 +225,8 @@
               <li
                 :key="'ilo-' + i"
                 v-for="(ilo, i) in act.ilo"
-                v-html="ilo"
-              ></li>
+                v-html="$md.makeHtml(ilo)"
+              />
             </ul>
           </td>
           
@@ -235,13 +235,8 @@
               <li
                 :key="'topic-' + i"
                 v-for="(topic, i) in act.topics"
-              >
-                <topic
-                  v-if="typeof topic === 'object'"
-                  :topic="topic"
-                />
-                <template v-else>{{ topic }}</template>
-              </li>
+                v-html="$md.makeHtml(topic)"
+              />
             </ul>
           </td>
           
@@ -460,14 +455,12 @@
 <script>
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
-import Topic from '@/components/generator/activityManager/activityWeek/topicPicker/Topic'
 import CourseUnits from '@/include/CourseUnits'
 import DialogLoading from '@/include/dialogs/DialogLoading'
 
 export default {
   name: 'syllabus-inst',
   components: {
-    Topic,
     CourseUnits,
     DialogLoading
   },
@@ -498,10 +491,17 @@ export default {
       3: null,
       4: null,
       5: null
-    }
+    },
+    dPdf: false
   }),
 
   watch: {
+    pdf(e) {
+      this.dPdf = e
+    },
+    dPdf(e) {
+      this.$emit('update:pdf', e)
+    },
     syllabus: {
       deep: true,
       handler(e) {
@@ -529,6 +529,7 @@ export default {
     if (this.syllabus) {
       this.value = this.syllabus
     }
+    this.dPdf = this.pdf
   },
 
   computed: {
@@ -539,9 +540,9 @@ export default {
 
   methods: {
     generate(e) {
-      this.pdf = e
+      this.dPdf = e
       // create only if pdf prop is true
-      if (!this.pdf) {
+      if (!this.dPdf) {
         return
       }
 

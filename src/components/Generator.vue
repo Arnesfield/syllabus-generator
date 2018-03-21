@@ -201,6 +201,9 @@ export default {
       // also set refresh button if failed
       this.fetchCourse()
     }
+
+    this.$bus.nav.model = null
+    this.$bus.nav.miniVariant = true
   },
 
   beforeDestroy() {

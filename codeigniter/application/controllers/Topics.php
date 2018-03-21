@@ -12,6 +12,7 @@ class Topics extends MY_Custom_Controller {
   public function index() {
     $search = $this->_filter($this->input->post('search'));
     $topics = $this->topics_model->getByQuery($search);
+    $topics = $this->topics_model->_to_col($topics, 'name');
     $this->_json(TRUE, 'topics', $topics);
   }
 
@@ -46,6 +47,7 @@ class Topics extends MY_Custom_Controller {
 
     // iclude both clo and ilo content
     $topics = $this->topics_model->getRelatedTopicsWithFieldsAndOutcomes($fields, $outcomes, $limit);
+    $topics = $this->topics_model->_to_col($topics, 'name');
     $this->_json(TRUE, 'topics', $topics);
   }
 }
