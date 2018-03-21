@@ -2,58 +2,97 @@
 <td>
   
   <div>
-    <label :for="'search-outcomes-' + index">Search</label>
-    <input type="text" :id="'search-outcomes-' + index" @input="query" @focus="query">
-    <button type="button" v-if="!suggested.length" @click="suggest()">Show Suggestions</button>
-    <button type="button" v-if="outcomes.length" @click="outcomes = []">Hide Selection</button>
+    <v-btn
+      small
+      block
+      color="primary"
+      @click="dialog = true"
+    >
+      <v-icon small>add</v-icon>
+      <span>Add ILO</span>
+    </v-btn>
   </div>
 
-  <div v-if="selected.length">
-    <br>
-    <div><strong>Selected</strong></div>
-    <div class="selection-box">
-      <ul>
-        <li :key="i" v-for="(t, i) in selected">
-          <button type="button" @click="selected.splice(i, 1)">x</button>
-          <template>{{ t }}</template>
-        </li>
-      </ul>
-    </div>
+  <div
+    v-if="selected.length"
+    class="selection-box"
+  >
+    <ul>
+      <li :key="i" v-for="(t, i) in selected">
+        <button type="button" @click="selected.splice(i, 1)">x</button>
+        <template>{{ t }}</template>
+      </li>
+    </ul>
   </div>
 
-  <div v-if="outcomes.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="outcomes = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="i" v-for="(t, i) in outcomes">
-          <input type="checkbox" :id="'outcomes-' + index + '-' + i" :value="t" v-model="selected">
-          <label :for="'outcomes-' + index + '-' + i">{{ t }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <v-dialog
+    v-model="dialog"
+    width="640"
+    transition="fade-transition"
+  >
+    <v-text-field
+      solo
+      ref="searchbar"
+      label="Search keyword or enter ILO"
+      :prepend-icon="search ? 'add' : 'search'"
+      :prepend-icon-cb="search ? enterSearch : undefined"
+      :append-icon="search ? 'close' : undefined"
+      :append-icon-cb="search ? () => { search = null } : undefined"
+      v-model="search"
+      @keypress.enter.native="enterSearch"
+      :loading="loading"
+    />
 
-  <template v-if="!$bus.generator.suggestions"></template>
-  <div v-else-if="suggested.length">
-    <br>
-    <div>
-      <strong>Suggested</strong>
-      <button type="button" @click="suggest()">Refresh</button>
-      <button type="button" @click="suggested = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="i" v-for="(t, i) in suggested">
-          <input type="checkbox" :id="'outcomes-suggested-' + index + '-' + i" :value="t" v-model="selected">
-          <label :for="'outcomes-suggested-' + index + '-' + i">{{ t }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
+    <v-progress-linear
+      :active="loading"
+      :indeterminate="true"
+      color="accent"
+      class="my-0"
+      height="3"
+      background-color="white"
+    />
+
+    <select-list
+      v-model="selected"
+      :items="selected"
+      id="selected-ilo-"
+      max-height="25vh"
+      editable
+      :is-selected="(items, item) => items.indexOf(item) > -1"
+    >
+      <template
+        slot="title"
+      ><strong v-text="selected.length"/>&nbsp;Selected</template>
+      <template
+        slot="item"
+        slot-scope="props"
+      >
+        <textarea
+          class="my-textarea mt-2 mb-1"
+          v-model="selected[props.index]"
+        />
+      </template>
+    </select-list>
+
+    <select-list
+      v-model="selected"
+      :items="outcomes"
+      id="ilo-"
+      max-height="25vh"
+      :is-selected="(items, item) => items.indexOf(item) > -1"
+    >
+      <template
+        slot="title"
+      ><strong
+        v-text="outcomes.length"
+      />&nbsp;{{ search ? 'Results' : 'Suggested' }}</template>
+      <span
+        slot="item"
+        slot-scope="props"
+      >{{ props.item }}</span>
+    </select-list>
+
+  </v-dialog>
 
 </td>
 </template>
@@ -61,9 +100,13 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
+import SelectList from '@/include/SelectList'
 
 export default {
   name: 'ilo-picker',
+  components: {
+    SelectList
+  },
   props: {
     act: Object,
     syllabus: Object,
@@ -74,13 +117,29 @@ export default {
     suggestUrl: '/outcomes/suggest',
     outcomes: [],
     selected: [],
-    suggested: []
+    suggested: [],
+
+    dialog: false,
+    search: null,
+    loading: false
   }),
 
   watch: {
     selected(to, from) {
       this.act.ilo = to
       this.$bus.$emit('gen--ilo.updated')
+    },
+    dialog(e) {
+      if (e) {
+        this.suggest()
+        this.$refs.searchbar.focus()
+      } else {
+        this.search = null
+      }
+    },
+    search(e) {
+      this.loading = true
+      this.query()
     }
   },
 
@@ -104,27 +163,36 @@ export default {
   },
 
   methods: {
+    enterSearch() {
+      this.selected.indexOf(this.search) == -1 ? this.selected.push(this.search) : undefined
+    },
+
     query: debounce(function(e) {
       // search for book if not empty
-      const search = e.target.value
+      const search = this.search
       if (!search) {
         this.outcomes = []
+        this.suggest()
         return
       }
 
+      this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: search,
         type: 2
       })).then((res) => {
+        this.loading = false
         this.outcomes = res.data.outcomes
       }).catch(e => {
         console.error(e)
+        this.loading = false
       })
     }, 300),
 
     suggest() {
       // do no execute sugget when bus suggestions is off
       if (!this.$bus.generator.suggestions) {
+        this.loading = false
         return
       }
       // include book ids
@@ -158,6 +226,7 @@ export default {
       let po = this.syllabus.content.programOutcomes
       let year = po.length ? po[0].year : 0
 
+      this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
         cloContent: cloContent,
@@ -168,9 +237,11 @@ export default {
         limit: 30,
         cloLimit: cloLimit
       })).then((res) => {
-        this.suggested = res.data.outcomes
+        this.loading = false
+        this.outcomes = res.data.outcomes
       }).catch((e) => {
         console.error(e)
+        this.loading = false
       })
     }
   }

@@ -6,7 +6,9 @@
     color="primary"
   >
     <v-toolbar-side-icon @click.stop="$bus.navToggle"/>
-    <v-toolbar-title>Forge</v-toolbar-title>
+    <router-link to="/" class="white--text clean-a">
+      <v-toolbar-title>Forge</v-toolbar-title>
+    </router-link>
   </v-toolbar>
 </template>
 

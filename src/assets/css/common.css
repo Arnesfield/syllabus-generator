@@ -16,6 +16,10 @@
   text-decoration: none;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .full-height {
   height: 100%;
 }
@@ -30,6 +34,11 @@
 
 .bg-dim {
   background-color: rgba(0, 0, 0, 0.08);
+}
+
+.thin-24 {
+  width: 24px;
+  min-width: 24px;
 }
 
 .thin-action {
@@ -47,6 +56,19 @@
   min-height: 32px;
   height: 64px;
   max-height: 256px;
+}
+
+.my-textarea {
+  min-height: 24px;
+  height: 24px;
+  max-height: 64px;
+  width: 100%;
+}
+
+.tile-select .list__tile {
+  height: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 i {

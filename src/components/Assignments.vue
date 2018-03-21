@@ -18,7 +18,10 @@
           v-for="(assign, i) in assigns"
           v-if="Number(assign.status) == t.n"
         >
-          <assign-inst :assign='assign'/>
+          <assign-inst
+            :assign='assign'
+            @view="onView(assign)"
+          />
         </v-flex>
       </v-layout>
     </template>
@@ -32,7 +35,10 @@
         :key="i"
         v-for="(assign, i) in assigns"
       >
-        <assign-inst :assign='assign'/>
+        <assign-inst
+          :assign='assign'
+          @view="onView(assign)"
+        />
       </v-flex>
     </v-layout>
   </template>
@@ -48,17 +54,21 @@
     </v-layout>
   </template>
 
+  <dialog-detailed-workflow/>
+
 </v-container>
 </template>
 
 <script>
 import AssignInst from '@/include/assign/AssignInst'
+import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 import ManageNoData from '@/include/ManageNoData'
 
 export default {
   name: 'assignments',
   components: {
     AssignInst,
+    DialogDetailedWorkflow,
     ManageNoData
   },
   data: () => ({
@@ -87,6 +97,10 @@ export default {
   },
 
   methods: {
+    onView(assign) {
+      this.$bus.$emit('dialog--detailed-workflow.show', assign)
+    },
+
     countAssigns(n) {
       // check assigns with status n
       // return the length

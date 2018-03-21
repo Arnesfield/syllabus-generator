@@ -3,10 +3,14 @@
   fluid
   :style="!syllabus ? {
     display: 'flex',
+    width: '100%',
     height: 'calc(100% - 160px)'
   } : null"
 >
-  <v-tabs-items v-model="$bus.tabs.Generator.tab">
+  <v-tabs-items
+    v-model="$bus.tabs.Generator.tab"
+    class="full-width"
+  >
     <v-tab-item key="course">
       <course-picker
         ref="coursePicker"

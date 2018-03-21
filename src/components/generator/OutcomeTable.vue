@@ -24,7 +24,7 @@
     <button type="button" @click="suggest()">Show</button>
   </div>
 
-  <div class="scrollable-x">
+  <div class="scrollable-x mt-3">
     <table class="syllabus-tbl" border="1">
       <tr>
         <th style="width: 1px">&nbsp;</th>
@@ -91,15 +91,21 @@
                     ">{{ c.cloPoMap[cloIndex][po.id].symbol }}</template>
                   </v-layout>
                 </div>
-                <v-list dense>
-                  
+                <v-list
+                  dense
+                  @mouseover.native="over(cloIndex, poIndex)"
+                  @mouseout.native="out(cloIndex, poIndex)"
+                >  
                   <template v-if="
                     typeof c.cloPoMap[cloIndex] !== 'undefined' &&
                     Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
                   ">
                     <v-list-tile @click="click(cloIndex, po.id)">
                       <v-list-tile-content>
-                        <v-list-tile-title v-text="'Remove'"/>
+                        <v-list-tile-title
+                          class="red--text"
+                          v-text="'Remove'"
+                        />
                       </v-list-tile-content>
                     </v-list-tile>
                     <v-divider/>
@@ -250,12 +256,12 @@ export default {
     },
 
     over(clo, po, e) {
-      e.target.classList.add('outcome-highlighted')
+      e ? e.target.classList.add('outcome-highlighted') : undefined
       let o = this.c.programOutcomes[po]
       this.highlighted = (typeof o.label !== 'undefined' ? o.label + '. ' : '') + o.content
     },
     out(clo, po, e) {
-      e.target.classList.remove('outcome-highlighted')
+      e ? e.target.classList.remove('outcome-highlighted') : undefined
       this.highlighted = ''
     },
     click(clo, po, mark) {
