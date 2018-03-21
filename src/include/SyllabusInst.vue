@@ -176,8 +176,8 @@
             >
               <template v-if="
                 typeof c.cloPoMap[cloIndex] !== 'undefined' &&
-                c.cloPoMap[cloIndex].indexOf(po.id) > -1
-              ">{{ c.cloSymbol }}</template>
+                Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
+              ">{{ c.cloPoMap[cloIndex][po.id].symbol }}</template>
               <template v-else>&nbsp;</template>
             </td>
           </template>

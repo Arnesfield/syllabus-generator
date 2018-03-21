@@ -30,12 +30,9 @@
           <outcome-table
             :syllabus="syllabus"
             :supporting="syllabus.content.programOutcomes"
-            abbr="clo"
-            mainFieldName="courseLearningOutcomes"
-            supportingFieldName="programOutcomes"
             mainTitle="Course Learning Outcomes (CLO)"
             supportingTitle="Program Outcomes (PO)"
-            mapName="cloPoMap"/>
+          />
         </v-tab-item>
         <v-tab-item key="activities">
           <activity-manager :syllabus="syllabus"/>
