@@ -9,11 +9,11 @@
       color="primary"
       @click="viewAsMd = !viewAsMd"
     >
-      <v-icon small v-if="viewAsMd">visibility_off</v-icon>
-      <v-icon small v-else>visibility</v-icon>
+      <v-icon small v-if="viewAsMd">edit</v-icon>
+      <v-icon small v-else>text_format</v-icon>
     </v-btn>
-    <span v-if="viewAsMd">View as textarea</span>
-    <span v-else>View as markdown</span>
+    <span v-if="viewAsMd">Edit</span>
+    <span v-else>Format</span>
   </v-tooltip>
 
   <span

@@ -92,7 +92,7 @@
     </v-layout>
 
     <!-- do not show this if not part of reviewers or assigned -->
-    <v-card class="mb-4" hover v-if="allowComment">
+    <v-card class="mb-4 non-clickable" hover v-if="allowComment">
       <v-card-text class="pt-0 pb-2">
         <v-text-field
           placeholder="Enter comment"

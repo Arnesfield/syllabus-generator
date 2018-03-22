@@ -90,7 +90,7 @@
         </v-btn>
         <span>View info</span>
       </v-tooltip>
-      <v-tooltip bottom v-if="$bus.toolbar.comments.model == false">
+      <v-tooltip bottom v-if="!$bus.toolbar.comments.model">
         <v-btn
           icon
           slot="activator"
