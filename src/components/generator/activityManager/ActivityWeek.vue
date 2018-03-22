@@ -37,10 +37,13 @@
       :type="4"
     />
   </td>
-  <instructional-materials
-    :act="act"
-    :index="index"
-    :syllabus="syllabus"/>
+  <td>
+    <instructional-materials
+      :act="act"
+      :index="index"
+      :syllabus="syllabus"
+    />
+  </td>
   <assessment-tasks
     :act="act"
     :index="index"

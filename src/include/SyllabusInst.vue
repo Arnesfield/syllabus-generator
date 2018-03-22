@@ -600,7 +600,7 @@ export default {
       }
 
       let materials = this.c.weeklyActivities.reduce((filtered, e) => {
-        let names = e.instructionalMaterials.map(e => e.name)
+        let names = e.instructionalMaterials
         return filtered.concat(names)
       }, [])
 

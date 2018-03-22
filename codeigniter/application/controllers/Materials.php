@@ -12,6 +12,7 @@ class Materials extends MY_Custom_Controller {
   public function index() {
     $search = $this->_filter($this->input->post('search'));
     $materials = $this->materials_model->getByQuery($search);
+    $materials = $this->materials_model->_to_col($materials, 'name');
     $this->_json(TRUE, 'materials', $materials);
   }
 
@@ -51,6 +52,7 @@ class Materials extends MY_Custom_Controller {
     }
 
     $materials = $this->materials_model->getRelatedMaterialsWithFields($fields, $limit, $materialsArr);
+    $materials = $this->materials_model->_to_col($materials, 'name');
     $this->_json(TRUE, 'materials', $materials);
   }
 }

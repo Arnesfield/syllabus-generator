@@ -1,15 +1,17 @@
 <template>
 <div>
   
-  <div>
+  <v-layout justify-center>
     <v-btn
-      small
+      flat
       block
+      small
+      color="primary"
       @click="dialog = true"
     >
       <v-icon small>add</v-icon>
     </v-btn>
-  </div>
+  </v-layout>
 
   <div
     v-if="selected.length"
@@ -133,7 +135,9 @@ export default {
     dialog(e) {
       if (e) {
         this.suggest()
-        this.$refs.searchbar.focus()
+        setTimeout(() => {
+          this.$refs.searchbar.focus()
+        })
       } else {
         this.search = null
       }
