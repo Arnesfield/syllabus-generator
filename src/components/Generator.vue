@@ -47,6 +47,9 @@
         <v-tab-item key="activities">
           <activity-manager :syllabus="syllabus"/>
         </v-tab-item>
+        <v-tab-item key="grading">
+          <grading-system :syllabus="syllabus"/>
+        </v-tab-item>
         <v-tab-item key="done">
           <div>
             <syllabus-inst
@@ -100,6 +103,7 @@ import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
 import OutcomeTable from '@/components/generator/OutcomeTable'
 import ActivityManager from '@/components/generator/ActivityManager'
+import GradingSystem from '@/components/generator/GradingSystem'
 import ManageNoData from '@/include/ManageNoData'
 import SyllabusInst from '@/include/SyllabusInst'
 
@@ -112,6 +116,7 @@ export default {
     BookPicker,
     OutcomeTable,
     ActivityManager,
+    GradingSystem,
     ManageNoData,
     SyllabusInst
   },
@@ -129,7 +134,7 @@ export default {
       course: ['course'],
       syllabi: ['course', 'syllabi'],
       noCurriculum: ['course', 'syllabi', 'books', 'curriculum'],
-      all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'done']
+      all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'grading', 'done']
     },
     pdf: false,
 

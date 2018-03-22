@@ -137,12 +137,23 @@ export default {
       let syllabus = {
         course_id: this.course.id,
         content: {
+          facultyInCharge: {
+            name: this.$wrap.fullname(this.$bus.session.user),
+            position: null
+          },
+          evaluatedBy: {
+            name: null,
+            position: null
+          },
+          approvedBy: [],
+
           bookReferences: [],
           programOutcomes: [],
           courseLearningOutcomes: [],
           intendedLearningOutcomes: [],
           cloPoMap: {},
-          weeklyActivities: []
+          weeklyActivities: [],
+          gradingSystem: null
         }
       }
 

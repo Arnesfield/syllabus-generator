@@ -19,12 +19,13 @@
   <span
     v-if="viewAsMd"
     v-html="$md.makeHtml(text)"
-    :class="{ [mdClass]: true }"
+    :class="{ [mdClass + ' ' + mdAddClass]: true }"
   />
   <textarea
     v-else
     v-model="text"
-    :class="{ [textareaClass]: true }"
+    :placeholder="placeholder"
+    :class="{ [textareaClass + ' ' + tAddClass]: true }"
   />
 </v-layout>
 </template>
@@ -36,11 +37,27 @@ export default {
     value: String,
     textareaClass: {
       type: String,
-      default: 'my-textarea mt-2 mb-1'
+      default: 'my-textarea my-2 elevation-1 pa-1 white'
+    },
+    tAddClass: {
+      type: String,
+      default: ''
     },
     mdClass: {
       type: String,
-      default: 'mt-2 mb-1'
+      default: 'my-ul mt-2 mb-1'
+    },
+    mdAddClass: {
+      type: String,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      default: 'Enter text here'
+    },
+    mdView: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
@@ -59,10 +76,14 @@ export default {
       handler(e) {
         this.$emit('input', e)
       }
+    },
+    mdView(e) {
+      this.viewAsMd = e
     }
   },
   created() {
     this.text = this.value
+    this.viewAsMd = this.mdView
   }
 }
 </script>

@@ -316,6 +316,15 @@
           </td>
         </tr>
       </table>
+
+      <table border="1" class="mt-3 syllabus-tbl">
+        <tr>
+          <th>Grading System</th>
+        </tr>
+        <tr v-if="c.gradingSystem">
+          <td v-html="$md.makeHtml(c.gradingSystem)"/>
+        </tr>
+      </table>
     </div>
 
     <div
@@ -358,11 +367,16 @@
             
             <div class="text-xs-center">
               <template
-                v-if="c.facultyInCharge"
-              >{{ c.facultyInCharge }}</template>
+                v-if="c.facultyInCharge.name"
+              >{{ c.facultyInCharge.name }}</template>
               <template v-else>_____________________</template>
             </div>
-            <div class="text-xs-center">Faculty-In-Charge</div>
+            <div class="text-xs-center">
+              <template
+                v-if="c.facultyInCharge.position"
+              >{{ c.facultyInCharge.position }}</template>
+              <template v-else>Faculty-In-Charge</template>
+            </div>
             
             <br>
             <br>
@@ -374,14 +388,14 @@
 
             <div class="text-xs-center">
               <template
-                v-if="c.evaluatedBy"
-              >{{ c.evaluatedBy }}</template>
+                v-if="c.evaluatedBy.name"
+              >{{ c.evaluatedBy.name }}</template>
               <template v-else>_____________________</template>
             </div>
             <div class="text-xs-center">
               <template
-                v-if="c.evaluatedByPosition"
-              >{{ c.evaluatedByPosition }}</template>
+                v-if="c.evaluatedBy.position"
+              >{{ c.evaluatedBy.position }}</template>
               <template v-else>Coordinator</template>
             </div>
 

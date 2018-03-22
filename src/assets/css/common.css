@@ -86,6 +86,17 @@ p {
   width: 100%;
 }
 
+.my-big-textarea {
+  min-height: 64px;
+  height: 256px;
+  max-height: 512px;
+  width: calc(100% - 46px);
+}
+
+.visible-border {
+  border: 1px solid #319e61;
+}
+
 .tile-select .list__tile {
   height: auto;
   padding-left: 0;

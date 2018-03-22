@@ -18,11 +18,13 @@ table.syllabus-tbl td {
   padding: 8px;
 }
 
-table.syllabus-tbl ul {
+table.syllabus-tbl ul,
+.my-ul ul {
   padding-left: 24px;
 }
 
-table.syllabus-tbl ul ul {
+table.syllabus-tbl ul ul,
+.my-ul ul ul {
   padding-left: 12px;
 }
 
