@@ -74,8 +74,9 @@
     </select-list>
 
     <select-list
+      clearable
       v-model="selected"
-      :items="outcomes"
+      :items.sync="outcomes"
       id="ilo-"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"

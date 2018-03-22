@@ -111,7 +111,7 @@
 
     <select-list
       v-model="selected"
-      :items="books"
+      :items.sync="books"
       id="book-"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"

@@ -1,11 +1,30 @@
 <template>
-<span v-if="items.length">
-  <v-subheader class="mt-2 white">
-    <slot name="title"/>
-  </v-subheader>
+<span v-if="dItems.length">
+  <v-list class="pa-0 mt-2">
+    <v-list-tile class="px-0">
+      <v-list-tile-content>
+        <v-subheader class="white pl-0">
+          <slot name="title"/>
+        </v-subheader>
+      </v-list-tile-content>
+      <v-list-tile-action v-if="clearable">
+        <v-tooltip top>
+          <v-btn
+            icon
+            small
+            slot="activator"
+            @click="dItems = []"
+          >
+            <v-icon small>close</v-icon>
+          </v-btn>
+          <span>Clear</span>
+        </v-tooltip>
+      </v-list-tile-action>
+    </v-list-tile>
+  </v-list>
   <div style="overflow-y: scroll;" :style="{ 'max-height': maxHeight }">
     <v-list class="pt-0 mt-0">
-      <template v-for="(item, i) in items">
+      <template v-for="(item, i) in dItems">
         <v-list-tile
           :ripple="!editable"
           :key="'tile-' + i"
@@ -72,10 +91,15 @@ export default {
     deleteMode: {
       type: Boolean,
       default: false
+    },
+    clearable: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
-    selected: []
+    selected: [],
+    dItems: []
   }),
   watch: {
     value: {
@@ -89,10 +113,23 @@ export default {
       handler(e) {
         this.$emit('input', e)
       }
+    },
+    items: {
+      deep: true,
+      handler(e) {
+        this.dItems = e
+      }
+    },
+    dItems: {
+      deep: true,
+      handler(e) {
+        this.$emit('update:items', e)
+      }
     }
   },
   created() {
     this.selected = this.value
+    this.dItems = this.items
   },
   methods: {
     selectedCheck(item) {
