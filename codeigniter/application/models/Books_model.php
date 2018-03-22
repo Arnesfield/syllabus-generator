@@ -12,7 +12,10 @@ class Books_model extends MY_Custom_Model {
       ')
       ->from('book_field_relation bfr')
       ->join('books b', 'b.id = bfr.book_id')
-      ->join('fields f', 'f.id = bfr.field_id');
+      ->join('fields f', 'f.id = bfr.field_id')
+      ->where(array(
+        'b.status !=' => -1
+      ));
     
     if ($search) {
       $this->db->where("
@@ -28,7 +31,11 @@ class Books_model extends MY_Custom_Model {
   }
   
   public function get() {
-    $this->db->from('books');
+    $this->db
+      ->from('books')
+      ->where('status !=', -1)
+      ->order_by('updated_at')
+      ->order_by('created_at');
     $query = $this->db->get();
     return $this->_res($query);
   }
@@ -48,7 +55,10 @@ class Books_model extends MY_Custom_Model {
       ->join('books b', 'b.id = bfr.book_id')
       ->join('fields f', 'f.id = bfr.field_id')
       ->where_in('bfr.field_id', $fields)
+      ->where('b.status !=', -1)
       ->group_by('b.id')
+      ->order_by('b.updated_at')
+      ->order_by('b.created_at')
       ->order_by('COUNT(*)', 'DESC')
       ->limit($limit)
       ->get();
@@ -61,6 +71,13 @@ class Books_model extends MY_Custom_Model {
 
   public function insertMultiple($books) {
     return $this->db->insert_batch('books', $books);
+  }
+
+  public function update($data, $where) {
+    return $this->db
+      ->set($data)
+      ->where($where)
+      ->update('books');
   }
 }
 

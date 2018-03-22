@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2018 at 04:58 PM
+-- Generation Time: Mar 22, 2018 at 05:37 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -53,6 +53,8 @@ INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`
 CREATE TABLE `books` (
   `id` int(11) NOT NULL,
   `citation` text NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -60,33 +62,33 @@ CREATE TABLE `books` (
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` (`id`, `citation`, `status`) VALUES
-(1, 'Author Name. (1999). Some title of book or article about Android Development.', 1),
-(2, 'Author\'s Name. (2001). Some book about JavaScript.', 1),
-(3, 'Zak, Diane (2011) An Introduction to Programming with C++. 6th ed.  Australia: Course Technology', 1),
-(4, 'McGrath, Mike (2012) C++ Programming in Easy Steps.  4th ed.  Warwickshire, United Kingdom: Easy Steps Limited', 1),
-(5, 'Gaddis, Tony (2007) Starting out with C++. Pearson Publishing.	', 1),
-(6, 'Gregoire, Marc, et. al. (2011) Professional C++. 2nd ed.  Indianapolis, Indiana: Wiley', 1),
-(7, 'Deitel, Paul J. (2009) C++ for programmers. Prentice Hall.', 1),
-(8, 'D. S. Malik (2008) C++ programming. Thomson Course Technology.', 1),
-(9, 'Deitel, Paul J. (2008) C++ how to program. Pearson Publishing.', 1),
-(10, 'Josuttis, Nicolai M. (2012) The C++ Standard Library: a tutorial and reference. 2nd ed.  Upper Saddle River, NJ. :  Addison-Wesley', 1),
-(11, 'Mullins, C. (2013). Database Administration 2nd Edition, Addison-Wesley.', 1),
-(12, 'Gillenson, M. (2012). Fundamentals of Database Management Systems 2nd Edition, John Wiley & Sons.', 1),
-(13, 'Elmasri, R. (2011). Fundamentals of Database Systems 6th Edition, Addison-Wesley.', 1),
-(14, 'Gill, P. (2011). Database Management Systems 2nd Edition, I.K. International Pub.', 1),
-(15, 'Connoly, T. (2010). Database Systems: A practical Approach to Design, Implementation and Management 5th Edition, McGraw Hill International.', 1),
-(16, 'Harrington, J. (2010). SQL Clearly Explained, Morgan Kaufmann.', 1),
-(17, 'Kroenke, D. (2010). Database Concepts 4th Edition, Pearson.', 1),
-(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', 1),
-(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', 1),
-(20, 'Puntambekar, A. (2014). Object oriented analysis & design: a conceptual approach. Technical Publication: New Delhi', 1),
-(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', 1),
-(22, 'Test1', 1),
-(23, 'Test2', 0),
-(24, 'Test3', 1),
-(25, 'Test4', 1),
-(26, 'Test5', 0);
+INSERT INTO `books` (`id`, `citation`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'Author Name. (1999). Some title of book or article about Android Development.', 0, 0, 1),
+(2, 'Author\'s Name. (2001). Some book about JavaScript.', 0, 0, 1),
+(3, 'Zak, Diane (2011) An Introduction to Programming with C++. 6th ed.  Australia: Course Technology', 0, 0, 1),
+(4, 'McGrath, Mike (2012) C++ Programming in Easy Steps.  4th ed.  Warwickshire, United Kingdom: Easy Steps Limited', 0, 0, 1),
+(5, 'Gaddis, Tony (2007) Starting out with C++. Pearson Publishing.	', 0, 1521736538, 1),
+(6, 'Gregoire, Marc, et. al. (2011) Professional C++. 2nd ed.  Indianapolis, Indiana: Wiley', 0, 0, 1),
+(7, 'Deitel, Paul J. (2009) C++ for programmers. Prentice Hall.', 0, 0, 1),
+(8, 'D. S. Malik (2008) C++ programming. Thomson Course Technology.', 0, 0, 1),
+(9, 'Deitel, Paul J. (2008) C++ how to program. Pearson Publishing.', 0, 0, 1),
+(10, 'Josuttis, Nicolai M. (2012) The C++ Standard Library: a tutorial and reference. 2nd ed.  Upper Saddle River, NJ. :  Addison-Wesley', 0, 0, 1),
+(11, 'Mullins, C. (2013). Database Administration 2nd Edition, Addison-Wesley.', 0, 0, 1),
+(12, 'Gillenson, M. (2012). Fundamentals of Database Management Systems 2nd Edition, John Wiley & Sons.', 0, 0, 1),
+(13, 'Elmasri, R. (2011). Fundamentals of Database Systems 6th Edition, Addison-Wesley.', 0, 0, 1),
+(14, 'Gill, P. (2011). Database Management Systems 2nd Edition, I.K. International Pub.', 0, 0, 1),
+(15, 'Connoly, T. (2010). Database Systems: A practical Approach to Design, Implementation and Management 5th Edition, McGraw Hill International.', 0, 0, 1),
+(16, 'Harrington, J. (2010). SQL Clearly Explained, Morgan Kaufmann.', 0, 0, 1),
+(17, 'Kroenke, D. (2010). Database Concepts 4th Edition, Pearson.', 0, 0, 1),
+(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', 0, 0, 1),
+(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', 0, 0, 1),
+(20, 'Puntambekar, A. (2014). Object oriented analysis & design: a conceptual approach. Technical Publication: New Delhi', 0, 0, 1),
+(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', 0, 0, 1),
+(22, 'Test1', 0, 0, 1),
+(23, 'Test2', 0, 0, 0),
+(24, 'Test3', 0, 0, 1),
+(25, 'Test4', 0, 0, 1),
+(26, 'Test5', 0, 0, 0);
 
 -- --------------------------------------------------------
 

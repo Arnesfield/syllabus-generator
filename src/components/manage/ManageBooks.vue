@@ -34,12 +34,18 @@
         </div>
       </td>
       <td class="justify-center layout px-0">
-        <v-btn icon class="mx-0">
-          <v-icon color="teal">edit</v-icon>
-        </v-btn>
-        <v-btn icon class="mx-0">
-          <v-icon color="pink">delete</v-icon>
-        </v-btn>
+        <v-tooltip top>
+          <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
+            <v-icon color="teal">edit</v-icon>
+          </v-btn>
+          <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
+            <v-icon color="pink">delete</v-icon>
+          </v-btn>
+          <span>Delete</span>
+        </v-tooltip>
       </td>
     </template>
   </v-data-table>
@@ -51,6 +57,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import DialogAddBook from '@/include/dialogs/DialogAddBook'
 import DialogCsvBooks from '@/include/dialogs/DialogCsvBooks'
 
@@ -62,8 +69,9 @@ export default {
   },
   data: () => ({
     url: '/books/only',
+    deleteUrl: '/books/delete',
     headers: [
-      { text: 'Id', value: 'id', align: 'left' },
+      { text: 'Id', value: 'id', align: 'left', sortable: false },
       { text: 'Citation', value: 'citation', align: 'left' },
       { text: 'Status', value: 'status', align: 'left', sortable: false },
       { text: 'Actions', value: 'id', sortable: false }
@@ -96,6 +104,55 @@ export default {
   },
 
   methods: {
+    deleteItem(item) {
+      this.$bus.$emit('dialog--global.confirm.show', {
+        item: item,
+        title: 'Delete book',
+        subtitle: item.citation,
+        msg: 'This will delete the book.',
+        btn: {
+          text: 'Delete',
+          color: 'error'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          this.$http.post(this.deleteUrl, qs.stringify({
+            id: item.id
+          })).then(res => {
+            console.warn(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+
+            this.$bus.$emit('snackbar--show', 'Book deleted.')
+            this.$bus.$emit('manage--books.update')
+            this.fetch()
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete book.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  sb.snackbar = false
+                  fn(onSuccess, onError, doClose, fn)
+                  // this.deleteComment(item)
+                }
+              }
+            })
+            onError()
+            doClose()
+          })
+        }
+      })
+    },
+
+    editItem(item) {
+
+    },
+
     addBook() {
       this.$bus.dialog.ManageBooks.add = true
     },

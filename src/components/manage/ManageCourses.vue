@@ -81,7 +81,7 @@ export default {
     url: '/courses',
     deleteUrl: '/courses/delete',
     headers: [
-      { text: 'Id', value: 'id', align: 'left' },
+      { text: 'Id', value: 'id', align: 'left', sortable: false },
       { text: 'Code', value: 'code', align: 'left' },
       { text: 'Title', value: 'title', align: 'left' },
       { text: 'Units Lec', value: 'unitsLec', align: 'left', sortable: false },
