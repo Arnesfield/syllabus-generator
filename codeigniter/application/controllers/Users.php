@@ -30,6 +30,9 @@ class Users extends MY_Custom_Controller {
       $user[$value] = $value == 'password' ? password_hash($initial, PASSWORD_BCRYPT) : $initial;
     }
     $user['auth'] = json_encode(array($user['type']));
+    $time = time();
+    $user['created_at'] = $time;
+    $user['updated_at'] = $time;
     $res = $this->users_model->insert($user);
     $this->_json($res);
   }
@@ -39,8 +42,26 @@ class Users extends MY_Custom_Controller {
     // foreach user, add auth
     foreach ($users as $key => $user) {
       $users[$key]['auth'] = json_encode(array($user['type']));
+      $time = time();
+      if (!isset($user['created_at'])) {
+        $users[$key]['created_at'] = $time;
+      }
+      if (!isset($user['updated_at'])) {
+        $users[$key]['updated_at'] = $time;
+      }
     }
     $res = $this->users_model->insertMultiple($users);
+    $this->_json($res);
+  }
+
+  public function delete() {
+    $id = $this->input->post('id');
+    $data = array(
+      'status' => -1,
+      'updated_at' => time()
+    );
+    $where = array('id' => $id);
+    $res = $this->users_model->update($data, $where);
     $this->_json($res);
   }
 }

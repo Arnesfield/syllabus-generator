@@ -3,7 +3,7 @@
   v-model="$bus.dialog.global.confirm"
   transition="fade-transition"
   :persistent="loading"
-  max-width="360"
+  max-width="320"
 >
   <v-card>
 
@@ -15,14 +15,21 @@
       class="pb-0"
     />
 
-    <v-card-title>
+    <v-card-title class="py-2">
       <div>
-        <div class="headline">{{ title }}</div>
-        <div class="subheading" v-html="subtitle"></div>
+        <div
+          class="title"
+          v-html="title"
+        />
+        <div
+          v-if="subtitle"
+          class="caption mt-1 grey--text"
+          v-html="subtitle"
+        />
       </div>
     </v-card-title>
 
-    <v-card-text v-html="msg"/>
+    <v-card-text v-html="msg" class="py-1"/>
     <v-card-actions>
       <v-spacer/>
       <v-btn
@@ -58,23 +65,22 @@ export default {
     loading: false
   }),
   created() {
-    this.$bus.$on('watch--dialog.global.confirm', this.watchDialogConfirm)
-    this.$bus.$on('dialog--global.confirm.show', this.confirmShow)
+    this.$bus.$on('watch--dialog.global.confirm', this.watchConfirm)
+    this.$bus.$on('dialog--global.confirm.show', this.onShow)
   },
   beforeDestroy() {
-    this.$bus.$off('watch--dialog.global.confirm', this.watchDialogConfirm)
-    this.$bus.$off('dialog--global.confirm.show', this.confirmShow)
+    this.$bus.$off('watch--dialog.global.confirm', this.watchConfirm)
+    this.$bus.$off('dialog--global.confirm.show', this.onShow)
   },
 
   methods: {
-    watchDialogConfirm(to, from) {
+    watchConfirm(to, from) {
       // if closed, reset
       if (!to) {
         this.item = null
       }
     },
-
-    confirmShow(props) {
+    onShow(props) {
       const validKeys = ['item', 'title', 'subtitle', 'msg', 'fn', 'btn']
       validKeys.forEach(e => {
         this[e] = props[e] ? props[e] : null

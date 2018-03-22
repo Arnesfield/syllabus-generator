@@ -54,12 +54,18 @@
         </div>
       </td>
       <td class="justify-center layout px-0">
-        <v-btn icon class="mx-0">
-          <v-icon color="teal">edit</v-icon>
-        </v-btn>
-        <v-btn icon class="mx-0">
-          <v-icon color="pink">delete</v-icon>
-        </v-btn>
+        <v-tooltip top>
+          <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
+            <v-icon color="teal">edit</v-icon>
+          </v-btn>
+          <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
+            <v-icon color="pink">delete</v-icon>
+          </v-btn>
+          <span>Delete</span>
+        </v-tooltip>
       </td>
     </template>
   </v-data-table>
@@ -71,6 +77,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import DialogAddUser from '@/include/dialogs/DialogAddUser'
 import DialogCsvUsers from '@/include/dialogs/DialogCsvUsers'
 
@@ -82,8 +89,9 @@ export default {
   },
   data: () => ({
     url: '/users',
+    deleteUrl: '/users/delete',
     headers: [
-      { text: 'Id', value: 'id', align: 'left' },
+      { text: 'Id', value: 'id', align: 'left', sortable: false },
       { text: 'Image', value: 'img_src', align: 'left', sortable: false },
       { text: 'First Name', value: 'fname', align: 'left' },
       { text: 'Middle Name', value: 'mname', align: 'left' },
@@ -122,6 +130,52 @@ export default {
   },
 
   methods: {
+    deleteItem(item) {
+      this.$bus.$emit('dialog--global.confirm.show', {
+        item: item,
+        title: 'Delete user',
+        subtitle: this.$wrap.fullname(item),
+        msg: 'This will delete the user.',
+        btn: {
+          text: 'Delete',
+          color: 'error'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          this.$http.post(this.deleteUrl, qs.stringify({
+            id: item.id
+          })).then(res => {
+            console.warn(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+
+            this.$bus.$emit('snackbar--show', 'User deleted.')
+            this.$bus.$emit('manage--users.update')
+            this.fetch()
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete user.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  sb.snackbar = false
+                  fn(onSuccess, onError, doClose, fn)
+                  // this.deleteComment(item)
+                }
+              }
+            })
+            onError()
+            doClose()
+          })
+        }
+      })
+    },
+
+
     addUser() {
       this.$bus.dialog.ManageUsers.add = true
     },
