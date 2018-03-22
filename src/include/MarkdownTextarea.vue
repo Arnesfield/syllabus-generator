@@ -7,7 +7,6 @@
       flat
       slot="activator"
       color="grey darken-1"
-      style="align-self: flex-start"
       @click="viewAsMd = !viewAsMd"
     >
       <v-icon small v-if="viewAsMd">edit</v-icon>
@@ -20,7 +19,11 @@
   <span
     v-if="viewAsMd"
     v-html="$md.makeHtml(text)"
-    :class="{ [mdClass + ' ' + mdAddClass]: true }"
+    :class="{
+      [mdClass + ' ' + mdAddClass]: true,
+      clickable: editOnClick
+    }"
+    @click="mdClick"
   />
   <textarea
     v-else
@@ -59,6 +62,10 @@ export default {
     mdView: {
       type: Boolean,
       default: true
+    },
+    editOnClick: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -85,6 +92,11 @@ export default {
   created() {
     this.text = this.value
     this.viewAsMd = this.mdView
+  },
+  methods: {
+    mdClick() {
+      this.editOnClick ? this.viewAsMd = !this.viewAsMd : undefined
+    }
   }
 }
 </script>

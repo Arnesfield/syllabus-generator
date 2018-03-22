@@ -46,6 +46,7 @@
           </v-tooltip>
           <markdown-textarea
             v-model="selected[i]"
+            edit-on-click
           />
         </v-layout>
       </template>
