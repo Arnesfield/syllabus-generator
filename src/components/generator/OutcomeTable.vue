@@ -76,7 +76,7 @@
             >
               <v-menu
                 :key="poIndex"
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
+                class="floating-td"
               >
                 <div
                   slot="activator"

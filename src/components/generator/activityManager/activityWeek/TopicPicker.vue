@@ -1,13 +1,14 @@
 <template>
-<td>
+<div>
   
   <div>
     <v-btn
       small
       block
-      color="primary lighten-1"
       @click="dialog = true"
-    >Add Topics</v-btn>
+    >
+      <v-icon small>add</v-icon>
+    </v-btn>
   </div>
 
   <div
@@ -92,7 +93,7 @@
 
   </v-dialog>
 
-</td>
+</div>
 </template>
 
 <script>

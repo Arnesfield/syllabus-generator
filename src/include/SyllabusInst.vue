@@ -245,7 +245,7 @@
               <li
                 :key="'tlaFaculty-' + i"
                 v-for="(tla, i) in act.tlaFaculty"
-                v-html="tla"
+                v-html="$md.makeHtml(tla)"
               ></li>
             </ul>
           </td>
@@ -255,7 +255,7 @@
               <li
                 :key="'tlaStudent-' + i"
                 v-for="(tla, i) in act.tlaStudent"
-                v-html="tla"
+                v-html="$md.makeHtml(tla)"
               ></li>
             </ul>
           </td>

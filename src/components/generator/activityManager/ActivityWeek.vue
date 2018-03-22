@@ -7,24 +7,36 @@
   <td>
     <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
   </td>
-  <ilo-picker
-    :act="act"
-    :index="index"
-    :syllabus="syllabus"/>
-  <topic-picker
-    :act="act"
-    :index="index"
-    :syllabus="syllabus"/>
-  <tla
-    :act="act"
-    :index="index"
-    :syllabus="syllabus"
-    :type="3"/>
-  <tla
-    :act="act"
-    :index="index"
-    :syllabus="syllabus"
-    :type="4"/>
+  <td>
+    <ilo-picker
+      :act="act"
+      :index="index"
+      :syllabus="syllabus"
+    />
+  </td>
+  <td>
+    <topic-picker
+      :act="act"
+      :index="index"
+      :syllabus="syllabus"
+    />
+  </td>
+  <td>
+    <tla
+      :act="act"
+      :index="index"
+      :syllabus="syllabus"
+      :type="3"
+    />
+  </td>
+  <td>
+    <tla
+      :act="act"
+      :index="index"
+      :syllabus="syllabus"
+      :type="4"
+    />
+  </td>
   <instructional-materials
     :act="act"
     :index="index"
