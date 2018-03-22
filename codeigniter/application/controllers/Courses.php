@@ -93,6 +93,17 @@ class Courses extends MY_Custom_Controller {
     $res = $this->courses_model->insertMultiple($courses);
     $this->_json($res);
   }
+
+  public function delete() {
+    $id = $this->input->post('id');
+    $data = array(
+      'status' => -1,
+      'updated_at' => time()
+    );
+    $where = array('id' => $id);
+    $res = $this->courses_model->update($data, $where);
+    $this->_json($res);
+  }
 }
 
 ?>

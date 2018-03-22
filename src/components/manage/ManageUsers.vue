@@ -175,6 +175,9 @@ export default {
       })
     },
 
+    editItem(item) {
+      
+    },
 
     addUser() {
       this.$bus.dialog.ManageUsers.add = true

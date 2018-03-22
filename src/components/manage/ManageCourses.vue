@@ -44,12 +44,18 @@
         </div>
       </td>
       <td class="justify-center layout px-0">
-        <v-btn icon class="mx-0">
-          <v-icon color="teal">edit</v-icon>
-        </v-btn>
-        <v-btn icon class="mx-0">
-          <v-icon color="pink">delete</v-icon>
-        </v-btn>
+        <v-tooltip top>
+          <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
+            <v-icon color="teal">edit</v-icon>
+          </v-btn>
+          <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
+            <v-icon color="pink">delete</v-icon>
+          </v-btn>
+          <span>Delete</span>
+        </v-tooltip>
       </td>
     </template>
   </v-data-table>
@@ -61,6 +67,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import DialogAddCourse from '@/include/dialogs/DialogAddCourse'
 import DialogCsvCourses from '@/include/dialogs/DialogCsvCourses'
 
@@ -72,6 +79,7 @@ export default {
   },
   data: () => ({
     url: '/courses',
+    deleteUrl: '/courses/delete',
     headers: [
       { text: 'Id', value: 'id', align: 'left' },
       { text: 'Code', value: 'code', align: 'left' },
@@ -109,6 +117,55 @@ export default {
   },
 
   methods: {
+    deleteItem(item) {
+      this.$bus.$emit('dialog--global.confirm.show', {
+        item: item,
+        title: 'Delete course',
+        subtitle: item.code,
+        msg: 'This will delete the course.',
+        btn: {
+          text: 'Delete',
+          color: 'error'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          this.$http.post(this.deleteUrl, qs.stringify({
+            id: item.id
+          })).then(res => {
+            console.warn(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+
+            this.$bus.$emit('snackbar--show', 'Course deleted.')
+            this.$bus.$emit('manage--courses.update')
+            this.fetch()
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete course.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  sb.snackbar = false
+                  fn(onSuccess, onError, doClose, fn)
+                  // this.deleteComment(item)
+                }
+              }
+            })
+            onError()
+            doClose()
+          })
+        }
+      })
+    },
+
+    editItem(item) {
+
+    },
+
     addCourse() {
       this.$bus.dialog.ManageCourses.add = true
     },
