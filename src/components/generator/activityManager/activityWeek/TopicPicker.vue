@@ -3,10 +3,9 @@
   
   <v-layout justify-center>
     <v-btn
-      flat
       block
       small
-      color="primary"
+      color="primary lighten-1"
       @click="dialog = true"
     >
       <v-icon small>add</v-icon>
@@ -57,7 +56,8 @@
       :items="selected"
       id="selected-topic-"
       max-height="25vh"
-      :editable="true"
+      delete-mode
+      editable
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >
       <template
@@ -120,7 +120,6 @@ export default {
     suggestUrl: '/topics/suggest',
     topics: [],
     selected: [],
-    suggested: [],
 
     dialog: false,
     search: null,

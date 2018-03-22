@@ -298,7 +298,8 @@ export default {
     onSyllabusSelected(syllabus) {
       if (syllabus !== null) {
         // show suggestions if syllabus is new
-        this.$bus.generator.suggestions = typeof syllabus.id === 'undefined'
+        // actually always show suggestions boi
+        this.$bus.generator.suggestions = true // typeof syllabus.id === 'undefined'
       }
       this.syllabus = syllabus
     },

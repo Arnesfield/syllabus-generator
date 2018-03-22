@@ -12,8 +12,24 @@
           @click="() => {}"
           class="tile-select"
         >
-          <v-layout class="full-height pl-3">
+          <v-layout
+            class="full-height"
+            :class="{ 'pl-3': !deleteMode }"
+          >
+            <v-tooltip top v-if="deleteMode">
+              <v-btn
+                icon
+                small
+                flat
+                slot="activator"
+                @click="selected.splice(i, 1)"
+              >
+                <v-icon small>close</v-icon>
+              </v-btn>
+              <span>Remove</span>
+            </v-tooltip>
             <input
+              v-else
               type="checkbox"
               :value="item"
               :id="id + i"
@@ -50,6 +66,10 @@ export default {
       default: '50vh'
     },
     editable: {
+      type: Boolean,
+      default: false
+    },
+    deleteMode: {
       type: Boolean,
       default: false
     }

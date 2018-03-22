@@ -3,10 +3,9 @@
   
   <v-layout justify-center>
     <v-btn
-      flat
       block
       small
-      color="primary"
+      color="primary lighten-1"
       @click="dialog = true"
     >
       <v-icon small>add</v-icon>
@@ -57,6 +56,7 @@
       :items="selected"
       id="selected-materials-"
       max-height="25vh"
+      delete-mode
       editable
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >
@@ -120,7 +120,6 @@ export default {
     suggestUrl: '/materials/suggest',
     materials: [],
     selected: [],
-    suggested: [],
 
     dialog: false,
     search: null,

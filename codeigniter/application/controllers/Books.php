@@ -14,6 +14,7 @@ class Books extends MY_Custom_Controller {
       ? $this->_filter($this->input->post('search'))
       : '';
     $books = $this->books_model->getByQuery($search);
+    $books = $this->books_model->_to_col($books, 'citation');
     $this->_json(TRUE, 'books', $books);
   }
 
@@ -25,6 +26,7 @@ class Books extends MY_Custom_Controller {
       $fields[$key] = $field['field_id'];
     }
     $books = $this->books_model->getRelatedBooksWithFields($fields, $limit);
+    $books = $this->books_model->_to_col($books, 'citation');
     $this->_json(TRUE, 'books', $books);
   }
 

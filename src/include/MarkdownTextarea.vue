@@ -1,12 +1,13 @@
 <template>
-<v-layout>
-  <v-tooltip top>
+<v-layout align-center>
+  <v-tooltip top style="align-self: flex-start">
     <v-btn
       icon
       small
       flat
       slot="activator"
-      color="primary"
+      color="grey darken-1"
+      style="align-self: flex-start"
       @click="viewAsMd = !viewAsMd"
     >
       <v-icon small v-if="viewAsMd">edit</v-icon>
@@ -45,7 +46,7 @@ export default {
     },
     mdClass: {
       type: String,
-      default: 'my-ul mt-2 mb-1'
+      default: 'my-ul py-2'
     },
     mdAddClass: {
       type: String,

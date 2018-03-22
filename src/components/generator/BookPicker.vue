@@ -1,160 +1,151 @@
 <template>
 <div v-if="syllabus">
 
-  <div>
-    <!-- <label for="bookPicker">Book/Tag</label>
-    <input type="text" id="bookPicker" @input="search" @focus="search"> -->
-    <!-- <button type="button" v-if="suggested.length" @click="suggested = []">Hide Suggestions</button>
-    <button type="button" v-else @click="suggest()">Show Suggestions</button> -->
-    <!-- <button type="button" v-if="books.length" @click="books = []">Hide Selection</button> -->
-<!-- 
-    <v-select
-      label="Select Books"
-      :items="books"
-      :loading="loading"
-      :searchInput.sync="searchInput"
-      :filter="filterSearch"
-      item-text="citation"
-      item-value="id"
-      v-model="selected"
-      chips
-      multiple
-      autocomplete
-      return-object
-      debouce-search>
-      <template slot="selection" slot-scope="data"></template>
-    </v-select> -->
-  </div>
-
-  <div>
-    <v-list class="elevation-2">
+  <div class="pa-2">
+    <v-list class="elevation-1 py-0" two-line>
       <v-list-tile>
+        <v-list-tile-action class="thin-action">
+          <v-tooltip top>
+            <v-btn
+              icon
+              flat
+              slot="activator"
+              color="primary"
+              @click="dialog = true"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+            <span>Add book</span>
+          </v-tooltip>
+        </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title v-text="'Selected books'"/>
           <v-list-tile-sub-title v-text="'Total books selected: ' + selected.length"/>
         </v-list-tile-content>
       </v-list-tile>
-      <template v-for="(book, i) in selected">
+      <template v-for="(t, i) in selected">
         <v-divider :key="'divider-' + i"/>
-        <v-list-tile :key="'tile-' + i">
-          <v-list-tile-action>
-            <v-btn flat icon @click="selected.splice(i, 1)">
-              <v-icon>close</v-icon>
+        <v-layout
+          :key="'layout-' + i"
+          align-center
+          class="pr-2"
+          style=""
+        >
+          <v-tooltip top style="align-self: flex-start">
+            <v-btn
+              icon
+              flat
+              small
+              color="error"
+              slot="activator"
+              @click="selected.splice(i, 1)"
+            >
+              <v-icon small>close</v-icon>
             </v-btn>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="book.citation"/>
-          </v-list-tile-content>
-        </v-list-tile>
+            <span>Remove</span>
+          </v-tooltip>
+          <markdown-textarea
+            v-model="selected[i]"
+          />
+        </v-layout>
       </template>
     </v-list>
   </div>
 
-  <v-text-field
-    class="mt-2"
-    label="Search Books"
-    prepend-icon="search"
-    :loading="loading"
-    solo
-    clearable
-    single-line
-    @input="search"/>
+  <v-btn
+    color="primary lighten-1"
+    @click="dialog = true"
+  >
+    <v-icon>add</v-icon>
+    <span>Add Book</span>
+  </v-btn>
 
-  <v-list v-if="books.length" class="mt-2 elevation-2">
-    <template v-for="(book, i) in books">
-      <v-list-tile :key="'tile-' + i">
-        <v-list-tile-content>
-          <v-list-tile-title>
-            <v-checkbox
-              :label="book.citation"
-              :value="book"
-              v-model="selected"/>
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-divider v-if="i < books.length-1" :key="'divider-' + i"/>
-    </template>
-  </v-list>
+  <v-dialog
+    v-model="dialog"
+    width="640"
+    transition="fade-transition"
+  >
+    <v-text-field
+      solo
+      ref="searchbar"
+      label="Search keyword or enter book"
+      :prepend-icon="search ? 'add' : 'search'"
+      :prepend-icon-cb="search ? enterSearch : undefined"
+      :append-icon="search ? 'close' : undefined"
+      :append-icon-cb="search ? () => { search = null } : undefined"
+      v-model="search"
+      @keypress.enter.native="enterSearch"
+      :loading="loading"
+    />
 
-  <suggest-alert v-if="!$bus.generator.suggestions"/>
-  <div class="mt-2" v-else>
-    <v-list class="elevation-2">
-      <v-list-tile>
-        <v-list-tile-action>
-          <v-btn flat icon @click="suggest">
-            <v-icon>refresh</v-icon>
-          </v-btn>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="'Suggested books'"/>
-        </v-list-tile-content>
-      </v-list-tile>
+    <v-progress-linear
+      :active="loading"
+      :indeterminate="true"
+      color="accent"
+      class="my-0"
+      :height="loading ? 3 : 0"
+      background-color="white"
+    />
+
+    <select-list
+      v-model="selected"
+      :items="selected"
+      id="selected-book-"
+      max-height="25vh"
+      delete-mode
+      editable
+      :is-selected="(items, item) => items.indexOf(item) > -1"
+    >
       <template
-        v-for="(book, i) in suggested"
-        v-if="suggested.filter(s => (s.id == book.id)).length">
-        <v-divider :key="'divider-' + i"/>
-        <v-list-tile :key="'tile-' + i">
-          <v-list-tile-content>
-            <v-list-tile-title>
-            <v-checkbox
-              :label="book.citation"
-              :value="book"
-              v-model="selected"/>
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        slot="title"
+      ><strong v-text="selected.length"/>&nbsp;Selected</template>
+      <template
+        slot="item"
+        slot-scope="props"
+      >
+        <markdown-textarea
+          v-model="selected[props.index]"
+        />
       </template>
-    </v-list>
-  </div>
-  
-  <!-- <div v-if="books.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="books = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="bfr.id" v-for="(bfr, index) in books">
-          <input type="checkbox" :id="'bfr-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-' + index">{{ bfr.citation }}</label>
-        </li>
-      </ul>
-    </div>
-  </div> -->
+    </select-list>
 
-  <!-- <br>
-  
-  <div v-if="suggested.length">
-    <div>
-      <strong>Suggested</strong>
-      <button type="button" @click="suggest()">Refresh</button>
-      <button type="button" @click="suggested = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="bfr.id" v-for="(bfr, index) in suggested">
-          <input type="checkbox" :id="'bfr-suggested-' + index" :value="bfr" v-model="selected">
-          <label :for="'bfr-suggested-' + index">{{ bfr.citation }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div v-else>
-    <strong>Suggested</strong>. No suggestions to show.
-    <button type="button" @click="suggest()">Show</button>
-  </div> -->
-  
+    <select-list
+      v-model="selected"
+      :items="books"
+      id="book-"
+      max-height="25vh"
+      :is-selected="(items, item) => items.indexOf(item) > -1"
+    >
+      <template
+        slot="title"
+      ><strong
+        v-text="books.length"
+      />&nbsp;{{ search ? 'Results' : 'Suggested' }}</template>
+      <span
+        slot="item"
+        slot-scope="props"
+        class="select-list-item"
+        v-html="$md.makeHtml(props.item)"
+      />
+    </select-list>
+
+  </v-dialog>
+
 </div>
 </template>
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
+import SelectList from '@/include/SelectList'
+import MarkdownTextarea from '@/include/MarkdownTextarea'
 import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'book-picker',
   components: {
+    SelectList,
+    MarkdownTextarea,
     SuggestAlert
   },
   props: {
@@ -164,9 +155,10 @@ export default {
     url: '/books',
     suggestUrl: '/books/suggest',
     books: [],
-    suggested: [],
     selected: [],
-    // for select box
+    
+    dialog: false,
+    search: null,
     loading: false
   }),
 
@@ -183,6 +175,20 @@ export default {
     selected(to, from) {
       // set changes to syllabus content
       this.syllabus.content.bookReferences = to
+    },
+    dialog(e) {
+      if (e) {
+        this.suggest()
+        setTimeout(() => {
+          this.$refs.searchbar.focus()
+        })
+      } else {
+        this.search = null
+      }
+    },
+    search(e) {
+      this.loading = true
+      this.query()
     }
   },
 
@@ -206,6 +212,10 @@ export default {
   },
  
   methods: {
+    enterSearch() {
+      this.selected.indexOf(this.search) == -1 ? this.selected.push(this.search) : undefined
+    },
+
     clear() {
       this.books = []
       this.selected = []
@@ -219,11 +229,12 @@ export default {
       return citation.indexOf(query) > -1
     },
 
-    search(search) {
+    query: debounce(function(e) {
       // search for book if not empty
-      if (search === null || !search.length) {
+      const search = this.search
+      if (!search) {
         this.books = []
-        this.loading = false
+        this.suggest()
         return
       }
       this.loading = true
@@ -236,20 +247,24 @@ export default {
         console.error(e)
         this.loading = false
       })
-    },
+    }),
 
     suggest() {
       // do no execute sugget when bus suggestions is off
       if (!this.$bus.generator.suggestions) {
+        this.loading = false
         return
       }
+      this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
         courseId: this.syllabus.course_id,
         limit: 30
       })).then((res) => {
-        this.suggested = res.data.books
+        this.loading = false
+        this.books = res.data.books
       }).catch((e) => {
         console.error(e)
+        this.loading = false
       })
     }
   }

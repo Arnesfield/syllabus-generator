@@ -3,10 +3,9 @@
   
   <v-layout justify-center>
     <v-btn
-      flat
       block
       small
-      color="primary"
+      color="primary lighten-1"
       @click="dialog = true"
     >
       <v-icon small>add</v-icon>
@@ -55,8 +54,9 @@
     <select-list
       v-model="selected"
       :items="selected"
-      id="selected-ilo-"
+      id="selected-task-"
       max-height="25vh"
+      delete-mode
       editable
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >
@@ -76,7 +76,7 @@
     <select-list
       v-model="selected"
       :items="tasks"
-      id="ilo-"
+      id="task-"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >
@@ -120,7 +120,6 @@ export default {
     suggestUrl: '/tasks/suggest',
     tasks: [],
     selected: [],
-    suggested: [],
 
     dialog: false,
     search: null,
