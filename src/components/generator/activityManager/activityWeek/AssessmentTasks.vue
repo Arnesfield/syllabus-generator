@@ -1,69 +1,115 @@
 <template>
-<td>
+<div>
   
-  <div>
-    <label :for="'search-tasks-' + index">Search</label>
-    <input type="text" :id="'search-tasks-' + index" @input="search" @focus="search">
-    <button type="button" v-if="!suggested.length" @click="suggest()">Show Suggestions</button>
-    <button type="button" v-if="tasks.length" @click="tasks = []">Hide Selection</button>
+  <v-layout justify-center>
+    <v-btn
+      flat
+      block
+      small
+      color="primary"
+      @click="dialog = true"
+    >
+      <v-icon small>add</v-icon>
+    </v-btn>
+  </v-layout>
+
+  <div
+    v-if="selected.length"
+    class="selection-box mt-2"
+  >
+    <ul>
+      <li :key="i" v-for="(t, i) in selected">
+        <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
+        <span v-html="$md.makeHtml(t)"/>
+      </li>
+    </ul>
   </div>
 
-  <div v-if="selected.length">
-    <br>
-    <div><strong>Selected</strong></div>
-    <div class="selection-box">
-      <ul>
-        <li :key="i" v-for="(t, i) in selected">
-          <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
-          <template>{{ t.name }}</template>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <v-dialog
+    v-model="dialog"
+    width="640"
+    transition="fade-transition"
+  >
+    <v-text-field
+      solo
+      ref="searchbar"
+      label="Search keyword or enter tasks"
+      :prepend-icon="search ? 'add' : 'search'"
+      :prepend-icon-cb="search ? enterSearch : undefined"
+      :append-icon="search ? 'close' : undefined"
+      :append-icon-cb="search ? () => { search = null } : undefined"
+      v-model="search"
+      @keypress.enter.native="enterSearch"
+      :loading="loading"
+    />
 
-  <div v-if="tasks.length">
-    <br>
-    <div>
-      <strong>Selection</strong>
-      <button type="button" @click="tasks = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="i" v-for="(t, i) in tasks">
-          <input type="checkbox" :id="'tasks-' + index + '-' + i" :value="t" v-model="selected">
-          <label :for="'tasks-' + index + '-' + i">{{ t.name }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
+    <v-progress-linear
+      :active="loading"
+      :indeterminate="true"
+      color="accent"
+      class="my-0"
+      :height="loading ? 3 : 0"
+      background-color="white"
+    />
 
-  <template v-if="!$bus.generator.suggestions"></template>
-  <div v-else-if="suggested.length">
-    <br>
-    <div>
-      <strong>Suggested</strong>
-      <button type="button" @click="suggest()">Refresh</button>
-      <button type="button" @click="suggested = []">Hide</button>
-    </div>
-    <div class="selection-box">
-      <ul>
-        <li :key="i" v-for="(t, i) in suggested">
-          <input type="checkbox" :id="'tasks-suggested-' + index + '-' + i" :value="t" v-model="selected">
-          <label :for="'tasks-suggested-' + index + '-' + i">{{ t.name }}</label>
-        </li>
-      </ul>
-    </div>
-  </div>
+    <select-list
+      v-model="selected"
+      :items="selected"
+      id="selected-ilo-"
+      max-height="25vh"
+      editable
+      :is-selected="(items, item) => items.indexOf(item) > -1"
+    >
+      <template
+        slot="title"
+      ><strong v-text="selected.length"/>&nbsp;Selected</template>
+      <template
+        slot="item"
+        slot-scope="props"
+      >
+        <markdown-textarea
+          v-model="selected[props.index]"
+        />
+      </template>
+    </select-list>
 
-</td>
+    <select-list
+      v-model="selected"
+      :items="tasks"
+      id="ilo-"
+      max-height="25vh"
+      :is-selected="(items, item) => items.indexOf(item) > -1"
+    >
+      <template
+        slot="title"
+      ><strong
+        v-text="tasks.length"
+      />&nbsp;{{ search ? 'Results' : 'Suggested' }}</template>
+      <span
+        slot="item"
+        slot-scope="props"
+        class="select-list-item"
+        v-html="$md.makeHtml(props.item)"
+      />
+    </select-list>
+
+  </v-dialog>
+
+</div>
 </template>
 
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
+import SelectList from '@/include/SelectList'
+import MarkdownTextarea from '@/include/MarkdownTextarea'
 
 export default {
   name: 'assessment-tasks',
+  components: {
+    SelectList,
+    MarkdownTextarea
+  },
   props: {
     act: Object,
     syllabus: Object,
@@ -74,13 +120,31 @@ export default {
     suggestUrl: '/tasks/suggest',
     tasks: [],
     selected: [],
-    suggested: []
+    suggested: [],
+
+    dialog: false,
+    search: null,
+    loading: false
   }),
 
   watch: {
     selected(to, from) {
       // set to tasks in syllabus
       this.act.assessmentTasks = to
+    },
+    dialog(e) {
+      if (e) {
+        this.suggest()
+        setTimeout(() => {
+          this.$refs.searchbar.focus()
+        })
+      } else {
+        this.search = null
+      }
+    },
+    search(e) {
+      this.loading = true
+      this.query()
     }
   },
 
@@ -102,26 +166,35 @@ export default {
   },
 
   methods: {
-    search: debounce(function(e) {
+    enterSearch() {
+      this.selected.indexOf(this.search) == -1 ? this.selected.push(this.search) : undefined
+    },
+
+    query: debounce(function(e) {
       // search for book if not empty
-      const search = e.target.value
+      const search = this.search
       if (!search) {
         this.tasks = []
+        this.suggest()
         return
       }
 
+      this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
+        this.loading = false
         this.tasks = res.data.tasks
       }).catch(e => {
         console.error(e)
+        this.loading = false
       })
     }, 300),
 
     suggest() {
       // do no execute sugget when bus suggestions is off
       if (!this.$bus.generator.suggestions) {
+        this.loading = false
         return
       }
       // include book ids
@@ -143,6 +216,7 @@ export default {
       let po = this.syllabus.content.programOutcomes
       let year = po.length ? po[0].year : 0
 
+      this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
         topicIds: topicIds,
@@ -150,9 +224,11 @@ export default {
         curriculumYear: year,
         limit: 30
       })).then((res) => {
-        this.suggested = res.data.tasks
+        this.loading = false
+        this.tasks = res.data.tasks
       }).catch((e) => {
         console.error(e)
+        this.loading = false
       })
     }
   }

@@ -205,8 +205,8 @@
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
-          <td>Faculty</td>
-          <td>Student</td>
+          <td class="text-xs-center">Faculty</td>
+          <td class="text-xs-center">Student</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
         </tr>
@@ -265,14 +265,14 @@
               <li
                 :key="'assessmentTasks-' + i"
                 v-for="(task, i) in act.assessmentTasks"
-                v-html="task.name"
+                v-html="$md.makeHtml(task)"
               ></li>
             </ul>
           </td>
 
           <td>
             <template
-              v-for="(clo, i) in act.cloMap"
+              v-for="(clo, i) in sortCloMap(act.cloMap)"
             >{{ clo+1 }}{{ i != act.cloMap.length-1 ? ', ' : '' }}</template>
           </td>
 
@@ -295,7 +295,7 @@
               <li
                 :key="'instructionalMaterials-' + i"
                 v-for="(item, i) in z"
-                v-html="item"
+                v-html="$md.makeHtml(item)"
               ></li>
             </ul>
           </td>
@@ -594,6 +594,11 @@ export default {
       })
     },
 
+    sortCloMap(m) {
+      let map = JSON.parse(JSON.stringify(m))
+      return map.sort((a, b) => a - b)
+    },
+
     instructionalMaterials() {
       if (!this.c) {
         return
@@ -616,7 +621,7 @@ export default {
         // check if clo exists in cloMap
         let names = []
         if (e.cloMap.indexOf(Number(clo)) > -1) {
-          names = e.assessmentTasks.map(e => e.name)
+          names = e.assessmentTasks
         }
         return filtered.concat(names)
       }, [])

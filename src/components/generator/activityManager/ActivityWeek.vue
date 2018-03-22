@@ -7,21 +7,21 @@
   <td>
     <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
   </td>
-  <td>
+  <td style="width: 1px">
     <ilo-picker
       :act="act"
       :index="index"
       :syllabus="syllabus"
     />
   </td>
-  <td>
+  <td style="width: 1px">
     <topic-picker
       :act="act"
       :index="index"
       :syllabus="syllabus"
     />
   </td>
-  <td>
+  <td style="width: 1px">
     <tla
       :act="act"
       :index="index"
@@ -29,7 +29,7 @@
       :type="3"
     />
   </td>
-  <td>
+  <td style="width: 1px">
     <tla
       :act="act"
       :index="index"
@@ -37,25 +37,30 @@
       :type="4"
     />
   </td>
-  <td>
+  <td style="width: 1px">
     <instructional-materials
       :act="act"
       :index="index"
       :syllabus="syllabus"
     />
   </td>
-  <assessment-tasks
-    :act="act"
-    :index="index"
-    :syllabus="syllabus"/>
-  <td>
+  <td style="width: 1px">
+    <assessment-tasks
+      :act="act"
+      :index="index"
+      :syllabus="syllabus"
+    />
+  </td>
+  <td style="width: 1px">
     <v-select
       :items="cloNumbers"
       v-model="act.cloMap"
       dense
       multiple>
-      <template slot="selection" slot-scope="data"
-        >{{ (Number(data.item) + 1) + (data.index < data.parent.value.length - 1 ? ', ' : '') }}</template>
+      <template
+        slot="selection"
+        slot-scope="data"
+      >{{ Number(data.item) + 1 + (data.index != data.parent.value.length - 1 ? ', ' : '') }}</template>
       <template slot="item" slot-scope="data">
         <v-list-tile-content>
           <v-list-tile-title>{{ (Number(data.item) + 1) + '. ' + (clos[data.item] ? clos[data.item] : '') }}</v-list-tile-title>

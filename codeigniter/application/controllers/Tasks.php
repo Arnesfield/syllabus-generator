@@ -12,6 +12,7 @@ class Tasks extends MY_Custom_Controller {
   public function index() {
     $search = $this->_filter($this->input->post('search'));
     $tasks = $this->tasks_model->getByQuery($search);
+    $tasks = $this->tasks_model->_to_col($tasks, 'name');
     $this->_json(TRUE, 'tasks', $tasks);
   }
 
@@ -51,6 +52,7 @@ class Tasks extends MY_Custom_Controller {
     }
 
     $tasks = $this->tasks_model->getRelatedTasksWithFields($fields, $limit, $tasksArr);
+    $tasks = $this->tasks_model->_to_col($tasks, 'name');
     $this->_json(TRUE, 'tasks', $tasks);
   }
 }
