@@ -2,7 +2,9 @@
   <div class="text-xs-center" :class="{ 'py-4': !loading }">
     <template v-if="loading">Loading...</template>
     <template v-else>
-      <div class="caption mb-2">{{ msg }}</div>
+      <slot name="icon"/>
+      <div class="caption mb-2" v-html="msg"></div>
+      <slot name="btn"/>
       <v-btn @click="fetch">Refresh</v-btn>
     </template>
   </div>
