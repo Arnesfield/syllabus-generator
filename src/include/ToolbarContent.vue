@@ -64,13 +64,8 @@
 </template>
 
 <script>
-import BtnRefresh from '@/include/BtnRefresh'
-
 export default {
   name: 'toolbar-content',
-  components: {
-    BtnRefresh
-  },
   computed: {
     title() {
       return this.$route.meta.title || this.$route.name || 'Application'

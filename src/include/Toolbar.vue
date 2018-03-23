@@ -83,7 +83,12 @@
 </template>
 
 <script>
+import BtnRefresh from '@/include/BtnRefresh'
+
 export default {
-  name: 'toolbar'
+  name: 'toolbar',
+  components: {
+    BtnRefresh
+  }
 }
 </script>

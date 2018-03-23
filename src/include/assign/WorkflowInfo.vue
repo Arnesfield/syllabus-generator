@@ -155,7 +155,7 @@
       align-center
       delete-mode
       editable
-      :is-selected="(items, item) => items === item"
+      :is-selected="(items, item) => JSON.stringify(items) == JSON.stringify(item)"
     >
       <template
         slot="title"
@@ -175,7 +175,7 @@
       :items.sync="courses"
       id="courses-"
       max-height="25vh"
-      :is-selected="(items, item) => items === item"
+      :is-selected="(items, item) => JSON.stringify(items) == JSON.stringify(item)"
     >
       <template
         slot="title"
@@ -228,7 +228,7 @@
       align-center
       delete-mode
       editable
-      :is-selected="(items, item) => items === item"
+      :is-selected="(items, item) => JSON.stringify(items) == JSON.stringify(item)"
     >
       <template
         slot="title"
@@ -248,7 +248,7 @@
       :items.sync="users"
       id="users-"
       max-height="25vh"
-      :is-selected="(items, item) => items === item"
+      :is-selected="(items, item) => JSON.stringify(items) == JSON.stringify(item)"
     >
       <template
         slot="title"
