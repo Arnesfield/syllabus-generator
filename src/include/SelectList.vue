@@ -34,6 +34,7 @@
           <v-layout
             class="full-height"
             :class="{ 'pl-3': !deleteMode }"
+            :align-center="alignCenter"
           >
             <v-tooltip top v-if="deleteMode">
               <v-btn
@@ -47,6 +48,15 @@
               </v-btn>
               <span>Remove</span>
             </v-tooltip>
+            <input
+              v-else-if="radio"
+              type="radio"
+              :value="item"
+              :id="id + i"
+              v-model="selected"
+              :style="{ 'margin-top': !editable ? '18px' : '14px' }"
+              class="mr-2"
+            >
             <input
               v-else
               type="checkbox"
@@ -77,7 +87,7 @@ export default {
   name: 'select-list',
   props: {
     items: Array,
-    value: Array,
+    value: [Object, Array],
     id: String,
     isSelected: Function,
     maxHeight: {
@@ -95,10 +105,18 @@ export default {
     clearable: {
       type: Boolean,
       default: false
+    },
+    radio: {
+      type: Boolean,
+      default: false
+    },
+    alignCenter: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
-    selected: [],
+    selected: null,
     dItems: []
   }),
   watch: {

@@ -55,7 +55,7 @@
     </v-layout>
   </template>
 
-  <dialog-add-assign/>
+  <dialog-workflow-assign ref="workflowAssign"/>
   <dialog-detailed-workflow/>
 
 </v-container>
@@ -64,7 +64,7 @@
 <script>
 import WorkflowInst from '@/include/assign/WorkflowInst'
 import ManageNoData from '@/include/ManageNoData'
-import DialogAddAssign from '@/include/dialogs/DialogAddAssign'
+import DialogWorkflowAssign from '@/include/dialogs/DialogWorkflowAssign'
 import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 
 export default {
@@ -72,7 +72,7 @@ export default {
   components: {
     WorkflowInst,
     ManageNoData,
-    DialogAddAssign,
+    DialogWorkflowAssign,
     DialogDetailedWorkflow
   },
   data: () => ({
@@ -109,7 +109,9 @@ export default {
     },
 
     addAssign() {
-      this.$bus.dialog.Assign.add = true
+      if (this.$refs.workflowAssign) {
+        this.$refs.workflowAssign.activate()
+      }
     },
 
     countAssigns(n) {

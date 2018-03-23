@@ -11,7 +11,7 @@ Comments of Panelists
 ** V **
   ☐ review assignment - should be in hierarchy
   ☐ (coordinator, director, senior director) ACCEPTANCE
-  ☐ Course Learning Outcomes - selection box (I,E,D)
+  ✔ Course Learning Outcomes - selection box (I,E,D) @done (2018-3-23 18:45:39)
     ☐ CRUD <-(for all) for choices
   ☐ audit trail - please present
   ☐ indicate the approvals in the syllabus
@@ -23,7 +23,7 @@ Comments of Panelists
 ** R **
   ☐ provide APK of the app
   ☐ CLO - categorize (course type)
-  ☐ PO should provide code (I,E,D) > CRUD
+  ✔ PO should provide code (I,E,D) > CRUD @done (2018-3-23 18:45:44)
   ☐ there are several modules that is not working
   ☐ mobile module should work (make it sychronized)
   ☐ revised chapter 4 UAT and Recommendation
