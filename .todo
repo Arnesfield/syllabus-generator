@@ -1,7 +1,31 @@
-Syllabus assignment:
-  ☐ Choose course
-  ☐ Choose main person
-  ☐ Suggest main person
-  ☐ Choose sub persons
-  ☐ Suggest sub persons
-  ☐ Notify persons
+Comments of Panelists
+
+** A **
+  ☐ make the system fully functional (management modules)
+  ☐ access level should be hierarchical (workflow-related)
+  ☐ make sure all comments in the proposal defense are addressed
+  ☐ include course type to categorize CLO and other possible usage (programming graphics)
+  ☐ redo results and discussion based on panelist comment
+  ☐ no management module yet for all process
+
+** V **
+  ☐ review assignment - should be in hierarchy
+  ☐ (coordinator, director, senior director) ACCEPTANCE
+  ☐ Course Learning Outcomes - selection box (I,E,D)
+    ☐ CRUD <-(for all) for choices
+  ☐ audit trail - please present
+  ☐ indicate the approvals in the syllabus
+  ☐ setup module - course code upload
+  ☐ curriculum / course flow - mapping per accomplished
+  ☐ conduct & schedule UAT w/ the client & present syllabus results
+  ☐ present the mobile app
+
+** R **
+  ☐ provide APK of the app
+  ☐ CLO - categorize (course type)
+  ☐ PO should provide code (I,E,D) > CRUD
+  ☐ there are several modules that is not working
+  ☐ mobile module should work (make it sychronized)
+  ☐ revised chapter 4 UAT and Recommendation
+  ☐ mobile should be deliver what is needed
+  ☐ search
