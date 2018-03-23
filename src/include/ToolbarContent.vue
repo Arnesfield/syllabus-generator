@@ -12,60 +12,6 @@
     </v-btn>
     <v-toolbar-title v-text="title"></v-toolbar-title>
 
-    <template v-if="$route.name === 'Generator'">
-      <v-spacer/>
-      <v-tooltip bottom>
-        <v-btn
-          icon
-          @click="$bus.generator.suggestions = !$bus.generator.suggestions"
-          slot="activator">
-          <v-icon v-if="$bus.generator.suggestions">visibility</v-icon>
-          <v-icon v-else>visibility_off</v-icon>
-        </v-btn>
-        <span v-if="$bus.generator.suggestions">Hide Suggestions</span>
-        <span v-else>Show Suggestions</span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <v-btn
-          icon
-          @click="$bus.$emit('generator--save')"
-          slot="activator"
-        >
-          <v-progress-circular
-            indeterminate
-            :width="6"
-            :size="18"
-            v-if="$bus.progress.circular.Generator.save"
-          />
-          <v-icon v-else>save</v-icon>
-        </v-btn>
-        <span v-if="$bus.progress.circular.Generator.save">Saving</span>
-        <span v-else>Save</span>
-      </v-tooltip>
-      <btn-refresh
-        tip="bottom"
-        click="generator--course.refresh"
-        v-if="$bus.generator.courseRefresh"
-        :refresh="$bus.progress.circular.Generator.course"
-      />
-    </template>
-
-    <template v-if="$route.name === 'Workflow'">
-      <v-spacer/>
-      <btn-refresh
-        click="workflow--refresh"
-        :refresh="$bus.progress.circular.Workflow.refresh"
-      />
-    </template>
-
-    <template v-if="$route.name === 'Assignments'">
-      <v-spacer/>
-      <btn-refresh
-        click="assignments--refresh"
-        :refresh="$bus.progress.circular.Assignments.refresh"
-      />
-    </template>
-
     <template v-if="$route.name === 'Syllabus'">
       <v-spacer/>
       <v-tooltip bottom>
@@ -99,21 +45,6 @@
           <v-icon>chevron_left</v-icon>
         </v-btn>
         <span>Reveal</span>
-      </v-tooltip>
-    </template>
-
-    <template v-if="$route.name === 'Workflow' || $route.name === 'Assignments'">
-      <v-tooltip bottom>
-        <v-btn
-          icon
-          slot="activator"
-          @click="$bus.toolbar.sortByStatus = !$bus.toolbar.sortByStatus"
-        >
-          <v-icon v-if="$bus.toolbar.sortByStatus">date_range</v-icon>
-          <v-icon v-else>sort</v-icon>
-        </v-btn>
-        <span v-if="$bus.toolbar.sortByStatus">By date</span>
-        <span v-else>By status</span>
       </v-tooltip>
     </template>
 
