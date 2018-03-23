@@ -58,7 +58,10 @@
           <!-- loop levels -->
         <template v-for="(level, i) in item.level">
           <v-tab-item :key="i">
-            <workflow-level v-model="item.level[i]"/>
+            <workflow-level
+              :index="i"
+              v-model="item.level[i]"
+            />
           </v-tab-item>
         </template>
         </v-tabs-items>

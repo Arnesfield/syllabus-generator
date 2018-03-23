@@ -45,7 +45,11 @@
         color="primary lighten-1"
         @click="dialogCourse = true"
         v-if="selectedCourse === null"
-      >Select course</v-btn>
+      >
+        <v-icon>school</v-icon>
+        &nbsp;
+        <span>Select course</span>
+      </v-btn>
       <template v-else>
         <v-layout align-center>
           <v-tooltip top>
@@ -87,7 +91,11 @@
         @click="dialogUser = true"
         v-if="selectedUser === null"
         :disabled="selectedCourse === null"
-      >Select user</v-btn>
+      >
+        <v-icon>person</v-icon>
+        &nbsp;
+        <span>Select user</span>
+      </v-btn>
       <template v-else>
         <v-layout align-center>
           <v-tooltip top>
