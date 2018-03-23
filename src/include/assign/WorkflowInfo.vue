@@ -311,16 +311,20 @@ export default {
     item: {
       deep: true,
       handler(e) {
-        this.levels = this.item.level.length
+        this.setInitial()
         this.$emit('input', e)
       }
     },
 
     selectedUser(e) {
       this.selectedUserArr = e ? [e] : []
+      // set this in item
+      this.item.assign = e
     },
     selectedCourse(e) {
       this.selectedCourseArr = e ? [e] : []
+      // set this in item
+      this.item.course = e
     },
     selectedUserArr(e) {
       if (!e.length) {
@@ -393,10 +397,16 @@ export default {
   },
   created() {
     this.item = this.value
-    this.levels = this.item.level.length
+    this.setInitial()
   },
 
   methods: {
+    setInitial() {
+      this.levels = this.item.level.length
+      this.selectedUser = this.item.assign
+      this.selectedCourse = this.item.course
+    },
+
     queryUser: debounce(function(e) {
       // search for book if not empty
       const search = this.searchUser

@@ -204,7 +204,7 @@ export default {
     },
 
     submit() {
-
+      console.warn(this.item)
     }
   }
 }

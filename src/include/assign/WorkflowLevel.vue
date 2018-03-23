@@ -163,10 +163,14 @@ export default {
     item: {
       deep: true,
       handler(e) {
+        this.setInitial()
         this.$emit('input', e)
       }
     },
 
+    selected(e) {
+      this.item.users = e
+    },
     dialog(e) {
       if (e) {
         this.suggest()
@@ -184,9 +188,18 @@ export default {
   },
   created() {
     this.item = this.value
+    this.setInitial()
   },
 
   methods: {
+    setInitial() {
+      if (typeof this.item.users === 'undefined') {
+        this.$set(this.item, 'users', this.selected)
+      } else {
+        this.selected = this.item.users
+      }
+    },
+
     query: debounce(function(e) {
       // search for book if not empty
       const search = this.search
