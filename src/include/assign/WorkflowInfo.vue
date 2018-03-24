@@ -1,6 +1,15 @@
 <template>
 <div>
 
+  <div class="mb-3">
+    <v-subheader
+      class="grey--text text--darken-1"
+      style="font-size: 1.175rem"
+      v-text="'Workflow Information'"
+    />
+    <v-divider/>
+  </div>
+
   <!-- levels -->
   <v-layout row align-center>
     <v-flex
@@ -21,7 +30,7 @@
         placeholder="Enter number of levels"
         :hint="
           !levels || levels < 1
-            ? this.item.level.length + (this.item.level.length == 1 ? ' level' : ' levels')
+            ? this.item.levels.length + (this.item.levels.length == 1 ? ' level' : ' levels')
             : undefined
         "
         :persistent-hint="!levels || levels < 1"
@@ -319,7 +328,7 @@ export default {
     selectedUser(e) {
       this.selectedUserArr = e ? [e] : []
       // set this in item
-      this.item.assign = e
+      this.item.assigned = e
     },
     selectedCourse(e) {
       this.selectedCourseArr = e ? [e] : []
@@ -342,13 +351,13 @@ export default {
         return
       }
 
-      let currLevels = this.item.level.length
+      let currLevels = this.item.levels.length
       // if currLevels is greater than levels
       // delete levels
       // if currLevels is lesser than levels
       // add level
       // if equal, do nothing
-      let itemLevel = this.item.level
+      let itemLevel = this.item.levels
       if (currLevels > e) {
         itemLevel.splice(e, itemLevel.length-e)
       } else if (currLevels < e) {
@@ -402,8 +411,8 @@ export default {
 
   methods: {
     setInitial() {
-      this.levels = this.item.level.length
-      this.selectedUser = this.item.assign
+      this.levels = this.item.levels.length
+      this.selectedUser = this.item.assigned
       this.selectedCourse = this.item.course
     },
 

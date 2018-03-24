@@ -40,7 +40,7 @@
       >
         <v-tab :disabled="loading">Info</v-tab>
         <!-- loop levels -->
-        <template v-for="level in item.level.length">
+        <template v-for="level in item.levels.length">
           <v-tab
             :key="level"
             :disabled="loading"
@@ -56,11 +56,11 @@
             <workflow-info v-model="item"/>
           </v-tab-item>
           <!-- loop levels -->
-        <template v-for="(level, i) in item.level">
+        <template v-for="(level, i) in item.levels">
           <v-tab-item :key="i">
             <workflow-level
               :index="i"
-              v-model="item.level[i]"
+              v-model="item.levels[i]"
             />
           </v-tab-item>
         </template>
@@ -106,12 +106,13 @@
         >
           <v-icon>keyboard_arrow_left</v-icon>
         </v-btn>
-        <span>Previous</span>
+        <span v-if="Number(tabs)-1 > 0">Level {{ Number(tabs)-1 }}</span>
+        <span v-else>Info</span>
       </v-tooltip>
       <v-tooltip
         top
         class="mx-0"
-        v-if="Number(tabs) < item.level.length"
+        v-if="Number(tabs) < item.levels.length"
       >
         <v-btn
           flat
@@ -124,16 +125,16 @@
         >
           <v-icon>keyboard_arrow_right</v-icon>
         </v-btn>
-        <span>Next</span>
+        <span>Level {{ Number(tabs)+1 }}</span>
       </v-tooltip>
       <v-tooltip top>
         <v-btn
-          flat
           icon
+          :dark="valid"
           tabindex="0"
-          color="primary"
+          :color="valid ? 'primary lighten-1' : 'grey lighten-2'"
           slot="activator"
-          :disabled="loading"
+          :disabled="loading || !valid"
           @click="submit"
           @keypress.enter="submit"
         >
@@ -148,6 +149,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import WorkflowInfo from '@/include/assign/WorkflowInfo'
 import WorkflowLevel from '@/include/assign/WorkflowLevel'
 
@@ -158,6 +160,7 @@ export default {
     WorkflowLevel
   },
   data: () => ({
+    url: '/assigns/add',
     show: false,
     item: null,
     tabs: 0,
@@ -165,6 +168,18 @@ export default {
     loading: false,
     form: false
   }),
+  computed: {
+    valid() {
+      // check item here
+      let item = this.item
+      if (!item || !item.course || !item.assigned) {
+        return false
+      }
+
+      // check through levels
+      return item.levels.every(e => e.users && e.users.length > 0)
+    }
+  },
   watch: {
     show(e) {
       if (!e) {
@@ -194,9 +209,9 @@ export default {
       if (typeof item === 'undefined' || item === null) {
         // create item instead
         item = {
-          assign: null,
+          assigned: null,
           course: null,
-          level: [{}, {}, {}]
+          levels: [{}, {}, {}]
         }
       }
       this.show = true
@@ -204,7 +219,52 @@ export default {
     },
 
     submit() {
-      console.warn(this.item)
+      if (!this.valid) {
+        return
+      }
+
+      let content = JSON.stringify(this.createItem(this.item))
+      this.$http.post(this.url, qs.stringify({
+        content: content
+      })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error
+        }
+        this.$bus.$emit('snackbar--show', 'Workflow created.')
+        this.$bus.$emit('workflow--refresh')
+        this.show = false
+      }).catch((e) => {
+        console.error(e)
+        this.$bus.$emit('snackbar--show', {
+          text: 'Unable to create workflow.',
+          btns: {
+            text: 'Retry',
+            icon: false,
+            color: 'accent',
+            cb: (sb, e) => {
+              this.submit()
+              sb.snackbar = false
+            }
+          }
+        })
+      })
+    },
+
+    createItem(item) {
+      let myItem = {}
+      myItem.assigned = {
+        id: Number(item.assigned.id),
+        status: 2
+      }
+      myItem.course = Number(item.course.id)
+      myItem.levels = item.levels.map(e =>
+        e.users.map(f => ({
+          id: Number(f.id),
+          status: 2
+        }))
+      )
+      return myItem
     }
   }
 }

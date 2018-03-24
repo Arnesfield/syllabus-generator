@@ -1,7 +1,9 @@
 <template>
 <div>
   
-  <div class="pa-2">
+  <v-subheader>Level {{ index+1 }}</v-subheader>
+
+  <div class="px-2 pb-2">
     <v-list class="elevation-1 py-0" two-line>
       <v-list-tile>
         <v-list-tile-action class="thin-action">

@@ -115,68 +115,83 @@ class MY_Custom_Controller extends MY_View_Controller {
 
   public function _createAssigns($assigns) {
     if ($assigns) {
-      // parse all "content"
+      $all_user_ids = array();
+      $all_course_ids = array();
+
       foreach ($assigns as $key => $assign) {
-        $assigns[$key]['content'] = json_decode($assign['content'], TRUE);
-      }
+        $content = $assigns[$key]['content'] = json_decode($assign['content'], TRUE);
 
-      $created_by = $this->assigns_model->_to_col($assigns, 'created_by');
-      // get "content"
-      $content = $this->assigns_model->_to_col($assigns, 'content');
-      $assigned = $this->assigns_model->_to_col($content, 'assigned');
-      $courses = $this->assigns_model->_to_col($content, 'course');
-      $subs = $this->assigns_model->_to_col($content, 'sub');
+        $created_by = $assign['created_by'];
+        $assigned_id = $content['assigned']['id'];
+        
+        // just push and we'll remove duplicates later
+        array_push($all_user_ids, $created_by);
+        array_push($all_user_ids, $assigned_id);
 
-      // get "course" data
-      $courseData = $this->assigns_model->getCoursesWithIds($courses);
-
-      // convert $courseData to id => value instead of index => value
-      $newCourseData = array();
-      foreach ($courseData as $key => $course) {
-        $newCourseData[$course['id']] = $course;
-      }
-
-      // users included in this fetch
-      $subUsers = array();
-
-      // $subs is an array of array of objects
-      foreach ($subs as $key => $sub) {
-        // $sub is an array of objects
-        // add id to $subUsers
-        foreach ($sub as $subkey => $value) {
-          array_push($subUsers, $value['id']);
+        $levels = $content['levels'];
+        foreach ($levels as $key => $level) {
+          // $level is an array of objects
+          foreach ($level as $lvl_key => $user) {
+            array_push($all_user_ids, $user['id']);
+          }
         }
+
+        // get the course
+        $course_id = $content['course'];
+
+        array_push($all_course_ids, $course_id);
       }
 
-      $listedUsers = array_unique(array_merge($assigned, $subUsers, $created_by));
+      $all_user_ids = array_unique($all_user_ids);
+      $all_course_ids = array_unique($all_course_ids);
 
-      // get all users with ids from $listedUsers
-      $assignedUsers = $this->assigns_model->getUsersWithIds($listedUsers);
-      
-      // now these users are in index => value
-      // make these as uid => value
-      $newAssignedUsers = array();
-      foreach ($assignedUsers as $key => $user) {
-        $newAssignedUsers[$user['id']] = $user;
+      // fetch from db
+      $all_users = $this->assigns_model->getUsersWithIds($all_user_ids);
+      $all_courses = $this->assigns_model->getCoursesWithIds($all_course_ids);
+
+      // yahoo we can now edit the assigns
+      // create array of id => value users and courses
+      $actual_users = array();
+      foreach ($all_users as $key => $user) {
+        $actual_users[$user['id']] = $user;
       }
 
-      // now based on that, put those users in the "assigned" in $assigns
+      $actual_courses = array();
+      foreach ($all_courses as $key => $course) {
+        $actual_courses[$course['id']] = $course;
+      }
+
+      // loop through assigns again and set those values, baby
       foreach ($assigns as $key => $assign) {
-        // add the course info
-        $assigns[$key]['content']['course'] = $newCourseData[$assign['content']['course']];
-        $assigns[$key]['content']['assigned'] = $newAssignedUsers[$assign['content']['assigned']];
-        $assigns[$key]['created_by'] = $newAssignedUsers[$assign['created_by']];
+        // set the info
+        $assigns[$key]['content']['assigned']['user'] = $actual_users[$assign['content']['assigned']['id']];
+        $assigns[$key]['content']['course'] = $actual_courses[$assign['content']['course']];
+        $assigns[$key]['created_by'] = $actual_users[$assign['created_by']];
 
-        // also set "user" prop in "sub"
-        foreach ($assign['content']['sub'] as $subkey => $sub) {
-          // check if user exists
-          if (array_key_exists($sub['id'], $newAssignedUsers)) {
-            $assigns[$key]['content']['sub'][$subkey]['user'] = $newAssignedUsers[$sub['id']];
+        // loop through levels
+        foreach ($assign['content']['levels'] as $lvl_key => $level) {
+          // loop through users
+          foreach ($level as $u_key => $user) {
+            $assigns[$key]['content']['levels'][$lvl_key][$u_key]['user'] = $actual_users[$user['id']];
           }
         }
       }
-      
     }
+
+    // get all user ids and put all dat in an array
+    // using dat array, get all users
+    // assign those users in assigned prop and all levels
+    // same with courses
+
+    // sample content structure
+    // content = {
+    //   assigned: { id, status },
+    //   course: id,
+    //   level: [
+    //     [{ id, status }, ...],
+    //     ...
+    //   ]
+    // }
 
     return $assigns;
   }
