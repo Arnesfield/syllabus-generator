@@ -36,7 +36,7 @@ class Courses extends MY_Custom_Controller {
     if (!$assignId) {
       $this->_json(FALSE);
     }
-
+    
     // get assign
     $this->load->model('assigns_model');
     $assigns = $this->assigns_model->get($assignId);
@@ -51,7 +51,7 @@ class Courses extends MY_Custom_Controller {
     $uid = $this->session->userdata('user')['id'];
 
     // if uid is not the same as assigned, do not proceed
-    if ($uid != $content['assigned']) {
+    if ($uid != $content['assigned']['id']) {
       $this->_json(FALSE);
     }
 

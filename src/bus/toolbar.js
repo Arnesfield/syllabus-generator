@@ -1,5 +1,6 @@
 export default {
-  sortByStatus: true,
+  sortByStatus: false,
+  listView: false,
   comments: {
     model: null,
     pdf: false

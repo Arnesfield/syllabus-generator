@@ -211,6 +211,7 @@ export default {
         item = {
           assigned: null,
           course: null,
+          remarks: null,
           levels: [{}, {}, {}]
         }
       }
@@ -258,6 +259,7 @@ export default {
         status: 2
       }
       myItem.course = Number(item.course.id)
+      myItem.remarks = item.remarks
       myItem.levels = item.levels.map(e =>
         e.users.map(f => ({
           id: Number(f.id),

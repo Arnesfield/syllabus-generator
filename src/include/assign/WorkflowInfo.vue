@@ -122,10 +122,44 @@
             <span>Edit</span>
           </v-tooltip>
 
-          <v-subheader class="pl-0">{{ $wrap.fullname(selectedUser) }}</v-subheader>
+          <icon-img
+            :item="selectedUser"
+            color="primary lighten-1"
+            size="32"
+            caption
+          />
+
+          <v-subheader
+            class="pl-2"
+          >{{ $wrap.fullname(selectedUser) }}&nbsp;
+            <add-me :id="selectedUser.id"/>
+          </v-subheader>
 
         </v-layout>
       </template>
+    </v-flex>
+  </v-layout>
+
+  <!-- remarks -->
+  <v-layout row align-center class="mt-1">
+    <v-flex
+      hidden-xs-only
+      sm3
+    >
+      <v-subheader>Remarks</v-subheader>
+    </v-flex>
+    <v-flex
+      xs12
+      sm9
+    >
+      <v-text-field
+        label="Enter remarks"
+        placeholder="Special instructions to include or any other remark"
+        prepend-icon="subject"
+        v-model="remarks"
+        class="multi-line-textarea"
+        multi-line
+      />
     </v-flex>
   </v-layout>
 
@@ -242,12 +276,23 @@
       <template
         slot="title"
       >&nbsp;Selected</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-html="$wrap.fullname(props.item)"
-      />
+        align-center
+      >
+        <icon-img
+          :item="props.item"
+          color="primary lighten-1"
+          size="32"
+          caption
+        />
+        <div
+          class="subheader pl-3"
+        >{{ $wrap.fullname(props.item) }}&nbsp;
+          <add-me :id="props.item.id"/>
+        </div>
+      </v-layout>
     </select-list>
 
     <select-list
@@ -264,12 +309,25 @@
       ><strong
         v-text="users.length"
       />&nbsp;{{ searchUser ? 'Results' : 'Suggested' }}</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-html="$wrap.fullname(props.item)"
-      />
+        align-center
+      >
+        <span class="pl-2">
+          <icon-img
+            :item="props.item"
+            color="primary lighten-1"
+            size="32"
+            caption
+          />
+        </span>
+        <div
+          class="subheader pl-3"
+        >{{ $wrap.fullname(props.item) }}&nbsp;
+          <add-me :id="props.item.id"/>
+        </div>
+      </v-layout>
     </select-list>
 
   </v-dialog>
@@ -280,11 +338,15 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
+import AddMe from '@/include/AddMe'
+import IconImg from '@/include/IconImg'
 import SelectList from '@/include/SelectList'
 
 export default {
   name: 'workflow-info',
   components: {
+    AddMe,
+    IconImg,
     SelectList
   },
   props: {
@@ -295,6 +357,7 @@ export default {
     courseUrl: '/courses',
     item: null,
     levels: 0,
+    remarks: null,
 
     dialogUser: false,
     dialogCourse: false,
@@ -373,6 +436,9 @@ export default {
         // }
       }
     },
+    remarks(e) {
+      this.item.remarks = e
+    },
 
     dialogUser(e) {
       if (e) {
@@ -411,6 +477,7 @@ export default {
 
   methods: {
     setInitial() {
+      this.remarks = this.item.remarks
       this.levels = this.item.levels.length
       this.selectedUser = this.item.assigned
       this.selectedCourse = this.item.course

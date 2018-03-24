@@ -10,11 +10,13 @@
   <v-tabs-items
     v-model="$bus.tabs.Generator.tab"
     class="full-width"
+    v-if="assignId && course"
   >
     <v-tab-item key="course">
       <course-picker
         ref="coursePicker"
         :picker="!assignId"
+        :course="course"
         @course-selected="onCourseSelected"
       />
     </v-tab-item>
@@ -83,7 +85,7 @@
   <v-layout
     justify-center
     align-center
-    v-if="assignId && !course"
+    v-else-if="assignId && !course"
   >
     <manage-no-data
       :fetch="fetchCourse"
@@ -154,9 +156,9 @@ export default {
 
     course(to, from) {
       // set course picker course here
-      if (this.$refs.coursePicker) {
-        this.$refs.coursePicker.selected = to
-      }
+      // if (this.$refs.coursePicker) {
+      //   this.$refs.coursePicker.selected = to
+      // }
       this.$bus.tabs.Generator.items = to === null
         ? this.tabs.course : this.tabs.syllabi
     },

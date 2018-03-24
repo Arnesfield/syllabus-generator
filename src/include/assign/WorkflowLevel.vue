@@ -33,7 +33,7 @@
           class="pr-2"
           style=""
         >
-          <v-tooltip top style="align-self: flex-start">
+          <v-tooltip top>
             <v-btn
               icon
               flat
@@ -46,7 +46,17 @@
             </v-btn>
             <span>Remove</span>
           </v-tooltip>
-          <div v-html="$wrap.fullname(selected[i])"/>
+          <icon-img
+            :item="selected[i]"
+            color="primary lighten-1"
+            size="32"
+            caption
+          />
+          <div
+            class="subheader pl-3"
+          >{{ $wrap.fullname(selected[i]) }}&nbsp;
+            <add-me :id="selected[i].id"/>
+          </div>
         </v-layout>
       </template>
     </v-list>
@@ -98,12 +108,23 @@
       <template
         slot="title"
       ><strong v-text="selected.length"/>&nbsp;Selected</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-html="$wrap.fullname(selected[props.index])"
-      />
+        align-center
+      >
+        <icon-img
+          :item="selected[props.index]"
+          color="primary lighten-1"
+          size="32"
+          caption
+        />
+        <div
+          class="subheader pl-3"
+        >{{ $wrap.fullname(selected[props.index]) }}&nbsp;
+          <add-me :id="selected[props.index].id"/>
+        </div>
+      </v-layout>
     </select-list>
 
     <select-list
@@ -118,12 +139,25 @@
       ><strong
         v-text="items.length"
       />&nbsp;{{ search ? 'Results' : 'Suggested' }}</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-html="$wrap.fullname(props.item)"
-      />
+        align-center
+      >
+        <span class="pl-2">
+          <icon-img
+            :item="props.item"
+            color="primary lighten-1"
+            size="32"
+            caption
+          />
+        </span>
+        <div
+          class="subheader pl-3"
+        >{{ $wrap.fullname(props.item) }}&nbsp;
+          <add-me :id="props.item.id"/>
+        </div>
+      </v-layout>
     </select-list>
 
   </v-dialog>
@@ -134,11 +168,15 @@
 <script>
 import qs from 'qs'
 import debounce from 'lodash/debounce'
+import AddMe from '@/include/AddMe'
+import IconImg from '@/include/IconImg'
 import SelectList from '@/include/SelectList'
 
 export default {
   name: 'workflow-level',
   components: {
+    AddMe,
+    IconImg,
     SelectList
   },
   props: {

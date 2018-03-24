@@ -69,6 +69,19 @@
         <v-btn
           icon
           slot="activator"
+          @click="$bus.toolbar.listView = !$bus.toolbar.listView"
+        >
+          <v-icon v-if="!$bus.toolbar.listView">view_list</v-icon>
+          <v-icon v-else>view_module</v-icon>
+        </v-btn>
+        <span v-if="!$bus.toolbar.listView">View as list</span>
+        <span v-else>View as grid</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          slot="activator"
           @click="$bus.toolbar.sortByStatus = !$bus.toolbar.sortByStatus"
         >
           <v-icon v-if="$bus.toolbar.sortByStatus">date_range</v-icon>

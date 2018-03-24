@@ -447,9 +447,13 @@
 
             <div class="text-xs-center">Date Modified:</div>
             <div
-              v-if="syllabus.updated_at"
               class="text-xs-center"
-            >{{ $wrap.date(syllabus.updated_at, false) }}</div>
+              v-text="
+                syllabus.updated_at
+                ? $moment.unix(syllabus.updated_at).format('MMMM D, YYYY')
+                : $moment().format('MMMM D, YYYY')
+              "
+            />
 
           </td>
 

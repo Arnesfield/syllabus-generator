@@ -1,5 +1,6 @@
 <template>
 <v-container
+  grid-list-lg
   :style="assigns.length ? null : {
     display: 'flex',
     height: 'calc(100% - 96px)'
@@ -10,39 +11,48 @@
       <v-subheader
         :key="'subheader-' + i"
       >{{ t.title }}</v-subheader>
-      <v-list
-        :key="'list-' + i"
-        three-line
-        class="elevation-1 py-0 mb-3"
+      <v-layout
+        row wrap
+        :key="'layout-' + i"
       >
-        <template
-          v-for="(assign, i) in assigns"
+        <v-flex
+          xs12
+          v-bind="{
+            'sm6 md6 lg4': !listView,
+            'sm12 md12 lg12': listView
+          }"
+          :key="'inst-' + i + '-' + j"
+          v-for="(assign, j) in assigns"
           v-if="Number(assign.status) == t.n"
         >
           <workflow-inst
-            :key="'inst-' + i"
+            class="mb-2"
             :assign='assign'
-            @view="onView(assign)"
+            @view="onView"
           />
-          <v-divider :key="'divider-' + i"/>
-        </template>
-      </v-list>
+        </v-flex>
+      </v-layout>
     </template>
   </template>
   <template v-else-if="assigns.length && !$bus.toolbar.sortByStatus">
-    <v-list
-      three-line
-      class="elevation-1 py-0 mb-3"
-    >
-      <template v-for="(assign, i) in assigns">
+    <v-layout row wrap>
+      <v-flex
+        xs12
+        v-bind="{
+          'sm6 md6 lg4': !listView,
+          'sm12 md12 lg12': listView
+        }"
+        :key="j"
+        v-for="(assign, j) in assigns"
+      >
         <workflow-inst
-          :key="'inst-' + i"
+          class="mb-2"
+          :key="'inst-' + j"
           :assign='assign'
-          @view="onView(assign)"
+          @view="onView"
         />
-        <v-divider :key="'divider-' + i"/>
-      </template>
-    </v-list>
+      </v-flex>
+    </v-layout>
   </template>
 
   <template v-if="!assigns.length">
@@ -79,7 +89,7 @@ export default {
     url: '/assigns',
     assigns: [],
     loading: false,
-    size: 'lg',
+    listView: false,
     type: [
       { title: 'Approved', n: 1 },
       { title: 'Undecided', n: 2 },
@@ -90,10 +100,14 @@ export default {
   watch: {
     loading(to, from) {
       this.$bus.progress.circular.Workflow.refresh = to
+    },
+    '$bus.toolbar.listView': function(e) {
+      this.listView = e
     }
   },
 
   created() {
+    this.listView = this.$bus.toolbar.listView
     this.$bus.$on('workflow--add', this.addAssign)
     this.$bus.$on('workflow--refresh', this.fetch)
     this.fetch()
@@ -104,8 +118,8 @@ export default {
   },
 
   methods: {
-    onView(assign) {
-      this.$bus.$emit('dialog--detailed-workflow.show', assign)
+    onView(assign, level) {
+      this.$bus.$emit('dialog--detailed-workflow.show', assign, level)
     },
 
     addAssign() {

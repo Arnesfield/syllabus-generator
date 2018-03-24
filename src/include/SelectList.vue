@@ -44,7 +44,7 @@
                 slot="activator"
                 @click="selected.splice(i, 1)"
               >
-                <v-icon small>close</v-icon>
+                <v-icon small color="error">close</v-icon>
               </v-btn>
               <span>Remove</span>
             </v-tooltip>

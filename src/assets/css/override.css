@@ -12,3 +12,8 @@
 .snack .snack__content .btn {
   margin-left: 8px;
 }
+
+/* toolbar */
+.toolbar__content>:not(.btn):not(.menu):last-child:not(:only-child) {
+  margin-right: 8px;
+}

@@ -1,7 +1,7 @@
 <template>
 <v-dialog
   v-model="show"
-  width="680"
+  width="700"
   :persistent="loading"
   transition="fade-transition"
   scrollable
@@ -17,27 +17,71 @@
     <v-card-text class="pt-0">
 
       <v-layout row wrap>
-        <v-flex xs12 sm6 class="pr-4">
+        <v-flex
+          xs12 sm5 class="pr-2"
+          style="max-height: 512px; overflow-y: auto"
+        >
           <div class="body-1 grey--text">Workflow by</div>
           <v-list>
             <v-list-tile @click="() => {}">
-              <v-list-tile-action>
+              <v-list-tile-action class="thin-48">
                 <icon-img
-                  :item="assign.created_by"
+                  :item="createdBy()"
                   color="primary"
                   size="32"
                   caption
                 />
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ $wrap.fullname(assign.created_by) }}
-                </v-list-tile-title>
+                <div>{{ $wrap.fullname(createdBy()) }}
+                  <add-me :id="createdBy().id"/>
+                </div>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
 
+          <remarks-inst
+            :remarks="remarks()"
+            class="mx-1 mb-2"
+          />
+
           <v-list dense class="mb-3">
+
+            <v-list-tile
+              ripple
+              v-if="$bus.session.user.id == assigned().id"
+              :to="'/generator/' + assign.id"
+            >
+              <v-list-tile-action class="thin-action">
+                <v-tooltip top>
+                  <v-btn icon slot="activator" :to="'/generator/' + assign.id">
+                    <v-icon color="grey">arrow_forward</v-icon>
+                  </v-btn>
+                  <span>Create syllabus</span>
+                </v-tooltip>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="'Create syllabus'"/>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              ripple
+              v-if="$bus.session.user.id == createdBy().id"
+              @click="() => {}"
+            >
+              <v-list-tile-action class="thin-action">
+                <v-tooltip top>
+                  <v-btn icon slot="activator" @click="() => {}">
+                    <v-icon color="grey">edit</v-icon>
+                  </v-btn>
+                  <span>Edit workflow</span>
+                </v-tooltip>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="'Edit workflow'"/>
+              </v-list-tile-content>
+            </v-list-tile>
 
             <v-list-tile
               ripple
@@ -57,6 +101,14 @@
               </v-list-tile-content>
             </v-list-tile>
 
+            <v-divider
+              v-if="
+                $bus.session.user.id == assigned().id ||
+                $bus.session.user.id == createdBy().id ||
+                assign.status != 3
+              "
+            />
+
             <v-list-tile @click="() => {}">
               <v-list-tile-action class="thin-action">
                 <v-tooltip top>
@@ -67,9 +119,9 @@
                 </v-tooltip>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ $wrap.datetime(assign.updated_at, true, false) }}
-                </v-list-tile-title>
+                <v-list-tile-title
+                  v-text="$moment.unix(assign.updated_at).format('MMM D, YYYY h:mm A')"
+                />
               </v-list-tile-content>
             </v-list-tile>
 
@@ -83,9 +135,9 @@
                 </v-tooltip>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ $wrap.datetime(assign.created_at, true, false) }}
-                </v-list-tile-title>
+                <v-list-tile-title
+                  v-text="$moment.unix(assign.created_at).format('MMM D, YYYY h:mm A')"
+                />
               </v-list-tile-content>
             </v-list-tile>
 
@@ -103,7 +155,7 @@
           </v-list>
         </v-flex>
 
-        <v-flex xs12 sm6>
+        <v-flex xs12 sm7 class="pl-2">
 
           <!-- end of about -->
           <div>
@@ -111,7 +163,7 @@
             <div class="body-1 grey--text">Assigned</div>
             <v-list>
               <v-list-tile @click="() => {}">
-                <v-list-tile-action>
+                <v-list-tile-action class="thin-48">
                   <icon-img
                     :item="assigned()"
                     color="primary"
@@ -119,36 +171,54 @@
                     caption
                   />
                 </v-list-tile-action>
-                <v-list-tile-content
-                  v-text="$wrap.fullname(assigned())"
-                />
+                <v-list-tile-content>
+                  <div>{{ $wrap.fullname(assigned()) }}
+                    <add-me :id="assigned().id"/>
+                  </div>
+                </v-list-tile-content>
               </v-list-tile>
             </v-list>
 
-            <template v-if="sub().length">
+            <template v-if="levels().length">
               <div class="body-1 grey--text">Reviewers</div>
-              <v-list>
-                <v-list-tile
-                  :key="i"
-                  v-for="(sub, i) in sub()"
-                  @click="() => {}"
+              <v-tabs v-model="tabs">
+                <v-tab
+                  :key="level"
+                  :disabled="loading"
+                  v-for="level in levels().length"
+                >Lvl{{ level }}</v-tab>
+
+                <v-tab-item
+                  :key="i+1"
+                  v-for="(level, i) in levels()"
                 >
-                  <v-list-tile-action>
-                    <icon-img
-                      :item="sub.user"
-                      color="primary"
-                      size="32"
-                      caption
-                    />
-                  </v-list-tile-action>
-                  <v-list-tile-content
-                    v-text="$wrap.fullname(sub.user)"
-                  />
-                  <v-list-tile-action>
-                    <status :item="sub"/>
-                  </v-list-tile-action>
-                </v-list-tile>
-              </v-list>
+                  <v-list style="max-height: 256px; overflow-y: auto">
+                    <template v-for="(user, j) in level">
+                      <v-list-tile
+                        :key="'tile-' + j"
+                        @click="() => {}"
+                      >
+                        <v-list-tile-action class="thin-48">
+                          <icon-img
+                            :item="user.user"
+                            color="primary"
+                            size="32"
+                            caption
+                          />
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                          <div>{{ $wrap.fullname(user.user) }}
+                            <add-me :id="user.id"/>
+                          </div>
+                        </v-list-tile-content>
+                        <v-list-tile-action :key="'action-' + j">
+                          <status :item="user"/>
+                        </v-list-tile-action>
+                      </v-list-tile>
+                    </template>
+                  </v-list>
+                </v-tab-item>
+              </v-tabs>
 
             </template>
           </div>
@@ -174,19 +244,24 @@
 </template>
 
 <script>
+import AddMe from '@/include/AddMe'
 import Status from '@/include/Status'
 import IconImg from '@/include/IconImg'
+import RemarksInst from '@/include/RemarksInst'
 
 export default {
   name: 'dialog-detailed-workflow',
   components: {
+    AddMe,
     Status,
-    IconImg
+    IconImg,
+    RemarksInst
   },
   data: () => ({
     show: false,
     assign: null,
-    loading: false
+    loading: false,
+    tabs: 0
   }),
   watch: {
     show(e) {
@@ -205,8 +280,10 @@ export default {
   },
 
   methods: {
-    dialogDetailedWorkflow(e) {
+    dialogDetailedWorkflow(e, level) {
       this.assign = e
+      // also set tabs here
+      this.tabs = String(Number(level)-1)
       this.show = true
     },
 
@@ -219,10 +296,16 @@ export default {
       return this.assign.content.course
     },
     assigned() {
-      return this.assign.content.assigned
+      return this.assign.content.assigned.user
     },
-    sub() {
-      return this.assign.content.sub
+    remarks() {
+      return this.assign.content.remarks || null
+    },
+    createdBy() {
+      return this.assign.created_by
+    },
+    levels() {
+      return this.assign.content.levels
     }
   }
 }

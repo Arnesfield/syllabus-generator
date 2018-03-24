@@ -49,6 +49,11 @@ p {
   min-width: 24px;
 }
 
+.thin-48 {
+  width: 48px;
+  min-width: 48px;
+}
+
 .thin-action {
   width: 42px;
   min-width: 42px;
@@ -80,7 +85,7 @@ p {
 .multi-line-textarea textarea {
   min-height: 32px;
   height: 64px;
-  max-height: 256px;
+  max-height: 144px;
 }
 
 .my-textarea {

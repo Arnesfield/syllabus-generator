@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import axios from 'axios'
+import moment from 'moment'
 import Showdown from 'showdown'
 
 import bus from './bus'
@@ -42,6 +43,7 @@ Vue.prototype.$bus = bus
 Vue.prototype.$fRule = formRules
 Vue.prototype.$wrap = wrap
 Vue.prototype.$md = converter
+Vue.prototype.$moment = moment
 
 routerCond(router, http, bus)
 

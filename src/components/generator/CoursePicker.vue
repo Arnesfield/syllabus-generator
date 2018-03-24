@@ -115,6 +115,9 @@ export default {
     picker: {
       type: Boolean,
       default: true
+    },
+    course: {
+      type: Object
     }
   },
   data: () => ({
@@ -128,6 +131,12 @@ export default {
   }),
 
   watch: {
+    course: {
+      deep: true,
+      handler(e) {
+        this.selected = e
+      }
+    },
     selected(to, from) {
       if (to !== null) {
         this.getRelated()
@@ -137,6 +146,10 @@ export default {
     searchInput(e) {
       this.search(e ? e : '')
     }
+  },
+
+  created() {
+    this.selected = this.course
   },
 
   methods: {

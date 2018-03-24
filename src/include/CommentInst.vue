@@ -11,15 +11,12 @@
       <div>
         <div class="subheading black--text">
           <template>{{ $wrap.fullname(item.user) }}</template>
-          <strong
-            class="caption grey--text"
-            style="font-weight: bold"
-            v-if="$bus.session.user.id == item.user.id"
-          >(me)</strong>
+          <add-me :id="item.user.id"/>
         </div>
         <div
           class="caption grey--text"
-        >{{ $wrap.datetime(item.created_at, true, false) }}</div>
+          v-text="$moment.unix(item.created_at).format('MM/DD/YY h:mm A')"
+        />
       </div>
     </div>
 
@@ -55,11 +52,13 @@
 </template>
 
 <script>
+import AddMe from '@/include/AddMe'
 import IconImg from '@/include/IconImg'
 
 export default {
   name: 'comment-inst',
   components: {
+    AddMe,
     IconImg
   },
   props: {
