@@ -78,6 +78,7 @@
             :type="levelAlert(i).type"
             :icon="levelAlert(i).icon"
             :color="levelAlert(i).color"
+            class="mb-2"
           >Level {{ i+1 }}
             <strong v-text="levelAlert(i).text"/>
             this syllabus.
@@ -85,7 +86,7 @@
         </template>
 
         <v-divider
-          class="my-2"
+          class="mb-2"
           v-if="levelAlert(i) && Boolean(myStatus[i])"
         />
 

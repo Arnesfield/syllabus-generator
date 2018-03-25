@@ -54,7 +54,7 @@
     <select-list
       v-model="selected"
       :items="selected"
-      :id="'selected-tla-' + type + '-'"
+      :id="'selected-tla-' + index + '-' + type + '-'"
       max-height="25vh"
       delete-mode
       editable
@@ -77,7 +77,7 @@
       clearable
       v-model="selected"
       :items.sync="tla"
-      :id="'tla-' + type + '-'"
+      :id="'tla-' + index + '-' + type + '-'"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >

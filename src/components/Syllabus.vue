@@ -32,6 +32,7 @@
   </v-container>
 
   <dialog-detailed-workflow/>
+  <dialog-workflow-logs/>
 
 </div>
 </template>
@@ -41,6 +42,7 @@ import qs from 'qs'
 import SyllabusInst from '@/include/SyllabusInst'
 import SidenavComment from '@/include/SidenavComment'
 import ManageNoData from '@/include/ManageNoData'
+import DialogWorkflowLogs from '@/include/dialogs/DialogWorkflowLogs'
 import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 
 export default {
@@ -52,10 +54,12 @@ export default {
     SyllabusInst,
     SidenavComment,
     ManageNoData,
+    DialogWorkflowLogs,
     DialogDetailedWorkflow
   },
   data: () => ({
     url: '/syllabus',
+    viewLogUrl: '/logs/addWorkflow',
     syllabus: null,
     pdf: false,
 
@@ -75,7 +79,7 @@ export default {
   created() {
     this.$bus.$on('refresh--btn', this.fetch)
     this.$bus.$on('syllabus--pdf.toggle', this.pdfToggle)
-    this.fetch()
+    this.fetch(this.insertViewLog)
     // reset
     this.$bus.toolbar.comments.pdf = false
   },
@@ -86,6 +90,14 @@ export default {
   },
 
   methods: {
+    insertViewLog() {
+      this.$http.post(this.viewLogUrl, qs.stringify({
+        id: this.assignId,
+        content: 'viewed this syllabus.',
+        type: 'view'
+      }))
+    },
+
     pdfToggle() {
       this.$bus.toolbar.comments.pdf = !this.$bus.toolbar.comments.pdf
       this.pdf = this.$bus.toolbar.comments.pdf
@@ -94,7 +106,7 @@ export default {
       }
     },
 
-    fetch() {
+    fetch(cb) {
       if (!this.assignId) {
         return
       }
@@ -108,6 +120,9 @@ export default {
         }
         this.syllabus = res.data.syllabus
         this.$bus.toolbar.titleContent = this.syllabus.content.course.code
+        if (typeof cb === 'function') {
+          cb()
+        }
         this.loading = false
       }).catch(e => {
         console.error(e)

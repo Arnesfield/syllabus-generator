@@ -21,33 +21,21 @@ class Users_model extends MY_Custom_Model {
   }
 
   public function getByQuery($search) {
+    
     $this->db
-      ->from('users')
-      ->where('status !=', -1);
-
+    ->from('users')
+    ->where('status !=', -1);
+    
     if ($search) {
-      $this->db->or_where("
-        lower(concat(
-          IFNULL(fname, ''),
-          ' ',
-          IFNULL(mname, ''),
-          ' ',
-          IFNULL(lname, '')
-        ))
-        like lower(concat('%', '$search', '%'))
-      ");
-      $this->db->or_where("
-        lower(concat(
-          IFNULL(fname, ''),
-          ' ',
-          IFNULL(lname, '')
-        ))
-        like lower(concat('%', '$search', '%'))
-      ");
-      $this->db->or_where("
-        lower(concat(IFNULL(username, '')))
-        like lower(concat('%', '$search', '%'))
-      ");
+      $search = strtolower($search);
+      $this->db->where("
+        (
+          LOWER(fname) LIKE '%$search%' OR
+          LOWER(mname) LIKE '%$search%' OR
+          LOWER(lname) LIKE '%$search%' OR
+          LOWER(username) LIKE '%$search%'
+        ) OR MATCH(fname, mname, lname, username) AGAINST ('*$search*' IN BOOLEAN MODE)
+      ", NULL, FALSE);
     }
 
     $this->db

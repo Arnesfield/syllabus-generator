@@ -88,9 +88,27 @@
     v-else-if="assignId && !course"
   >
     <manage-no-data
+      v-if="allowEdit"
       :fetch="fetchCourse"
       :loading="courseLoading"
     />
+    <manage-no-data
+      v-else
+      msg="<div>The syllabus you are trying to edit is already submitted.</div><div>You may view the syllabus instead.</div>"
+      :fetch="fetchCourse"
+      :loading="courseLoading"
+    >
+      <v-icon
+        slot="icon"
+        size="64px"
+        class="mb-4"
+      >warning</v-icon>
+      <v-btn
+        slot="btn"
+        color="primary lighten-1"
+        :to="'/syllabus/' + assignId"
+      >View syllabus</v-btn>
+    </manage-no-data>
   </v-layout>
 
 </v-container>
@@ -133,6 +151,7 @@ export default {
     syllabus: null,
     // for navigation
     tabs: {
+      info: ['info'],
       course: ['course'],
       syllabi: ['course', 'syllabi'],
       noCurriculum: ['course', 'syllabi', 'books', 'curriculum'],
@@ -141,6 +160,7 @@ export default {
     pdf: false,
 
     tempSyllabus: null,
+    allowEdit: true,
 
     saveLoading: false,
     courseLoading: false
@@ -199,7 +219,7 @@ export default {
 
     this.$bus.tabs.Generator.tabs = true
     this.$bus.tabs.Generator.tab = null
-    this.$bus.tabs.Generator.items = ['course']
+    this.$bus.tabs.Generator.items = this.tabs.course
     this.$bus.generator.suggestions = true
 
     if (this.assignId !== null) {
@@ -276,7 +296,8 @@ export default {
           throw new Error('Request failure.')
         }
         this.saveLoading = false
-        this.$bus.$emit('snackbar--show', 'Syllabus submitted.')
+        this.fetchCourse('Syllabus submitted.')
+        // this.$bus.$emit('snackbar--show', 'Syllabus submitted.')
       }).catch(e => {
         console.error(e)
         this.saveLoading = false
@@ -312,6 +333,11 @@ export default {
         return
       }
 
+      if (!this.allowEdit) {
+        this.fetchCourse()
+        return
+      }
+
       let syllabus = this.stringifySyllabus()
       this.saveLoading = true
       this.$http.post(this.saveUrl, qs.stringify({
@@ -342,9 +368,13 @@ export default {
       })
     },
 
-    fetchCourse() {
+    fetchCourse(msg) {
       if (!this.assignId) {
         return
+      }
+
+      if (typeof msg !== 'string') {
+        msg = null
       }
 
       this.courseLoading = true
@@ -369,8 +399,21 @@ export default {
           this.tempSyllabus = res.data.syllabus
         }
 
-        this.course = res.data.course
-        this.$bus.toolbar.titleContent = this.course.code
+        let assign = res.data.assign
+        // if disapproved or not yet submitted, allow edit
+        if (assign.status == 0 || assign.status == 3) {
+          this.course = res.data.course
+        } else {
+          setTimeout(() => {
+            this.$bus.tabs.Generator.items = this.tabs.info
+          })
+          this.$bus.tabs.Generator.tab = '0'
+          this.course = null
+          this.syllabus = null
+          this.allowEdit = false
+          this.$bus.$emit('snackbar--show', msg || 'You cannot edit a submitted syllabus.')
+        }
+        this.$bus.toolbar.titleContent = res.data.course.code
       }).catch(e => {
         console.error(e)
         this.courseLoading = false

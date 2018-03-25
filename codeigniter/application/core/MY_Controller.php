@@ -91,6 +91,7 @@ class MY_Custom_Controller extends MY_View_Controller {
     }
     // load lib
     $this->load->library('session');
+    $this->load->model('logs_model');
   }
 
   public function _filter($str) {
@@ -194,6 +195,13 @@ class MY_Custom_Controller extends MY_View_Controller {
     // }
 
     return $assigns;
+  }
+
+  public function _insertWorkflowLog($data) {
+    $data['user_id'] = $this->session->userdata('user')['id'];
+    $data['created_at'] = time();
+    $data['status'] = 1;
+    return $this->logs_model->insertWorkflow($data);
   }
 }
 

@@ -54,7 +54,7 @@
     <select-list
       v-model="selected"
       :items="selected"
-      id="selected-task-"
+      :id="'selected-task-' + index + '-'"
       max-height="25vh"
       delete-mode
       editable
@@ -77,7 +77,7 @@
       clearable
       v-model="selected"
       :items.sync="tasks"
-      id="task-"
+      :id="'task-' + index + '-'"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >

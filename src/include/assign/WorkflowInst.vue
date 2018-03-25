@@ -27,7 +27,7 @@
         </div>
         <v-spacer/>
         <div class="caption grey--text text-xs-right">
-          <div v-text="$moment.unix(assign.updated_at).format('h:mm A')"/>
+          <div v-text="$moment.unix(assign.updated_at).format('h:mmA')"/>
           <div v-text="$moment.unix(assign.updated_at).format('MM/DD/YY')"/>
           <br/>
         </div>

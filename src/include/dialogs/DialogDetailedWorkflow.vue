@@ -101,6 +101,23 @@
               </v-list-tile-content>
             </v-list-tile>
 
+            <v-list-tile
+              ripple
+              @click="viewActivity"
+            >
+              <v-list-tile-action class="thin-action">
+                <v-tooltip top>
+                  <v-btn icon slot="activator" @click="viewActivity">
+                    <v-icon color="grey">history</v-icon>
+                  </v-btn>
+                  <span>View activity</span>
+                </v-tooltip>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="'View activity'"/>
+              </v-list-tile-content>
+            </v-list-tile>
+
             <v-divider
               v-if="
                 $bus.session.user.id == assigned().id ||
@@ -120,7 +137,7 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title
-                  v-text="$moment.unix(assign.updated_at).format('MMM D, YYYY h:mm A')"
+                  v-text="$moment.unix(assign.updated_at).format('MMM D, YYYY h:mmA')"
                 />
               </v-list-tile-content>
             </v-list-tile>
@@ -136,7 +153,7 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title
-                  v-text="$moment.unix(assign.created_at).format('MMM D, YYYY h:mm A')"
+                  v-text="$moment.unix(assign.created_at).format('MMM D, YYYY h:mmA')"
                 />
               </v-list-tile-content>
             </v-list-tile>
@@ -291,6 +308,10 @@ export default {
       // also set tabs here
       this.tabs = String(this.$bus.checkLevels(e.content.levels))
       this.show = true
+    },
+
+    viewActivity() {
+      this.$bus.$emit('dialog--workflow-logs', this.assign.id, this.course().code + ' &mdash; ' + this.course().title)
     },
 
     clear() {

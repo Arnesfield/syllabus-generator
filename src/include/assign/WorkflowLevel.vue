@@ -31,7 +31,6 @@
           :key="'layout-' + i"
           align-center
           class="pr-2"
-          style=""
         >
           <v-tooltip top>
             <v-btn

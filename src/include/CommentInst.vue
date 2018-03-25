@@ -15,7 +15,7 @@
         </div>
         <div
           class="caption grey--text"
-          v-text="$moment.unix(item.created_at).format('MM/DD/YY h:mm A')"
+          v-text="$moment.unix(item.created_at).format('MM/DD/YY h:mmA')"
         />
       </div>
     </div>

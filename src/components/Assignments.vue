@@ -67,6 +67,7 @@
   </template>
 
   <dialog-detailed-workflow/>
+  <dialog-workflow-logs/>
 
 </v-container>
 </template>
@@ -74,12 +75,14 @@
 <script>
 import WorkflowInst from '@/include/assign/WorkflowInst'
 import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
+import DialogWorkflowLogs from '@/include/dialogs/DialogWorkflowLogs'
 import ManageNoData from '@/include/ManageNoData'
 
 export default {
   name: 'assignments',
   components: {
     WorkflowInst,
+    DialogWorkflowLogs,
     DialogDetailedWorkflow,
     ManageNoData
   },

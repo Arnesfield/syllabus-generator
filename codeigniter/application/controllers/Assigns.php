@@ -25,7 +25,7 @@ class Assigns extends MY_Custom_Controller {
     $uid = $this->session->userdata('user')['id'];
     $assignId = $this->input->post('assignId');
     $value = $this->input->post('value');
-    $level = $this->input->post('level');
+    $plevel = $this->input->post('level');
 
     $assigns = $this->assigns_model->get($assignId);
 
@@ -45,9 +45,9 @@ class Assigns extends MY_Custom_Controller {
     // then update your data
 
     $did_update = FALSE;
-    foreach ($content['levels'][$level] as $key => $user) {
+    foreach ($content['levels'][$plevel] as $key => $user) {
       if ($uid == $user['id']) {
-        $content['levels'][$level][$key]['status'] = $value;
+        $content['levels'][$plevel][$key]['status'] = $value;
         $did_update = TRUE;
         break;
       }
@@ -82,6 +82,21 @@ class Assigns extends MY_Custom_Controller {
     );
     $where = array('id' => $assignId);
     $res = $this->assigns_model->update($data, $where);
+
+    if (!$res) {
+      $this->_json(FALSE);
+    }
+    
+    $plevel += 1;
+    $text = "<strong>level $plevel</strong> &mdash; ";
+    
+    $data = array(
+      'assign_id' => $assignId,
+      'content' => $text . ($value == 1 ? 'approved this syllabus.' : 'disapproved this syllabus.'),
+      'type' => 'approval'
+    );
+    
+    $res = $this->_insertWorkflowLog($data);
     $this->_json($res);
   }
 

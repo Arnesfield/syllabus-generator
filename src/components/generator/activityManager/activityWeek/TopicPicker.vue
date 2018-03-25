@@ -54,7 +54,7 @@
     <select-list
       v-model="selected"
       :items="selected"
-      id="selected-topic-"
+      :id="'selected-topic-' + index + '-'"
       max-height="25vh"
       delete-mode
       editable
@@ -77,7 +77,7 @@
       clearable
       v-model="selected"
       :items.sync="topics"
-      id="topic-"
+      :id="'topic-' + index + '-'"
       max-height="25vh"
       :is-selected="(items, item) => items.indexOf(item) > -1"
     >
@@ -196,7 +196,14 @@ export default {
       })
     }, 300),
 
-    suggest() {
+    suggest(i) {
+      // if same as index, proceed
+      if (typeof i === 'number') {
+        if (i != this.index) {
+          return
+        }
+      }
+
       // do no execute sugget when bus suggestions is off
       if (!this.$bus.generator.suggestions) {
         this.loading = false

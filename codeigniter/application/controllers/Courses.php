@@ -76,6 +76,7 @@ class Courses extends MY_Custom_Controller {
       $data['syllabus'] = $syllabi[0];
     }
 
+    $data['assign'] = $assign;
     $this->_json(TRUE, $data);
   }
 
