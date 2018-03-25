@@ -14,10 +14,7 @@
       standardHeight="calc(100vh - 112px)"
       pdfHeight="calc(100vh - 112px)"
     />
-    <sidenav-comment
-      :assignId="assignId"
-      :level="level"
-    />
+    <sidenav-comment :assignId="assignId"/>
   </template>
 
   <v-container
@@ -49,8 +46,7 @@ import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 export default {
   name: 'syllabus',
   props: {
-    assignId: [Number, String],
-    level: [Number, String]
+    assignId: [Number, String]
   },
   components: {
     SyllabusInst,

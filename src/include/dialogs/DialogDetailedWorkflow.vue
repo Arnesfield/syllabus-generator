@@ -180,7 +180,13 @@
             </v-list>
 
             <template v-if="levels().length">
-              <div class="body-1 grey--text">Reviewers</div>
+              <div class="body-1 grey--text">
+                <span>Reviewers</span>
+                <strong
+                  class="caption grey--text"
+                  style="font-weight: bold"
+                >(Level {{ levelText() }})</strong>
+              </div>
               <v-tabs v-model="tabs">
                 <v-tab
                   :key="level"
@@ -283,7 +289,7 @@ export default {
     dialogDetailedWorkflow(e, level) {
       this.assign = e
       // also set tabs here
-      this.tabs = String(Number(level)-1)
+      this.tabs = String(this.$bus.checkLevels(e.content.levels))
       this.show = true
     },
 
@@ -306,6 +312,11 @@ export default {
     },
     levels() {
       return this.assign.content.levels
+    },
+    levelText() {
+      let levels = this.levels()
+      let myLevel = this.$bus.checkLevels(levels, 1)
+      return myLevel + ' of ' + levels.length
     }
   }
 }

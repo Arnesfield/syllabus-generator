@@ -9,6 +9,7 @@ import tabs from './tabs'
 import generator from './generator'
 import settings from './settings'
 import toNumberArray from '@/assets/js/toNumberArray'
+import levelChecker from '@/assets/js/levelChecker'
 
 export default new Vue({
   data: () => ({
@@ -39,6 +40,9 @@ export default new Vue({
   },
   
   methods: {
+    checkLevels: (e, i) => levelChecker(e) + (i || 0),
+    checkLevelStatus: (e, i, s) => levelChecker(e, i, s),
+
     refresh(e) {
       this.progress.active = e
       this.progress.refresh = e

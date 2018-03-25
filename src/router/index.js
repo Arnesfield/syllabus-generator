@@ -85,7 +85,7 @@ export default new Router({
       }
     },
     {
-      path: '/syllabus/:assignId/:level?',
+      path: '/syllabus/:assignId',
       name: 'Syllabus',
       component: Syllabus,
       props: true,

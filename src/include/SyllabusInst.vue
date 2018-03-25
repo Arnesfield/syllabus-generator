@@ -343,7 +343,7 @@
             >
               <div
                 :key="'book-' + i"
-                v-html="book.citation"
+                v-html="$md.makeHtml(book)"
               ></div>
               <br
                 :key="'book-br-' + i"

@@ -81,7 +81,7 @@
           <v-btn
             icon
             slot="activator"
-            @click="$emit('view', assign, levels(true))"
+            @click="$emit('view', assign)"
           >
             <v-icon color="grey">info</v-icon>
           </v-btn>
@@ -102,14 +102,14 @@
           top
           v-if="$bus.session.user.id == assigned().id"
         >
-          <v-btn icon slot="activator" @click="$router.push('/generator/' + assign.id)">
+          <v-btn icon slot="activator" :to="'/generator/' + assign.id">
             <v-icon color="grey">arrow_forward</v-icon>
           </v-btn>
           <span>Create Syllabus</span>
         </v-tooltip>
 
         <v-tooltip top v-if="Number(assign.status) != 3">
-          <v-btn icon slot="activator" :to="'/syllabus/' + assign.id + '/' + levels(true)">
+          <v-btn icon slot="activator" :to="'/syllabus/' + assign.id">
             <v-icon color="grey">visibility</v-icon>
           </v-btn>
           <span>View Syllabus</span>
@@ -175,19 +175,10 @@ export default {
         separator: /,? +/
       })
     },
-    levels(levelOnly) {
-      if (typeof levelOnly !== 'boolean') {
-        levelOnly = false
-      }
-      // check per level if status per user is 1
-      let myLevel = 1
+    levels() {
       let levels = this.assign.content.levels
-      levels.every((level, i) => {
-        let result = level.every(user => Number(user.status) == 1)
-        myLevel = i+1 // result ? i+1 : myLevel
-        return result
-      })
-      return levelOnly ? myLevel : myLevel + ' of ' + levels.length
+      let myLevel = this.$bus.checkLevels(levels, 1)
+      return myLevel + ' of ' + levels.length
     }
   }
 }

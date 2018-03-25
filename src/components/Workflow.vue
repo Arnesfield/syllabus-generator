@@ -118,8 +118,8 @@ export default {
   },
 
   methods: {
-    onView(assign, level) {
-      this.$bus.$emit('dialog--detailed-workflow.show', assign, level)
+    onView(assign) {
+      this.$bus.$emit('dialog--detailed-workflow.show', assign)
     },
 
     addAssign() {

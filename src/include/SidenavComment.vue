@@ -39,14 +39,14 @@
       <v-tab
         :key="level"
         :disabled="loading"
-        v-for="level in levels.length"
+        v-for="level in viewableLevels"
       >Lvl{{ level }}</v-tab>
     </v-tabs>
   </v-toolbar>
 
   <v-container
     fluid
-    class="pb-0"
+    class="pa-0"
     v-if="assign && (assign.status == 0 || assign.status == 1)"
   >
     <v-alert
@@ -71,6 +71,24 @@
       v-for="(level, i) in levels"
     >
       <v-container fluid>
+
+        <template v-if="levelAlert(i)">
+          <v-alert
+            :value="true"
+            :type="levelAlert(i).type"
+            :icon="levelAlert(i).icon"
+            :color="levelAlert(i).color"
+          >Level {{ i+1 }}
+            <strong v-text="levelAlert(i).text"/>
+            this syllabus.
+          </v-alert>
+        </template>
+
+        <v-divider
+          class="my-2"
+          v-if="levelAlert(i) && Boolean(myStatus[i])"
+        />
+
         <v-alert
           :type="alertProp(i).type"
           :icon="alertProp(i).icon"
@@ -93,6 +111,7 @@
           <v-btn
             block
             color="grey lighten-3"
+            :disabled="loading"
             @click="$set(revealAction, i, true)"
           >Change choice</v-btn>
         </v-layout>
@@ -101,7 +120,9 @@
             block
             color="success"
             class="mr-1"
+            :disabled="loading"
             @click="doAction(1, i)"
+            @keypress.enter="doAction(1, i)"
           >
             <v-icon>check</v-icon>
             <span>Approve</span>
@@ -110,7 +131,9 @@
             block
             color="error"
             class="ml-1"
+            :disabled="loading"
             @click="doAction(0, i)"
+            @keypress.enter="doAction(0, i)"
           >
             <v-icon>close</v-icon>
             <span>Disapprove</span>
@@ -118,7 +141,7 @@
         </v-layout>
 
         <!-- do not show this if not part of reviewers or assigned -->
-        <v-card class="mb-4 non-clickable" hover v-if="allowComment[i] && comment">
+        <v-card class="mb-2 non-clickable" hover v-if="allowComment[i] && comment">
           <v-card-text class="pt-0 pb-2">
             <v-text-field
               placeholder="Enter comment"
@@ -143,11 +166,11 @@
           </v-card-actions>
         </v-card>
 
-        <template v-if="comments.length">
+        <template v-if="(temp = getComments(i)).length">
+          <v-subheader>Comments</v-subheader>
           <comment-inst
             :key="j"
-            v-for="(item, j) in comments"
-            v-if="item.level == i"
+            v-for="(item, j) in temp"
             :item="item"
             @delete="deleteComment(item)"
           />
@@ -177,8 +200,7 @@ import ManageNoData from '@/include/ManageNoData'
 export default {
   name: 'sidenav-comment',
   props: {
-    assignId: [Number, String],
-    level: [Number, String]
+    assignId: [Number, String]
   },
   components: {
     BtnRefresh,
@@ -206,6 +228,9 @@ export default {
     loading(e) {
       this.$bus.refresh(e)
     },
+    assign(e) {
+      this.setInitial()
+    },
     comment(to, from) {
       // loop through comment
       if (!from) {
@@ -218,9 +243,6 @@ export default {
           this.commentError[i] = undefined
         }
       })
-    },
-    level(e) {
-      this.setInitial()
     }
   },
   computed: {
@@ -239,6 +261,9 @@ export default {
       return this.assign && this.assign.content
         ? this.assign.content.levels || []
         : []
+    },
+    viewableLevels() {
+      return this.$bus.checkLevels(this.levels, 1)
     }
   },
 
@@ -255,14 +280,22 @@ export default {
 
   methods: {
     setInitial() {
-      this.tabs = String(this.level ? Number(this.level)-1 : 0)
+      if (!this.assign) {
+        this.tabs = '0'
+        return
+      }
+      this.tabs = String(this.$bus.checkLevels(this.levels))
+    },
+
+    getComments(i) {
+      return this.comments.filter(e => e.level == i)
     },
 
     infoShow() {
       if (!this.assign) {
         return
       }
-      this.$bus.$emit('dialog--detailed-workflow.show', this.assign, Number(this.tabs)+1)
+      this.$bus.$emit('dialog--detailed-workflow.show', this.assign)
     },
 
     alertProp(i) {
@@ -274,11 +307,33 @@ export default {
       return { type: 'info', icon: 'info' }
     },
 
+    levelAlert(i) {
+      let approved = this.$bus.checkLevelStatus(this.levels, i, 1)
+      let disapproved = this.$bus.checkLevelStatus(this.levels, i, 0)
+      let approvedProp = {
+        type: 'success',
+        icon: 'check_circle',
+        color: 'blue',
+        text: 'approves'
+      }
+      let disapprovedProp = {
+        type: 'error',
+        icon: 'cancel',
+        color: 'warning',
+        text: 'disapproves'
+      }
+      
+      if (approved) {return approvedProp}
+      else if (disapproved) {return disapprovedProp}
+      else return null
+    },
+
     doAction(value, i) {
       
       let snackSuccessMsg = value == 1 ? 'Syllabus approved.' : 'Syllabus disapproved.'
       let snackErrorMsg = value == 1 ? 'Unable to approve syllabus.' : 'Unable to disapprove syllabus.'
 
+      this.loading = true
       this.$http.post(this.approvalActionUrl, qs.stringify({
         assignId: this.assignId,
         value: value,
@@ -289,10 +344,12 @@ export default {
           throw new Error('Request failure.')
         }
 
+        this.loading = false
         this.$bus.$emit('snackbar--show', snackSuccessMsg)
         this.fetch()
       }).catch(e => {
         console.error(e)
+        this.loading = false
         this.$bus.$emit('snackbar--show', {
           text: snackErrorMsg,
           btns: {
@@ -319,6 +376,7 @@ export default {
           color: 'error'
         },
         fn: (onSuccess, onError, doClose, fn) => {
+          this.loading = true
           this.$http.post('/comments/delete', qs.stringify({
             id: item.id
           })).then(res => {
@@ -327,11 +385,13 @@ export default {
               throw new Error('Request failure.')
             }
 
+            this.loading = false
             this.$bus.$emit('snackbar--show', 'Comment deleted.')
             this.fetch()
             onSuccess()
           }).catch(e => {
             console.error(e)
+            this.loading = false
             this.$bus.$emit('snackbar--show', {
               text: 'Unable to delete comment.',
               btns: {
