@@ -27,26 +27,43 @@ class Comments extends MY_Custom_Controller {
     $newAssigns = $this->_createAssigns($assigns);
 
     $content = json_decode($assign['content'], TRUE);
-    $assigned = $content['assigned'];
-    $subs = $content['sub'];
-    $subs_ids = array();
-    if ($subs) {
-      $subs_ids = $this->assigns_model->_to_col($subs, 'id');
-    }
-    $listOfValidIDs = $subs_ids;
-    // push assigned to subs
-    array_push($listOfValidIDs, $assigned);
-    $allowAction = in_array($uid, $subs_ids);
-    $allowComment = in_array($uid, $listOfValidIDs);
+    $assigned_id = $content['assigned']['id'];
 
-    // also get status of uid
-    $myStatus = false;
-    $indexOfUid = array_search($uid, $subs_ids);
-    if ($indexOfUid !== FALSE) {
-      if ($subs[$indexOfUid]['status'] == 1) {
-        $myStatus = 'approve';
-      } else if ($subs[$indexOfUid]['status'] == 0) {
-        $myStatus = 'disapprove';
+    // change sub to levels
+    $myStatus = array();
+    $revealAction = array();
+    $allowAction = array();
+    $allowComment = array();
+    
+    foreach ($content['levels'] as $key => $level) {
+      $myStatus[$key] = FALSE;
+      $allowAction[$key] = FALSE;
+      $allowComment[$key] = FALSE;
+
+      // $level is an array of objects
+      foreach ($level as $lvl_key => $user) {
+
+        // include my status here
+        if ($uid == $user['id']) {
+          $status = $user['status'];
+          if ($status == 1) {
+            $myStatus[$key] = 'approve';
+          } else if ($status == 0) {
+            $myStatus[$key] = 'disapprove';
+          }
+          // allow action and comment here
+          $allowAction[$key] = TRUE;
+          $allowComment[$key] = TRUE;
+
+          // only reveal action if myStatus is false
+          $revealAction[$key] = $myStatus[$key] === FALSE;
+        }
+      }
+
+      // if $assigned_id is me
+      // allow comment
+      if ($uid == $assigned_id) {
+        $allowComment[$key] = TRUE;
       }
     }
 
@@ -72,19 +89,22 @@ class Comments extends MY_Custom_Controller {
       'comments' => $comments,
       'allowComment' => $allowComment,
       'allowAction' => $allowAction,
-      'myStatus' => $myStatus
+      'myStatus' => $myStatus,
+      'revealAction' => $revealAction
     ));
   }
   
   public function comment() {
     $uid = $this->session->userdata('user')['id'];
     $assignId = $this->input->post('assignId');
+    $level = $this->input->post('level');
     $comment = $this->_filter($this->input->post('comment'));
     
     $data = array(
       'user_id' => $uid,
       'assign_id' => $assignId,
       'comment' => $comment,
+      'level' => $level,
       'created_at' => time(),
       'status' => 1
     );

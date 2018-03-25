@@ -3,7 +3,7 @@
   <v-btn icon slot="activator">
     <v-icon color="error" v-if="status(0)">cancel</v-icon>
     <v-icon color="success" v-else-if="status(1)">check_circle</v-icon>
-    <v-icon color="warning" v-else-if="status(2)">indeterminate_check_box</v-icon>
+    <v-icon color="accent" v-else-if="status(2)">indeterminate_check_box</v-icon>
     <v-icon color="grey" v-else-if="status(3)">block</v-icon>
   </v-btn>
   <span

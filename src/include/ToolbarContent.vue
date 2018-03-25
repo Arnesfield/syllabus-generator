@@ -10,7 +10,7 @@
     <v-btn icon dark @click="$bus.navToggle">
       <v-icon>{{ $route.meta.icon }}</v-icon>
     </v-btn>
-    <v-toolbar-title v-text="title"></v-toolbar-title>
+    <v-toolbar-title v-text="$bus.toolbar.titleContent || title"></v-toolbar-title>
 
     <template v-if="$route.name === 'Syllabus'">
       <v-spacer/>
@@ -36,16 +36,19 @@
         </v-btn>
         <span>View info</span>
       </v-tooltip>
-      <v-tooltip bottom v-if="!$bus.toolbar.comments.model">
-        <v-btn
-          icon
-          slot="activator"
-          @click="$bus.toolbar.comments.model = true"
-        >
-          <v-icon>chevron_left</v-icon>
-        </v-btn>
-        <span>Reveal</span>
-      </v-tooltip>
+      <template v-if="!$bus.toolbar.comments.model">
+        <btn-refresh tip="bottom"/>
+        <v-tooltip bottom>
+          <v-btn
+            icon
+            slot="activator"
+            @click="$bus.toolbar.comments.model = true"
+          >
+            <v-icon>chevron_left</v-icon>
+          </v-btn>
+          <span>Reveal</span>
+        </v-tooltip>
+      </template>
     </template>
 
     <v-tabs
@@ -64,8 +67,13 @@
 </template>
 
 <script>
+import BtnRefresh from '@/include/BtnRefresh'
+
 export default {
   name: 'toolbar-content',
+  components: {
+    BtnRefresh
+  },
   computed: {
     title() {
       return this.$route.meta.title || this.$route.name || 'Application'

@@ -148,7 +148,7 @@ export default {
 
   watch: {
     courseLoading(to, from) {
-      this.$bus.progress.circular.Generator.course = to
+      this.$bus.refresh(to)
     },
     saveLoading(to, from) {
       this.$bus.progress.circular.Generator.save = to
@@ -165,7 +165,7 @@ export default {
 
     assignId(to, from) {
       if (to) {
-        // this.$bus.$on('generator--course.refresh', this.fetchCourse)
+        // this.$bus.$on('refresh--btn', this.fetchCourse)
         this.fetchCourse()
       } else {
         // remove course
@@ -203,7 +203,7 @@ export default {
     this.$bus.generator.suggestions = true
 
     if (this.assignId !== null) {
-      this.$bus.$on('generator--course.refresh', this.fetchCourse)
+      this.$bus.$on('refresh--btn', this.fetchCourse)
       // do async and set the course
       // also set refresh button if failed
       this.fetchCourse()
@@ -218,10 +218,11 @@ export default {
     this.$bus.tabs.Generator.tab = null
     this.$bus.tabs.Generator.items = null
     this.$bus.generator.suggestions = true
+    this.$bus.toolbar.titleContent = null
 
     this.$bus.$off('generator--save', this.save)
     this.$bus.$off('syllabus-picker--syllabus.set', this.syllabusSet)
-    this.$bus.$off('generator--course.refresh', this.fetchCourse)
+    this.$bus.$off('refresh--btn', this.fetchCourse)
   },
 
   methods: {
@@ -369,6 +370,7 @@ export default {
         }
 
         this.course = res.data.course
+        this.$bus.toolbar.titleContent = this.course.code
       }).catch(e => {
         console.error(e)
         this.courseLoading = false

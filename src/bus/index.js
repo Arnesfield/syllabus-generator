@@ -30,9 +30,6 @@ export default new Vue({
     'dialog.global.confirm': function(to, from) {
       this.$emit('watch--dialog.global.confirm', to, from)
     },
-    'dialog.Assign.add': function(to, from) {
-      this.$emit('watch--dialog.Assign.add', to, from)
-    },
     'generator.suggestions': function(to, from) {
       if (to == false && this.generator.warn == false) {
         this.generator.warn = true
@@ -42,6 +39,11 @@ export default new Vue({
   },
   
   methods: {
+    refresh(e) {
+      this.progress.active = e
+      this.progress.refresh = e
+    },
+
     navToggle() {
       if (this.nav.model) {
         if (this.nav.miniVariant) {

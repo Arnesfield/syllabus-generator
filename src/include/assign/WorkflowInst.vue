@@ -57,7 +57,7 @@
 
         <!-- remarks -->
         <remarks-inst
-          :remarks="remarks()"
+          :remarks="shortRemarks()"
           class="mx-2 mb-3"
         />
 
@@ -109,7 +109,7 @@
         </v-tooltip>
 
         <v-tooltip top v-if="Number(assign.status) != 3">
-          <v-btn icon slot="activator" :to="'/syllabus/' + assign.id">
+          <v-btn icon slot="activator" :to="'/syllabus/' + assign.id + '/' + levels(true)">
             <v-icon color="grey">visibility</v-icon>
           </v-btn>
           <span>View Syllabus</span>
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import truncate from 'lodash/truncate'
 import AddMe from '@/include/AddMe'
 import Status from '@/include/Status'
 import IconImg from '@/include/IconImg'
@@ -147,7 +148,7 @@ export default {
       switch (Number(this.assign.status)) {
         case 0: return 'error'
         case 1: return 'success'
-        case 2: return 'warning'
+        case 2: return 'accent'
         case 3: return 'grey lighten-1'
       }
       return null
@@ -155,9 +156,6 @@ export default {
   },
 
   methods: {
-    createSyllabus() {
-      this.$router.push('/generator/' + this.assign.id)
-    },
     course() {
       return this.assign.content.course
     },
@@ -169,6 +167,13 @@ export default {
     },
     remarks() {
       return this.assign.content.remarks || null
+    },
+    shortRemarks() {
+      let remarks = this.remarks()
+      return !remarks ? null : truncate(remarks, {
+        length: 96,
+        separator: /,? +/
+      })
     },
     levels(levelOnly) {
       if (typeof levelOnly !== 'boolean') {

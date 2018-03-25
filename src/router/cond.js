@@ -7,7 +7,7 @@ export default function(router, http, bus) {
     const title = to.meta.title || to.name
 
     // do loading
-    bus.progress.active = true
+    bus.refresh(true)
 
     // convert to array
     let toAuth = toNumberArray(to.meta.auth)
@@ -37,7 +37,7 @@ export default function(router, http, bus) {
       }
     }
 
-    bus.progress.active = false
+    bus.refresh(false)
   }
 
   bus.$on('watch--session.auth', (route) => {

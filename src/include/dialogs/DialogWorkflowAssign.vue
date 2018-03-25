@@ -40,12 +40,11 @@
       >
         <v-tab :disabled="loading">Info</v-tab>
         <!-- loop levels -->
-        <template v-for="level in item.levels.length">
-          <v-tab
-            :key="level"
-            :disabled="loading"
-          >Lvl{{ level }}</v-tab>
-        </template>
+        <v-tab
+          :key="level"
+          :disabled="loading"
+          v-for="level in item.levels.length"
+        >Lvl{{ level }}</v-tab>
       </v-tabs>
     </v-layout>
 
@@ -56,14 +55,15 @@
             <workflow-info v-model="item"/>
           </v-tab-item>
           <!-- loop levels -->
-        <template v-for="(level, i) in item.levels">
-          <v-tab-item :key="i">
+          <v-tab-item
+            :key="i"
+            v-for="(level, i) in item.levels"
+          >
             <workflow-level
               :index="i"
               v-model="item.levels[i]"
             />
           </v-tab-item>
-        </template>
         </v-tabs-items>
       </v-form>
     </v-card-text>
@@ -233,7 +233,7 @@ export default {
           throw new Error
         }
         this.$bus.$emit('snackbar--show', 'Workflow created.')
-        this.$bus.$emit('workflow--refresh')
+        this.$bus.$emit('refresh--btn')
         this.show = false
       }).catch((e) => {
         console.error(e)

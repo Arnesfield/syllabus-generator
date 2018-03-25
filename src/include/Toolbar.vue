@@ -42,29 +42,13 @@
       </v-tooltip>
       <btn-refresh
         tip="bottom"
-        click="generator--course.refresh"
         v-if="$bus.generator.courseRefresh"
-        :refresh="$bus.progress.circular.Generator.course"
-      />
-    </template>
-
-    <template v-if="$route.name === 'Workflow'">
-      <v-spacer/>
-      <btn-refresh
-        click="workflow--refresh"
-        :refresh="$bus.progress.circular.Workflow.refresh"
-      />
-    </template>
-
-    <template v-if="$route.name === 'Assignments'">
-      <v-spacer/>
-      <btn-refresh
-        click="assignments--refresh"
-        :refresh="$bus.progress.circular.Assignments.refresh"
       />
     </template>
 
     <template v-if="$route.name === 'Workflow' || $route.name === 'Assignments'">
+      <v-spacer/>
+      <btn-refresh/>
       <v-tooltip bottom>
         <v-btn
           icon

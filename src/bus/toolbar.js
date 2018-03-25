@@ -1,4 +1,5 @@
 export default {
+  titleContent: null,
   sortByStatus: false,
   listView: false,
   comments: {

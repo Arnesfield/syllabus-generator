@@ -14,7 +14,10 @@
       standardHeight="calc(100vh - 112px)"
       pdfHeight="calc(100vh - 112px)"
     />
-    <sidenav-comment :assignId="assignId"/>
+    <sidenav-comment
+      :assignId="assignId"
+      :level="level"
+    />
   </template>
 
   <v-container
@@ -46,7 +49,8 @@ import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
 export default {
   name: 'syllabus',
   props: {
-    assignId: [Number, String]
+    assignId: [Number, String],
+    level: [Number, String]
   },
   components: {
     SyllabusInst,
@@ -73,13 +77,16 @@ export default {
   },
 
   created() {
+    this.$bus.$on('refresh--btn', this.fetch)
     this.$bus.$on('syllabus--pdf.toggle', this.pdfToggle)
     this.fetch()
     // reset
     this.$bus.toolbar.comments.pdf = false
   },
   beforeDestroy() {
+    this.$bus.$off('refresh--btn', this.fetch)
     this.$bus.$off('syllabus--pdf.toggle', this.pdfToggle)
+    this.$bus.toolbar.titleContent = null
   },
 
   methods: {
@@ -104,6 +111,7 @@ export default {
           throw new Error('Request failure.')
         }
         this.syllabus = res.data.syllabus
+        this.$bus.toolbar.titleContent = this.syllabus.content.course.code
         this.loading = false
       }).catch(e => {
         console.error(e)

@@ -95,7 +95,7 @@ export default {
         return
       }
 
-      this.$bus.progress.active = true
+      this.$bus.refresh(true)
       Papa.parse(this.file, {
         header: true,
         dynamicTyping: true,
@@ -117,14 +117,14 @@ export default {
             if (typeof res.data.success !== 'number') {
               throw new Error
             }
-            this.$bus.progress.active = false
+            this.$bus.refresh(false)
             this.$bus.dialog.ManageUsers.csv = false
             this.$bus.$emit('snackbar--show', 'Added users successfully.')
             this.$bus.$emit('manage--users.update')
             this.clear()
           }).catch((e) => {
             console.error(e)
-            this.$bus.progress.active = false
+            this.$bus.refresh(false)
             this.$bus.$emit('snackbar--show', 'Cannot add users.')
           })
         }

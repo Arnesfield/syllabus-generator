@@ -97,7 +97,7 @@ export default {
   }),
   watch: {
     loading(to, from) {
-      this.$bus.progress.circular.Assignments.refresh = to
+      this.$bus.refresh(to)
     },
     '$bus.toolbar.listView': function(e) {
       this.listView = e
@@ -106,11 +106,11 @@ export default {
 
   created() {
     this.listView = this.$bus.toolbar.listView
-    this.$bus.$on('assignments--refresh', this.fetch)
+    this.$bus.$on('refresh--btn', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
-    this.$bus.$off('assignments--refresh', this.fetch)
+    this.$bus.$off('refresh--btn', this.fetch)
   },
 
   methods: {

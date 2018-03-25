@@ -1,7 +1,7 @@
 <template>
 <v-dialog
   v-model="show"
-  width="700"
+  width="720"
   :persistent="loading"
   transition="fade-transition"
   scrollable
@@ -19,7 +19,7 @@
       <v-layout row wrap>
         <v-flex
           xs12 sm5 class="pr-2"
-          style="max-height: 512px; overflow-y: auto"
+          style="max-height: 420px; overflow-y: auto"
         >
           <div class="body-1 grey--text">Workflow by</div>
           <v-list>

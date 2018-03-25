@@ -14,11 +14,11 @@
         indeterminate
         :width="6"
         :size="18"
-        v-if="refresh"
+        v-if="$bus.progress.refresh"
       />
       <v-icon v-else>refresh</v-icon>
     </v-btn>
-    <span v-if="refresh">Refreshing</span>
+    <span v-if="$bus.progress.refresh">Refreshing</span>
     <span v-else>Refresh</span>
   </v-tooltip>
 </template>
@@ -27,8 +27,10 @@
 export default {
   name: 'btn-refresh',
   props: {
-    click: String,
-    refresh: Boolean,
+    click: {
+      type: String,
+      default: 'refresh--btn'
+    },
     tip: {
       type: String,
       default: 'left'

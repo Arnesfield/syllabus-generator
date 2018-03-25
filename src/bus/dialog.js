@@ -13,8 +13,5 @@ export default {
   ManageBooks: {
     add: false,
     csv: false
-  },
-  Assign: {
-    add: false
   }
 }
