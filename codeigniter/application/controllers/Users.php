@@ -25,19 +25,6 @@ class Users extends MY_Custom_Controller {
   }
 
   // admin
-  public function add() {
-    $post_values = array('fname', 'mname', 'lname', 'username', 'password', 'img_src', 'type', 'status');
-    foreach ($post_values as $value) {
-      $initial = $this->_filter($this->input->post($value));
-      $user[$value] = $value == 'password' ? password_hash($initial, PASSWORD_BCRYPT) : $initial;
-    }
-    $user['auth'] = json_encode(array($user['type']));
-    $time = time();
-    $user['created_at'] = $time;
-    $user['updated_at'] = $time;
-    $res = $this->users_model->insert($user);
-    $this->_json($res);
-  }
 
   public function addCsv() {
     $users = $this->input->post('users');
@@ -65,6 +52,90 @@ class Users extends MY_Custom_Controller {
     $where = array('id' => $id);
     $res = $this->users_model->update($data, $where);
     $this->_json($res);
+  }
+
+  public function manage() {
+    $img_src = FALSE;
+
+    // upload image first
+    // check if image exists
+    if ($_FILES && $_FILES['file']) {
+      $res = $this->_uploadFile();
+      if (!$res['success']) {
+        $this->_json(FALSE, 'error', strip_tags($res['error']));
+      } else {
+        $img_src = $res['data']['file_name'];
+      }
+    }
+
+    $fname = $this->_filter($this->input->post('fname'));
+    $mname = $this->_filter($this->input->post('mname'));
+    $lname = $this->_filter($this->input->post('lname'));
+    $username = $this->_filter($this->input->post('username'));
+    $title = $this->_filter($this->input->post('title'));
+    $weight = $this->input->post('weight');
+    $status = $this->input->post('status');
+
+    $tags = $this->input->post('tags');
+    $auth = $this->input->post('auth');
+
+    // options
+    $mode = $this->input->post('mode');
+    $alsoPassword = $this->input->post('alsoPassword');
+
+    $TIME = time();
+    
+    $data = array(
+      'fname' => $fname,
+      'mname' => $mname,
+      'lname' => $lname,
+      'username' => $username,
+      'title' => $title,
+      'weight' => $weight,
+      'updated_at' => $TIME,
+      'tags' => $tags,
+      'auth' => $auth,
+      'status' => $status
+    );
+    
+    $alsoPassword = filter_var($alsoPassword, FILTER_VALIDATE_BOOLEAN);
+    if ($alsoPassword === TRUE) {
+      $password = $this->input->post('password');
+      $data['password'] = password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    // change img src if yeah you get it
+    if ($img_src !== FALSE) {
+      $data['img_src'] = $img_src;
+    }
+    
+    if ($mode == 'add') {
+      $data['created_at'] = $TIME;
+    }
+
+    if ($mode == 'edit') {
+      $id = $this->input->post('id');
+      $res = $this->users_model->update($data, array('id' => $id));
+    }
+    else {
+      $res = $this->users_model->insert($data);
+    }
+
+    // insert new tags
+    $this->load->model('tags_model');
+    $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+
+    // update session if id same as sess id
+    $uid = $this->session->userdata('user')['id'];
+    $updatedSess = FALSE;
+    if (isset($id) && $id == $uid) {
+      $this->_updateSess();
+      $updatedSess = TRUE;
+    }
+
+    $this->_json($res, array(
+      'sess' => $updatedSess
+    ));
   }
 }
 

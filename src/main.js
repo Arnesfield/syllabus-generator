@@ -49,6 +49,7 @@ routerCond(router, http, bus)
 
 /* eslint-disable no-new */
 // before creating instance, check if session exists
+document.getElementById('loading').style.display = 'flex'
 http.post('/sess').then((res) => {
   document.getElementById('loading').style.display = 'none'
   if (!res.data.success) {

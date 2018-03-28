@@ -6,6 +6,7 @@ const msgs = {
   email: 'Invalid email.',
   chars: 'Invalid value.',
   chars8: 'Requires 8 or more characters.',
+  password: 'Requires 6 to 13 characters.',
   match: 'Value does not match.',
   nonExisting: 'This already exists.',
   duplicateEmail: 'This email already exists.'
@@ -22,6 +23,7 @@ let rules = {
   },
   chars: (msg, n) => (e) => (e ? e.length >= n : false) || msg,
   chars8: (msg) => (e) => (e ? e.length >= 8 : false) || msg,
+  password: (msg) => (e) => (e && e.length >= 6 && e.length <= 13) || msg,
   match: (msg, match) => (e) => e == match || msg,
   nonExisting: (msg, arr) => (e) => {
     if (!arr) { return true }

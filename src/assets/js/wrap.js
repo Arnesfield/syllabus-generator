@@ -38,6 +38,6 @@ export default {
     return fullname
   },
   localImg(url) {
-    return baseURL + 'uploads/images/' + ur;
+    return baseURL + 'uploads/images/' + url
   }
 }

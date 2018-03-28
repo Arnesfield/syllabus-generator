@@ -26,20 +26,20 @@
       <td>{{ props.item.id }}</td>
       <td>
         <template v-if="props.item.img_src.length">
-          <img
-            class="tbl-img"
-            :src="'./uploads/' + props.item.img_src"
-            :alt="props.item.username">
+          <icon-img
+            class="ma-2"
+            :item="props.item"
+            :alt="props.item.username"
+          />
         </template>
         <pre v-else>No image.</pre>
       </td>
       <td>{{ props.item.fname }}</td>
-      <td>{{ props.item.mname }}</td>
       <td>{{ props.item.lname }}</td>
       <td>{{ props.item.username }}</td>
-      <td>{{ props.item.type == 1 ? 'Admin' : 'Faculty' }}</td>
+      <td>{{ props.item.title }}</td>
       <td>
-        <div class="justify-center layout">
+        <v-layout justify-center align-center>
           <v-tooltip top>
             <template slot="activator">
               <v-icon
@@ -51,27 +51,28 @@
             </template>
             <span>{{ props.item.status == 1 ? 'Activated' : 'Deactivated' }}</span>
           </v-tooltip>
-        </div>
+        </v-layout>
       </td>
-      <td class="justify-center layout px-0">
-        <v-tooltip top>
-          <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
-            <v-icon color="teal">edit</v-icon>
-          </v-btn>
-          <span>Edit</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
-            <v-icon color="pink">delete</v-icon>
-          </v-btn>
-          <span>Delete</span>
-        </v-tooltip>
+      <td class="px-0">
+        <v-layout justify-center align-center>
+          <v-tooltip top>
+            <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
+              <v-icon color="teal">edit</v-icon>
+            </v-btn>
+            <span>Edit</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
+              <v-icon color="pink">delete</v-icon>
+            </v-btn>
+            <span>Delete</span>
+          </v-tooltip>
+        </v-layout>
       </td>
     </template>
   </v-data-table>
 
   <dialog-manage-user ref="dialogManage"/>
-  <dialog-add-user/>
   <dialog-csv-users/>
 
 </v-container>
@@ -79,15 +80,15 @@
 
 <script>
 import qs from 'qs'
+import IconImg from '@/include/IconImg'
 import DialogManageUser from '@/include/dialogs/DialogManageUser'
-import DialogAddUser from '@/include/dialogs/DialogAddUser'
 import DialogCsvUsers from '@/include/dialogs/DialogCsvUsers'
 
 export default {
   name: 'manage-users',
   components: {
+    IconImg,
     DialogManageUser,
-    DialogAddUser,
     DialogCsvUsers
   },
   data: () => ({
@@ -97,17 +98,16 @@ export default {
       { text: 'Id', value: 'id', align: 'left', sortable: false },
       { text: 'Image', value: 'img_src', align: 'left', sortable: false },
       { text: 'First Name', value: 'fname', align: 'left' },
-      { text: 'Middle Name', value: 'mname', align: 'left' },
       { text: 'Surname', value: 'lname', align: 'left' },
       { text: 'Username', value: 'username', align: 'left' },
-      { text: 'Type', value: 'type', align: 'left', sortable: false },
+      { text: 'Title', value: 'title', align: 'left', sortable: false },
       { text: 'Status', value: 'status', align: 'left', sortable: false },
       { text: 'Actions', value: 'id', sortable: false }
     ],
     users: [],
     currId: null,
     // for data table
-    loading: null,
+    loading: false,
     pagination: {}
   }),
 
@@ -117,6 +117,9 @@ export default {
       handler() {
         console.log(this.pagination)
       }
+    },
+    loading(e) {
+      this.$bus.refresh(e)
     }
   },
 
@@ -124,12 +127,14 @@ export default {
     this.$bus.$on('manage--users.add', this.addItem)
     this.$bus.$on('manage--users.upload', this.csvUsers)
     this.$bus.$on('manage--users.update', this.fetch)
+    this.$bus.$on('refresh--btn', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('manage--users.add', this.addItem)
     this.$bus.$off('manage--users.upload', this.csvUsers)
     this.$bus.$off('manage--users.update', this.fetch)
+    this.$bus.$off('refresh--btn', this.fetch)
   },
 
   methods: {
@@ -185,7 +190,6 @@ export default {
     },
 
     addItem() {
-      // this.$bus.dialog.ManageUsers.add = true
       if (this.$refs.dialogManage) {
         this.$refs.dialogManage.addItem()
       }

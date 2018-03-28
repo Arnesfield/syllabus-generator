@@ -88,6 +88,9 @@ export default {
       handler() {
         console.log(this.pagination)
       }
+    },
+    loading(e) {
+      this.$bus.refresh(e)
     }
   },
 
@@ -95,12 +98,14 @@ export default {
     this.$bus.$on('manage--books.add', this.addBook)
     this.$bus.$on('manage--books.upload', this.csvBooks)
     this.$bus.$on('manage--books.update', this.fetch)
+    this.$bus.$on('refresh--btn', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('manage--books.add', this.addBook)
     this.$bus.$off('manage--books.upload', this.csvBooks)
     this.$bus.$off('manage--books.update', this.fetch)
+    this.$bus.$off('refresh--btn', this.fetch)
   },
 
   methods: {

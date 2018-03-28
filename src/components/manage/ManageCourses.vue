@@ -101,6 +101,9 @@ export default {
       handler() {
         console.log(this.pagination)
       }
+    },
+    loading(e) {
+      this.$bus.refresh(e)
     }
   },
 
@@ -108,12 +111,14 @@ export default {
     this.$bus.$on('manage--courses.add', this.addCourse)
     this.$bus.$on('manage--courses.upload', this.csvCourses)
     this.$bus.$on('manage--courses.update', this.fetch)
+    this.$bus.$on('refresh--btn', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('manage--courses.add', this.addCourse)
     this.$bus.$off('manage--courses.upload', this.csvCourses)
     this.$bus.$off('manage--courses.update', this.fetch)
+    this.$bus.$off('refresh--btn', this.fetch)
   },
 
   methods: {

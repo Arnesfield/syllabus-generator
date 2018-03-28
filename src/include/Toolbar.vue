@@ -76,6 +76,17 @@
       </v-tooltip>
     </template>
 
+    <template
+      v-if="
+        $route.name === 'ManageUsers' ||
+        $route.name === 'ManageCourses' ||
+        $route.name === 'ManageBooks'
+      "
+    >
+      <v-spacer/>
+      <btn-refresh/>
+    </template>
+
   </v-toolbar>
 </template>
 

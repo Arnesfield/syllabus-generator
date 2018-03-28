@@ -86,7 +86,7 @@ export default {
     lists: [
       {
         header: '',
-        auth: [3, 4],
+        auth: [3, 4, 5],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
           // { title: 'Generator', icon: 'build', to: '/generator' }
@@ -94,14 +94,14 @@ export default {
       },
       {
         header: '',
-        auth: [3, 4],
+        auth: [3, 4, 5],
         items: [
           { title: 'Assignments', icon: 'assignment', to: '/assignments' }
         ]
       },
       {
         header: '',
-        auth: [3, 4],
+        auth: [4],
         items: [
           { title: 'Workflow', icon: 'supervisor_account', to: '/workflow' }
         ]

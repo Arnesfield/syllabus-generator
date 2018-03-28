@@ -3,7 +3,6 @@ export default {
     confirm: null
   },
   ManageUsers: {
-    add: false,
     csv: false
   },
   ManageCourses: {

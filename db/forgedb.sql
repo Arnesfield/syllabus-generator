@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2018 at 07:21 PM
+-- Generation Time: Mar 28, 2018 at 09:17 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -475,7 +475,10 @@ INSERT INTO `fields` (`id`, `title`, `status`) VALUES
 (37, 'Basic Input and Output', 1),
 (38, 'System Analysis', 1),
 (39, 'System Design', 1),
-(40, 'Software Requirements', 1);
+(40, 'Software Requirements', 1),
+(41, 'Ruby', 1),
+(42, 'NodeJS', 1),
+(43, 'AngularJS', 1);
 
 -- --------------------------------------------------------
 
@@ -1349,7 +1352,6 @@ CREATE TABLE `users` (
   `img_src` text NOT NULL,
   `tags` text NOT NULL,
   `status` tinyint(4) NOT NULL,
-  `type` tinyint(4) NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `auth` text NOT NULL
@@ -1359,12 +1361,13 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weight`, `password`, `img_src`, `tags`, `status`, `type`, `created_at`, `updated_at`, `auth`) VALUES
-(1, 'John', 'Smith', 'Doe', 'test', '', 0, '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', '', 1, 1, 0, 0, '[1,3]'),
-(2, 'Jane', '', 'Doe', 'charlyn', '', 0, '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', '', 1, 3, 0, 1521732242, '[3]'),
-(3, 'Smith', '', 'Paul', 'ralph', '', 0, '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', '', 1, 4, 0, 0, '[4]'),
-(4, 'Cayle', '', 'Gaspar', 'cayle', '', 0, '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', '', 1, 3, 0, 0, '[\"3\"]'),
-(5, 'Joanne', '', 'Katrin', 'joanne', '', 0, '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', '', 1, 0, 0, 0, '[\"3\"]');
+INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weight`, `password`, `img_src`, `tags`, `status`, `created_at`, `updated_at`, `auth`) VALUES
+(1, 'John', 'Smithx', 'Doe', 'test', 'new', 0, '$2y$10$tEU6V/HbHOZ59TQQpUrIb.eE3enrCo5i.fYkvSKY9EPFwJJqnMh1C', 'F_1522260047.png', '[]', 1, 0, 1522263942, '[\"1\",\"3\"]'),
+(2, 'Jane', '', 'Doe', 'charlyn', '', 0, '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', '', 1, 0, 1521732242, '[3]'),
+(3, 'Smith', '', 'Paul', 'ralph', '', 0, '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', '', 1, 0, 0, '[4]'),
+(4, 'Cayle', '', 'Gaspar', 'cayle', '', 0, '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', '', 1, 0, 0, '[\"3\"]'),
+(5, 'Joanne', '', 'Katrin', 'joanne', '', 0, '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', '', 1, 0, 0, '[\"3\"]'),
+(8, 'New', 'test', 'last', 'rylee', 'title', 1, '$2y$10$Q98nMpNSrXABd8McFGfi7eD11q6HZk/J8hoHoS5ISXPXyJH/paleC', 'F_1522263636.png', '[\"Software Testing\",\"Programming\",\"Android Application Development\",\"JavaScript\",\"Ruby\",\"NodeJS\",\"AngularJS\"]', 1, 1522263636, 1522264150, '[\"4\",\"5\",\"3\"]');
 
 -- --------------------------------------------------------
 
@@ -1627,7 +1630,7 @@ ALTER TABLE `curriculum`
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `materials`
@@ -1711,7 +1714,7 @@ ALTER TABLE `topic_task_relation`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `workflow_logs`

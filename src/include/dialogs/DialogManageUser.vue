@@ -3,7 +3,7 @@
   v-model="show"
   :persistent="true"
   transition="fade-transition"
-  width="720"
+  width="800"
   scrollable
 >
   <v-card>
@@ -192,8 +192,8 @@
                   :type="hidePass.password ? 'password' : 'text'"
                   :append-icon="hidePass.password ? 'visibility' : 'visibility_off'"
                   :append-icon-cb="() => (hidePass.password = !hidePass.password)"
-                  hint="Password must be at least 8 characters!"
-                  :rules="[$fRule('required'), $fRule('chars8')]"
+                  hint="Password must be at least 6 up to 13 characters!"
+                  :rules="[$fRule('required'), $fRule('password')]"
                   required
                 />
 
@@ -507,6 +507,7 @@ export default {
       data.append('lname', this.lname)
       data.append('username', this.username)
       data.append('title', this.title)
+      data.append('weight', this.weight)
       data.append('status', this.status.value)
 
       data.append('alsoPassword', this.alsoPassword)
@@ -534,7 +535,14 @@ export default {
       this.$http.post(this.url, data).then(res => {
         console.warn(res.data)
         if (!res.data.success) {
+          if (res.data.error) {
+            this.$bus.$emit('snackbar--show', res.data.error)
+          }
           throw new Error('Request failure.')
+        }
+        
+        if (res.data.sess) {
+          this.$bus.sessionCheck(this.$route, this.$http)
         }
 
         let msg = this.mode == 'add'

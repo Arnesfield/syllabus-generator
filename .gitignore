@@ -16,3 +16,7 @@ yarn-error.log*
 # Ignore built public/ files
 /public/index.html
 /public/static/
+
+# Ignore images
+/public/uploads/images/*
+!/public/uploads/images/.gitkeep

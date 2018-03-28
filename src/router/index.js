@@ -52,7 +52,7 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: [3, 4],
+        auth: [3, 4, 5],
         icon: 'dashboard'
       }
     },
@@ -71,7 +71,7 @@ export default new Router({
       name: 'Assignments',
       component: Assignments,
       meta: {
-        auth: [3, 4],
+        auth: [3, 4, 5],
         icon: 'assignment'
       }
     },
@@ -80,7 +80,7 @@ export default new Router({
       name: 'Workflow',
       component: Workflow,
       meta: {
-        auth: [3, 4],
+        auth: [4],
         icon: 'supervisor_account'
       }
     },
@@ -90,7 +90,7 @@ export default new Router({
       component: Syllabus,
       props: true,
       meta: {
-        auth: [3, 4],
+        auth: [3, 4, 5],
         icon: 'subject'
       }
     },

@@ -8,6 +8,7 @@
     <img
       v-if="imgSrc.isImg"
       :src="imgSrc.text"
+      :alt="alt"
     >
     <span
       v-else
@@ -44,6 +45,10 @@ export default {
       type: Boolean,
       default: false
     },
+    alt: {
+      type: String,
+      default: 'avatar'
+    }
   },
   computed: {
     imgSrc() {
@@ -51,7 +56,7 @@ export default {
       if (typeof user !== 'object' || user === null) {
         return null
       }
-      if (typeof user.imgSrc !== 'string' || !user.imgSrc.length) {
+      if (typeof user.img_src !== 'string' || !user.img_src.length) {
         return {
           isImg: false,
           text: user.fname.charAt(0).toUpperCase()
@@ -59,7 +64,7 @@ export default {
       }
       return {
         isImg: true,
-        text: this.$wrap.localImg(user.imgSrc)
+        text: this.$wrap.localImg(user.img_src)
       }
     }
   }
