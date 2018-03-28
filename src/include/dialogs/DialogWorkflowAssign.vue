@@ -48,11 +48,14 @@
       </v-tabs>
     </v-layout>
 
-    <v-card-text>
+    <v-card-text style="overflow-x: hidden">
       <v-form ref="form" v-model="form">
         <v-tabs-items v-model="tabs">
           <v-tab-item>
-            <workflow-info v-model="item"/>
+            <workflow-info
+              v-model="item"
+              :loading="loading"
+            />
           </v-tab-item>
           <!-- loop levels -->
           <v-tab-item
@@ -62,6 +65,7 @@
             <workflow-level
               :index="i"
               v-model="item.levels[i]"
+              :loading="loading"
             />
           </v-tab-item>
         </v-tabs-items>

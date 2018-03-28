@@ -14,6 +14,7 @@
               slot="activator"
               color="primary"
               @click="dialog = true"
+              :disabled="loading"
             >
               <v-icon>add</v-icon>
             </v-btn>
@@ -40,6 +41,7 @@
               color="error"
               slot="activator"
               @click="selected.splice(i, 1)"
+              :disabled="loading"
             >
               <v-icon small>close</v-icon>
             </v-btn>
@@ -64,6 +66,7 @@
   <v-btn
     color="primary lighten-1"
     @click="dialog = true"
+    :disabled="loading"
   >
     <v-icon>add</v-icon>
     <span>Add User</span>
@@ -82,15 +85,15 @@
       :append-icon="search ? 'close' : undefined"
       :append-icon-cb="search ? () => { search = null } : undefined"
       v-model="search"
-      :loading="loading"
+      :loading="dLoading"
     />
 
     <v-progress-linear
-      :active="loading"
+      :active="dLoading"
       :indeterminate="true"
       color="accent"
       class="my-0"
-      :height="loading ? 3 : 0"
+      :height="dLoading ? 3 : 0"
       background-color="white"
     />
 
@@ -180,7 +183,11 @@ export default {
   },
   props: {
     value: Object,
-    index: [String, Number]
+    index: [String, Number],
+    loading: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     url: '/users/search',
@@ -190,7 +197,7 @@ export default {
 
     dialog: false,
     search: null,
-    loading: false
+    dLoading: false
   }),
   watch: {
     value: {
@@ -205,6 +212,12 @@ export default {
         this.setInitial()
         this.$emit('input', e)
       }
+    },
+    loading(e) {
+      this.dLoading = e
+    },
+    dLoading(e) {
+      // this.$emit('update:loading', e)
     },
 
     selected(e) {
@@ -221,12 +234,13 @@ export default {
       }
     },
     search(e) {
-      this.loading = true
+      this.dLoading = true
       this.query()
     }
   },
   created() {
     this.item = this.value
+    this.dLoading = this.loading
     this.setInitial()
   },
 
@@ -247,20 +261,20 @@ export default {
         this.suggest()
         return
       }
-      this.loading = true
+      this.dLoading = true
       this.$http.post(this.url, qs.stringify({
         search: search
       })).then((res) => {
         this.items = res.data.users
-        this.loading = false
+        this.dLoading = false
       }).catch(e => {
         console.error(e)
-        this.loading = false
+        this.dLoading = false
       })
     }),
 
     suggest() {
-      this.loading = false
+      this.dLoading = false
 
     }
   }

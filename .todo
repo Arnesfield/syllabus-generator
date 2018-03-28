@@ -2,14 +2,14 @@ Comments of Panelists
 
 ** A **
   ☐ make the system fully functional (management modules)
-  ☐ access level should be hierarchical (workflow-related)
+  ✔ access level should be hierarchical (workflow-related) @done (2018-3-28 15:08:34)
   ☐ make sure all comments in the proposal defense are addressed
   ☐ include course type to categorize CLO and other possible usage (programming graphics)
   ☐ redo results and discussion based on panelist comment
   ☐ no management module yet for all process
 
 ** V **
-  ☐ review assignment - should be in hierarchy
+  ✔ review assignment - should be in hierarchy @done (2018-3-28 15:08:47)
   ☐ (coordinator, director, senior director) ACCEPTANCE
   ✔ Course Learning Outcomes - selection box (I,E,D) @done (2018-3-23 18:45:39)
     ☐ CRUD <-(for all) for choices
@@ -17,7 +17,7 @@ Comments of Panelists
   ☐ indicate the approvals in the syllabus
   ☐ setup module - course code upload
   ☐ curriculum / course flow - mapping per accomplished
-  ☐ conduct & schedule UAT w/ the client & present syllabus results
+  ✔ conduct & schedule UAT w/ the client & present syllabus results @done (2018-3-28 15:10:15)
   ☐ present the mobile app
 
 ** R **

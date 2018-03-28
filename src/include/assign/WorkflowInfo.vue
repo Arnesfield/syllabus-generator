@@ -34,6 +34,7 @@
             : undefined
         "
         :persistent-hint="!levels || levels < 1"
+        :disabled="loading"
       />
     </v-flex>
   </v-layout>
@@ -54,6 +55,7 @@
         color="primary lighten-1"
         @click="dialogCourse = true"
         v-if="selectedCourse === null"
+        :disabled="loading"
       >
         <v-icon>school</v-icon>
         &nbsp;
@@ -67,6 +69,7 @@
               small
               slot="activator"
               @click="dialogCourse = true"
+              :disabled="loading"
             >
               <v-icon
                 small
@@ -99,7 +102,7 @@
         color="primary lighten-1"
         @click="dialogUser = true"
         v-if="selectedUser === null"
-        :disabled="selectedCourse === null"
+        :disabled="dLoading || selectedCourse === null"
       >
         <v-icon>person</v-icon>
         &nbsp;
@@ -113,6 +116,7 @@
               small
               slot="activator"
               @click="dialogUser = true"
+              :disabled="loading"
             >
               <v-icon
                 small
@@ -159,6 +163,7 @@
         v-model="remarks"
         class="multi-line-textarea"
         multi-line
+        :disabled="loading"
       />
     </v-flex>
   </v-layout>
@@ -178,15 +183,15 @@
       :append-icon="searchCourse ? 'close' : undefined"
       :append-icon-cb="searchCourse ? () => { searchCourse = null } : undefined"
       v-model="searchCourse"
-      :loading="loading"
+      :loading="dLoading"
     />
 
     <v-progress-linear
-      :active="loading"
+      :active="dLoading"
       :indeterminate="true"
       color="accent"
       class="my-0"
-      :height="loading ? 3 : 0"
+      :height="dLoading ? 3 : 0"
       background-color="white"
     />
 
@@ -251,15 +256,15 @@
       :append-icon="searchUser ? 'close' : undefined"
       :append-icon-cb="searchUser ? () => { searchUser = null } : undefined"
       v-model="searchUser"
-      :loading="loading"
+      :loading="dLoading"
     />
 
     <v-progress-linear
-      :active="loading"
+      :active="dLoading"
       :indeterminate="true"
       color="accent"
       class="my-0"
-      :height="loading ? 3 : 0"
+      :height="dLoading ? 3 : 0"
       background-color="white"
     />
 
@@ -350,7 +355,11 @@ export default {
     SelectList
   },
   props: {
-    value: Object
+    value: Object,
+    loading: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     userUrl: '/users/search',
@@ -363,7 +372,7 @@ export default {
     dialogCourse: false,
     searchUser: null,
     searchCourse: null,
-    loading: false,
+    dLoading: false,
 
     users: [],
     courses: [],
@@ -386,6 +395,12 @@ export default {
         this.setInitial()
         this.$emit('input', e)
       }
+    },
+    loading(e) {
+      this.dLoading = e
+    },
+    dLoading(e) {
+      // this.$emit('update:loading', e)
     },
 
     selectedUser(e) {
@@ -451,7 +466,7 @@ export default {
       }
     },
     searchUser(e) {
-      this.loading = true
+      this.dLoading = true
       this.queryUser()
     },
 
@@ -466,12 +481,13 @@ export default {
       }
     },
     searchCourse(e) {
-      this.loading = true
+      this.dLoading = true
       this.queryCourse()
     }
   },
   created() {
     this.item = this.value
+    this.dLoading = this.loading
     this.setInitial()
   },
 
@@ -492,15 +508,15 @@ export default {
         return
       }
 
-      this.loading = true
+      this.dLoading = true
       this.$http.post(this.userUrl, qs.stringify({
         search: search
       })).then((res) => {
-        this.loading = false
+        this.dLoading = false
         this.users = res.data.users
       }).catch(e => {
         console.error(e)
-        this.loading = false
+        this.dLoading = false
       })
     }, 300),
 
@@ -513,24 +529,24 @@ export default {
         return
       }
 
-      this.loading = true
+      this.dLoading = true
       this.$http.post(this.courseUrl, qs.stringify({
         search: search
       })).then((res) => {
-        this.loading = false
+        this.dLoading = false
         this.courses = res.data.courses
       }).catch(e => {
         console.error(e)
-        this.loading = false
+        this.dLoading = false
       })
     }, 300),
 
     suggestUsers() {
-      this.loading = false
+      this.dLoading = false
 
     },
     suggestCourses() {
-      this.loading = false
+      this.dLoading = false
 
     }
   }
