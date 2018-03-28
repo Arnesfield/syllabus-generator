@@ -70,6 +70,7 @@
     </template>
   </v-data-table>
 
+  <dialog-manage-user ref="dialogManage"/>
   <dialog-add-user/>
   <dialog-csv-users/>
 
@@ -78,12 +79,14 @@
 
 <script>
 import qs from 'qs'
+import DialogManageUser from '@/include/dialogs/DialogManageUser'
 import DialogAddUser from '@/include/dialogs/DialogAddUser'
 import DialogCsvUsers from '@/include/dialogs/DialogCsvUsers'
 
 export default {
   name: 'manage-users',
   components: {
+    DialogManageUser,
     DialogAddUser,
     DialogCsvUsers
   },
@@ -118,13 +121,13 @@ export default {
   },
 
   created() {
-    this.$bus.$on('manage--users.add', this.addUser)
+    this.$bus.$on('manage--users.add', this.addItem)
     this.$bus.$on('manage--users.upload', this.csvUsers)
     this.$bus.$on('manage--users.update', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
-    this.$bus.$off('manage--users.add', this.addUser)
+    this.$bus.$off('manage--users.add', this.addItem)
     this.$bus.$off('manage--users.upload', this.csvUsers)
     this.$bus.$off('manage--users.update', this.fetch)
   },
@@ -176,11 +179,16 @@ export default {
     },
 
     editItem(item) {
-      
+      if (this.$refs.dialogManage) {
+        this.$refs.dialogManage.editItem(item)
+      }
     },
 
-    addUser() {
-      this.$bus.dialog.ManageUsers.add = true
+    addItem() {
+      // this.$bus.dialog.ManageUsers.add = true
+      if (this.$refs.dialogManage) {
+        this.$refs.dialogManage.addItem()
+      }
     },
     csvUsers() {
       this.$bus.dialog.ManageUsers.csv = true

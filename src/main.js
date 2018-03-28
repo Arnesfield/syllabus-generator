@@ -50,6 +50,7 @@ routerCond(router, http, bus)
 /* eslint-disable no-new */
 // before creating instance, check if session exists
 http.post('/sess').then((res) => {
+  document.getElementById('loading').style.display = 'none'
   if (!res.data.success) {
     throw new Error('Request failure.')
   }

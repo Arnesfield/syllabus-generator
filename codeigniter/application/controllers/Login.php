@@ -14,6 +14,7 @@ class Login extends MY_Custom_Controller {
     // get user with username
     $user = array('username' => $username);
     $users = $this->login_model->get($user);
+    $users = $this->_formatUsers($users);
 
     // user types
     // 2 = admin
@@ -42,9 +43,6 @@ class Login extends MY_Custom_Controller {
         'error' => 'This account has been suspended.'
       ));
     }
-
-    // parse auth field
-    $user['auth'] = json_decode($user['auth'], TRUE);
 
     // set session
     $this->session->set_userdata(array(

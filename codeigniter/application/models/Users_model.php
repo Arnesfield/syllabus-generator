@@ -23,8 +23,8 @@ class Users_model extends MY_Custom_Model {
   public function getByQuery($search) {
     
     $this->db
-    ->from('users')
-    ->where('status !=', -1);
+      ->from('users')
+      ->where('status !=', -1);
     
     if ($search) {
       $search = strtolower($search);

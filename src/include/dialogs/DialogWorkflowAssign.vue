@@ -83,16 +83,23 @@
         @keypress.enter="show = false"
         v-text="'Cancel'"
       />
-      <v-btn
-        flat
-        tabindex="0"
-        color="primary"
-        :disabled="loading"
-        @click="tabs = 0"
-        v-if="Number(tabs) > 0"
-        @keypress.enter="tabs = 0"
-        v-text="'Info'"
-      />
+      <v-tooltip
+        top
+        v-else-if="Number(tabs) > 0"
+      >
+        <v-btn
+          icon
+          tabindex="0"
+          color="primary lighten-1"
+          slot="activator"
+          :disabled="loading"
+          @click="tabs = 0"
+          @keypress.enter="tabs = 0"
+        >
+          <v-icon dark>first_page</v-icon>
+        </v-btn>
+        <span>Back to Info</span>
+      </v-tooltip>
       <v-spacer/>
       <v-tooltip
         top

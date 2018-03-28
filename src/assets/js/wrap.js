@@ -11,6 +11,17 @@ export default {
     
     return status[e]
   },
+  fileSize(num) {
+    let n = Number(num)
+    if (n >= 1000 * 1000 * 1000) {
+      return (n / 1000 / 1000 / 1000).toFixed(2) + ' GB'
+    } else if (n >= 1000 * 1000) {
+      return (n / 1000 / 1000).toFixed(2) + ' MB'
+    } else if (n >= 1000) {
+      return (n / 1000).toFixed(2) + ' KB'
+    }
+    return n + ' bytes'
+  },
 
   fullname(user, mname) {
     if (typeof user !== 'object') {

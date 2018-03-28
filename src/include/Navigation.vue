@@ -12,7 +12,7 @@
     class="pb-0"
     :class="{ 'py-0': i != 0 }"
     :key="i"
-    v-if="$bus.authHas(list.auth, $bus.session.auth, 10)"
+    v-if="$bus.authHas(list.auth, $bus.session.auth, -1)"
     v-for="(list, i) in lists"
     :subheader="Boolean(list.header)"
   >
@@ -117,7 +117,7 @@ export default {
       },
       // logout
       {
-        auth: 10,
+        auth: -1,
         items: [
           '',
           { title: 'Logout', icon: 'exit_to_app', click: 'logout' }

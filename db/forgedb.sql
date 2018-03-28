@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2018 at 08:57 PM
+-- Generation Time: Mar 28, 2018 at 07:21 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -42,7 +42,8 @@ CREATE TABLE `assigns` (
 --
 
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
-(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":\"some remarks\",\"levels\":[[{\"id\":2,\"status\":\"1\"}],[{\"id\":5,\"status\":\"1\"},{\"id\":4,\"status\":\"1\"}],[{\"id\":4,\"status\":\"1\"},{\"id\":2,\"status\":\"0\"}]]}', 2, 1521999657, 1522004148, 0);
+(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":\"some remarks\",\"levels\":[[{\"id\":2,\"status\":\"1\"}],[{\"id\":5,\"status\":\"1\"},{\"id\":4,\"status\":\"1\"}],[{\"id\":4,\"status\":\"1\"},{\"id\":2,\"status\":\"1\"}]]}', 2, 1521999657, 1522004867, 1),
+(2, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":3,\"remarks\":\"Test Remark\",\"levels\":[[{\"id\":4,\"status\":\"1\"}],[{\"id\":5,\"status\":\"1\"},{\"id\":2,\"status\":\"1\"}],[{\"id\":4,\"status\":\"1\"},{\"id\":5,\"status\":\"1\"},{\"id\":2,\"status\":\"1\"}]]}', 3, 1522057898, 1522058564, 1);
 
 -- --------------------------------------------------------
 
@@ -246,6 +247,14 @@ CREATE TABLE `comments` (
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `assign_id`, `comment`, `level`, `created_at`, `status`) VALUES
+(1, 2, 2, 'test', 1, 1522058441, 1),
+(2, 2, 2, 'hello', 2, 1522058469, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -419,7 +428,6 @@ INSERT INTO `curriculum` (`id`, `label`, `content`, `year`, `status`) VALUES
 CREATE TABLE `fields` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -427,47 +435,47 @@ CREATE TABLE `fields` (
 -- Dumping data for table `fields`
 --
 
-INSERT INTO `fields` (`id`, `title`, `description`, `status`) VALUES
-(1, 'Java', '', 1),
-(2, 'Programming', '', 1),
-(3, 'Object Oriented Programming', '', 1),
-(4, 'Web Development', '', 1),
-(5, 'Mobile Programming', '', 1),
-(6, 'PHP', '', 1),
-(7, 'Frameworks', '', 1),
-(8, 'CodeIgniter', '', 1),
-(9, 'Laravel', '', 1),
-(10, 'iOS', '', 1),
-(11, 'Swift', '', 1),
-(12, 'Android Application Development', '', 1),
-(13, 'Capstone Project', '', 1),
-(14, 'Project Presentation', '', 1),
-(15, 'Software Development', '', 1),
-(16, 'JavaScript', '', 1),
-(17, 'Database', '', 1),
-(18, 'Arrays', '', 1),
-(19, 'SQL', '', 1),
-(20, 'C++', '', 1),
-(21, 'Database Management', '', 1),
-(22, 'Data Definition Language (DDL)', '', 1),
-(23, 'Data Manipulation Language (DML)', '', 1),
-(24, 'Data Control Language (DCL)', '', 1),
-(25, 'Database Administration', '', 1),
-(26, 'Database Design', '', 1),
-(27, 'Control Structures', '', 1),
-(28, 'Operators', '', 1),
-(29, 'Project Management', '', 1),
-(30, 'Assignment and Formatting', '', 1),
-(31, 'Software Evaluation', '', 1),
-(32, 'Software Testing', '', 1),
-(33, 'Data Modeling', '', 1),
-(34, 'Transaction Control', '', 1),
-(35, 'Computer Programming', '', 1),
-(36, 'History', '', 1),
-(37, 'Basic Input and Output', '', 1),
-(38, 'System Analysis', '', 1),
-(39, 'System Design', '', 1),
-(40, 'Software Requirements', '', 1);
+INSERT INTO `fields` (`id`, `title`, `status`) VALUES
+(1, 'Java', 1),
+(2, 'Programming', 1),
+(3, 'Object Oriented Programming', 1),
+(4, 'Web Development', 1),
+(5, 'Mobile Programming', 1),
+(6, 'PHP', 1),
+(7, 'Frameworks', 1),
+(8, 'CodeIgniter', 1),
+(9, 'Laravel', 1),
+(10, 'iOS', 1),
+(11, 'Swift', 1),
+(12, 'Android Application Development', 1),
+(13, 'Capstone Project', 1),
+(14, 'Project Presentation', 1),
+(15, 'Software Development', 1),
+(16, 'JavaScript', 1),
+(17, 'Database', 1),
+(18, 'Arrays', 1),
+(19, 'SQL', 1),
+(20, 'C++', 1),
+(21, 'Database Management', 1),
+(22, 'Data Definition Language (DDL)', 1),
+(23, 'Data Manipulation Language (DML)', 1),
+(24, 'Data Control Language (DCL)', 1),
+(25, 'Database Administration', 1),
+(26, 'Database Design', 1),
+(27, 'Control Structures', 1),
+(28, 'Operators', 1),
+(29, 'Project Management', 1),
+(30, 'Assignment and Formatting', 1),
+(31, 'Software Evaluation', 1),
+(32, 'Software Testing', 1),
+(33, 'Data Modeling', 1),
+(34, 'Transaction Control', 1),
+(35, 'Computer Programming', 1),
+(36, 'History', 1),
+(37, 'Basic Input and Output', 1),
+(38, 'System Analysis', 1),
+(39, 'System Design', 1),
+(40, 'Software Requirements', 1);
 
 -- --------------------------------------------------------
 
@@ -862,7 +870,8 @@ CREATE TABLE `syllabi` (
 --
 
 INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `assign_id`, `content`, `version`, `created_at`, `updated_at`, `status`) VALUES
-(1, 1, 3, 1, '{\"facultyInCharge\":{\"name\":\"Smith Paul\",\"position\":null},\"evaluatedBy\":{\"name\":null,\"position\":null},\"approvedBy\":[],\"bookReferences\":[],\"programOutcomes\":[{\"id\":\"1\",\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\",\"year\":\"2017\"},{\"id\":\"2\",\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\",\"year\":\"2017\"},{\"id\":\"3\",\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\",\"year\":\"2017\"},{\"id\":\"4\",\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\",\"year\":\"2017\"},{\"id\":\"5\",\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\",\"year\":\"2017\"},{\"id\":\"6\",\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\",\"year\":\"2017\"},{\"id\":\"7\",\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\",\"year\":\"2017\"},{\"id\":\"8\",\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\",\"year\":\"2017\"},{\"id\":\"9\",\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\",\"year\":\"2017\"},{\"id\":\"10\",\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\",\"year\":\"2017\"},{\"id\":\"11\",\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\",\"year\":\"2017\"},{\"id\":\"12\",\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\",\"year\":\"2017\"},{\"id\":\"13\",\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\",\"year\":\"2017\"}],\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\",\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":{\"0\":{\"4\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"}},\"1\":{\"5\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"},\"8\":{\"symbol\":\"E\",\"text\":\"Engaging\"}},\"2\":{\"6\":{\"symbol\":\"I\",\"text\":\"Introductory\"}}},\"weeklyActivities\":[{\"noOfWeeks\":1,\"topics\":[\"Lesson 2. Software Evaluation\",\"Lesson 1. Project Development\",\"PBL Orientation\"],\"ilo\":[\"Develop, execute and create the project deliverables.\",\"Revision of Software and Documents\"],\"cloMap\":[0],\"tlaFaculty\":[\"Require instrument for software testing.\",\"Actual user acceptance\"],\"tlaStudent\":[\"The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.\"],\"instructionalMaterials\":[\"Whiteboard\"],\"assessmentTasks\":[\"Testing\"]},{\"noOfWeeks\":1,\"topics\":[\"Lesson 4. Project Management Process Issues\",\"Lesson 3. Project Control and Project Closure\"],\"ilo\":[\"Revision of Software and Documents\",\"Complete the 50% software development stated in the proposal.\"],\"cloMap\":[1,0],\"tlaFaculty\":[\"Classroom Discussion\",\"Discussion of the Guidelines\",\"Require instrument for software testing.\"],\"tlaStudent\":[\"Conducts user acceptance testing\",\"The students can be able to produce Results and Discussion of the Proposal Paper.\",\"The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.\"],\"instructionalMaterials\":[\"Net book\",\"Whiteboard\"],\"assessmentTasks\":[\"Group Dynamics\"]}],\"gradingSystem\":\"test\\n- grade\\n\\n### PASSING RAW SCORE: 70\",\"institutionVision\":\"FEU Institute of Technology is a premier technology educational institution in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology commits itself to be an institution of quality education and relevant partnership with the larger community, producing competent and principled professionals who will contribute significantly to the betterment of society.\",\"departmentVision\":\"The Information Technology Education (ITE) Department is dedicated to excellence by providing quality and relevant industry-based IT and Computer Science education, and by promoting and supporting continuous faculty involvement in all aspects of ITE research, linkages and development.\",\"departmentMission\":\"The Information Technology Education (ITE) Department prepares students to become multi-skilled IT and Computing professionals by providing them quality education, enabling them to respond effectively to the rapid pace of IT, to undertake research in information technology and computer science, and to serve the community and the profession.\",\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"created_at\":\"0\",\"updated_at\":\"1521734174\",\"status\":\"1\",\"prerequisites\":[{\"id\":\"6\",\"course_id\":\"1\",\"related_course_id\":\"6\",\"type\":\"1\",\"status\":\"1\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"created_at\":\"0\",\"updated_at\":\"0\"}],\"corequisites\":[]}}', '', 1522000358, 1522003658, 2);
+(1, 1, 3, 1, '{\"facultyInCharge\":{\"name\":\"Smith Paul\",\"position\":null},\"evaluatedBy\":{\"name\":null,\"position\":null},\"approvedBy\":[],\"bookReferences\":[],\"programOutcomes\":[{\"id\":\"1\",\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\",\"year\":\"2017\"},{\"id\":\"2\",\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\",\"year\":\"2017\"},{\"id\":\"3\",\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\",\"year\":\"2017\"},{\"id\":\"4\",\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\",\"year\":\"2017\"},{\"id\":\"5\",\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\",\"year\":\"2017\"},{\"id\":\"6\",\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\",\"year\":\"2017\"},{\"id\":\"7\",\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\",\"year\":\"2017\"},{\"id\":\"8\",\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\",\"year\":\"2017\"},{\"id\":\"9\",\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\",\"year\":\"2017\"},{\"id\":\"10\",\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\",\"year\":\"2017\"},{\"id\":\"11\",\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\",\"year\":\"2017\"},{\"id\":\"12\",\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\",\"year\":\"2017\"},{\"id\":\"13\",\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\",\"year\":\"2017\"}],\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\",\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":{\"0\":{\"4\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"}},\"1\":{\"5\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"},\"8\":{\"symbol\":\"E\",\"text\":\"Engaging\"}},\"2\":{\"6\":{\"symbol\":\"I\",\"text\":\"Introductory\"}}},\"weeklyActivities\":[{\"noOfWeeks\":1,\"topics\":[\"Lesson 2. Software Evaluation\",\"Lesson 1. Project Development\",\"PBL Orientation\"],\"ilo\":[\"Develop, execute and create the project deliverables.\",\"Revision of Software and Documents\"],\"cloMap\":[0],\"tlaFaculty\":[\"Require instrument for software testing.\",\"Actual user acceptance\"],\"tlaStudent\":[\"The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.\"],\"instructionalMaterials\":[\"Whiteboard\"],\"assessmentTasks\":[\"Testing\"]},{\"noOfWeeks\":1,\"topics\":[\"Lesson 4. Project Management Process Issues\",\"Lesson 3. Project Control and Project Closure\"],\"ilo\":[\"Revision of Software and Documents\",\"Complete the 50% software development stated in the proposal.\"],\"cloMap\":[1,0],\"tlaFaculty\":[\"Classroom Discussion\",\"Discussion of the Guidelines\",\"Require instrument for software testing.\"],\"tlaStudent\":[\"Conducts user acceptance testing\",\"The students can be able to produce Results and Discussion of the Proposal Paper.\",\"The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.\"],\"instructionalMaterials\":[\"Net book\",\"Whiteboard\"],\"assessmentTasks\":[\"Group Dynamics\"]}],\"gradingSystem\":\"test\\n- grade\\n\\n### PASSING RAW SCORE: 70\",\"institutionVision\":\"FEU Institute of Technology is a premier technology educational institution in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology commits itself to be an institution of quality education and relevant partnership with the larger community, producing competent and principled professionals who will contribute significantly to the betterment of society.\",\"departmentVision\":\"The Information Technology Education (ITE) Department is dedicated to excellence by providing quality and relevant industry-based IT and Computer Science education, and by promoting and supporting continuous faculty involvement in all aspects of ITE research, linkages and development.\",\"departmentMission\":\"The Information Technology Education (ITE) Department prepares students to become multi-skilled IT and Computing professionals by providing them quality education, enabling them to respond effectively to the rapid pace of IT, to undertake research in information technology and computer science, and to serve the community and the profession.\",\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"created_at\":\"0\",\"updated_at\":\"1521734174\",\"status\":\"1\",\"prerequisites\":[{\"id\":\"6\",\"course_id\":\"1\",\"related_course_id\":\"6\",\"type\":\"1\",\"status\":\"1\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"created_at\":\"0\",\"updated_at\":\"0\"}],\"corequisites\":[]}}', '', 1522000358, 1522003658, 2),
+(2, 3, 3, 2, '{\"facultyInCharge\":{\"name\":\"Smith Paul\",\"position\":null},\"evaluatedBy\":{\"name\":null,\"position\":null},\"approvedBy\":[],\"bookReferences\":[\"Author\'s Name. (2001). Some book about JavaScript.\",\"Author Name. (1999). Some title of book or article about Android Development.\",\"Zak, Diane (2011) An Introduction to Programming with C++. 6th ed.  Australia: Course Technology\"],\"programOutcomes\":[{\"id\":\"1\",\"label\":\"a\",\"content\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\",\"year\":\"2017\"},{\"id\":\"2\",\"label\":\"b\",\"content\":\"Understand best practices and standards and their applications.\",\"year\":\"2017\"},{\"id\":\"3\",\"label\":\"c\",\"content\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\",\"year\":\"2017\"},{\"id\":\"4\",\"label\":\"d\",\"content\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\",\"year\":\"2017\"},{\"id\":\"5\",\"label\":\"e\",\"content\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\",\"year\":\"2017\"},{\"id\":\"6\",\"label\":\"f\",\"content\":\"Integrate IT-based solutions into the user environment effectively.\",\"year\":\"2017\"},{\"id\":\"7\",\"label\":\"g\",\"content\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\",\"year\":\"2017\"},{\"id\":\"8\",\"label\":\"h\",\"content\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\",\"year\":\"2017\"},{\"id\":\"9\",\"label\":\"i\",\"content\":\"Assist in the creation of an effective IT project plan.\",\"year\":\"2017\"},{\"id\":\"10\",\"label\":\"j\",\"content\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\",\"year\":\"2017\"},{\"id\":\"11\",\"label\":\"k\",\"content\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\",\"year\":\"2017\"},{\"id\":\"12\",\"label\":\"l\",\"content\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\",\"year\":\"2017\"},{\"id\":\"13\",\"label\":\"m\",\"content\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\",\"year\":\"2017\"}],\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":{\"0\":{\"1\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"},\"5\":{\"symbol\":\"E\",\"text\":\"Engaging\"},\"8\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},\"1\":{\"1\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"},\"2\":{\"symbol\":\"I\",\"text\":\"Introductory\"},\"3\":{\"symbol\":\"E\",\"text\":\"Engaging\"}}},\"weeklyActivities\":[{\"noOfWeeks\":1,\"topics\":[\"Lesson 1. Project Development\",\"Lesson 2. Software Evaluation\",\"Users\' Acceptance Testing\"],\"ilo\":[\"test\\n- Sub test\",\"test2\\n- Sub test2\",\"Test the software product to validate its process and output.\",\"Execution of user acceptance testing.\"],\"cloMap\":[1,0],\"tlaFaculty\":[\"Require instrument for software testing.\"],\"tlaStudent\":[\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\",\"Follow formulated testing instrument and comply with the checking and testing of the software.\"],\"instructionalMaterials\":[\"Whiteboard\"],\"assessmentTasks\":[\"Case Study 1\",\"Seatwork/Boardwork\",\"Case Study 3\"]}],\"gradingSystem\":\"LASJDLKAJSDLKASJDLASJDLKA1SJD\\\\\\n\\n---\\ntest\\n\\n### PASSING 70\",\"institutionVision\":\"FEU Institute of Technology is a premier technology educational institution in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology commits itself to be an institution of quality education and relevant partnership with the larger community, producing competent and principled professionals who will contribute significantly to the betterment of society.\",\"departmentVision\":\"The Information Technology Education (ITE) Department is dedicated to excellence by providing quality and relevant industry-based IT and Computer Science education, and by promoting and supporting continuous faculty involvement in all aspects of ITE research, linkages and development.\",\"departmentMission\":\"The Information Technology Education (ITE) Department prepares students to become multi-skilled IT and Computing professionals by providing them quality education, enabling them to respond effectively to the rapid pace of IT, to undertake research in information technology and computer science, and to serve the community and the profession.\",\"course\":{\"id\":\"3\",\"title\":\"WEB APPLICATION DEVELOPMENT 2\",\"code\":\"ITWSPEC6\",\"description\":\"Some description about web application development using PHP frameworks.\",\"objectives\":\"\",\"unitsLec\":\"2\",\"unitsLab\":\"1\",\"created_at\":\"0\",\"updated_at\":\"0\",\"status\":\"1\",\"prerequisites\":[],\"corequisites\":[]}}', '', 1522058015, 1522058302, 2);
 
 -- --------------------------------------------------------
 
@@ -1334,8 +1343,11 @@ CREATE TABLE `users` (
   `mname` varchar(32) NOT NULL,
   `lname` varchar(32) NOT NULL,
   `username` varchar(16) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `weight` tinyint(4) NOT NULL,
   `password` varchar(255) NOT NULL,
   `img_src` text NOT NULL,
+  `tags` text NOT NULL,
   `status` tinyint(4) NOT NULL,
   `type` tinyint(4) NOT NULL,
   `created_at` int(11) NOT NULL,
@@ -1347,12 +1359,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `img_src`, `status`, `type`, `created_at`, `updated_at`, `auth`) VALUES
-(1, 'John', 'Smith', 'Doe', 'test', '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', 1, 1, 0, 0, '[1,3]'),
-(2, 'Jane', '', 'Doe', 'charlyn', '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', 1, 3, 0, 1521732242, '[3]'),
-(3, 'Smith', '', 'Paul', 'ralph', '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', 1, 4, 0, 0, '[4]'),
-(4, 'Cayle', '', 'Gaspar', 'cayle', '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', 1, 3, 0, 0, '[\"3\"]'),
-(5, 'Joanne', '', 'Katrin', 'joanne', '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', 1, 0, 0, 0, '[\"3\"]');
+INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weight`, `password`, `img_src`, `tags`, `status`, `type`, `created_at`, `updated_at`, `auth`) VALUES
+(1, 'John', 'Smith', 'Doe', 'test', '', 0, '$2a$10$F6ZeGLY.LxQjUyHO7RYxFus3/zMVjPSgkMSq1GVUmlAcoIOwTdMCq', '', '', 1, 1, 0, 0, '[1,3]'),
+(2, 'Jane', '', 'Doe', 'charlyn', '', 0, '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', '', 1, 3, 0, 1521732242, '[3]'),
+(3, 'Smith', '', 'Paul', 'ralph', '', 0, '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', '', 1, 4, 0, 0, '[4]'),
+(4, 'Cayle', '', 'Gaspar', 'cayle', '', 0, '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', '', 1, 3, 0, 0, '[\"3\"]'),
+(5, 'Joanne', '', 'Katrin', 'joanne', '', 0, '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', '', 1, 0, 0, 0, '[\"3\"]');
 
 -- --------------------------------------------------------
 
@@ -1386,7 +1398,26 @@ INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `c
 (9, 4, 1, '<strong>level 2</strong> &mdash; approved this syllabus.', 'approval', 1522004078, 1),
 (10, 4, 1, '<strong>level 3</strong> &mdash; approved this syllabus.', 'approval', 1522004085, 1),
 (11, 2, 1, 'viewed this syllabus.', 'view', 1522004097, 1),
-(12, 2, 1, '<strong>level 3</strong> &mdash; disapproved this syllabus.', 'approval', 1522004148, 1);
+(12, 2, 1, '<strong>level 3</strong> &mdash; disapproved this syllabus.', 'approval', 1522004148, 1),
+(13, 2, 1, 'viewed this syllabus.', 'view', 1522004864, 1),
+(14, 2, 1, '<strong>level 3</strong> &mdash; approved this syllabus.', 'approval', 1522004867, 1),
+(15, 3, 1, 'viewed this syllabus.', 'view', 1522057362, 1),
+(16, 3, 2, 'viewed this syllabus.', 'view', 1522058310, 1),
+(17, 4, 2, 'viewed this syllabus.', 'view', 1522058349, 1),
+(18, 4, 2, '<strong>level 1</strong> &mdash; approved this syllabus.', 'approval', 1522058360, 1),
+(19, 5, 2, 'viewed this syllabus.', 'view', 1522058399, 1),
+(20, 5, 2, '<strong>level 2</strong> &mdash; disapproved this syllabus.', 'approval', 1522058403, 1),
+(21, 5, 2, '<strong>level 2</strong> &mdash; approved this syllabus.', 'approval', 1522058411, 1),
+(22, 2, 2, 'viewed this syllabus.', 'view', 1522058436, 1),
+(23, 2, 2, '<strong>level 2</strong> &mdash; approved this syllabus.', 'approval', 1522058453, 1),
+(24, 2, 2, '<strong>level 3</strong> &mdash; approved this syllabus.', 'approval', 1522058462, 1),
+(25, 5, 2, 'viewed this syllabus.', 'view', 1522058497, 1),
+(26, 5, 2, '<strong>level 3</strong> &mdash; approved this syllabus.', 'approval', 1522058502, 1),
+(27, 3, 2, 'viewed this syllabus.', 'view', 1522058538, 1),
+(28, 4, 2, 'viewed this syllabus.', 'view', 1522058552, 1),
+(29, 4, 2, '<strong>level 3</strong> &mdash; disapproved this syllabus.', 'approval', 1522058554, 1),
+(30, 4, 2, '<strong>level 3</strong> &mdash; approved this syllabus.', 'approval', 1522058564, 1),
+(31, 4, 2, 'viewed this syllabus.', 'view', 1522139054, 1);
 
 --
 -- Indexes for dumped tables
@@ -1530,7 +1561,8 @@ ALTER TABLE `topic_task_relation`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 ALTER TABLE `users` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`fname`,`mname`,`lname`,`username`);
 
 --
@@ -1547,7 +1579,7 @@ ALTER TABLE `workflow_logs`
 -- AUTO_INCREMENT for table `assigns`
 --
 ALTER TABLE `assigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `books`
@@ -1565,7 +1597,7 @@ ALTER TABLE `book_field_relation`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -1631,7 +1663,7 @@ ALTER TABLE `outcome_relation`
 -- AUTO_INCREMENT for table `syllabi`
 --
 ALTER TABLE `syllabi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tasks`
@@ -1685,7 +1717,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

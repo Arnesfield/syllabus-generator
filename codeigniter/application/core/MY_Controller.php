@@ -203,6 +203,23 @@ class MY_Custom_Controller extends MY_View_Controller {
     $data['status'] = 1;
     return $this->logs_model->insertWorkflow($data);
   }
+
+  public function _formatUsers($users, $remove_password = FALSE) {
+    if ($users) {
+      foreach ($users as $key => $user) {
+        if ($remove_password) {
+          unset($users[$key]['password']);
+        }
+  
+        $users[$key]['tags'] = json_decode($user['tags'], TRUE);
+        $auth = json_decode($user['auth'], TRUE);
+
+        // make sure auth is all int
+        $users[$key]['auth'] = array_map('intval', $auth);
+      }
+    }
+    return $users;
+  }
 }
 
 ?>

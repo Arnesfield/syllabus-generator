@@ -137,7 +137,7 @@ export default new Router({
       component: NotFound,
       meta: {
         title: 'Error 404',
-        auth: 10
+        auth: -1
       }
     }
   ]

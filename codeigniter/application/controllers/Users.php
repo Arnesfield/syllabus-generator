@@ -10,6 +10,7 @@ class Users extends MY_Custom_Controller {
   
   public function index() {
     $users = $this->users_model->get();
+    $users = $this->_formatUsers($users, TRUE);
     $this->_json(TRUE, array(
       'users' => $users,
       'currId' => $this->session->userdata('user')['id']
@@ -19,6 +20,7 @@ class Users extends MY_Custom_Controller {
   public function search() {
     $search = $this->_filter($this->input->post('search'));
     $users = $this->users_model->getByQuery($search);
+    $users = $this->_formatUsers($users, TRUE);
     $this->_json(TRUE, 'users', $users);
   }
 

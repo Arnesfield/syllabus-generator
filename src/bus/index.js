@@ -64,7 +64,7 @@ export default new Vue({
     authCheck(routeAuth) {
       // check if routeAuth in session auth
       return this.authHas(routeAuth, this.session.auth)
-        && !this.authHas(routeAuth, [0, 10])
+        && !this.authHas(routeAuth, [0, -1])
     },
 
     authHas(auth, n, concat) {
