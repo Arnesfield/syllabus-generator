@@ -174,10 +174,13 @@
               v-for="(po, poIndex) in c.programOutcomes"
               class="text-xs-center"
             >
-              <template v-if="
-                typeof c.cloPoMap[cloIndex] !== 'undefined' &&
-                Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
-              ">{{ c.cloPoMap[cloIndex][po.id].symbol }}</template>
+              <span
+                v-if="
+                  typeof c.cloPoMap[cloIndex] !== 'undefined' &&
+                  Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
+                "
+                :title="c.cloPoMap[cloIndex][po.id].text"
+              >{{ c.cloPoMap[cloIndex][po.id].symbol }}</span>
               <template v-else>&nbsp;</template>
             </td>
           </template>
