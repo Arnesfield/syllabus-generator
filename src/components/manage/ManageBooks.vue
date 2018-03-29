@@ -33,24 +33,26 @@
           </v-tooltip>
         </div>
       </td>
-      <td class="justify-center layout px-0">
-        <v-tooltip top>
-          <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
-            <v-icon color="teal">edit</v-icon>
-          </v-btn>
-          <span>Edit</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
-            <v-icon color="pink">delete</v-icon>
-          </v-btn>
-          <span>Delete</span>
-        </v-tooltip>
+      <td class="px-0">
+        <v-layout justify-center align-center>
+          <v-tooltip top>
+            <v-btn slot="activator" icon class="mx-0" @click="editItem(props.item)">
+              <v-icon color="teal">edit</v-icon>
+            </v-btn>
+            <span>Edit</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
+              <v-icon color="pink">delete</v-icon>
+            </v-btn>
+            <span>Delete</span>
+          </v-tooltip>
+        </v-layout>
       </td>
     </template>
   </v-data-table>
 
-  <dialog-add-book/>
+  <dialog-manage-book ref="dialogManage"/>
   <dialog-csv-books/>
 
 </v-container>
@@ -58,13 +60,13 @@
 
 <script>
 import qs from 'qs'
-import DialogAddBook from '@/include/dialogs/DialogAddBook'
+import DialogManageBook from '@/include/dialogs/DialogManageBook'
 import DialogCsvBooks from '@/include/dialogs/DialogCsvBooks'
 
 export default {
   name: 'manage-books',
   components: {
-    DialogAddBook,
+    DialogManageBook,
     DialogCsvBooks
   },
   data: () => ({
@@ -95,14 +97,14 @@ export default {
   },
 
   created() {
-    this.$bus.$on('manage--books.add', this.addBook)
+    this.$bus.$on('manage--books.add', this.addItem)
     this.$bus.$on('manage--books.upload', this.csvBooks)
     this.$bus.$on('manage--books.update', this.fetch)
     this.$bus.$on('refresh--btn', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
-    this.$bus.$off('manage--books.add', this.addBook)
+    this.$bus.$off('manage--books.add', this.addItem)
     this.$bus.$off('manage--books.upload', this.csvBooks)
     this.$bus.$off('manage--books.update', this.fetch)
     this.$bus.$off('refresh--btn', this.fetch)
@@ -155,11 +157,15 @@ export default {
     },
 
     editItem(item) {
-
+      if (this.$refs.dialogManage) {
+        this.$refs.dialogManage.editItem(item)
+      }
     },
 
-    addBook() {
-      this.$bus.dialog.ManageBooks.add = true
+    addItem() {
+      if (this.$refs.dialogManage) {
+        this.$refs.dialogManage.addItem()
+      }
     },
     csvBooks() {
       this.$bus.dialog.ManageBooks.csv = true

@@ -244,40 +244,12 @@
             <v-subheader>Status</v-subheader>
           </v-flex>
           <v-flex sm8>
-
-            <v-select
-              :items="statusTypes"
-              :disabled="loading"
+            <select-status
               v-model="status"
-              label="Status"
-              single-line
-              :prepend-icon="status && status.icon ? status.icon : 'indeterminate_check_box'"
-              return-object
-              bottom
-              :rules="[$fRule('required')]"
-              color="primary lighten-1"
+              :items="statusTypes"
+              :loading="loading"
               required
-            >
-              <template slot="item" slot-scope="data">
-                
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                </template>
-
-                <template v-else>
-                  <v-list-tile-avatar>
-                    <v-icon
-                      :color="data.item.color"
-                    >{{ data.item.icon }}</v-icon>
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="data.item.text"></v-list-tile-title>
-                  </v-list-tile-content>
-                </template>
-
-              </template>
-            </v-select>
-
+            />
           </v-flex>
         </v-layout>
 
@@ -376,12 +348,14 @@
 <script>
 import find from 'lodash/find'
 import SelectTags from '@/include/SelectTags'
+import SelectStatus from '@/include/SelectStatus'
 import SelectPrivileges from '@/include/SelectPrivileges'
 
 export default {
   name: 'dialog-manage-user',
   components: {
     SelectTags,
+    SelectStatus,
     SelectPrivileges
   },
   data: () => ({

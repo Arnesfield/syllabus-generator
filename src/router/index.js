@@ -122,7 +122,7 @@ export default new Router({
       name: 'ManageBooks',
       component: ManageBooks,
       meta: {
-        auth: 1,
+        auth: [1, 6],
         title: 'Manage Books',
         icon: 'library_books'
       }

@@ -32,16 +32,8 @@ class Books extends MY_Custom_Controller {
 
   public function only() {
     $books = $this->books_model->get();
+    $books = $this->_formatBooks($books);
     $this->_json(TRUE, 'books', $books);
-  }
-
-  public function add() {
-    $post_values = array('citation', 'status');
-    foreach ($post_values as $value) {
-      $course[$value] = $this->_filter($this->input->post($value));
-    }
-    $res = $this->books_model->insert($course);
-    $this->_json($res);
   }
 
   public function addCsv() {
@@ -58,6 +50,42 @@ class Books extends MY_Custom_Controller {
     );
     $where = array('id' => $id);
     $res = $this->books_model->update($data, $where);
+    $this->_json($res);
+  }
+
+  public function manage() {
+    $citation = $this->input->post('citation');
+    $tags = $this->input->post('tags');
+    $status = $this->input->post('status');
+
+    // options
+    $mode = $this->input->post('mode');
+
+    $TIME = time();
+    
+    $data = array(
+      'citation' => $citation,
+      'tags' => $tags,
+      'updated_at' => $TIME,
+      'status' => $status
+    );
+
+    if ($mode == 'add') {
+      $data['created_at'] = $TIME;
+    }
+
+    if ($mode == 'edit') {
+      $id = $this->input->post('id');
+      $res = $this->books_model->update($data, array('id' => $id));
+    }
+    else {
+      $res = $this->books_model->insert($data);
+    }
+
+    // insert new tags
+    $this->load->model('tags_model');
+    $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+
     $this->_json($res);
   }
 }

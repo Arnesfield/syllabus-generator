@@ -112,6 +112,11 @@ export default {
         items: [
           { title: 'Users', icon: 'account_circle', tip: 'Manage Users', to: '/manage/users' },
           { title: 'Courses', icon: 'school', tip: 'Manage Courses', to: '/manage/courses' },
+        ]
+      },
+      {
+        auth: [1, 6],
+        items: [
           { title: 'Books', icon: 'library_books', tip: 'Manage Books', to: '/manage/books' }
         ]
       },

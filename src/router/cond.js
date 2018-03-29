@@ -14,12 +14,13 @@ export default function(router, http, bus) {
     let sessAuth = toNumberArray(bus.session.auth)
 
     const nonauth = [0, -1]
-    const auth = [1, 3, 4]
+    const auth = [1, 3, 4, 5, 6]
 
     const SESS_EXISTS = bus.authHas(sessAuth, auth)
     const TO_HAS_SESS = bus.authHas(toAuth, sessAuth, -1)
     const IS_ADMIN = bus.authHas(sessAuth, 1)
-    const IS_FACULTY = bus.authHas(sessAuth, [3, 4])
+    const IS_LIBRARIAN = bus.authHas(sessAuth, 6)
+    const IS_FACULTY = bus.authHas(sessAuth, [3, 4, 5])
 
     if (TO_HAS_SESS) {
       document.title = title
@@ -31,6 +32,8 @@ export default function(router, http, bus) {
           router.push('/manage/users')
         } else if (IS_FACULTY) {
           router.push('/dashboard')
+        } else if (IS_LIBRARIAN) {
+          router.push('/manage/books')
         }
       } else {
         router.push('/login')

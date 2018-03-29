@@ -221,6 +221,15 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $users;
   }
 
+  public function _formatBooks($books) {
+    if ($books) {
+      foreach ($books as $key => $book) {
+        $books[$key]['tags'] = json_decode($book['tags'], TRUE);
+      }
+    }
+    return $books;
+  }
+
   public function _uploadFile($file_name = 'file', $allowed_types = FALSE, $path = 'uploads/images/') {
     if (!$allowed_types) {
       $allowed_types = 'jpg|png|jpeg';
