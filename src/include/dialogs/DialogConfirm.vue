@@ -12,7 +12,7 @@
       :active="loading"
       :indeterminate="true"
       height="3"
-      class="pb-0"
+      class="pb-0 mt-0"
     />
 
     <v-card-title class="py-2">

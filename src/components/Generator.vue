@@ -290,34 +290,48 @@ export default {
         return
       }
 
-      let syllabus = this.stringifySyllabus()
-      this.saveLoading = true
-      this.$http.post(this.submitUrl, qs.stringify({
-        assignId: this.assignId,
-        syllabus: syllabus
-      })).then(res => {
-        console.warn(res.data)
-        if (!res.data.success) {
-          throw new Error('Request failure.')
-        }
-        this.saveLoading = false
-        this.fetchCourse('Syllabus submitted.')
-        // this.$bus.$emit('snackbar--show', 'Syllabus submitted.')
-      }).catch(e => {
-        console.error(e)
-        this.saveLoading = false
-        this.$bus.$emit('snackbar--show', {
-          text: 'Unable to submit syllabus.',
-          btns: {
-            text: 'Retry',
-            icon: false,
-            color: 'accent',
-            cb: (sb, e) => {
-              this.submit()
-              sb.snackbar = false
+      this.$bus.$emit('dialog--global.confirm.show', {
+        title: 'Submit syllabus',
+        msg: 'This syllabus will be submitted for approval.',
+        btn: {
+          text: 'Submit',
+          color: 'primary lighten-1'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          let syllabus = this.stringifySyllabus()
+          this.saveLoading = true
+          this.$http.post(this.submitUrl, qs.stringify({
+            assignId: this.assignId,
+            syllabus: syllabus
+          })).then(res => {
+            console.warn(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
             }
-          }
-        })
+            this.saveLoading = false
+            this.fetchCourse('Syllabus submitted.')
+            onSuccess()
+            // this.$bus.$emit('snackbar--show', 'Syllabus submitted.')
+          }).catch(e => {
+            console.error(e)
+            this.saveLoading = false
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to submit syllabus.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  sb.snackbar = false
+                  fn(onSuccess, onError, doClose, fn)
+                  // this.submit()
+                }
+              }
+            })
+            onError()
+            doClose()
+          })
+        }
       })
     },
 

@@ -89,8 +89,8 @@ p {
 }
 
 .my-textarea {
-  min-height: 24px;
-  height: 48px;
+  min-height: 32px;
+  height: 64px;
   max-height: 128px;
   width: 100%;
 }
