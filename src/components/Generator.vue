@@ -160,7 +160,7 @@ export default {
     pdf: false,
 
     tempSyllabus: null,
-    allowEdit: true,
+    allowEdit: null,
 
     saveLoading: false,
     courseLoading: false
@@ -172,6 +172,10 @@ export default {
     },
     saveLoading(to, from) {
       this.$bus.progress.circular.Generator.save = to
+    },
+
+    allowEdit(e) {
+      this.$bus.generator.allowEdit = e
     },
 
     course(to, from) {
@@ -221,6 +225,7 @@ export default {
     this.$bus.tabs.Generator.tab = null
     this.$bus.tabs.Generator.items = this.tabs.course
     this.$bus.generator.suggestions = true
+    this.$bus.generator.allowEdit = false
 
     if (this.assignId !== null) {
       this.$bus.$on('refresh--btn', this.fetchCourse)
@@ -403,6 +408,7 @@ export default {
         // if disapproved or not yet submitted, allow edit
         if (assign.status == 0 || assign.status == 3) {
           this.course = res.data.course
+          this.allowEdit = true
         } else {
           setTimeout(() => {
             this.$bus.tabs.Generator.items = this.tabs.info

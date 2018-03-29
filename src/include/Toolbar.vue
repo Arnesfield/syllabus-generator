@@ -12,7 +12,7 @@
 
     <template v-if="$route.name === 'Generator'">
       <v-spacer/>
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="$bus.generator.allowEdit">
         <v-btn
           icon
           @click="$bus.generator.suggestions = !$bus.generator.suggestions"
@@ -23,27 +23,41 @@
         <span v-if="$bus.generator.suggestions">Hide Suggestions</span>
         <span v-else>Show Suggestions</span>
       </v-tooltip>
-      <v-tooltip bottom>
-        <v-btn
-          icon
-          @click="$bus.$emit('generator--save')"
-          slot="activator"
-        >
-          <v-progress-circular
-            indeterminate
-            :width="6"
-            :size="18"
-            v-if="$bus.progress.circular.Generator.save"
-          />
-          <v-icon v-else>save</v-icon>
-        </v-btn>
-        <span v-if="$bus.progress.circular.Generator.save">Saving</span>
-        <span v-else>Save</span>
-      </v-tooltip>
       <btn-refresh
         tip="bottom"
         v-if="$bus.generator.courseRefresh"
       />
+
+      <template v-if="$bus.generator.allowEdit">
+
+        <v-btn
+          class="mr-3 hidden-sm-and-down"
+          outline
+          @click="$bus.$emit('generator--save')"
+          :loading="$bus.progress.circular.Generator.save"
+          :disabled="$bus.progress.circular.Generator.save"
+        >Save</v-btn>
+
+        <v-tooltip bottom class="hidden-md-and-up">
+          <v-btn
+            icon
+            @click="$bus.$emit('generator--save')"
+            slot="activator"
+          >
+            <v-progress-circular
+              indeterminate
+              :width="6"
+              :size="18"
+              v-if="$bus.progress.circular.Generator.save"
+            />
+            <v-icon v-else>save</v-icon>
+          </v-btn>
+          <span v-if="$bus.progress.circular.Generator.save">Saving</span>
+          <span v-else>Save</span>
+        </v-tooltip>
+        
+      </template>
+
     </template>
 
     <template v-if="$route.name === 'Workflow' || $route.name === 'Assignments'">
