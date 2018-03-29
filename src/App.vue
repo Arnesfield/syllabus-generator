@@ -43,6 +43,14 @@ export default {
       return this.$bus.authCheck(this.$route.meta.auth)
     }
   },
+  watch: {
+    $route(to, from) {
+      if (this.$bus.authHas(to.meta.auth, [0, -1])) {
+        this.$bus.nav.model = null
+        this.$bus.nav.miniVariant = false
+      }
+    }
+  },
 
   created() {
     this.$bus.$on('GET_ROUTE', this.getRoute)

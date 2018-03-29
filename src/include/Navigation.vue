@@ -70,16 +70,24 @@
       <span>{{ collapseText }}</span>
     </v-tooltip>
   </v-list>
+
+  <dialog-clo-options
+    ref="cloOptions"
+    v-if="$bus.authHas($bus.session.auth, 1)"
+  />
+
 </v-navigation-drawer>
 </template>
 
 <script>
 import NavUser from './nav/NavUser'
+import DialogCloOptions from '@/include/dialogs/DialogCloOptions'
 
 export default {
   name: 'navigation',
   components: {
-    NavUser
+    NavUser,
+    DialogCloOptions
   },
   data: () => ({
     logoutUrl: '/logout',
@@ -120,6 +128,13 @@ export default {
           { title: 'Books', icon: 'library_books', tip: 'Manage Books', to: '/manage/books' }
         ]
       },
+      {
+        header: 'Syllabus',
+        auth: 1,
+        items: [
+          { title: 'CLO Options', icon: 'settings', tip: 'CLO Options', click: 'cloOptions' }
+        ]
+      },
       // logout
       {
         auth: -1,
@@ -154,16 +169,25 @@ export default {
   methods: {
     logout() {
       // logout here
+      this.$bus.refresh(true)
       this.$http.post(this.logoutUrl).then((res) => {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-
+        this.$bus.refresh(false)
         this.$bus.$emit('snackbar--show', 'Logout successfully.')
         this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)
+        this.$bus.$emit('snackbar--show', 'Unable to logout.')
+        this.$bus.refresh(false)
       })
+    },
+
+    cloOptions() {
+      if (this.$refs.cloOptions) {
+        this.$refs.cloOptions.show = true
+      }
     },
 
     listItemClick(e) {

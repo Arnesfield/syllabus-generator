@@ -165,6 +165,7 @@ export default {
   data: () => ({
     url: '/outcomes',
     suggestUrl: '/outcomes/suggest',
+    cloOptionsUrl: '/settings/clo_options',
     outcomes: [],
     selected: [],
     suggested: [],
@@ -172,20 +173,7 @@ export default {
     // for vselect
     searches: [],
     searchInput: [],
-    symbols: [
-      {
-        symbol: 'I',
-        text: 'Introductory'
-      },
-      {
-        symbol: 'E',
-        text: 'Engaging'
-      },
-      {
-        symbol: 'D',
-        text: 'Demonstrative'
-      },
-    ]
+    symbols: []
   }),
 
   computed: {
@@ -211,6 +199,7 @@ export default {
   created() {
     // do suggest when bus generator suggestions changes
     this.$bus.$on('watch--generator.suggestions', this.suggest)
+    this.fetchCloOptions()
     if (this.syllabus !== null) {
       this.doInitial()
     }
@@ -220,6 +209,27 @@ export default {
   },
 
   methods: {
+    fetchCloOptions(n) {
+      if (typeof n !== 'number') {
+        n = 0
+      }
+
+      this.$http.post(this.cloOptionsUrl).then(res => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.symbols = res.data.cloOptions.content
+      }).catch(e => {
+        console.error(e)
+        // fetch until it gets it lol
+        // stop if it repeats more than 10 times
+        if (n < 10) {
+          this.fetchCloOptions(n + 1)
+        }
+      })
+    },
+
     doInitial() {
       // set selected
       this.c.courseLearningOutcomes.forEach((e, i) => {
