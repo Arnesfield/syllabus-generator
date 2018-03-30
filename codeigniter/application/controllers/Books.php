@@ -70,21 +70,20 @@ class Books extends MY_Custom_Controller {
       'status' => $status
     );
 
+    $res = FALSE;
     if ($mode == 'add') {
       $data['created_at'] = $TIME;
-    }
-
-    if ($mode == 'edit') {
+      $res = $this->books_model->insert($data);
+    } else if ($mode == 'edit') {
       $id = $this->input->post('id');
       $res = $this->books_model->update($data, array('id' => $id));
     }
-    else {
-      $res = $this->books_model->insert($data);
-    }
 
-    // insert new tags
-    $this->load->model('tags_model');
-    $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+    if ($res) {
+      // insert new tags
+      $this->load->model('tags_model');
+      $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+    }
 
     $this->_json($res);
   }

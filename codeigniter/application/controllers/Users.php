@@ -68,11 +68,11 @@ class Users extends MY_Custom_Controller {
       }
     }
 
-    $fname = $this->_filter($this->input->post('fname'));
-    $mname = $this->_filter($this->input->post('mname'));
-    $lname = $this->_filter($this->input->post('lname'));
-    $username = $this->_filter($this->input->post('username'));
-    $title = $this->_filter($this->input->post('title'));
+    $fname = $this->input->post('fname');
+    $mname = $this->input->post('mname');
+    $lname = $this->input->post('lname');
+    $username = $this->input->post('username');
+    $title = $this->input->post('title');
     $weight = $this->input->post('weight');
     $status = $this->input->post('status');
 
@@ -109,28 +109,27 @@ class Users extends MY_Custom_Controller {
       $data['img_src'] = $img_src;
     }
     
+    $res = FALSE;
     if ($mode == 'add') {
       $data['created_at'] = $TIME;
-    }
-
-    if ($mode == 'edit') {
+      $res = $this->users_model->insert($data);
+    } else if ($mode == 'edit') {
       $id = $this->input->post('id');
       $res = $this->users_model->update($data, array('id' => $id));
     }
-    else {
-      $res = $this->users_model->insert($data);
-    }
 
-    // insert new tags
-    $this->load->model('tags_model');
-    $this->tags_model->insertMultiple(json_decode($tags, TRUE));
-
-    // update session if id same as sess id
-    $uid = $this->session->userdata('user')['id'];
     $updatedSess = FALSE;
-    if (isset($id) && $id == $uid) {
-      $this->_updateSess();
-      $updatedSess = TRUE;
+    if ($res) {
+      // insert new tags
+      $this->load->model('tags_model');
+      $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+
+      // update session if id same as sess id
+      $uid = $this->session->userdata('user')['id'];
+      if (isset($id) && $id == $uid) {
+        $this->_updateSess();
+        $updatedSess = TRUE;
+      }
     }
 
     $this->_json($res, array(

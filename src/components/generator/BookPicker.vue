@@ -181,7 +181,9 @@ export default {
       if (e) {
         this.suggest()
         setTimeout(() => {
-          this.$refs.searchbar.focus()
+          if (this.$refs.searchbar) {
+            this.$refs.searchbar.focus()
+          }
         })
       } else {
         this.search = null
@@ -248,7 +250,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }),
+    }, 300),
 
     suggest() {
       // do no execute sugget when bus suggestions is off

@@ -16,20 +16,41 @@
     <span v-else>Format</span>
   </v-tooltip>
 
-  <span
-    v-if="viewAsMd"
-    v-html="$md.makeHtml(text)"
-    :class="{
-      [mdClass + ' ' + mdAddClass]: true,
-      clickable: editOnClick
-    }"
-    @click="mdClick"
-  />
-  <textarea
-    v-else
+  <div
+    style="width: calc(100% - 46px)"
+    class="my-2"
+  >
+    <span
+      v-if="viewAsMd"
+      v-html="$md.makeHtml(text)"
+      :class="{
+        [mdClass + ' ' + mdAddClass]: true,
+        clickable: editOnClick
+      }"
+      @click="mdClick"
+    />
+    <textarea
+      v-else
+      v-model="text"
+      :placeholder="placeholder + (required ? '*' : '')"
+      :class="{ [textareaClass + ' ' + tAddClass]: true }"
+      :required="required"
+      @blur="textareaBlur"
+    />
+
+    <div
+      class="red--text caption"
+      v-if="errorMsg"
+      v-text="errorMsg"
+    />
+  </div>
+
+  <!-- lol for required -->
+  <v-text-field
+    style="display: none"
     v-model="text"
-    :placeholder="placeholder"
-    :class="{ [textareaClass + ' ' + tAddClass]: true }"
+    v-if="required"
+    :rules="[ (required ? $fRule('required') : () => true) ]"
   />
 </v-layout>
 </template>
@@ -41,7 +62,7 @@ export default {
     value: String,
     textareaClass: {
       type: String,
-      default: 'my-textarea my-2 elevation-1 pa-1 white'
+      default: 'my-textarea elevation-1 pa-1 white'
     },
     tAddClass: {
       type: String,
@@ -49,7 +70,7 @@ export default {
     },
     mdClass: {
       type: String,
-      default: 'my-ul py-2'
+      default: 'my-list py-2'
     },
     mdAddClass: {
       type: String,
@@ -66,22 +87,31 @@ export default {
     editOnClick: {
       type: Boolean,
       default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
     text: null,
-    viewAsMd: true
+    viewAsMd: true,
+    errorMsg: null
   }),
   watch: {
     value: {
       deep: true,
       handler(e) {
+        this.errorMsg = null
         this.text = e
       }
     },
     text: {
       deep: true,
       handler(e) {
+        if (e) {
+          this.errorMsg = null
+        }
         this.$emit('input', e)
       }
     },
@@ -96,6 +126,16 @@ export default {
   methods: {
     mdClick() {
       this.editOnClick ? this.viewAsMd = !this.viewAsMd : undefined
+    },
+    textareaBlur() {
+      if (this.required && !this.text) {
+        this.errorMsg = 'This field is required.'
+      }
+    },
+    reset() {
+      this.text = this.value
+      this.viewAsMd = this.mdView
+      this.errorMsg = null
     }
   }
 }

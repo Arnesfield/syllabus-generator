@@ -227,7 +227,9 @@ export default {
       if (e) {
         this.suggest()
         setTimeout(() => {
-          this.$refs.searchbar.focus()
+          if (this.$refs.searchbar) {
+            this.$refs.searchbar.focus()
+          }
         })
       } else {
         this.search = null
@@ -271,7 +273,7 @@ export default {
         console.error(e)
         this.dLoading = false
       })
-    }),
+    }, 300),
 
     suggest() {
       this.dLoading = false

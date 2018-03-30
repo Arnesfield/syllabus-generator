@@ -110,7 +110,9 @@ export default {
   },
 
   mounted() {
-    this.$refs.username.focus()
+    if (this.$refs.username) {
+      this.$refs.username.focus()
+    }
   },
 
   methods: {

@@ -52,13 +52,12 @@
               v-model="citation"
               placeholder="Enter citation"
             />
-              <!-- t-add-class="my-big-textarea pa-2" -->
           </v-flex>
         </v-layout>
 
         <!-- tags -->
 
-        <v-layout align-content-start>
+        <v-layout align-content-start class="mt-2">
           <v-flex hidden-xs-only sm4>
             <v-subheader>Related tags</v-subheader>
           </v-flex>
@@ -156,6 +155,13 @@ export default {
     status: null,
     tags: []
   }),
+  watch: {
+    show(e) {
+      if (!e) {
+        this.clear()
+      }
+    }
+  },
 
   methods: {
     addItem() {

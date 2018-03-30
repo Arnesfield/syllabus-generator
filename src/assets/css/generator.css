@@ -19,12 +19,16 @@ table.syllabus-tbl td {
 }
 
 table.syllabus-tbl ul,
-.my-ul ul {
+.my-list ul,
+.my-list ol {
   padding-left: 24px;
 }
 
 table.syllabus-tbl ul ul,
-.my-ul ul ul {
+.my-list ul ul,
+.my-list ol ol,
+.my-list ol ul,
+.my-list ul ol {
   padding-left: 12px;
 }
 

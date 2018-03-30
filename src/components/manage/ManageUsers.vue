@@ -28,6 +28,7 @@
         <template v-if="props.item.img_src.length">
           <icon-img
             class="ma-2"
+            size="32"
             :item="props.item"
             :alt="props.item.username"
           />

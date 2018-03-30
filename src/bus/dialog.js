@@ -6,11 +6,9 @@ export default {
     csv: false
   },
   ManageCourses: {
-    add: false,
     csv: false
   },
   ManageBooks: {
-    add: false,
     csv: false
   }
 }

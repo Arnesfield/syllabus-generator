@@ -87,7 +87,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    })
+    }, 300)
   }
 }
 </script>

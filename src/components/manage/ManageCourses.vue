@@ -60,7 +60,7 @@
     </template>
   </v-data-table>
 
-  <dialog-add-course/>
+  <dialog-manage-course ref="dialogManage"/>
   <dialog-csv-courses/>
 
 </v-container>
@@ -68,13 +68,13 @@
 
 <script>
 import qs from 'qs'
-import DialogAddCourse from '@/include/dialogs/DialogAddCourse'
+import DialogManageCourse from '@/include/dialogs/DialogManageCourse'
 import DialogCsvCourses from '@/include/dialogs/DialogCsvCourses'
 
 export default {
   name: 'manage-courses',
   components: {
-    DialogAddCourse,
+    DialogManageCourse,
     DialogCsvCourses
   },
   data: () => ({
@@ -108,14 +108,14 @@ export default {
   },
 
   created() {
-    this.$bus.$on('manage--courses.add', this.addCourse)
+    this.$bus.$on('manage--courses.add', this.addItem)
     this.$bus.$on('manage--courses.upload', this.csvCourses)
     this.$bus.$on('manage--courses.update', this.fetch)
     this.$bus.$on('refresh--btn', this.fetch)
     this.fetch()
   },
   beforeDestroy() {
-    this.$bus.$off('manage--courses.add', this.addCourse)
+    this.$bus.$off('manage--courses.add', this.addItem)
     this.$bus.$off('manage--courses.upload', this.csvCourses)
     this.$bus.$off('manage--courses.update', this.fetch)
     this.$bus.$off('refresh--btn', this.fetch)
@@ -168,11 +168,15 @@ export default {
     },
 
     editItem(item) {
-
+      if (this.$refs.dialogManage) {
+        this.$refs.dialogManage.editItem(item)
+      }
     },
 
-    addCourse() {
-      this.$bus.dialog.ManageCourses.add = true
+    addItem() {
+      if (this.$refs.dialogManage) {
+        this.$refs.dialogManage.addItem()
+      }
     },
     csvCourses() {
       this.$bus.dialog.ManageCourses.csv = true
@@ -180,7 +184,13 @@ export default {
 
     fetch() {
       this.loading = true
-      this.$http.post(this.url).then((res) => {
+      this.$http.post(this.url, qs.stringify({
+        withRelated: true
+      })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         let courses = res.data.courses
         this.courses = typeof courses === 'object' ? courses : []
         this.loading = false

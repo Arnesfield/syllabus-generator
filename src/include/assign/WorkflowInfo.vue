@@ -208,12 +208,31 @@
       <template
         slot="title"
       >&nbsp;Selected</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-html="props.item.code"
-      />
+        align-center
+      >
+        <v-subheader>
+          <div>
+            <div v-html="props.item.code"/>
+            <div class="caption" v-html="props.item.title"/>
+          </div>
+        </v-subheader>
+
+        <v-spacer/>
+
+        <v-tooltip left>
+          <v-icon
+            color="grey"
+            slot="activator"
+          >info_outline</v-icon>
+          <div
+            style="max-width: 420px"
+            v-html="props.item.description"
+          />
+        </v-tooltip>
+      </v-layout>
     </select-list>
 
     <select-list
@@ -230,12 +249,31 @@
       ><strong
         v-text="courses.length"
       />&nbsp;{{ searchCourse ? 'Results' : 'Suggested' }}</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-html="props.item.code"
-      />
+        align-center
+      >
+        <v-subheader>
+          <div>
+            <div v-html="props.item.code"/>
+            <div class="caption" v-html="props.item.title"/>
+          </div>
+        </v-subheader>
+
+        <v-spacer/>
+
+        <v-tooltip left>
+          <v-icon
+            color="grey"
+            slot="activator"
+          >info_outline</v-icon>
+          <div
+            style="max-width: 420px"
+            v-html="props.item.description"
+          />
+        </v-tooltip>
+      </v-layout>
     </select-list>
 
   </v-dialog>
@@ -459,7 +497,9 @@ export default {
       if (e) {
         this.suggestUsers()
         setTimeout(() => {
-          this.$refs.searchbarUser.focus()
+          if (this.$refs.searchbarUser) {
+            this.$refs.searchbarUser.focus()
+          }
         })
       } else {
         this.searchUser = null
@@ -474,7 +514,9 @@ export default {
       if (e) {
         this.suggestCourses()
         setTimeout(() => {
-          this.$refs.searchbarCourse.focus()
+          if (this.$refs.searchbarCourse) {
+            this.$refs.searchbarCourse.focus()
+          }
         })
       } else {
         this.searchCourse = null

@@ -3,13 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Courses_model extends MY_Custom_Model {
 
-  public function getByQuery($search = FALSE) {
+  public function getByQuery($search = FALSE, $where = FALSE) {
     $this->db
       ->from('courses')
       ->where('status !=', -1);
 
     if ($search) {
       $this->db->where("lower(concat(IFNULL(title, ''), IFNULL(code, ''))) like lower(concat('%', '$search', '%'))");
+    }
+
+    if ($where) {
+      $this->db->where($where);
     }
 
     $this->db
@@ -43,6 +47,18 @@ class Courses_model extends MY_Custom_Model {
       ->where($where)
       ->order_by('updated_at')
       ->order_by('created_at');
+    
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+  
+  public function getWhereIdIn($ids) {
+    $this->db
+      ->from('courses')
+      ->where('status !=', -1)
+      ->where_in('id', $ids)
+      ->order_by('title')
+      ->order_by('code');
     
     $query = $this->db->get();
     return $this->_res($query);

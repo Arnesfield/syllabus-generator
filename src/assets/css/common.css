@@ -93,13 +93,23 @@ p {
   height: 64px;
   max-height: 128px;
   width: 100%;
+  /* width: calc(100% - 46px); */
+}
+
+.my-medium-textarea {
+  min-height: 32px;
+  height: 128px;
+  max-height: 384px;
+  width: 100%;
+  /* width: calc(100% - 46px); */
 }
 
 .my-big-textarea {
   min-height: 64px;
   height: 256px;
   max-height: 512px;
-  width: calc(100% - 46px);
+  width: 100%;
+  /* width: calc(100% - 46px); */
 }
 
 .visible-border {

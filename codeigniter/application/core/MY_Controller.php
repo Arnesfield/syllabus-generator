@@ -211,11 +211,12 @@ class MY_Custom_Controller extends MY_View_Controller {
           unset($users[$key]['password']);
         }
   
-        $users[$key]['tags'] = json_decode($user['tags'], TRUE);
-        $auth = json_decode($user['auth'], TRUE);
-
+        $tags = json_decode($user['tags'], TRUE);
+        $users[$key]['tags'] = is_array($tags) ? $tags : array();
+        
         // make sure auth is all int
-        $users[$key]['auth'] = array_map('intval', $auth);
+        $auth = json_decode($user['auth'], TRUE);
+        $users[$key]['auth'] = is_array($auth) ? array_map('intval', $auth) : array();
       }
     }
     return $users;
@@ -224,10 +225,79 @@ class MY_Custom_Controller extends MY_View_Controller {
   public function _formatBooks($books) {
     if ($books) {
       foreach ($books as $key => $book) {
-        $books[$key]['tags'] = json_decode($book['tags'], TRUE);
+        $tags = json_decode($book['tags'], TRUE);
+        $books[$key]['tags'] = is_array($tags) ? $tags : array();
       }
     }
     return $books;
+  }
+
+  public function _formatCourses($arr, $include_related = FALSE, $deep_include = FALSE) {
+    if ($arr) {
+      $prerequisite_ids = array();
+      $corequisite_ids = array();
+
+      foreach ($arr as $key => $value) {
+        $tags = json_decode($value['tags'], TRUE);
+        $arr[$key]['tags'] = is_array($tags) ? $tags : array();
+
+        // add included and set them later
+        if ($include_related) {
+          
+          $prerequisites = json_decode($value['prerequisites'], TRUE);
+          if (is_array($prerequisites)) {
+            $arr[$key]['prerequisites'] = $prerequisites;
+            $prerequisite_ids = array_merge($prerequisite_ids, array_map('intval', $prerequisites));
+          } else {
+            $arr[$key]['prerequisites'] = array();
+          }
+          
+          $corequisites = json_decode($value['corequisites'], TRUE);
+          if (is_array($corequisites)) {
+            $arr[$key]['corequisites'] = $corequisites;
+            $corequisite_ids = array_merge($corequisite_ids, array_map('intval', $corequisites));
+          } else {
+            $arr[$key]['corequisites'] = array();
+          }
+          
+        }
+      }
+
+      if ($include_related && (count($prerequisite_ids) || count($corequisite_ids))) {
+
+        // combine pre and co requisites
+        $all_ids = array_unique(array_merge($prerequisite_ids, $corequisite_ids));
+
+        // load courses model
+        $this->load->model('courses_model');
+        $courses = $this->courses_model->getWhereIdIn($all_ids);
+        
+        if ($courses) {
+          // format these courses too!
+          $courses = $this->_formatCourses($courses, $deep_include, $deep_include);
+
+          // make id => value
+          $all_courses = array();
+          foreach ($courses as $key => $value) {
+            $all_courses[$value['id']] = $value;
+          }
+
+          // loop again in array
+          foreach ($arr as $key => $value) {
+            // loop through both pre and co requisites and set those
+            foreach ($value['prerequisites'] as $arr_key => $id) {
+              $arr[$key]['prerequisites'][$arr_key] = $all_courses[$id];
+            }
+            foreach ($value['corequisites'] as $arr_key => $id) {
+              $arr[$key]['corequisites'][$arr_key] = $all_courses[$id];
+            }
+          }
+
+        }
+      }
+
+    }
+    return $arr;
   }
 
   public function _formatSettings($arr) {

@@ -136,7 +136,9 @@ export default {
       if (e) {
         this.suggest()
         setTimeout(() => {
-          this.$refs.searchbar.focus()
+          if (this.$refs.searchbar) {
+            this.$refs.searchbar.focus()
+          }
         })
       } else {
         this.search = null

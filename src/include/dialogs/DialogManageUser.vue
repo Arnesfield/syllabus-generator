@@ -216,7 +216,7 @@
 
         <!-- preferences -->
 
-        <v-layout align-content-start>
+        <v-layout align-content-start class="mt-2">
           <v-flex hidden-xs-only sm4>
             <v-subheader>Preferences</v-subheader>
           </v-flex>

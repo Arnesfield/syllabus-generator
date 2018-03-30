@@ -12,7 +12,16 @@ class Courses extends MY_Custom_Controller {
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : '';
-    $courses = $this->courses_model->getByQuery($search);
+    $withRelated = $this->input->post('withRelated') ? $this->input->post('withRelated') : FALSE;
+    $exceptId = $this->input->post('exceptId') ? $this->input->post('exceptId') : FALSE;
+    
+    $where = FALSE;
+    if ($exceptId) {
+      $where = array('id !=' => $exceptId);
+    }
+
+    $courses = $this->courses_model->getByQuery($search, $where);
+    $courses = $this->_formatCourses($courses, $withRelated);
     $this->_json(TRUE, 'courses', $courses);
   }
 
@@ -80,15 +89,6 @@ class Courses extends MY_Custom_Controller {
     $this->_json(TRUE, $data);
   }
 
-  public function add() {
-    $post_values = array('title', 'code', 'description', 'objectives', 'unitsLec', 'unitsLab', 'status');
-    foreach ($post_values as $value) {
-      $course[$value] = $this->_filter($this->input->post($value));
-    }
-    $res = $this->courses_model->insert($course);
-    $this->_json($res);
-  }
-
   public function addCsv() {
     $courses = $this->input->post('courses');
     $res = $this->courses_model->insertMultiple($courses);
@@ -103,6 +103,56 @@ class Courses extends MY_Custom_Controller {
     );
     $where = array('id' => $id);
     $res = $this->courses_model->update($data, $where);
+    $this->_json($res);
+  }
+
+  public function manage() {
+    $title = $this->input->post('title');
+    $code = $this->input->post('code');
+    $description = $this->input->post('description');
+    $objectives = $this->input->post('objectives');
+    $unitsLec = $this->input->post('unitsLec');
+    $unitsLab = $this->input->post('unitsLab');
+    $status = $this->input->post('status');
+
+    $tags = $this->input->post('tags');
+    $prerequisites = $this->input->post('prerequisites');
+    $corequisites = $this->input->post('corequisites');
+
+    // options
+    $mode = $this->input->post('mode');
+
+    $TIME = time();
+
+    $data = array(
+      'title' => $title,
+      'code' => $code,
+      'description' => $description,
+      'objectives' => $objectives,
+      'unitsLec' => $unitsLec,
+      'unitsLab' => $unitsLab,
+      'status' => $status,
+      'tags' => $tags,
+      'prerequisites' => $prerequisites,
+      'corequisites' => $corequisites,
+      'updated_at' => $TIME
+    );
+
+    $res = FALSE;
+    if ($mode == 'add') {
+      $data['created_at'] = $TIME;
+      $res = $this->courses_model->insert($data);
+    } else if ($mode == 'edit') {
+      $id = $this->input->post('id');
+      $res = $this->courses_model->update($data, array('id' => $id));
+    }
+
+    if ($res) {
+      // insert new tags
+      $this->load->model('tags_model');
+      $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+    }
+
     $this->_json($res);
   }
 }
