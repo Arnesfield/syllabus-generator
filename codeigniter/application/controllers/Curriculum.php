@@ -8,7 +8,7 @@ class Curriculum extends MY_Custom_Controller {
     $this->load->model('curriculum_model');
   }
   
-  public function index() {
+  /* public function index() {
     $year = $this->input->post('year');
     $curriculum = $this->curriculum_model->get($year);
     $this->_json(TRUE, 'curriculum', $curriculum);
@@ -22,6 +22,65 @@ class Curriculum extends MY_Custom_Controller {
     $search = strtolower($this->_filter($this->input->post('search')));
     $years = $this->curriculum_model->getYearsByQuery($search, $limit);
     $this->_json(TRUE, 'years', $years);
+  } */
+
+  public function index() {
+    $search = $this->input->post('search')
+      ? $this->_filter($this->input->post('search'))
+      : '';
+
+    $where = array();
+
+    $existing = $this->input->post('existing') ? $this->input->post('existing') : FALSE;
+
+    if ($existing) {
+      $where['status !='] = 0;
+    }
+    
+    $curriculum = $this->curriculum_model->getByQuery($search, $where);
+    $curriculum = $this->_formatCurriculum($curriculum);
+    $this->_json(TRUE, 'curriculum', $curriculum);
+  }
+
+  public function delete() {
+    $id = $this->input->post('id');
+    $data = array(
+      'status' => -1,
+      'updated_at' => time()
+    );
+    $where = array('id' => $id);
+    $res = $this->curriculum_model->update($data, $where);
+    $this->_json($res);
+  }
+
+  public function manage() {
+    $label = $this->input->post('label');
+    $status = $this->input->post('status');
+
+    $content = $this->input->post('content');
+
+    // options
+    $mode = $this->input->post('mode');
+
+    $TIME = time();
+
+    $data = array(
+      'label' => $label,
+      'status' => $status,
+      'content' => $content,
+      'updated_at' => $TIME
+    );
+
+    $res = FALSE;
+    if ($mode == 'add') {
+      $data['created_at'] = $TIME;
+      $res = $this->curriculum_model->insert($data);
+    } else if ($mode == 'edit') {
+      $id = $this->input->post('id');
+      $res = $this->curriculum_model->update($data, array('id' => $id));
+    }
+
+    $this->_json($res);
   }
 }
 

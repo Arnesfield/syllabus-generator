@@ -232,6 +232,16 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $books;
   }
 
+  public function _formatCurriculum($arr) {
+    if ($arr) {
+      foreach ($arr as $key => $value) {
+        $content = json_decode($value['content'], TRUE);
+        $arr[$key]['content'] = is_array($content) ? $content : array();
+      }
+    }
+    return $arr;
+  }
+
   public function _formatCourses($arr, $include_related = FALSE, $deep_include = FALSE) {
     if ($arr) {
       $prerequisite_ids = array();

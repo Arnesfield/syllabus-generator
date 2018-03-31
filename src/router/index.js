@@ -12,6 +12,7 @@ import Syllabus from '@/components/Syllabus'
 import ManageUsers from '@/components/manage/ManageUsers'
 import ManageCourses from '@/components/manage/ManageCourses'
 import ManageBooks from '@/components/manage/ManageBooks'
+import ManageCurriculum from '@/components/manage/ManageCurriculum'
 
 import NotFound from '@/components/errors/NotFound'
 
@@ -125,6 +126,16 @@ export default new Router({
         auth: [1, 6],
         title: 'Manage Books',
         icon: 'library_books'
+      }
+    },
+    {
+      path: '/manage/curriculum',
+      name: 'ManageCurriculum',
+      component: ManageCurriculum,
+      meta: {
+        auth: 1,
+        title: 'Manage Curriculum',
+        icon: 'description'
       }
     },
 

@@ -94,7 +94,8 @@
       v-if="
         $route.name === 'ManageUsers' ||
         $route.name === 'ManageCourses' ||
-        $route.name === 'ManageBooks'
+        $route.name === 'ManageBooks' ||
+        $route.name === 'ManageCurriculum'
       "
     >
       <v-spacer/>

@@ -28,6 +28,14 @@ export default {
         { icon: 'file_upload', tip: 'Upload CSV file', cb: 'manage--books.upload' }
       ]
     },
+    ManageCurriculum: {
+      color: 'accent',
+      before: 'add',
+      after: 'close',
+      click: 'curriculum--add',
+      tip: 'Add curriculum',
+      btns: null
+    },
     Workflow: {
       color: 'accent',
       before: 'add',

@@ -132,6 +132,7 @@ export default {
         header: 'Syllabus',
         auth: 1,
         items: [
+          { title: 'Curriculum', icon: 'description', tip: 'Curriculum', to: '/manage/curriculum' },
           { title: 'CLO Options', icon: 'settings', tip: 'CLO Options', click: 'cloOptions' }
         ]
       },

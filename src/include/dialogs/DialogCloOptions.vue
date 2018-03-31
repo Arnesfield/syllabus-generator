@@ -41,12 +41,10 @@
         <template v-if="cloOptions.length">
           <v-layout
             row
-            wrap
-            align-center
+            align-baseline
             :key="i"
             v-for="(clo, i) in cloOptions"
           >
-            
             <v-tooltip top>
               <v-btn
                 icon
@@ -61,25 +59,33 @@
               </v-btn>
               <span>Remove</span>
             </v-tooltip>
+            
+            <v-layout
+              row
+              wrap
+              align-center
+            >
+              <v-flex xs12 sm4>
+                <v-text-field
+                  label="Symbol"
+                  v-model="clo.symbol"
+                  :disabled="loading"
+                  :rules="[$fRule('required')]"
+                  required
+                />
+              </v-flex>
 
-            <div>
-              <v-text-field
-                label="Symbol"
-                v-model="clo.symbol"
-                :disabled="loading"
-                :rules="[$fRule('required')]"
-                required
-              />
-            </div>
-
-            <v-text-field
-              label="Description"
-              class="ml-1"
-              v-model="clo.text"
-              :disabled="loading"
-              :rules="[$fRule('required')]"
-              required
-            />
+              <v-flex xs12 sm8>
+                <v-text-field
+                  label="Description"
+                  class="ml-1"
+                  v-model="clo.text"
+                  :disabled="loading"
+                  :rules="[$fRule('required')]"
+                  required
+                />
+              </v-flex>
+            </v-layout>
 
           </v-layout>
         </template>

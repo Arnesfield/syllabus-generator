@@ -20,3 +20,6 @@ yarn-error.log*
 # Ignore images
 /public/uploads/images/*
 !/public/uploads/images/.gitkeep
+
+# Ignore notes
+/notes/

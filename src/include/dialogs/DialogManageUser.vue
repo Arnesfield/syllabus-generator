@@ -6,7 +6,7 @@
   width="800"
   scrollable
 >
-  <v-card>
+  <v-card v-if="show">
     
     <v-progress-linear
       color="warning"

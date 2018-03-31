@@ -3,32 +3,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Curriculum_model extends MY_Custom_Model {
 
-  private $curriculum = 'curriculum';
-
-  public function get($year = NULL) {
+  public function getByQuery($search = FALSE, $where = FALSE) {
     $this->db
-      ->select('id, label, content, year')
-      ->from($this->curriculum);
+      ->from('curriculum')
+      ->where('status !=', -1);
 
-    if ($year) {
-      $this->db->where('year', $year);
+    if ($search) {
+      $search = strtolower($search);
+      $this->db->like('LOWER(label)', $search);
+    }
+
+    if ($where) {
+      $this->db->where($where);
     }
 
     $this->db
-      ->where('status', 1)
-      ->order_by('label', 'ASC')
-      ->order_by('year', 'DESC');
+      ->order_by('label', 'DESC')
+      ->order_by('updated_at', 'DESC')
+      ->order_by('created_at', 'DESC');
       
     $query = $this->db->get();
     return $this->_res($query);
   }
 
-  public function getYearsByQuery($search = NULL, $limit = NULL) {
+  public function insert($data) {
+    return $this->db->insert('curriculum', $data);
+  }
+
+  public function update($data, $where) {
+    return $this->db
+      ->set($data)
+      ->where($where)
+      ->update('curriculum');
+  }
+
+  /* public function getYearsByQuery($search = NULL, $limit = NULL) {
     $this->db
       ->distinct()
       ->select('year')
       ->from($this->curriculum)
-      ->where('status', 1);
+      ->where('status !=', -1);
 
     if ($search) {
       $this->db->like('year', $search);
@@ -42,7 +56,7 @@ class Curriculum_model extends MY_Custom_Model {
       
     $query = $this->db->get();
     return $this->_res($query);
-  }
+  } */
 }
 
 ?>
