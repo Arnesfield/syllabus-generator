@@ -106,7 +106,6 @@ export default {
       { text: 'Actions', value: 'id', sortable: false }
     ],
     users: [],
-    currId: null,
     // for data table
     loading: false,
     pagination: {}
@@ -204,7 +203,6 @@ export default {
       this.$http.post(this.url).then((res) => {
         let users = res.data.users
         this.users = typeof users === 'object' ? users : []
-        this.currId = res.data.currId
         this.loading = false
       }).catch(e => {
         console.error(e)

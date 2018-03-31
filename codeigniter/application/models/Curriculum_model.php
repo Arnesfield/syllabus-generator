@@ -26,6 +26,19 @@ class Curriculum_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
+  public function getLatest() {
+    $this->db
+      ->from('curriculum')
+      ->where('status', 1)
+      ->order_by('latest', 'DESC')
+      ->order_by('label', 'DESC')
+      ->order_by('updated_at', 'DESC')
+      ->order_by('created_at', 'DESC')
+      ->limit(1);
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+
   public function insert($data) {
     return $this->db->insert('curriculum', $data);
   }

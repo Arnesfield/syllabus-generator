@@ -41,6 +41,13 @@ class Curriculum extends MY_Custom_Controller {
     $this->_json(TRUE, 'curriculum', $curriculum);
   }
 
+  public function suggest() {
+    // suggest the latest, duh
+    $curriculum = $this->curriculum_model->getLatest();
+    $curriculum = $this->_formatCurriculum($curriculum);
+    $this->_json(TRUE, 'curriculum', $curriculum);
+  }
+
   public function delete() {
     $id = $this->input->post('id');
     $data = array(

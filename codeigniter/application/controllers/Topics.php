@@ -20,7 +20,7 @@ class Topics extends MY_Custom_Controller {
     $course_id = $this->input->post('courseId');
     $book_ids = $this->input->post('bookIds');
     $outcomes = $this->_filter($this->input->post('outcomes'));
-    $year = $this->input->post('curriculumYear');
+    $curriculum_id = $this->input->post('curriculumId');
     $limit = $this->input->post('limit');
 
     // get fields of course

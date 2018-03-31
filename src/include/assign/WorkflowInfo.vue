@@ -400,7 +400,7 @@ export default {
     }
   },
   data: () => ({
-    userUrl: '/users/search',
+    userUrl: '/users',
     courseUrl: '/courses',
     item: null,
     levels: 0,
@@ -552,8 +552,13 @@ export default {
 
       this.dLoading = true
       this.$http.post(this.userUrl, qs.stringify({
-        search: search
+        search: search,
+        auth: [3]
       })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         this.dLoading = false
         this.users = res.data.users
       }).catch(e => {
@@ -575,6 +580,10 @@ export default {
       this.$http.post(this.courseUrl, qs.stringify({
         search: search
       })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         this.dLoading = false
         this.courses = res.data.courses
       }).catch(e => {

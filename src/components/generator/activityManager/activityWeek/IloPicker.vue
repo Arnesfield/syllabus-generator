@@ -237,8 +237,7 @@ export default {
       // include number of clos for limit
       let cloLimit = Object.keys(this.act.cloMap).length
 
-      let po = this.syllabus.content.programOutcomes
-      let year = po.length ? po[0].year : 0
+      let poId = this.syllabus.content.programOutcomes.id
 
       this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
@@ -246,7 +245,7 @@ export default {
         cloContent: cloContent,
         topicIds: topicIds,
         courseId: this.syllabus.course_id,
-        curriculumYear: year,
+        curriculumId: poId,
         type: 2,
         limit: 30,
         cloLimit: cloLimit

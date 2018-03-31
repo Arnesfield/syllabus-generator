@@ -206,7 +206,8 @@ export default {
         } else if (
           to.content &&
           to.content.programOutcomes &&
-          to.content.programOutcomes.length
+          to.content.programOutcomes.content &&
+          to.content.programOutcomes.content.length
         ) {
           this.$bus.tabs.Generator.items = this.tabs.all
           this.stringifySyllabus()

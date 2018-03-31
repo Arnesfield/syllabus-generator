@@ -225,15 +225,14 @@ export default {
         }
       })
 
-      let po = this.syllabus.content.programOutcomes
-      let year = po.length ? po[0].year : 0
+      let poId = this.syllabus.content.programOutcomes.id
 
       this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
         topicIds: topicIds,
         courseId: this.syllabus.course_id,
-        curriculumYear: year,
+        curriculumId: poId,
         type: this.type,
         limit: 30
       })).then((res) => {

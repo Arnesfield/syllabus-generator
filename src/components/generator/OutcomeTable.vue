@@ -1,5 +1,5 @@
 <template>
-<div v-if="syllabus && c.programOutcomes.length">
+<div v-if="syllabus && c.programOutcomes.content.length">
 
   <h4 class="headline mb-2">{{ mainTitle }}</h4>
 
@@ -29,17 +29,17 @@
       <tr>
         <th style="width: 1px">&nbsp;</th>
         <th colspan="2" style="width: 50%">{{ mainTitle }}</th>
-        <th :colspan="supporting.length">{{ supportingTitle }}</th>
+        <th :colspan="supporting.content.length">{{ supportingTitle }}</th>
       </tr>
       <tr>
         <td>
           <button type="button" @click="add(0)">+</button>
         </td>
         <td colspan="2">&nbsp;</td>
-        <template v-if="supporting.length">
+        <template v-if="supporting.content.length">
           <td class="text-xs-center"
-            v-for="(po, index) in supporting"
-            :key="po.id">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
+            v-for="(po, index) in supporting.content"
+            :key="po.label">{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
         </template>
         <td v-else>&nbsp;</td>
       </tr>
@@ -65,9 +65,9 @@
             autocomplete>
           </v-select>
         </td>
-        <template v-if="supporting.length">
+        <template v-if="supporting.content.length">
           <template
-            v-for="(po, poIndex) in supporting"
+            v-for="(po, poIndex) in supporting.content"
           >
             <td
               class="text-xs-center"
@@ -87,8 +87,8 @@
                   <v-layout justify-center align-center>
                     <template v-if="
                       typeof c.cloPoMap[cloIndex] !== 'undefined' &&
-                      Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
-                    ">{{ c.cloPoMap[cloIndex][po.id].symbol }}</template>
+                      Object.keys(c.cloPoMap[cloIndex]).indexOf(po.label) > -1
+                    ">{{ c.cloPoMap[cloIndex][po.label].symbol }}</template>
                   </v-layout>
                 </div>
                 <v-list
@@ -98,9 +98,9 @@
                 >  
                   <template v-if="
                     typeof c.cloPoMap[cloIndex] !== 'undefined' &&
-                    Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
+                    Object.keys(c.cloPoMap[cloIndex]).indexOf(po.label) > -1
                   ">
-                    <v-list-tile @click="click(cloIndex, po.id)">
+                    <v-list-tile @click="click(cloIndex, po.label)">
                       <v-list-tile-content>
                         <v-list-tile-title
                           class="red--text"
@@ -113,7 +113,7 @@
 
                   <!-- assuming symbols come from db -->
                   <template v-for="(s, i) in symbols">
-                    <v-list-tile :key="s.symbol" @click="click(cloIndex, po.id, s)">
+                    <v-list-tile :key="s.symbol" @click="click(cloIndex, po.label, s)">
                       <v-list-tile-content>
                         <v-list-tile-title>
                           {{ s.symbol }} &mdash; {{ s.text }}
@@ -158,7 +158,7 @@ export default {
   },
   props: {
     syllabus: Object,
-    supporting: Array,
+    supporting: Object,
     mainTitle: String,
     supportingTitle: String
   },
@@ -267,7 +267,7 @@ export default {
 
     over(clo, po, e) {
       e ? e.target.classList.add('outcome-highlighted') : undefined
-      let o = this.c.programOutcomes[po]
+      let o = this.c.programOutcomes.content[po]
       this.highlighted = (typeof o.label !== 'undefined' ? o.label + '. ' : '') + o.content
     },
     out(clo, po, e) {
@@ -323,13 +323,12 @@ export default {
         })
       }
 
-      let po = this.c.programOutcomes
-      let year = po.length ? po[0].year : 0
+      let poId = this.c.programOutcomes.id
 
       this.$http.post(this.suggestUrl, qs.stringify({
         bookIds: bookIds,
         courseId: this.syllabus.course_id,
-        curriculumYear: year,
+        curriculumId: poId,
         type: 1,
         limit: 30
       })).then((res) => {

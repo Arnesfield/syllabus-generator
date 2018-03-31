@@ -196,7 +196,7 @@ export default {
     }
   },
   data: () => ({
-    url: '/users/search',
+    url: '/users',
     item: null,
     items: [],
     selected: [],
@@ -271,8 +271,13 @@ export default {
       }
       this.dLoading = true
       this.$http.post(this.url, qs.stringify({
-        search: search
+        search: search,
+        auth: [5]
       })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         this.items = res.data.users
         this.dLoading = false
       }).catch(e => {

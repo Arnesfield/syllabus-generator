@@ -20,7 +20,7 @@ class Users_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getByQuery($search) {
+  public function getByQuery($search = FALSE, $where = FALSE, $auth = FALSE) {
     
     $this->db
       ->from('users')
@@ -30,12 +30,29 @@ class Users_model extends MY_Custom_Model {
       $search = strtolower($search);
       $this->db->where("
         (
-          LOWER(fname) LIKE '%$search%' OR
-          LOWER(mname) LIKE '%$search%' OR
-          LOWER(lname) LIKE '%$search%' OR
-          LOWER(username) LIKE '%$search%'
-        ) OR MATCH(fname, mname, lname, username) AGAINST ('*$search*' IN BOOLEAN MODE)
+          (
+            LOWER(fname) LIKE '%$search%' OR
+            LOWER(mname) LIKE '%$search%' OR
+            LOWER(lname) LIKE '%$search%' OR
+            LOWER(username) LIKE '%$search%'
+          ) OR MATCH(fname, mname, lname, username) AGAINST ('*$search*' IN BOOLEAN MODE)
+        )
       ", NULL, FALSE);
+    }
+
+    if ($where) {
+      $this->db->where($where);
+    }
+
+    if (is_array($auth)) {
+      // loop through auth
+      $str = '(';
+      foreach ($auth as $key => $value) {
+        // concat a like
+        $str .= "auth LIKE '%\"$value\"%' OR";
+      }
+      $str .= ' 0)';
+      $this->db->where($str, NULL, FALSE);
     }
 
     $this->db

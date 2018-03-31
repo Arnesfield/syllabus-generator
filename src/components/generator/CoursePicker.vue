@@ -49,7 +49,7 @@
 
         <template v-if="selected.prerequisites">
           <tr
-            :key="i"
+            :key="'prerequisite-' + i"
             v-for="(c, i) in selected.prerequisites">
             <td>
               <template v-if="i === 0"><strong>Prerequisites</strong></template>
@@ -66,7 +66,7 @@
 
         <template v-if="selected.corequisites">
           <tr
-            :key="i"
+            :key="'corequisite-' + i"
             v-for="(c, i) in selected.corequisites">
             <td>
               <template v-if="i === 0"><strong>Corequisites</strong></template>

@@ -9,17 +9,13 @@ class Users extends MY_Custom_Controller {
   }
   
   public function index() {
-    $users = $this->users_model->get();
-    $users = $this->_formatUsers($users, TRUE);
-    $this->_json(TRUE, array(
-      'users' => $users,
-      'currId' => $this->session->userdata('user')['id']
-    ));
-  }
+    $search = $this->input->post('search')
+      ? $this->_filter($this->input->post('search'))
+      : FALSE;
+    $auth = $this->input->post('auth') ? $this->input->post('auth') : FALSE;
+    $where = array();
 
-  public function search() {
-    $search = $this->_filter($this->input->post('search'));
-    $users = $this->users_model->getByQuery($search);
+    $users = $this->users_model->getByQuery($search, $where, $auth);
     $users = $this->_formatUsers($users, TRUE);
     $this->_json(TRUE, 'users', $users);
   }

@@ -149,7 +149,7 @@ export default {
           approvedBy: [],
 
           bookReferences: [],
-          programOutcomes: [],
+          programOutcomes: null,
           courseLearningOutcomes: [],
           intendedLearningOutcomes: [],
           cloPoMap: {},

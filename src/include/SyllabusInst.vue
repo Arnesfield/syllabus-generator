@@ -75,11 +75,11 @@
         <tr>
           <td>
 
-            <div v-if="c.programOutcomes.length">
+            <div v-if="c.programOutcomes && c.programOutcomes.content && c.programOutcomes.content.length">
               <div
                 :key="i"
-                v-for="(po, i) in c.programOutcomes"
-              >{{ po.label + '. ' + po.content }}</div>
+                v-for="(po, i) in c.programOutcomes.content"
+              >{{ po.label + '. ' + po.text }}</div>
             </div>
 
           </td>
@@ -137,24 +137,24 @@
 
       </table>
 
-      <table border="1" v-if="c.course">
+      <table border="1" v-if="c.course && c.programOutcomes && c.programOutcomes.content">
         <!-- clo -->
         <tr>
           <th
-            :colspan="c.programOutcomes.length + 3"
+            :colspan="c.programOutcomes.content.length + 3"
           >Course Outcomes and Relationship to Program Outcomes</th>
         </tr>
 
         <tr>
           <th colspan="2" style="width: 50%">Course Learning Outcomes (CLO)</th>
-          <th :colspan="c.programOutcomes.length">Program Outcomes</th>
+          <th :colspan="c.programOutcomes.content.length">Program Outcomes</th>
         </tr>
         <tr>
           <td colspan="2">&nbsp;</td>
-          <template v-if="c.programOutcomes.length">
+          <template v-if="c.programOutcomes.content.length">
             <td
-              :key="po.id"
-              v-for="(po, index) in c.programOutcomes"
+              :key="po.label"
+              v-for="(po, index) in c.programOutcomes.content"
               class="text-xs-center"
             >{{ typeof po.label !== 'undefined' ? po.label : (index + 1) }}</td>
           </template>
@@ -168,19 +168,19 @@
             colspan="2"
             style="padding: 1px"
           >{{ (cloIndex + 1) + '. ' + (clo ? clo : '') }}</td>
-          <template v-if="c.programOutcomes.length">
+          <template v-if="c.programOutcomes.content.length">
             <td
               :key="poIndex"
-              v-for="(po, poIndex) in c.programOutcomes"
+              v-for="(po, poIndex) in c.programOutcomes.content"
               class="text-xs-center"
             >
               <span
                 v-if="
                   typeof c.cloPoMap[cloIndex] !== 'undefined' &&
-                  Object.keys(c.cloPoMap[cloIndex]).indexOf(po.id) > -1
+                  Object.keys(c.cloPoMap[cloIndex]).indexOf(po.label) > -1
                 "
-                :title="c.cloPoMap[cloIndex][po.id].text"
-              >{{ c.cloPoMap[cloIndex][po.id].symbol }}</span>
+                :title="c.cloPoMap[cloIndex][po.label].text"
+              >{{ c.cloPoMap[cloIndex][po.label].symbol }}</span>
               <template v-else>&nbsp;</template>
             </td>
           </template>
