@@ -32,7 +32,6 @@ class Curriculum extends MY_Custom_Controller {
     $where = array();
 
     $existing = $this->input->post('existing') ? $this->input->post('existing') : FALSE;
-
     if ($existing) {
       $where['status !='] = 0;
     }
@@ -55,6 +54,7 @@ class Curriculum extends MY_Custom_Controller {
 
   public function manage() {
     $label = $this->input->post('label');
+    $latest = $this->input->post('latest');
     $status = $this->input->post('status');
 
     $content = $this->input->post('content');
@@ -63,13 +63,24 @@ class Curriculum extends MY_Custom_Controller {
     $mode = $this->input->post('mode');
 
     $TIME = time();
+    $latest = filter_var($latest, FILTER_VALIDATE_BOOLEAN);
 
     $data = array(
       'label' => $label,
       'status' => $status,
       'content' => $content,
+      'latest' => 0,
       'updated_at' => $TIME
     );
+
+    if ($latest) {
+      $data['latest'] = 1;
+      // update all to 0
+      $this->curriculum_model->update(
+        array('latest' => 0),
+        array('latest' => 1)
+      );
+    }
 
     $res = FALSE;
     if ($mode == 'add') {

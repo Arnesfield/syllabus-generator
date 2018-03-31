@@ -3,7 +3,10 @@
 
   <div class="pa-2">
     <v-list class="elevation-1 py-0" two-line>
-      <v-list-tile>
+      <v-list-tile
+        ripple
+        @click="dialog = true"
+      >
         <v-list-tile-action class="thin-action">
           <v-tooltip top>
             <v-btn
@@ -53,13 +56,16 @@
     </v-list>
   </div>
 
-  <v-btn
-    color="primary lighten-1"
-    @click="dialog = true"
-  >
-    <v-icon>add</v-icon>
-    <span>Add Book</span>
-  </v-btn>
+  <v-layout>
+    <v-spacer/>
+    <v-btn
+      color="primary lighten-1"
+      @click="dialog = true"
+    >
+      <v-icon>add</v-icon>
+      <span>Add Book</span>
+    </v-btn>
+  </v-layout>
 
   <v-dialog
     v-model="dialog"

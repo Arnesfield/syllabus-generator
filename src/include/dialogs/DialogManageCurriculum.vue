@@ -97,6 +97,29 @@
           </v-flex>
         </v-layout>
 
+        <!-- latest -->
+
+        <v-layout align-center class="mb-1">
+          <v-flex hidden-xs-only sm4>
+            <v-subheader>
+              <div>
+                <div>Latest</div>
+                <div
+                  class="caption"
+                >set this as the
+                  <strong>latest</strong>
+                </div>
+              </div>
+            </v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <v-switch
+              :label="latest ? 'This is the latest :)' : 'This is not the latest :('"
+              v-model="latest"
+            />
+          </v-flex>
+        </v-layout>
+
         <!-- content -->
 
         <template v-if="content.length">
@@ -249,6 +272,7 @@ export default {
     // values
     id: null,
     label: null,
+    latest: false,
     status: null,
     content: []
   }),
@@ -339,6 +363,7 @@ export default {
       // set values
       this.id = item.id
       this.label = item.label
+      this.latest = Boolean(Number(item.latest))
       this.status = find(this.statusTypes, { value: Number(item.status) })
       this.content = item.content ? JSON.parse(JSON.stringify(item.content)) : []
     },
@@ -352,6 +377,7 @@ export default {
 
       data.append('mode', this.mode)
       data.append('label', this.label)
+      data.append('latest', this.latest)
       data.append('status', this.status.value)
 
       data.append('content', JSON.stringify(this.content))
@@ -403,6 +429,7 @@ export default {
 
       this.id = null
       this.label = null
+      this.latest = false
       this.status = null
       this.content = []
 
