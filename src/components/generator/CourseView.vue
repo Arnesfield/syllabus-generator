@@ -43,75 +43,27 @@
 
       <!-- description and objectives -->
       <v-subheader class="mt-2">Description and objectives</v-subheader>
-
-      <!-- two-line -->
-      <v-list
-        two-line
-        @click="() => {}"
-        class="elevation-1 py-0 mb-3"
-      >
-        <v-list-tile>
-          <v-list-tile-action class="thin-action">
-            <v-icon color="primary lighten-1">description</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title
-              v-text="'Course Description'"
-              class="primary--text text--lighten-1"
-            />
-            <v-list-tile-sub-title v-text="'Description of the course'"/>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-divider/>
-
-        <v-layout
-          align-center
-          class="px-2 py-3 ml-1 mr-3"
-        >
-          <markdown-textarea
-            edit-on-click
-            v-model="course.description"
-            t-add-class="my-medium-textarea pa-2"
-          />
-        </v-layout>
-      </v-list>
+      <simple-list-content-view
+        v-model="course.description"
+        auto-edit-mode
+        class="mb-3"
+        icon="description"
+        title="Course Description"
+        subtitle="Description of the course"
+        placeholder="Enter Course Description"
+      />
 
       <!-- objectives -->
       <v-subheader class="mt-2">Objectives</v-subheader>
-
-      <!-- two-line -->
-      <v-list
-        two-line
-        @click="() => {}"
-        class="elevation-1 py-0 mb-3"
-      >
-        <v-list-tile>
-          <v-list-tile-action class="thin-action">
-            <v-icon color="primary lighten-1">done_all</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title
-              v-text="'Course Objectives'"
-              class="primary--text text--lighten-1"
-            />
-            <v-list-tile-sub-title v-text="'Objectives of the course'"/>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-divider/>
-
-        <v-layout
-          align-center
-          class="px-2 py-3 ml-1 mr-3"
-        >
-          <markdown-textarea
-            edit-on-click
-            v-model="course.objectives"
-            t-add-class="my-medium-textarea pa-2"
-          />
-        </v-layout>
-      </v-list>
+      <simple-list-content-view
+        v-model="course.objectives"
+        auto-edit-mode
+        class="mb-3"
+        icon="done_all"
+        title="Course Objectives"
+        subtitle="Objectives of the course"
+        placeholder="Enter Course Objectives"
+      />
 
     </v-flex>
 
@@ -166,15 +118,15 @@
 
 <script>
 import CourseUnits from '@/include/CourseUnits'
-import MarkdownTextarea from '@/include/MarkdownTextarea'
 import RelatedCourseList from '@/include/RelatedCourseList'
+import SimpleListContentView from '@/include/SimpleListContentView'
 
 export default {
   name: 'course-view',
   components: {
     CourseUnits,
-    MarkdownTextarea,
-    RelatedCourseList
+    RelatedCourseList,
+    SimpleListContentView
   },
   props: {
     value: Object

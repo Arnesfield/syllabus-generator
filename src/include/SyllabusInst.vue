@@ -625,7 +625,9 @@ export default {
       })
       let blob = doc.output('blob')
       this.encoded = URL.createObjectURL(blob)
-      this.$bus.$emit('dialog--loading', false)
+      setTimeout(() => {
+        this.$bus.$emit('dialog--loading', false)
+      }, 1000)
     },
 
     sortCloMap(m) {

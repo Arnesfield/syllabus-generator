@@ -15,5 +15,5 @@
 
 /* toolbar */
 .toolbar__content>:not(.btn):not(.menu):last-child:not(:only-child) {
-  margin-right: 8px;
+  margin-right: 8px !important;
 }

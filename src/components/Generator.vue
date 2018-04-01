@@ -116,7 +116,7 @@
     v-else
   >
     <manage-no-data
-      v-if="allowEdit"
+      v-if="allowEdit || allowEdit === null"
       msg="Unable to load information :("
       :fetch="fetch"
       :loading="loading"
@@ -240,6 +240,16 @@ export default {
       handler: function(e) {
         this.setTabs()
       }
+    },
+
+    '$bus.tabs.Generator.tab': function(e) {
+      if (this.$bus.tabs.Generator.tabs) {
+        this.$vuetify.goTo('#app', {
+          duration: 400,
+          offset: 0,
+          easing: 'easeInOutCubic'
+        })
+      }
     }
   },
 
@@ -305,9 +315,11 @@ export default {
     },
 
     resetTabs() {
-      this.$bus.tabs.Generator.tab = null
-      this.$bus.tabs.Generator.tabs = null
-      this.$bus.tabs.Generator.items = null
+      if (this.$bus.tabs.Generator.tab !== null) {
+        this.$bus.tabs.Generator.tab = null
+        this.$bus.tabs.Generator.tabs = null
+        this.$bus.tabs.Generator.items = null
+      }
     },
 
     infoShow() {
@@ -376,7 +388,12 @@ export default {
 
       this.$bus.$emit('dialog--global.confirm.show', {
         title: 'Submit syllabus',
-        msg: 'This syllabus will be submitted for approval. You <strong class="warning--text">won\'t be able to edit</strong> this syllabus after submitting.',
+        msg: `
+          This syllabus will be submitted for approval.
+          You
+            <strong class="warning--text">won\'t be able to edit</strong>
+          this syllabus when it is under the approval process.
+        `,
         btn: {
           text: 'Submit',
           color: 'primary lighten-1'
@@ -420,6 +437,10 @@ export default {
     },
 
     fetch(msg) {
+      if (typeof msg !== 'string') {
+        msg = null
+      }
+
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         assignId: this.assignId
@@ -448,9 +469,9 @@ export default {
           // then finally set the course
           this.course = course
         } else {
-          this.allowEdit = false
-          this.syllabus = null
           this.course = null
+          this.syllabus = null
+          this.allowEdit = false
           this.$bus.$emit('snackbar--show', msg || 'You cannot edit a submitted syllabus.')
         }
 

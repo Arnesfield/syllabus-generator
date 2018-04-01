@@ -70,8 +70,8 @@
     </v-list>
   </div>
 
-  <v-layout>
-    <v-spacer/>
+  <v-layout row wrap>
+    <v-spacer class="hidden-xs-only"/>
     <v-btn
       color="warning"
       @click="startScratch"
@@ -89,8 +89,8 @@
   </v-layout>
 
   <div v-if="selected">
-    <!-- <v-subheader>Curriculum&nbsp;<strong v-text="selected.label"/></v-subheader> -->
-    Selected
+    <v-divider class="mt-2"/>
+    <syllabus-content v-model="selected"/>
   </div>
 
   <v-dialog
@@ -169,11 +169,13 @@
 import qs from 'qs'
 import debounce from 'lodash/debounce'
 import SelectList from '@/include/SelectList'
+import SyllabusContent from '@/components/generator/SyllabusContent'
 
 export default {
   name: 'syllabus-picker',
   components: {
-    SelectList
+    SelectList,
+    SyllabusContent
   },
   props: {
     value: Object,
@@ -249,6 +251,12 @@ export default {
       let syllabus = {
         course_id: this.course.id,
         content: {
+          institutionVision: null,
+          institutionMission: null,
+          departmentVision: null,
+          departmentMission: null,
+          programEducationalObjectives: null,
+
           facultyInCharge: {
             name: this.$wrap.fullname(this.$bus.session.user),
             position: null

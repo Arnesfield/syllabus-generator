@@ -6,12 +6,14 @@
       ref="syllabusInst"
       :syllabus="syllabus"
       style="margin: 0 auto"
+      standardHeight="calc(100vh - 260px)"
+      pdfHeight="calc(100vh - 260px)"
       :pdf.sync="pdf"
     />
   </div>
 
   <v-container fluid class="pt-2">
-    <v-layout>
+    <v-layout row wrap>
       <v-btn
         large
         color="warning"
