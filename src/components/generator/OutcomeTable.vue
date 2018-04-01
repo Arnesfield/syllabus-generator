@@ -3,8 +3,7 @@
 
   <h4 class="headline mb-2">{{ mainTitle }}</h4>
 
-  <suggest-alert v-if="!$bus.generator.suggestions"/>
-  <div v-else-if="suggested.length">
+  <div v-if="suggested.length">
     <div>
       <strong>Suggested</strong>
       <button type="button" @click="suggest()">Refresh</button>
@@ -149,13 +148,9 @@
 <script>
 import qs from 'qs'
 import moveMap from '@/assets/js/moveMap'
-import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'outcome-table',
-  components: {
-    SuggestAlert
-  },
   props: {
     syllabus: Object,
     supporting: Object,
@@ -268,7 +263,7 @@ export default {
     over(clo, po, e) {
       e ? e.target.classList.add('outcome-highlighted') : undefined
       let o = this.c.programOutcomes.content[po]
-      this.highlighted = (typeof o.label !== 'undefined' ? o.label + '. ' : '') + o.content
+      this.highlighted = (typeof o.label !== 'undefined' ? o.label + '. ' : '') + o.text
     },
     out(clo, po, e) {
       e ? e.target.classList.remove('outcome-highlighted') : undefined

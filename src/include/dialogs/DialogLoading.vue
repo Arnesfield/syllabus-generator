@@ -1,6 +1,7 @@
 <template>
 <v-dialog
   v-model="show"
+  :persistent="persistent"
   width="200"
   transition="fade-transition"
 >
@@ -26,7 +27,8 @@
 export default {
   name: 'dialog-loading',
   data: () => ({
-    show: false
+    show: false,
+    persistent: false
   }),
 
   created() {
@@ -39,6 +41,7 @@ export default {
   methods: {
     dialogLoading(e) {
       this.show = e
+      this.persistent = e
     }
   }
 }

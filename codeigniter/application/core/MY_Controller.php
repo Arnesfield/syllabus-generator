@@ -319,6 +319,15 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $arr;
   }
 
+  public function _formatSyllabi($arr) {
+    if ($arr) {
+      foreach ($arr as $key => $value) {
+        $arr[$key]['content'] = json_decode($value['content'], TRUE);
+      }
+    }
+    return $arr;
+  }
+
   public function _uploadFile($file_name = 'file', $allowed_types = FALSE, $path = 'uploads/images/') {
     if (!$allowed_types) {
       $allowed_types = 'jpg|png|jpeg';

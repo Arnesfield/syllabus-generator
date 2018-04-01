@@ -1,102 +1,137 @@
 <template>
 <v-container
   fluid
-  :style="!syllabus ? {
+  :style="!course ? {
     display: 'flex',
     width: '100%',
-    height: 'calc(100% - 160px)'
+    height: 'calc(100% - 96px)'
   } : null"
+  class="smooth-padding"
+  :class="{ 'pa-0': fabNextStateSubmit }"
 >
-  <v-tabs-items
-    v-model="$bus.tabs.Generator.tab"
-    class="full-width"
-    v-if="assignId && course"
-  >
-    <v-tab-item key="course">
-      <course-picker
-        ref="coursePicker"
-        :picker="!assignId"
-        :course="course"
-        @course-selected="onCourseSelected"
-      />
-    </v-tab-item>
-    <v-tab-item key="syllabi" v-if="course">
-      <syllabus-picker
-        ref="syllabusPicker"
-        :course="course"
-        @syllabus-selected="onSyllabusSelected"
-      />
-    </v-tab-item>
 
-    <template v-if="syllabus">
-      
-      <v-tab-item key="books">
-        <book-picker :syllabus="syllabus"/>
-      </v-tab-item>
-      <v-tab-item key="curriculum">
-        <curriculum-picker :syllabus="syllabus"/>
+  <template v-if="allowEdit && course">
+    <suggest-alert/>
+
+    <v-tabs-items
+      v-model="$bus.tabs.Generator.tab"
+      style="overflow: visible"
+    >
+
+      <!-- course -->
+
+      <v-tab-item>
+        <course-view v-model="course"/>
       </v-tab-item>
 
-      <template v-if="syllabus.content && syllabus.content.programOutcomes">
-        <v-tab-item key="clo">
-          <outcome-table
-            :syllabus="syllabus"
-            :supporting="syllabus.content.programOutcomes"
-            mainTitle="Course Learning Outcomes (CLO)"
-            supportingTitle="Program Outcomes (PO)"
-          />
+      <!-- syllabus -->
+
+      <v-tab-item>
+        <syllabus-picker
+          v-model="syllabus"
+          :course="course"
+        />
+      </v-tab-item>
+
+      <template v-if="syllabus">
+        
+        <!-- books -->
+
+        <v-tab-item>
+          <book-picker :syllabus="syllabus"/>
         </v-tab-item>
-        <v-tab-item key="activities">
-          <activity-manager :syllabus="syllabus"/>
+
+        <!-- curriculum -->
+
+        <v-tab-item>
+          <curriculum-picker :syllabus="syllabus"/>
         </v-tab-item>
-        <v-tab-item key="grading">
-          <grading-system :syllabus="syllabus"/>
-        </v-tab-item>
-        <v-tab-item key="done">
-          <div>
-            <syllabus-inst
-              ref="syllabusInst"
+
+        <!-- if po is set -->
+
+        <template v-if="syllabus.content && syllabus.content.programOutcomes">
+
+          <!-- clo -->
+
+          <v-tab-item>
+            <outcome-table
               :syllabus="syllabus"
-              style="margin: 0 auto"
-              :pdf.sync="pdf"
+              :supporting="syllabus.content.programOutcomes"
+              mainTitle="Course Learning Outcomes (CLO)"
+              supportingTitle="Program Outcomes (PO)"
             />
-          </div>
-          <v-layout class="mt-2">
-            <v-btn
-              flat
-              @click="generate(false)"
-            >Preview</v-btn>
-            <v-btn
-              flat
-              @click="generate(true)"
-            >PDF</v-btn>
-            <v-spacer/>
-            <v-btn
-              color="primary"
-              @click="submit"
-            >Submit for Approval</v-btn>
-          </v-layout>
-        </v-tab-item>
-      </template>
+          </v-tab-item>
 
-    </template>
-  </v-tabs-items>
+          <!-- activity -->
+
+          <v-tab-item>
+            <activity-manager :syllabus="syllabus"/>
+          </v-tab-item>
+
+          <!-- grading -->
+
+          <v-tab-item>
+            <grading-system :syllabus="syllabus"/>
+          </v-tab-item>
+
+          <!-- preview -->
+
+          <v-tab-item>
+            <syllabus-preview
+              :syllabus="syllabus"
+              @submit="submit"
+            />
+          </v-tab-item>
+
+        </template>
+
+      </template>
+    </v-tabs-items>
+
+    <!-- fab -->
+
+    <v-tooltip left>
+      <v-btn
+        fab
+        fixed
+        bottom
+        right
+        color="accent"
+        slot="activator"
+        :disabled="!fabNextStateSubmit && fabNextStateLast"
+        @click="fabNextAction"
+      >
+        <v-icon v-if="!fabNextStateSubmit">navigate_next</v-icon>
+        <v-icon v-else>send</v-icon>
+      </v-btn>
+      <span v-if="!fabNextStateSubmit">Next</span>
+      <span v-else>Submit for approval</span>
+    </v-tooltip>
+
+  </template>
 
   <v-layout
     justify-center
     align-center
-    v-else-if="assignId && !course"
+    v-else
   >
     <manage-no-data
       v-if="allowEdit"
-      :fetch="fetchCourse"
-      :loading="courseLoading"
-    />
+      msg="Unable to load information :("
+      :fetch="fetch"
+      :loading="loading"
+    >
+      <v-icon
+        slot="icon"
+        size="64px"
+        class="mb-4"
+      >sync_disabled</v-icon>
+    </manage-no-data>
     <manage-no-data
       v-else
       msg="<div>The syllabus you are trying to edit is already submitted.</div><div>You may view the syllabus instead.</div>"
-      :fetch="fetchCourse"
-      :loading="courseLoading"
+      :fetch="fetch"
+      :loading="loading"
     >
       <v-icon
         slot="icon"
@@ -111,44 +146,57 @@
     </manage-no-data>
   </v-layout>
 
+  <dialog-detailed-workflow view-only/>
+  <dialog-workflow-logs/>
+
 </v-container>
 </template>
 
 <script>
 import qs from 'qs'
-import content from '@/assets/js/content'
-import CoursePicker from '@/components/generator/CoursePicker'
+import ManageNoData from '@/include/ManageNoData'
+import DialogWorkflowLogs from '@/include/dialogs/DialogWorkflowLogs'
+import DialogDetailedWorkflow from '@/include/dialogs/DialogDetailedWorkflow'
+import SuggestAlert from '@/include/generator/SuggestAlert'
+
+import CourseView from '@/components/generator/CourseView'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
 import OutcomeTable from '@/components/generator/OutcomeTable'
 import ActivityManager from '@/components/generator/ActivityManager'
 import GradingSystem from '@/components/generator/GradingSystem'
-import ManageNoData from '@/include/ManageNoData'
-import SyllabusInst from '@/include/SyllabusInst'
+import SyllabusPreview from '@/components/generator/SyllabusPreview'
 
 export default {
   name: 'generator',
   components: {
-    CoursePicker,
+    ManageNoData,
+    DialogWorkflowLogs,
+    DialogDetailedWorkflow,
+    SuggestAlert,
+
+    CourseView,
     CurriculumPicker,
     SyllabusPicker,
     BookPicker,
     OutcomeTable,
     ActivityManager,
     GradingSystem,
-    ManageNoData,
-    SyllabusInst
+    SyllabusPreview
   },
   props: {
     assignId: String
   },
   data: () => ({
+    url: '/generation',
     submitUrl: '/syllabi/submit',
     saveUrl: '/syllabi/save',
-    courseUrl: '/courses/assign_id',
+
+    assign: null,
     course: null,
     syllabus: null,
+
     // for navigation
     tabs: {
       info: ['info'],
@@ -157,149 +205,184 @@ export default {
       noCurriculum: ['course', 'syllabi', 'books', 'curriculum'],
       all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'grading', 'done']
     },
-    pdf: false,
 
-    tempSyllabus: null,
-    allowEdit: null,
-
+    loading: false,
     saveLoading: false,
-    courseLoading: false
+    allowEdit: null
   }),
-
+  computed: {
+    fabNextStateSubmit() {
+      return this.tabs.all.length-1 == this.$bus.tabs.Generator.tab
+    },
+    fabNextStateLast() {
+      return this.$bus.tabs.Generator.items.length-1 == this.$bus.tabs.Generator.tab
+    }
+  },
   watch: {
-    courseLoading(to, from) {
-      this.$bus.refresh(to)
+    loading(e) {
+      this.$bus.refresh(e)
     },
-    saveLoading(to, from) {
-      this.$bus.progress.circular.Generator.save = to
+    saveLoading(e) {
+      this.$bus.progress.circular.Generator.save = e
     },
-
     allowEdit(e) {
       this.$bus.generator.allowEdit = e
+      this.setTabs()
     },
 
-    course(to, from) {
-      // set course picker course here
-      // if (this.$refs.coursePicker) {
-      //   this.$refs.coursePicker.selected = to
-      // }
-      this.$bus.tabs.Generator.items = to === null
-        ? this.tabs.course : this.tabs.syllabi
+    course(e) {
+      // hide refresh btn when course is set
+      this.$bus.generator.courseRefresh = !e
+      this.setTabs()
     },
-
-    assignId(to, from) {
-      if (to) {
-        // this.$bus.$on('refresh--btn', this.fetchCourse)
-        this.fetchCourse()
-      } else {
-        // remove course
-        this.course = null
-      }
-    },
-
     syllabus: {
       deep: true,
-      handler: function(to, from) {
-        if (to === null) {
-          this.$bus.tabs.Generator.items = this.course === null
-            ? this.tabs.course : this.tabs.syllabi
-        } else if (
-          to.content &&
-          to.content.programOutcomes &&
-          to.content.programOutcomes.content &&
-          to.content.programOutcomes.content.length
-        ) {
-          this.$bus.tabs.Generator.items = this.tabs.all
-          this.stringifySyllabus()
-        } else {
-          this.$bus.tabs.Generator.items = this.tabs.noCurriculum
-        }
+      handler: function(e) {
+        this.setTabs()
       }
     }
   },
 
   created() {
     this.$bus.$on('generator--save', this.save)
-    this.$bus.$on('syllabus-picker--syllabus.set', this.syllabusSet)
+    this.$bus.$on('generator--info.show', this.infoShow)
+    this.$bus.$on('refresh--btn', this.fetch)
+    this.resetTabs()
+    this.setInitial()
+    this.fetch()
 
-    this.$bus.tabs.Generator.tabs = true
-    this.$bus.tabs.Generator.tab = null
-    this.$bus.tabs.Generator.items = this.tabs.course
-    this.$bus.generator.suggestions = true
-    this.$bus.generator.allowEdit = false
-
-    if (this.assignId !== null) {
-      this.$bus.$on('refresh--btn', this.fetchCourse)
-      // do async and set the course
-      // also set refresh button if failed
-      this.fetchCourse()
+    // move the nav drawer
+    if (this.$bus.nav.model) {
+      this.$bus.nav.model = null
+      this.$bus.nav.miniVariant = true
     }
-
-    this.$bus.nav.model = null
-    this.$bus.nav.miniVariant = true
   },
-
   beforeDestroy() {
-    this.$bus.tabs.Generator.tabs = null
-    this.$bus.tabs.Generator.tab = null
-    this.$bus.tabs.Generator.items = null
-    this.$bus.generator.suggestions = true
-    this.$bus.toolbar.titleContent = null
-
     this.$bus.$off('generator--save', this.save)
-    this.$bus.$off('syllabus-picker--syllabus.set', this.syllabusSet)
-    this.$bus.$off('refresh--btn', this.fetchCourse)
+    this.$bus.$off('generator--info.show', this.infoShow)
+    this.$bus.$off('refresh--btn', this.fetch)
+
+    // reset bus defaults
+    this.resetTabs()
+    this.$bus.generator.suggestions = true
+    this.$bus.generator.courseRefresh = false
+    this.$bus.toolbar.titleContent = null
   },
 
   methods: {
-    syllabusSet() {
-      // set syllabus in picker
-      if (this.$refs.syllabusPicker) {
-        this.$refs.syllabusPicker.selected = this.tempSyllabus
+    setInitial() {
+      this.$bus.generator.courseRefresh = true
+    },
+
+    setTabs() {
+      // only set tabs if course is set
+      if (this.course) {
+        this.$bus.tabs.Generator.tabs = true
+        let s = this.syllabus
+        if (!s) {
+          this.$bus.tabs.Generator.items = this.tabs.syllabi
+        } else {
+          if (s.content) {
+            // attach course to syllabus
+            this.$set(this.syllabus.content, 'course', this.course)
+          }
+
+          if (
+            s.content &&
+            s.content.programOutcomes &&
+            s.content.programOutcomes.content
+          ) {
+            this.$bus.tabs.Generator.items = this.tabs.all
+          } else {
+            this.$bus.tabs.Generator.items = this.tabs.noCurriculum
+          }
+        }
+      }
+      // if course not set
+      else {
+        this.resetTabs()
       }
     },
 
-    generate(e) {
-      this.pdf = e
-      this.stringifySyllabus()
-      if (this.$refs.syllabusInst) {
-        this.$refs.syllabusInst.generate(e)
+    resetTabs() {
+      this.$bus.tabs.Generator.tab = null
+      this.$bus.tabs.Generator.tabs = null
+      this.$bus.tabs.Generator.items = null
+    },
+
+    infoShow() {
+      if (!this.assign) {
+        return
+      }
+      this.$bus.$emit('dialog--detailed-workflow.show', this.assign)
+    },
+
+    fabNextAction() {
+      if (!this.fabNextStateSubmit) {
+        this.$bus.tabs.Generator.tab = String(Number(this.$bus.tabs.Generator.tab) + 1)
+      } else {
+        // submit mode
+        this.submit()
       }
     },
 
-    stringifySyllabus() {
-      // if syllabus not yet set
-      if (this.syllabus === null) {
-        return JSON.stringify(null)
+    stringifySyllabus(syllabus) {
+      return JSON.stringify(syllabus.content || syllabus)
+    },
+
+    save() {
+      if (!this.allowEdit || !this.syllabus) {
+        this.fetch()
+        return
       }
-      // should not be fixed
-      // loop on content keys instead
-      Object.keys(content).forEach(e => {
-        this.$set(this.syllabus.content, e, content[e])
+
+      let syllabus = this.stringifySyllabus(this.syllabus)
+      this.saveLoading = true
+      this.$http.post(this.saveUrl, qs.stringify({
+        assignId: this.assignId,
+        syllabus: syllabus
+      })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.saveLoading = false
+        this.$bus.$emit('snackbar--show', 'Syllabus progress saved.')
+      }).catch(e => {
+        console.error(e)
+        this.saveLoading = false
+        this.$bus.$emit('snackbar--show', {
+          text: 'Unable to save syllabus.',
+          btns: {
+            text: 'Resave',
+            icon: false,
+            color: 'accent',
+            cb: (sb, e) => {
+              this.save()
+              sb.snackbar = false
+            }
+          }
+        })
       })
-      // Object.assign(this.syllabus.content, content)
-      // Object.assign(this.syllabus.content, { course: this.course })
-      this.$set(this.syllabus.content, 'course', this.course)
-      return JSON.stringify(this.syllabus ? this.syllabus.content : null)
     },
 
     submit() {
       // handle submit
       console.log(this.syllabus)
 
-      if (!this.assignId) {
+      if (!this.assignId || !this.syllabus) {
         return
       }
 
       this.$bus.$emit('dialog--global.confirm.show', {
         title: 'Submit syllabus',
-        msg: 'This syllabus will be submitted for approval.',
+        msg: 'This syllabus will be submitted for approval. You <strong class="warning--text">won\'t be able to edit</strong> this syllabus after submitting.',
         btn: {
           text: 'Submit',
           color: 'primary lighten-1'
         },
         fn: (onSuccess, onError, doClose, fn) => {
-          let syllabus = this.stringifySyllabus()
+          let syllabus = this.stringifySyllabus(this.syllabus)
           this.saveLoading = true
           this.$http.post(this.submitUrl, qs.stringify({
             assignId: this.assignId,
@@ -310,7 +393,7 @@ export default {
               throw new Error('Request failure.')
             }
             this.saveLoading = false
-            this.fetchCourse('Syllabus submitted.')
+            this.fetch('Syllabus submitted for approval.')
             onSuccess()
             // this.$bus.$emit('snackbar--show', 'Syllabus submitted.')
           }).catch(e => {
@@ -336,111 +419,49 @@ export default {
       })
     },
 
-    onCourseSelected(course) {
-      this.course = course
-    },
-    onSyllabusSelected(syllabus) {
-      if (syllabus !== null) {
-        // show suggestions if syllabus is new
-        // actually always show suggestions boi
-        this.$bus.generator.suggestions = true // typeof syllabus.id === 'undefined'
-      }
-      this.syllabus = syllabus
-    },
-
-    save() {
-      if (!this.assignId) {
-        return
-      }
-
-      if (!this.allowEdit) {
-        this.fetchCourse()
-        return
-      }
-
-      let syllabus = this.stringifySyllabus()
-      this.saveLoading = true
-      this.$http.post(this.saveUrl, qs.stringify({
-        assignId: this.assignId,
-        syllabus: syllabus
-      })).then((res) => {
-        console.warn(res.data)
-        if (!res.data.success) {
-          throw new Error('Request failure.')
-        }
-        this.saveLoading = false
-        this.$bus.$emit('snackbar--show', 'Syllabus saved.')
-      }).catch(e => {
-        console.error(e)
-        this.saveLoading = false
-        this.$bus.$emit('snackbar--show', {
-          text: 'Unable to save syllabus.',
-          btns: {
-            text: 'Resave',
-            icon: false,
-            color: 'accent',
-            cb: (sb, e) => {
-              this.save()
-              sb.snackbar = false
-            }
-          }
-        })
-      })
-    },
-
-    fetchCourse(msg) {
-      if (!this.assignId) {
-        return
-      }
-
-      if (typeof msg !== 'string') {
-        msg = null
-      }
-
-      this.courseLoading = true
-      this.$bus.generator.courseRefresh = true
-      this.$http.post(this.courseUrl, qs.stringify({
+    fetch(msg) {
+      this.loading = true
+      this.$http.post(this.url, qs.stringify({
         assignId: this.assignId
-      })).then((res) => {
+      })).then(res => {
         console.warn(res.data)
-        // hide refresh button
-        this.courseLoading = false
-        this.$bus.generator.courseRefresh = false
-
         if (!res.data.success) {
-          this.course = null
           throw new Error('Request failure.')
         }
 
-        // if syllabus exists, also add that
-        if (res.data.syllabus) {
-          // but first, parse that json string
-          res.data.syllabus.content = JSON.parse(res.data.syllabus.content)
-          this.tempSyllabus = res.data.syllabus
-        }
-
+        let course = res.data.course
         let assign = res.data.assign
+        this.assign = assign
+
         // if disapproved or not yet submitted, allow edit
         if (assign.status == 0 || assign.status == 3) {
-          this.course = res.data.course
           this.allowEdit = true
+
+          // if syllabus exists, set
+          if (res.data.syllabus) {
+            this.syllabus = res.data.syllabus
+
+            // if course in syllabus is set, set that instead in course
+            course = res.data.syllabus.content.course || course
+          }
+
+          // then finally set the course
+          this.course = course
         } else {
-          setTimeout(() => {
-            this.$bus.tabs.Generator.items = this.tabs.info
-          })
-          this.$bus.tabs.Generator.tab = '0'
-          this.course = null
-          this.syllabus = null
           this.allowEdit = false
+          this.syllabus = null
+          this.course = null
           this.$bus.$emit('snackbar--show', msg || 'You cannot edit a submitted syllabus.')
         }
-        this.$bus.toolbar.titleContent = res.data.course.code
+
+        // set course code
+        this.$bus.toolbar.titleContent = course.code
+
+        this.loading = false
       }).catch(e => {
         console.error(e)
-        this.courseLoading = false
-        // show refresh button
-        this.$bus.generator.courseRefresh = true
-      })
+        this.loading = false
+      }) 
     }
   }
 }

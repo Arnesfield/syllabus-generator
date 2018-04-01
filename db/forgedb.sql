@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2018 at 04:57 PM
+-- Generation Time: Apr 01, 2018 at 05:32 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -42,7 +42,7 @@ CREATE TABLE `assigns` (
 --
 
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
-(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":8,\"status\":2}]]}', 3, 1522508115, 1522508115, 3);
+(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":8,\"status\":\"2\"}]]}', 3, 1522508115, 1522595722, 3);
 
 -- --------------------------------------------------------
 
@@ -247,6 +247,13 @@ CREATE TABLE `comments` (
   `created_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `assign_id`, `comment`, `level`, `created_at`, `status`) VALUES
+(1, 3, 1, 'test', 0, 1522595586, 1);
 
 -- --------------------------------------------------------
 
@@ -873,7 +880,7 @@ CREATE TABLE `syllabi` (
 --
 
 INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `assign_id`, `content`, `version`, `created_at`, `updated_at`, `status`) VALUES
-(1, 1, 3, 1, '{\"facultyInCharge\":{\"name\":\"Smith Paul\",\"position\":null},\"evaluatedBy\":{\"name\":null,\"position\":null},\"approvedBy\":[],\"bookReferences\":[\"Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press\",\"Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ\"],\"programOutcomes\":{\"id\":\"2\",\"label\":\"2017\",\"content\":[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"latest\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522500271\",\"status\":\"1\"},\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\",\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":{\"0\":{\"c\":{\"symbol\":\"E\",\"text\":\"Engaging\"}},\"1\":{\"d\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},\"2\":{\"g\":{\"symbol\":\"D\",\"text\":\"Demonstrative\"}}},\"weeklyActivities\":[{\"noOfWeeks\":1,\"topics\":[\"Sample topic 2\",\"Sample topic 1\"],\"ilo\":[\"Develop, execute and create the project deliverables.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[0,1],\"tlaFaculty\":[\"Require instrument for software testing.\",\"Actual user acceptance\"],\"tlaStudent\":[\"The students can be able to produce Results and Discussion of the Proposal Paper.\",\"The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.\"],\"instructionalMaterials\":[\"DLP\",\"Net book\"],\"assessmentTasks\":[\"Testing\",\"Documentation\"]}],\"gradingSystem\":null,\"institutionVision\":\"FEU Institute of Technology is a premier technology educational institution in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology commits itself to be an institution of quality education and relevant partnership with the larger community, producing competent and principled professionals who will contribute significantly to the betterment of society.\",\"departmentVision\":\"The Information Technology Education (ITE) Department is dedicated to excellence by providing quality and relevant industry-based IT and Computer Science education, and by promoting and supporting continuous faculty involvement in all aspects of ITE research, linkages and development.\",\"departmentMission\":\"The Information Technology Education (ITE) Department prepares students to become multi-skilled IT and Computing professionals by providing them quality education, enabling them to respond effectively to the rapid pace of IT, to undertake research in information technology and computer science, and to serve the community and the profession.\",\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":\"[\\\"Capstone Project\\\",\\\"Software Testing\\\",\\\"Software Evaluation\\\",\\\"Software Requirements\\\"]\",\"prerequisites\":[{\"id\":\"6\",\"course_id\":\"1\",\"related_course_id\":\"6\",\"type\":\"1\",\"status\":\"1\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":\"\",\"prerequisites\":\"\",\"corequisites\":\"\",\"created_at\":\"0\",\"updated_at\":\"0\"}],\"corequisites\":[],\"created_at\":\"0\",\"updated_at\":\"1522415141\",\"status\":\"1\"}}', '', 1522508187, 1522508187, 2);
+(1, 1, 3, 1, '{\"facultyInCharge\":{\"name\":\"Smith Paul\",\"position\":null},\"evaluatedBy\":{\"name\":null,\"position\":null},\"approvedBy\":[],\"bookReferences\":[],\"programOutcomes\":{\"id\":\"2\",\"label\":\"2017\",\"content\":[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"latest\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522500271\",\"status\":\"1\"},\"courseLearningOutcomes\":[],\"intendedLearningOutcomes\":[],\"cloPoMap\":[],\"weeklyActivities\":[],\"gradingSystem\":null,\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"testThis course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\"],\"prerequisites\":[{\"id\":\"6\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[],\"prerequisites\":\"\",\"corequisites\":\"\",\"created_at\":\"0\",\"updated_at\":\"0\",\"status\":\"1\"}],\"corequisites\":[],\"created_at\":\"0\",\"updated_at\":\"1522415141\",\"status\":\"1\"}}', '', 1522589388, 1522596760, 2);
 
 -- --------------------------------------------------------
 
@@ -1366,7 +1373,7 @@ INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weig
 (3, 'Smith', '', 'Paul', 'ralph', '', 0, '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', '', 1, 0, 0, '[\"3\",\"4\"]'),
 (4, 'Cayle', '', 'Gaspar', 'cayle', '', 0, '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', '', 1, 0, 0, '[\"3\"]'),
 (5, 'Joanne', '', 'Katrin', 'joanne', '', 0, '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', '', 1, 0, 0, '[\"3\"]'),
-(8, 'New', 'test', 'last', 'rylee', 'title', 1, '$2y$10$Q98nMpNSrXABd8McFGfi7eD11q6HZk/J8hoHoS5ISXPXyJH/paleC', 'F_1522263636.png', '[\"Software Testing\",\"Programming\",\"Android Application Development\",\"JavaScript\",\"Ruby\",\"NodeJS\",\"AngularJS\"]', 1, 1522263636, 1522264150, '[\"4\",\"5\",\"3\"]');
+(8, 'New', 'test', 'last', 'rylee', 'title', 1, '$2y$10$XVY3K2/Mh/Ry7.Uqm/Va/up9eFgKwVyqOYkD67.3ueju2yfRbRUdu', 'F_1522263636.png', '[\"Software Testing\",\"Programming\",\"Android Application Development\",\"JavaScript\",\"Ruby\",\"NodeJS\",\"AngularJS\"]', 1, 1522263636, 1522595690, '[\"5\"]');
 
 -- --------------------------------------------------------
 
@@ -1383,6 +1390,18 @@ CREATE TABLE `workflow_logs` (
   `created_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `workflow_logs`
+--
+
+INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `created_at`, `status`) VALUES
+(1, 3, 1, 'viewed this syllabus.', 'view', 1522595502, 1),
+(2, 8, 1, 'viewed this syllabus.', 'view', 1522595700, 1),
+(3, 8, 1, '<strong>level 1</strong> &mdash; approved this syllabus.', 'approval', 1522595713, 1),
+(4, 8, 1, '<strong>level 1</strong> &mdash; approved this syllabus.', 'approval', 1522595722, 1),
+(5, 8, 1, 'viewed this syllabus.', 'view', 1522595821, 1),
+(6, 3, 1, 'viewed this syllabus.', 'view', 1522595867, 1);
 
 --
 -- Indexes for dumped tables
@@ -1569,7 +1588,7 @@ ALTER TABLE `book_field_relation`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -1695,7 +1714,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

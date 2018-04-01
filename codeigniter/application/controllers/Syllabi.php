@@ -8,9 +8,31 @@ class Syllabi extends MY_Custom_Controller {
     $this->load->model('syllabi_model');
   }
   
-  public function cid() {
-    $course_id = $this->input->post('courseId');
-    $syllabi = $this->syllabi_model->getByCourseId($course_id);
+  public function index() {
+    $search = $this->input->post('search')
+      ? $this->_filter($this->input->post('search'))
+      : '';
+    $courseId = $this->input->post('courseId') ? $this->input->post('courseId') : FALSE;
+    $noEmpty = $this->input->post('noEmpty') ? $this->input->post('noEmpty') : FALSE;
+    
+    $where = array();
+    if ($courseId) {
+      $where['course_id'] = $courseId;
+    }
+    
+    if ($noEmpty) {
+      $where['version'] = '';
+    }
+
+    $syllabi = $this->syllabi_model->getByQuery($search, $where);
+    $syllabi = $this->_formatSyllabi($syllabi);
+    $this->_json(TRUE, 'syllabi', $syllabi);
+  }
+
+  public function suggest() {
+    // suggest the latest, duh
+    $syllabi = $this->syllabi_model->getLatest();
+    $syllabi = $this->_formatSyllabi($syllabi);
     $this->_json(TRUE, 'syllabi', $syllabi);
   }
 

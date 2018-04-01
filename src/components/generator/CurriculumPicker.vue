@@ -1,8 +1,6 @@
 <template>
 <div v-if="syllabus">
 
-  <suggest-alert v-if="!$bus.generator.suggestions"/>
-
   <div class="pa-2">
     <v-list class="elevation-1 py-0" two-line>
       <v-list-tile
@@ -24,7 +22,7 @@
           </v-tooltip>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>
+          <v-list-tile-title class="primary--text text--lighten-1">
             <template v-if="selected">{{ selected.label }}</template>
             <template v-else>Select a curriculum</template>
           </v-list-tile-title>
@@ -36,33 +34,35 @@
       </v-list-tile>
 
       <!-- show suggested here -->
-      
-      <v-list-tile
-        ripple
-        @click="selected = suggested"
-        v-if="suggested && (!selected || suggested.id != selected.id)"
-      >
-        <!-- v-if="!selected || (suggested && selected && suggested.id != selected.id)" -->
-        <v-list-tile-action class="thin-action">
-          <v-tooltip top>
-            <v-btn
-              icon
-              flat
-              slot="activator"
-              color="primary"
-              @click="selected = suggested"
-            >
-              <v-icon>new_releases</v-icon>
-            </v-btn>
-            <span>Select suggested</span>
-          </v-tooltip>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="suggested.label"/>
-          <v-list-tile-sub-title v-text="'Suggested latest curriculum'"/>
-        </v-list-tile-content>
-      </v-list-tile>
-        
+      <template v-if="suggested && (!selected || suggested.id != selected.id)">
+        <v-divider/>
+        <v-list-tile
+          ripple
+          @click="selected = suggested"
+        >
+          <v-list-tile-action class="thin-action">
+            <v-tooltip top>
+              <v-btn
+                icon
+                flat
+                slot="activator"
+                color="warning"
+                @click="selected = suggested"
+              >
+                <v-icon>new_releases</v-icon>
+              </v-btn>
+              <span>Select suggested</span>
+            </v-tooltip>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title
+              class="warning--text"
+              v-text="suggested.label"/>
+            <v-list-tile-sub-title v-text="'Suggested latest curriculum'"/>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
+
     </v-list>
   </div>
 
@@ -161,14 +161,12 @@
 import qs from 'qs'
 import debounce from 'lodash/debounce'
 import SelectList from '@/include/SelectList'
-import SuggestAlert from '@/include/generator/SuggestAlert'
 import CurriculumView from '@/include/CurriculumView'
 
 export default {
   name: 'curriculum-picker',
   components: {
     SelectList,
-    SuggestAlert,
     CurriculumView
   },
   props: {

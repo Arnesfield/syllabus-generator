@@ -158,10 +158,10 @@ export default {
       if (to.name !== 'Syllabus' && from.name === 'Syllabus') {
         this.$bus.nav.model = null
       }
-      if (to.name === 'Generator') {
-        if (this.$bus.nav.model) {
+      if (to.name === 'Generator' || from.name === 'Generator') {
+        if (this.$bus.nav.model === null || this.$bus.nav.model === true) {
           this.$bus.nav.model = null
-          this.$bus.nav.miniVariant = true
+          this.$bus.nav.miniVariant = to.name === 'Generator'
         }
       }
     }

@@ -60,9 +60,7 @@ class Syllabus extends MY_Custom_Controller {
       $this->_json(FALSE);
     }
 
-    $syllabus = $syllabi[0];
-    // parse json content
-    $syllabus['content'] = json_decode($syllabus['content'], TRUE);
+    $syllabus = $this->_formatSyllabi($syllabi)[0];
     $this->_json(TRUE, 'syllabus', $syllabus);
   }
 }

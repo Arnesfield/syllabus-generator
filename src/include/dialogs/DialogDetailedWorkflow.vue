@@ -27,7 +27,7 @@
               <v-list-tile-action class="thin-48">
                 <icon-img
                   :item="createdBy()"
-                  color="primary"
+                  color="primary lighten-1"
                   size="32"
                   caption
                 />
@@ -67,7 +67,7 @@
 
             <v-list-tile
               ripple
-              v-if="$bus.session.user.id == createdBy().id"
+              v-if="!viewOnly && $bus.session.user.id == createdBy().id"
               @click="() => {}"
             >
               <v-list-tile-action class="thin-action">
@@ -183,7 +183,7 @@
                 <v-list-tile-action class="thin-48">
                   <icon-img
                     :item="assigned()"
-                    color="primary"
+                    color="primary lighten-1"
                     size="32"
                     caption
                   />
@@ -224,7 +224,7 @@
                         <v-list-tile-action class="thin-48">
                           <icon-img
                             :item="user.user"
-                            color="primary"
+                            color="primary lighten-1"
                             size="32"
                             caption
                           />
@@ -256,7 +256,7 @@
       <v-spacer/>
       <v-btn
         flat
-        color="primary"
+        color="primary lighten-1"
         v-text="'Dismiss'"
         @click="show = false"
       />
@@ -279,6 +279,12 @@ export default {
     Status,
     IconImg,
     RemarksInst
+  },
+  props: {
+    viewOnly: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     show: false,

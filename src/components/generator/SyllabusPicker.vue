@@ -1,138 +1,249 @@
 <template>
 <div v-if="course">
-  <v-alert type="info" :value="true"
-    v-if="selected && typeof selected.version !== 'undefined'">
-    Based on syllabi version: <strong>v{{ selected.version }}</strong>
-  </v-alert>
-  <v-alert type="warning" :value="true"
-    v-else-if="syllabi.length">This course has an existing syllabus you can use as reference.</v-alert> 
-  <v-alert type="info" :value="true" v-else>No existing syllabus. Syllabus started from scratch.</v-alert>
 
-  <v-btn class="primary" style="margin-right: 0" @click="startScratch">New</v-btn>
-  <v-menu botom transition="slide-y-transition" @input="getSyllabi(true)">
-    <v-btn slot="activator"
-      v-if="selected && typeof selected.version !== 'undefined'">
-      <span style="text-transform: lowercase">v</span>{{ selected.version }}
-    </v-btn>
-    <v-btn v-else slot="activator">Exisiting</v-btn>
-    <v-list>
-      <v-list-tile v-for="(s, i) in syllabi" :key="s.id" @click="selected = syllabi[i]">
-        v{{ s.version }}
+  <div class="pa-2">
+    <v-list class="elevation-1 py-0" two-line>
+      <v-list-tile
+        ripple
+        @click="dialog = true"
+      >
+        <v-list-tile-action class="thin-action">
+          <v-tooltip top>
+            <v-btn
+              icon
+              flat
+              slot="activator"
+              color="primary"
+              @click="dialog = true"
+            >
+              <v-icon>layers</v-icon>
+            </v-btn>
+            <span>Choose version</span>
+          </v-tooltip>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title class="primary--text text--lighten-1">
+            <template v-if="selected">{{ selected.version || 'New syllabus' }}</template>
+            <template v-else>Select a version</template>
+          </v-list-tile-title>
+          <v-list-tile-sub-title>
+            <template v-if="selected">
+              <span>Syllabus</span>
+              <strong
+                v-if="selected.version"
+                v-text="selected.version"
+              />
+              <span>selected.</span>
+            </template>
+            <template v-else>Select a version to use as basis</template>
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
       </v-list-tile>
+
+      <!-- show suggested here -->
+      
+      <v-list-tile
+        ripple
+        @click="selected = suggested"
+        v-if="suggested && (!selected || suggested.id != selected.id)"
+      >
+        <v-list-tile-action class="thin-action">
+          <v-tooltip top>
+            <v-btn
+              icon
+              flat
+              slot="activator"
+              color="primary"
+              @click="selected = suggested"
+            >
+              <v-icon>new_releases</v-icon>
+            </v-btn>
+            <span>Select suggested</span>
+          </v-tooltip>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title v-text="suggested.version"/>
+          <v-list-tile-sub-title v-text="'Suggested latest version'"/>
+        </v-list-tile-content>
+      </v-list-tile>
+        
     </v-list>
-  </v-menu>
+  </div>
+
+  <v-layout>
+    <v-spacer/>
+    <v-btn
+      color="warning"
+      @click="startScratch"
+    >
+      <v-icon>new_releases</v-icon>&nbsp;
+      <span>Create new</span>
+    </v-btn>
+    <v-btn
+      color="primary lighten-1"
+      @click="dialog = true"
+    >
+      <v-icon>layers</v-icon>
+      <span>Choose version</span>
+    </v-btn>
+  </v-layout>
+
+  <div v-if="selected">
+    <!-- <v-subheader>Curriculum&nbsp;<strong v-text="selected.label"/></v-subheader> -->
+    Selected
+  </div>
+
+  <v-dialog
+    v-model="dialog"
+    width="640"
+    transition="fade-transition"
+  >
+    <v-text-field
+      solo
+      ref="searchbar"
+      label="Search versions"
+      prepend-icon="search"
+      :append-icon="search ? 'close' : undefined"
+      :append-icon-cb="search ? () => { search = null } : undefined"
+      v-model="search"
+      :loading="loading"
+    />
+
+    <v-progress-linear
+      :active="loading"
+      :indeterminate="true"
+      color="accent"
+      class="my-0"
+      :height="loading ? 3 : 0"
+      background-color="white"
+    />
+
+    <select-list
+      v-model="selectedArr"
+      :items="selectedArr"
+      id="selected-curriculum-"
+      max-height="25vh"
+      delete-mode
+      editable
+      align-center
+      :is-selected="(allItems, item) => JSON.stringify(allItems) == JSON.stringify(item)"
+    >
+      <template
+        slot="title"
+      >&nbsp;Selected</template>
+      <div
+        slot="item"
+        slot-scope="props"
+        v-text="props.item.version || 'New syllabus'"
+      />
+    </select-list>
+
+    <select-list
+      radio
+      clearable
+      v-model="selected"
+      :items.sync="items"
+      id="curriculum-"
+      max-height="25vh"
+      :is-selected="(allItems, item) => JSON.stringify(allItems) == JSON.stringify(item)"
+    >
+      <template
+        slot="title"
+      ><strong
+        v-text="items.length"
+      />&nbsp;{{ search ? 'Results' : 'Suggested' }}</template>
+      <span
+        slot="item"
+        slot-scope="props"
+        class="select-list-item"
+        v-text="props.item.version"
+      />
+    </select-list>
+
+  </v-dialog>
+
 </div>
 </template>
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
+import SelectList from '@/include/SelectList'
 
 export default {
   name: 'syllabus-picker',
+  components: {
+    SelectList
+  },
   props: {
-    course: Object
+    value: Object,
+    course: {
+      type: Object,
+      default: null
+    }
   },
   data: () => ({
-    url: '/syllabi/cid',
-    syllabi: [],
-    selected: null,
-    showSyllabi: false,
-    // pause for confirmation
-    confirmPause: false
-  }),
+    url: '/syllabi',
+    suggestUrl: '/syllabi/suggest',
 
+    dialog: false,
+    loading: false,
+
+    selected: null,
+    selectedArr: [],
+    items: [],
+    suggested: null,
+
+    search: null
+  }),
   watch: {
-    course(to, from) {
-      // if null, just clear
-      this.clear()
-      if (to !== null) {
-        this.$bus.$emit('syllabus-picker--syllabus.set')
-        this.getSyllabi()
+    value(e) {
+      this.selected = e
+    },
+    selected(e) {
+      this.selectedArr = e ? [e] : []
+      this.$emit('input', e)
+    },
+    course(e) {
+      if (e) {
+        this.suggest()
       }
     },
 
-    selected(to, from) {
-      if (to !== null) {
-        // confirm first if selected has been set
-        if (!this.confirmPause && from !== null && this.onChangeConfirm()) {
-          this.confirmPause = true
-          this.selected = from
-          return
-        } else {
-          this.confirmPause = false
-        }
-        // hide list
-        this.showSyllabi = false
+    selectedArr(e) {
+      if (!e.length) {
+        this.selected = null
       }
-      this.$emit('syllabus-selected', to)
+    },
+    dialog(e) {
+      if (e) {
+        this.suggest()
+        setTimeout(() => {
+          if (this.$refs.searchbar) {
+            this.$refs.searchbar.focus()
+          }
+        })
+      } else {
+        this.search = null
+      }
+    },
+
+    search(e) {
+      this.loading = true
+      this.query()
     }
   },
 
   created() {
-    // once a course is selected,
-    // check if the course has an exisiting syllabus
-    // let user decide to use past syllabi
-    // or create new one
-    // show all those syllabus in DESC order
-    if (this.course !== null) {
-      this.getSyllabi()
-    }
+    this.$bus.$on('watch--generator.suggestions', this.suggest)
+    this.selected = this.value
+    this.suggest()
+  },
+  beforeDestroy() {
+    this.$bus.$off('watch--generator.suggestions', this.suggest)
   },
 
   methods: {
-    clear() {
-      this.syllabi = []
-      this.selected = null
-      this.confirmPause = false
-    },
-
-    onChangeConfirm(msg) {
-      return this.selected !== null
-        ? !confirm('Choosing a different syllabus will erase your current edit data. Continue?')
-        : false
-    },
-
-    getSyllabi(show) {
-      show = typeof show !== 'boolean' ? false : show
-      // if already loaded
-      // show syllabi
-      if (show === false && this.syllabi.length) {
-        this.showSyllabi = true
-        return
-      }
-
-      this.$http.post(this.url, qs.stringify({
-        courseId: this.course.id
-      })).then((res) => {
-        console.warn(res.data)
-        let syllabi = res.data.syllabi
-        // if no syllabi, create new syllabi from scratch
-        if (typeof syllabi !== 'object') {
-          // start scratch only if not clicked on check existing
-          if (show === false) {
-            this.startScratch()
-          }
-        } else {
-          // convert only if show
-          if (show) {
-            // convert content json str to json obj
-            syllabi.forEach(e => {
-              if (typeof e.content === 'string') {
-                e.content = JSON.parse(e.content)
-              }
-            })
-          }
-          // set
-          this.syllabi = syllabi
-          // show syllabi
-          this.showSyllabi = typeof show !== 'boolean' ? false : show
-        }
-      }).catch(e => {
-        this.syllabi = []
-        console.error(e)
-      })
-    },
-
     startScratch() {
       // syllabus structure here
       let syllabus = {
@@ -159,11 +270,63 @@ export default {
       }
 
       this.selected = syllabus
-      // if successfully changed
-      if (this.selected === syllabus) {
-        // hide syllabi list
-        this.showSyllabi = false
+    },
+
+    query: debounce(function(e) {
+      const search = this.search
+      if (!search) {
+        this.items = []
+        this.suggest()
+        return
       }
+
+      if (!this.course) {
+        this.loading = false
+        return
+      }
+
+      this.loading = true
+      this.$http.post(this.url, qs.stringify({
+        courseId: this.course.id,
+        noEmpty: true,
+        search: search
+      })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.loading = false
+        this.items = res.data.syllabi
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+      })
+    }, 300),
+
+    suggest() {
+      if (!this.course) {
+        this.loading = false
+        return
+      }
+
+      this.loading = true
+      this.$http.post(this.suggestUrl, qs.stringify({
+        courseId: this.course.id,
+        noEmpty: true
+      })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.loading = false
+        this.items = res.data.syllabi
+        if (res.data.syllabi.length) {
+          this.suggested = res.data.syllabi[0]
+        }
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+      })
     }
   }
 }

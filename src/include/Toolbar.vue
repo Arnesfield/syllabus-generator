@@ -32,7 +32,7 @@
 
         <v-btn
           class="mr-3 hidden-sm-and-down"
-          outline
+          color="accent"
           @click="$bus.$emit('generator--save')"
           :loading="$bus.progress.circular.Generator.save"
           :disabled="$bus.progress.circular.Generator.save"
@@ -41,6 +41,7 @@
         <v-tooltip bottom class="hidden-md-and-up">
           <v-btn
             icon
+            color="accent"
             @click="$bus.$emit('generator--save')"
             slot="activator"
           >

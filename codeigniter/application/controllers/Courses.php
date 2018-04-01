@@ -39,56 +39,6 @@ class Courses extends MY_Custom_Controller {
     ));
   }
 
-  public function assign_id() {
-    $assignId = $this->input->post('assignId') ? $this->input->post('assignId') : FALSE;
-
-    if (!$assignId) {
-      $this->_json(FALSE);
-    }
-    
-    // get assign
-    $this->load->model('assigns_model');
-    $assigns = $this->assigns_model->get($assignId);
-
-    if (!$assigns) {
-      $this->_json(FALSE);
-    }
-
-    $assign = $assigns[0];
-    $content = json_decode($assign['content'], TRUE);
-
-    $uid = $this->session->userdata('user')['id'];
-
-    // if uid is not the same as assigned, do not proceed
-    if ($uid != $content['assigned']['id']) {
-      $this->_json(FALSE);
-    }
-
-    // get course id from assign
-    $cid = $content['course'];
-
-    $courses = $this->courses_model->getWhere(array('id' => $cid));
-
-    if (!$courses) {
-      $this->_json(FALSE);
-    }
-
-    $course = $courses[0];
-    $data = array('course' => $course);
-    
-    // also send the syllabi if it exists
-    $this->load->model('syllabi_model');
-    $syllabi = $this->syllabi_model->getByAssignId($assignId);
-
-    if ($syllabi) {
-      // if syllabus exists
-      $data['syllabus'] = $syllabi[0];
-    }
-
-    $data['assign'] = $assign;
-    $this->_json(TRUE, $data);
-  }
-
   public function addCsv() {
     $courses = $this->input->post('courses');
     $res = $this->courses_model->insertMultiple($courses);

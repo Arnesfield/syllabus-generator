@@ -23,7 +23,7 @@
   >
     <div
       ref="page1"
-      class="paper-8-5-11 elevation-4 syllabus-inst"
+      class="paper-8-5-13 elevation-4 syllabus-inst"
     >
       <table border="1" v-if="c.course">
         <tr>
@@ -74,13 +74,21 @@
         </tr>
         <tr>
           <td>
+            
+            <div v-if="c.programOutcomes">
+              <curriculum-view
+                :item="c.programOutcomes"
+                item-class=""
+                class=""
+              />
+            </div>
 
-            <div v-if="c.programOutcomes && c.programOutcomes.content && c.programOutcomes.content.length">
+            <!-- <div v-if="c.programOutcomes && c.programOutcomes.content && c.programOutcomes.content.length">
               <div
                 :key="i"
                 v-for="(po, i) in c.programOutcomes.content"
               >{{ po.label + '. ' + po.text }}</div>
-            </div>
+            </div> -->
 
           </td>
         </tr>
@@ -89,7 +97,7 @@
 
     <div
       ref="page2"
-      class="paper-8-5-11 elevation-4 syllabus-inst"
+      class="paper-8-5-13 elevation-4 syllabus-inst"
     >
       <table border="1" v-if="c.course">
         <tr>
@@ -192,7 +200,7 @@
 
     <div
       ref="page3"
-      class="paper-8-5-11 elevation-4 syllabus-inst"
+      class="paper-8-5-13 elevation-4 syllabus-inst"
     >
       <table border="1" class="mt-3 syllabus-tbl">
         <tr>
@@ -286,7 +294,7 @@
 
     <div
       ref="page4"
-      class="paper-8-5-11 elevation-4 syllabus-inst"
+      class="paper-8-5-13 elevation-4 syllabus-inst"
     >
       <table border="1" class="syllabus-tbl">
         <tr>
@@ -332,7 +340,7 @@
 
     <div
       ref="page5"
-      class="paper-8-5-11 elevation-4 syllabus-inst"
+      class="paper-8-5-13 elevation-4 syllabus-inst"
       v-if="c.bookReferences"
     >
       <table border="1" class="syllabus-tbl">
@@ -478,12 +486,14 @@ import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import CourseUnits from '@/include/CourseUnits'
 import DialogLoading from '@/include/dialogs/DialogLoading'
+import CurriculumView from '@/include/CurriculumView'
 
 export default {
   name: 'syllabus-inst',
   components: {
     CourseUnits,
-    DialogLoading
+    DialogLoading,
+    CurriculumView
   },
   props: {
     syllabus: {
@@ -560,6 +570,12 @@ export default {
   },
 
   methods: {
+    resetPages() {
+      Object.keys(this.pages).forEach(e => {
+        this.pages[e] = null
+      })
+    },
+
     generate(e) {
       this.dPdf = e
       // create only if pdf prop is true
@@ -567,6 +583,7 @@ export default {
         return
       }
 
+      this.resetPages()
       // do loading
       this.$bus.$emit('dialog--loading', true)
       Object.keys(this.pages).forEach(e => {
@@ -591,28 +608,24 @@ export default {
     },
 
     generatePDF() {
-      let doc = new jsPDF('p', 'mm', 'letter')
+      let doc = new jsPDF('p', 'in', [8.5, 13])
 
       let width = doc.internal.pageSize.width
       let height = doc.internal.pageSize.height
 
       this.encoded = null
       
-      new Promise((resolve, reject) => {
-        setTimeout(() => {
-          Object.keys(this.pages).forEach((e, i) => {
-            doc.addImage(this.pages[e], 'png', 0, 0, width, height)
-            if (Object.keys(this.pages).length-1 != i) {
-              doc.addPage()
-            }
-          })
-          let blob = doc.output('blob')
-          resolve(blob)
-        }, 10)
-      }).then(blob => {
-        this.encoded = URL.createObjectURL(blob)
-        this.$bus.$emit('dialog--loading', false)
+      Object.keys(this.pages).forEach((e, i) => {
+        if (this.pages[e]) {
+          doc.addImage(this.pages[e], 'png', 0, 0, width, height)
+        }
+        if (Object.keys(this.pages).length-1 != i) {
+          doc.addPage()
+        }
       })
+      let blob = doc.output('blob')
+      this.encoded = URL.createObjectURL(blob)
+      this.$bus.$emit('dialog--loading', false)
     },
 
     sortCloMap(m) {

@@ -22,7 +22,10 @@
           </v-tooltip>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title v-text="'Selected books'"/>
+          <v-list-tile-title
+            v-text="'Selected books'"
+            class="primary--text text--lighten-1"
+          />
           <v-list-tile-sub-title v-text="'Total books selected: ' + selected.length"/>
         </v-list-tile-content>
       </v-list-tile>
@@ -146,14 +149,12 @@ import qs from 'qs'
 import debounce from 'lodash/debounce'
 import SelectList from '@/include/SelectList'
 import MarkdownTextarea from '@/include/MarkdownTextarea'
-import SuggestAlert from '@/include/generator/SuggestAlert'
 
 export default {
   name: 'book-picker',
   components: {
     SelectList,
-    MarkdownTextarea,
-    SuggestAlert
+    MarkdownTextarea
   },
   props: {
     syllabus: Object

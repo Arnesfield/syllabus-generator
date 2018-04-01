@@ -31,7 +31,7 @@
     </v-layout>
   </v-container>
 
-  <dialog-detailed-workflow/>
+  <dialog-detailed-workflow view-only/>
   <dialog-workflow-logs/>
 
 </div>
