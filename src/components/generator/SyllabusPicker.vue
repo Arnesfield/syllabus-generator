@@ -90,7 +90,10 @@
 
   <div v-if="selected">
     <v-divider class="mt-2"/>
-    <syllabus-content v-model="selected"/>
+    <syllabus-content
+      v-model="selected"
+      :syllabus-content="syllabusContent"
+    />
   </div>
 
   <v-dialog
@@ -179,6 +182,7 @@ export default {
   },
   props: {
     value: Object,
+    syllabusContent: Object,
     course: {
       type: Object,
       default: null

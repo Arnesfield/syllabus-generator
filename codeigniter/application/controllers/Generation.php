@@ -50,6 +50,10 @@ class Generation extends MY_Custom_Controller {
       $syllabus = $this->_formatSyllabi($syllabi)[0];
       $data['syllabus'] = $syllabus;
     }
+
+    // get default content here alsooo
+    $syllabusContent = $this->_getSyllabusContent();
+    $data['syllabusContent'] = $syllabusContent;
     
     $this->_json(TRUE, $data);
   }

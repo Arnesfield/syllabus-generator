@@ -130,7 +130,8 @@ p {
   padding-right: 0;
 }
 
-i {
-  /* visibility: hidden;
-  width: 24px; */
+/* for offline purposes only */
+.material-icons {
+  /* width: 24px;
+  overflow: hidden; */
 }

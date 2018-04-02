@@ -30,6 +30,7 @@
         <syllabus-picker
           v-model="syllabus"
           :course="course"
+          :syllabus-content="syllabusContent"
         />
       </v-tab-item>
 
@@ -196,6 +197,7 @@ export default {
     assign: null,
     course: null,
     syllabus: null,
+    syllabusContent: null,
 
     // for navigation
     tabs: {
@@ -468,6 +470,8 @@ export default {
 
           // then finally set the course
           this.course = course
+          // set syllabus content
+          this.syllabusContent = res.data.syllabusContent
         } else {
           this.course = null
           this.syllabus = null

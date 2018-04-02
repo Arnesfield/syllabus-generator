@@ -5,6 +5,39 @@
   grid-list-lg
   class="pa-0"
 >
+
+  <v-list class="elevation-1 py-0 mt-2" two-line v-if="notLatest">
+    <v-list-tile
+      ripple
+      @click="setContent(suggested, true)"
+    >
+      <v-list-tile-action class="thin-action">
+        <v-tooltip top>
+          <v-btn
+            icon
+            flat
+            slot="activator"
+            color="warning"
+            @click="setContent(suggested, true)"
+          >
+            <v-icon>new_releases</v-icon>
+          </v-btn>
+          <span>Use latest content</span>
+        </v-tooltip>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title
+          class="warning--text"
+          v-text="'Latest syllabus content available!'"
+        />
+        <v-list-tile-sub-title>
+          <span>Use the latest syllabus content. Last updated at</span>
+          <strong v-text="$moment.unix(suggestedDate).format('MMMM DD, YYYY h:mmA')"/>.
+        </v-list-tile-sub-title>
+      </v-list-tile-content>
+    </v-list-tile>
+  </v-list>
+
   <v-layout row wrap align-baseline>
 
     <!-- ivs -->
@@ -83,8 +116,14 @@
 </template>
 
 <script>
-import content from '@/assets/js/content'
 import SimpleListContentView from '@/include/SimpleListContentView'
+const keys = [
+  'institutionVision',
+  'institutionMission',
+  'departmentVision',
+  'departmentMission',
+  'programEducationalObjectives',
+]
 
 export default {
   name: 'syllabus-content',
@@ -92,11 +131,14 @@ export default {
     SimpleListContentView
   },
   props: {
-    value: Object
+    value: Object,
+    syllabusContent: Object
   },
   data: () => ({
-    url: '',
-    syllabus: null
+    url: '/settings/syllabus_content',
+    syllabus: null,
+    suggested: null,
+    loading: false
   }),
   watch: {
     value(e) {
@@ -108,11 +150,21 @@ export default {
       handler(e) {
         this.$emit('input', e)
       }
+    },
+    syllabusContent(e) {
+      this.setContent(e)
     }
   },
   computed: {
     c() {
       return this.syllabus ? this.syllabus.content : null
+    },
+    notLatest() {
+      // loop through suggested
+      if (this.suggested === null) {
+        return false
+      }
+      return !keys.every(e => this.suggested[e] === this.c[e])
     }
   },
 
@@ -122,21 +174,37 @@ export default {
   },
 
   methods: {
+    setContent(content, force) {
+      if (!this.c) {
+        return
+      }
+      if (typeof force !== 'boolean') {
+        force = false
+      }
+      keys.forEach(e => {
+        this.c[e] = this.c[e] && !force ? this.c[e] : content[e]
+      })
+    },
+
     fetch() {
       if (!this.c) {
         return
       }
       
       // get values from db instead
-      const keys = [
-        'institutionVision',
-        'institutionMission',
-        'departmentVision',
-        'departmentMission',
-        'programEducationalObjectives',
-      ]
-      keys.forEach(e => {
-        this.c[e] = this.c[e] || content[e]
+      this.loading = true
+      this.$http.post(this.url).then(res => {
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        let content = res.data.syllabusContent.content
+        this.suggested = content
+        this.suggestedDate = res.data.syllabusContent.updated_at
+        this.setContent(content)
+        this.loading = false
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
       })
     }
   }

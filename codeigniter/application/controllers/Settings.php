@@ -50,6 +50,11 @@ class Settings extends MY_Custom_Controller {
     $this->_json(TRUE, 'cloOptions', $cloOption);
   }
 
+  public function syllabus_content() {
+    $syllabusContent = $this->_getSyllabusContent();
+    $this->_json(TRUE, 'syllabusContent', $syllabusContent);
+  }
+
   public function update() {
     $name = $this->input->post('name');
     $content = $this->input->post('content');
