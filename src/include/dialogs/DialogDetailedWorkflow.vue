@@ -132,7 +132,7 @@
                   <v-btn icon slot="activator">
                     <v-icon color="grey">update</v-icon>
                   </v-btn>
-                  <span>Last updated at</span>
+                  <span>Last updated in</span>
                 </v-tooltip>
               </v-list-tile-action>
               <v-list-tile-content>

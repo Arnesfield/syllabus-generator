@@ -27,7 +27,7 @@
       :md-view="view"
       :placeholder="placeholder"
       v-model="item"
-      t-add-class="my-medium-textarea pa-2 yellow lighten-4 elevation-4"
+      t-add-class="my-medium-textarea pa-2 elevation-4"
     />
   </v-layout>
 </v-list>

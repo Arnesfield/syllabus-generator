@@ -77,7 +77,7 @@
     </v-btn>
   </v-layout>
 
-  <div v-if="selected">
+  <div v-if="selected" class="mb-5 pr-2">
     <v-subheader>Curriculum&nbsp;<strong v-text="selected.label"/></v-subheader>
     <curriculum-view
       :item="selected"

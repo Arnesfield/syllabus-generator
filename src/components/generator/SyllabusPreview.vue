@@ -7,7 +7,7 @@
       :syllabus="syllabus"
       style="margin: 0 auto"
       standardHeight="calc(100vh - 260px)"
-      pdfHeight="calc(100vh - 260px)"
+      pdfHeight="calc(100vh - 264px)"
       :pdf.sync="pdf"
     />
   </div>

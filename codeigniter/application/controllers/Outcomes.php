@@ -10,9 +10,17 @@ class Outcomes extends MY_Custom_Controller {
   }
   
   public function index() {
-    $type = $this->input->post('type');
-    $search = $this->_filter($this->input->post('search'));
-    $outcomes = $this->outcomes_model->getByQuery($type, $search);
+    $type = $this->input->post('type') ? $this->input->post('type') : FALSE;
+    $search = $this->input->post('search')
+      ? $this->_filter($this->input->post('search'))
+      : FALSE;
+
+    $where = array();
+    if ($type) {
+      $where['type'] = $type;
+    }
+    
+    $outcomes = $this->outcomes_model->getByQuery($search, $where);
 
     // change outcomes to string
     if ($outcomes) {

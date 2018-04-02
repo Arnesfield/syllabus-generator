@@ -16,7 +16,7 @@
               color="primary"
               @click="dialog = true"
             >
-              <v-icon>add</v-icon>
+              <v-icon>library_books</v-icon>
             </v-btn>
             <span>Add book</span>
           </v-tooltip>
@@ -65,7 +65,7 @@
       color="primary lighten-1"
       @click="dialog = true"
     >
-      <v-icon>add</v-icon>
+      <v-icon>library_books</v-icon>&nbsp;
       <span>Add Book</span>
     </v-btn>
   </v-layout>

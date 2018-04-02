@@ -89,6 +89,29 @@ p {
   transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.smooth-bg-color {
+  transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hoverable > * {
+  transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hoverable:hover > * {
+  background-color: #eee !important;
+}
+
+table.no-outside-border {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+table.no-outside-border td,
+table.no-outside-border th {
+  border: 1px solid #ccc;
+}
+
+
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;

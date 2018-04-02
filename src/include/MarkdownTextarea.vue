@@ -25,7 +25,7 @@
       v-html="$md.makeHtml(text)"
       :class="{
         [mdClass + ' ' + mdAddClass]: true,
-        clickable: editOnClick
+        'clickable hoverable': editOnClick
       }"
       @click="mdClick"
     />
@@ -36,6 +36,7 @@
       :class="{ [textareaClass + ' ' + tAddClass]: true }"
       :required="required"
       @blur="textareaBlur"
+      ref="textarea"
     />
 
     <div
@@ -62,7 +63,7 @@ export default {
     value: String,
     textareaClass: {
       type: String,
-      default: 'my-textarea elevation-1 pa-1 white'
+      default: 'my-textarea elevation-1 pa-1 yellow lighten-4'
     },
     tAddClass: {
       type: String,
@@ -117,6 +118,15 @@ export default {
     },
     mdView(e) {
       this.viewAsMd = e
+    },
+    viewAsMd(e) {
+      if (!e) {
+        this.$nextTick(() => {
+          if (this.$refs.textarea) {
+            this.$refs.textarea.focus()
+          }
+        })
+      }
     }
   },
   created() {
@@ -130,6 +140,10 @@ export default {
     textareaBlur() {
       if (this.required && !this.text) {
         this.errorMsg = 'This field is required.'
+      } else if (this.text && this.text.trim().length) {
+        setTimeout(() => {
+          this.viewAsMd = true
+        }, 100)
       }
     },
     reset() {

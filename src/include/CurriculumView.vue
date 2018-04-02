@@ -1,5 +1,5 @@
 <template>
-<div v-if="item.content">
+<div v-if="item && item.content">
   <v-layout
     :key="i"
     v-for="(e, i) in item.content"

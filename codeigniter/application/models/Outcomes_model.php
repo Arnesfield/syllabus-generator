@@ -3,12 +3,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Outcomes_model extends MY_Custom_Model {
 
-  public function getByQuery($type, $search) {
+  public function getByQuery($search, $where) {
     $this->db
       ->select('id, content')
-      ->from('outcomes')
-      ->where('type', $type)
-      ->where("lower(content) like lower(concat('%', '$search', '%'))");
+      ->from('outcomes');
+
+    if ($where) {
+      $this->db->where($where);
+    }
+
+    if ($search) {
+      $search = strtolower($search);
+      $this->db->where("LOWER(content) LIKE '%$search%'");
+    }
+    
     $query = $this->db->get();
     return $this->_res($query);
   }

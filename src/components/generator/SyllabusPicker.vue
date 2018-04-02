@@ -88,13 +88,13 @@
     </v-btn>
   </v-layout>
 
-  <div v-if="selected">
+  <template v-if="selected">
     <v-divider class="mt-2"/>
     <syllabus-content
       v-model="selected"
       :syllabus-content="syllabusContent"
     />
-  </div>
+  </template>
 
   <v-dialog
     v-model="dialog"

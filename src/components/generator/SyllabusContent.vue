@@ -31,7 +31,7 @@
           v-text="'Latest syllabus content available!'"
         />
         <v-list-tile-sub-title>
-          <span>Use the latest syllabus content. Last updated at</span>
+          <span>Use the latest syllabus content. Last updated in</span>
           <strong v-text="$moment.unix(suggestedDate).format('MMMM DD, YYYY h:mmA')"/>.
         </v-list-tile-sub-title>
       </v-list-tile-content>

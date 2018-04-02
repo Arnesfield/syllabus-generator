@@ -55,12 +55,7 @@
           <!-- clo -->
 
           <v-tab-item>
-            <outcome-table
-              :syllabus="syllabus"
-              :supporting="syllabus.content.programOutcomes"
-              mainTitle="Course Learning Outcomes (CLO)"
-              supportingTitle="Program Outcomes (PO)"
-            />
+            <clo-view v-model="syllabus"/>
           </v-tab-item>
 
           <!-- activity -->
@@ -164,7 +159,7 @@ import CourseView from '@/components/generator/CourseView'
 import CurriculumPicker from '@/components/generator/CurriculumPicker'
 import SyllabusPicker from '@/components/generator/SyllabusPicker'
 import BookPicker from '@/components/generator/BookPicker'
-import OutcomeTable from '@/components/generator/OutcomeTable'
+import CloView from '@/components/generator/CloView'
 import ActivityManager from '@/components/generator/ActivityManager'
 import GradingSystem from '@/components/generator/GradingSystem'
 import SyllabusPreview from '@/components/generator/SyllabusPreview'
@@ -181,7 +176,7 @@ export default {
     CurriculumPicker,
     SyllabusPicker,
     BookPicker,
-    OutcomeTable,
+    CloView,
     ActivityManager,
     GradingSystem,
     SyllabusPreview
