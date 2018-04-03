@@ -63,6 +63,7 @@ export default {
   watch: {
     value(e) {
       this.item = e
+      this.setInitial()
     },
     item(e) {
       this.$emit('input', e)
@@ -78,8 +79,14 @@ export default {
   created() {
     this.item = this.value
     this.view = this.mdView
-    if (this.autoEditMode && !this.item) {
-      this.view = false
+    this.setInitial()
+  },
+
+  methods: {
+    setInitial() {
+      if (this.autoEditMode) {
+        this.view = Boolean(this.item)
+      }
     }
   }
 }

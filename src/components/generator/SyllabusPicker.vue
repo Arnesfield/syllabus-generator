@@ -137,6 +137,7 @@
       <div
         slot="item"
         slot-scope="props"
+        class="primary--text text--lighten-1"
         v-text="props.item.version || 'New syllabus'"
       />
     </select-list>
@@ -277,7 +278,7 @@ export default {
           intendedLearningOutcomes: [],
           cloPoMap: {},
           weeklyActivities: [],
-          gradingSystem: null
+          gradingSystem: []
         }
       }
 

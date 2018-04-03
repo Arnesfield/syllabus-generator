@@ -105,6 +105,11 @@ export default {
       handler(e) {
         this.errorMsg = null
         this.text = e
+        if (!this.text && this.viewAsMd) {
+          this.$nextTick(() => {
+            this.viewAsMd = false
+          })
+        }
       }
     },
     text: {

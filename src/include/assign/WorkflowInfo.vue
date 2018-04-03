@@ -203,7 +203,7 @@
       align-center
       delete-mode
       editable
-      :is-selected="(items, item) => JSON.stringify(items) == JSON.stringify(item)"
+      :is-selected="(allItems, item) => allItems.indexOf(item) > -1"
     >
       <template
         slot="title"
@@ -214,7 +214,7 @@
         align-center
       >
         <v-subheader>
-          <div>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
             <div v-html="props.item.code"/>
             <div class="caption" v-html="props.item.title"/>
           </div>
@@ -255,7 +255,7 @@
         align-center
       >
         <v-subheader>
-          <div>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
             <div v-html="props.item.code"/>
             <div class="caption" v-html="props.item.title"/>
           </div>
@@ -314,7 +314,7 @@
       align-center
       delete-mode
       editable
-      :is-selected="(items, item) => JSON.stringify(items) == JSON.stringify(item)"
+      :is-selected="(allItems, item) => allItems.indexOf(item) > -1"
     >
       <template
         slot="title"
@@ -332,6 +332,7 @@
         />
         <div
           class="subheader pl-3"
+          :class="{ 'primary--text text--lighten-1': props.isSelected }"
         >{{ $wrap.fullname(props.item) }}&nbsp;
           <add-me :id="props.item.id"/>
         </div>
@@ -367,6 +368,7 @@
         </span>
         <div
           class="subheader pl-3"
+          :class="{ 'primary--text text--lighten-1': props.isSelected }"
         >{{ $wrap.fullname(props.item) }}&nbsp;
           <add-me :id="props.item.id"/>
         </div>

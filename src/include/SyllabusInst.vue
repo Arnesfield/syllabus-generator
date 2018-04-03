@@ -330,11 +330,25 @@
 
       <table border="1" class="mt-3 syllabus-tbl">
         <tr>
-          <th>Grading System</th>
+          <th :colspan="c.gradingSystem.length">Grading System</th>
         </tr>
-        <tr v-if="c.gradingSystem">
-          <td v-html="$md.makeHtml(c.gradingSystem)"/>
-        </tr>
+        <template v-if="c.gradingSystem">
+          <tr>
+            <td
+              :key="i"
+              :style="{ width: 100 / c.gradingSystem.length + '%' }"
+              v-for="(item, i) in c.gradingSystem"
+              v-html="$md.makeHtml(item.label)"
+            />
+          </tr>
+          <tr>
+            <td
+              :key="i"
+              v-for="(item, i) in c.gradingSystem"
+              v-html="$md.makeHtml(item.text)"
+            />
+          </tr>
+        </template>
       </table>
     </div>
 

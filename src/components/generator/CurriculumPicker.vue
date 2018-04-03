@@ -57,8 +57,12 @@
           <v-list-tile-content>
             <v-list-tile-title
               class="warning--text"
-              v-text="suggested.label"/>
-            <v-list-tile-sub-title v-text="'Suggested latest curriculum'"/>
+              v-text="suggested.label"
+            />
+            <v-list-tile-sub-title>
+              <span>Use the latest curriculum. Last updated in</span>
+              <strong v-text="$moment.unix(suggested.updated_at).format('MMMM DD, YYYY h:mmA')"/>.
+            </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </template>
@@ -118,16 +122,25 @@
       delete-mode
       editable
       align-center
-      :is-selected="(allItems, item) => JSON.stringify(allItems) == JSON.stringify(item)"
+      :is-selected="(allItems, item) => allItems.indexOf(item) > -1"
     >
       <template
         slot="title"
       >&nbsp;Selected</template>
-      <div
+      <v-layout
         slot="item"
         slot-scope="props"
-        v-text="props.item.label"
-      />
+      >
+        <v-subheader>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
+            <div v-html="props.item.label"/>
+            <div
+              class="caption"
+              v-html="$moment.unix(props.item.updated_at).format('MMMM DD, YYYY h:mmA')"
+            />
+          </div>
+        </v-subheader>
+      </v-layout>
     </select-list>
 
     <select-list
@@ -144,12 +157,20 @@
       ><strong
         v-text="items.length"
       />&nbsp;{{ search ? 'Results' : 'Suggested' }}</template>
-      <span
+      <v-layout
         slot="item"
         slot-scope="props"
-        class="select-list-item"
-        v-text="props.item.label"
-      />
+      >
+        <v-subheader>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
+            <div v-html="props.item.label"/>
+            <div
+              class="caption"
+              v-html="$moment.unix(props.item.updated_at).format('MMMM DD, YYYY h:mmA')"
+            />
+          </div>
+        </v-subheader>
+      </v-layout>
     </select-list>
 
   </v-dialog>

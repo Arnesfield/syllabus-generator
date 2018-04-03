@@ -129,6 +129,7 @@
         />
         <div
           class="subheader pl-3"
+          :class="{ 'primary--text text--lighten-1': props.isSelected }"
         >{{ $wrap.fullname(selected[props.index]) }}&nbsp;
           <add-me :id="selected[props.index].id"/>
         </div>
@@ -140,7 +141,7 @@
       :items.sync="items"
       :id="'user-' + index + '-'"
       max-height="25vh"
-      :is-selected="(items, item) => items.indexOf(item) > -1"
+      :is-selected="(items, item) => items.map(e => e.id).indexOf(item.id) > -1"
     >
       <template
         slot="title"
@@ -162,6 +163,7 @@
         </span>
         <div
           class="subheader pl-3"
+          :class="{ 'primary--text text--lighten-1': props.isSelected }"
         >{{ $wrap.fullname(props.item) }}&nbsp;
           <add-me :id="props.item.id"/>
         </div>

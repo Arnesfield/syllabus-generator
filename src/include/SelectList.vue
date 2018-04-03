@@ -70,9 +70,14 @@
               class="clickable full-width full-height pr-3"
               style="display: block;"
               :for="!editable ? id + i : undefined"
-              :class="{ 'primary--text': selectedCheck(item) }"
+              :class="{ 'primary--text text--lighten-1': selectedCheck(item) }"
             >
-              <slot name="item" :item="item" :index="i"/>
+              <slot
+                name="item"
+                :item="item"
+                :index="i"
+                :is-selected="selectedCheck(item)"
+              />
             </label>
           </v-layout>
         </v-list-tile>

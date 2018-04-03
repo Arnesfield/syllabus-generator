@@ -67,7 +67,7 @@
           <!-- grading -->
 
           <v-tab-item>
-            <grading-system :syllabus="syllabus"/>
+            <grading-system v-model="syllabus.content.gradingSystem"/>
           </v-tab-item>
 
           <!-- preview -->

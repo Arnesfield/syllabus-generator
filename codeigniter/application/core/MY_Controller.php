@@ -353,7 +353,14 @@ class MY_Custom_Controller extends MY_View_Controller {
   );
 
   private $_GRADING_SYSTEM = array(
-    
+    array(
+      'label' => "Midterm Grade",
+      'text' => "**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\n\n.\n\n**Lecture: 70%**\n\n- **Class Standing  (CS) 60%**\n\n    1. Average of at least two long quizzes 40%\n    2. Teacher’s Evaluation 5%\n    3. Class participation 25%\n        - (Seatwork, Assignments, Recitations)\n    4. Short Quizzes, Class Exercises 30%\n\n.\n\n**Midterm Exam (ME) 40%**\n\n.\n\n**Lab: 30%**\n\n- **Class Standing  (CS) 60%**\n    1. Laboratory Exercises/Machine Problems 40%\n    2. Teacher’s Evaluation 5%\n    3. Project/s 30%\n    4. Practical Exam  25%\n\n.\n\n**Midterm Exam (ME)\t40%**\n\n.\n\n.\n\n**PASSING RAW SCORE: 70**\n\n_Note:  Grades in Lecture and Lab should be the same._"
+    ),
+    array(
+      'label' => "Final Grade",
+      'text' => "**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\n\n.\n\n**Lecture: 70%**\n\n- **Class Standing  (CS) 60%**\n\n    1. Average of at least two long quizzes 40%\n    2. Teacher’s Evaluation 5%\n    3. Class participation 25%\n        - (Seatwork, Assignments, Recitations)\n    4. Short Quizzes, Class Exercises 30%\n\n.\n\n**Midterm Exam (ME) 40%**\n\n.\n\n**Lab: 30%**\n\n- **Class Standing  (CS) 60%**\n    1. Laboratory Exercises/Machine Problems 40%\n    2. Teacher’s Evaluation 5%\n    3. Project/s 30%\n    4. Practical Exam  25%\n\n.\n\n**Midterm Exam (ME)\t15%**\n\n**Final Exam (FE)\t25%**\n\n.\n\n**PASSING RAW SCORE: 70**\n\n_Note:  Grades in Lecture and Lab should be the same._"
+    )
   );
 
   public function _getSettings($name) {
