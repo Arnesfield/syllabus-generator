@@ -165,6 +165,7 @@
                   placeholder="Enter description"
                   t-add-class="my-medium-textarea pa-2"
                   :ref="'mdDescription-' + i"
+                  edit-on-click
                   required
                 />
               </v-flex>
@@ -172,6 +173,18 @@
 
           </v-layout>
         </template>
+
+        <!-- last updated -->
+        
+        <v-layout class="mt-2">
+          <div class="caption">
+            <em>This will be searchable/suggested in Generator.</em>
+            <div>
+              <span>Last updated in</span>
+              <strong v-text="$moment.unix(item.updated_at).format('MMMM DD, YYYY h:mmA')"/>.
+            </div>
+          </div>
+        </v-layout>
 
       </v-form>
     </v-card-text>

@@ -7,10 +7,58 @@
   }"
 >
 
-  <template v-if="curriculum.length">
+  <template v-if="latest">
+    <v-subheader>Latest</v-subheader>
+
     <v-list
       two-line
-      class="elevation-1"
+      class="elevation-1 py-0"
+    >
+      <v-list-tile @click="() => {}">
+        <v-list-tile-action class="thin-48">
+          <status :item="latest"/>
+        </v-list-tile-action>
+
+        <v-layout align-center>
+          <v-list-tile-content>
+            <v-list-tile-title>
+              <span
+                class="warning--text"
+                v-text="latest.label"
+              />
+              <span class="caption warning--text">(latest)</span>
+            </v-list-tile-title>
+            <v-list-tile-sub-title class="warning--text">Latest curriculum. Number of items:
+              <strong v-text="latest.content.length"/>
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+          <v-layout
+            class="caption grey--text"
+            align-center
+          >
+            <div class="full-width text-xs-right">
+              <template v-if="displayRelative(latest.updated_at)">
+                <div v-text="$moment.unix(latest.updated_at).fromNow()"/>
+              </template>
+              <template v-else>
+                <div v-text="$moment.unix(latest.updated_at).format('h:mmA')"/>
+                <div v-text="$moment.unix(latest.updated_at).format('MM/DD/YY')"/>
+              </template>
+            </div>
+          </v-layout>
+        </v-layout>
+
+      </v-list-tile>
+    </v-list>
+
+    <v-divider class="mt-3 mb-2"/>
+  </template>
+
+  <template v-if="curriculum.length">
+    <v-subheader>List</v-subheader>
+    <v-list
+      two-line
+      class="elevation-1 py-0"
     >
       <template v-for="(item, i) in curriculum">
         <v-list-tile
@@ -26,8 +74,19 @@
 
           <v-layout align-center>
             <v-list-tile-content>
-              <v-list-tile-title v-text="item.label"/>
+              <v-list-tile-title>
+                <span
+                  :class="{ 'warning--text': Boolean(Number(item.latest)) }"
+                  v-text="item.label"
+                />
+                <span
+                  class="caption warning--text"
+                  v-if="Boolean(Number(item.latest))"
+                  v-text="'(latest)'"
+                />
+              </v-list-tile-title>
               <v-list-tile-sub-title
+                :class="{ 'warning--text': Boolean(Number(item.latest)) }"
               >Number of items:
                 <strong v-text="item.content.length"/>
               </v-list-tile-sub-title>
@@ -77,6 +136,7 @@
 </template>
 
 <script>
+import find from 'lodash/find'
 import Status from '@/include/Status'
 import ManageNoData from '@/include/ManageNoData'
 import DialogManageCurriculum from '@/include/dialogs/DialogManageCurriculum'
@@ -96,6 +156,14 @@ export default {
   watch: {
     loading(e) {
       this.$bus.refresh(e)
+    }
+  },
+  computed: {
+    latest() {
+      if (this.curriculum.length === 0) {
+        return null
+      }
+      return find(this.curriculum, { latest: '1' })
     }
   },
 

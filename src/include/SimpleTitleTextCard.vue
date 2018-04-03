@@ -8,7 +8,9 @@
       :prepend-icon="icon"
       :append-icon-cb="removable ? () => { $emit('remove', index) } : undefined"
       :append-icon="removable ? 'close' : undefined"
-      :placeholder="placeholder"
+      :label="labelText"
+      :required="required"
+      :rules="[ (required ? $fRule('required') : () => true) ]"
     />
   </template>
   <v-layout
@@ -40,8 +42,9 @@
     <markdown-textarea
       edit-on-click
       v-model="item[text]"
-      :placeholder="item[label] ? 'Enter ' + item[label] + ' here' : 'Enter grading here'"
+      :placeholder="item[label] ? 'Enter ' + item[label] + ' here' : placeholder"
       t-add-class="my-big-textarea pa-2"
+      :required="required"
     />
   </div>
 </v-card>
@@ -70,6 +73,10 @@ export default {
       type: String,
       default: 'text'
     },
+    labelText: {
+      type: String,
+      default: 'Enter label here'
+    },
     placeholder: {
       type: String,
       default: 'Enter text here'
@@ -79,6 +86,10 @@ export default {
       default: false
     },
     removable: {
+      type: Boolean,
+      default: false
+    },
+    required: {
       type: Boolean,
       default: false
     }

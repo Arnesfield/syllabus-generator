@@ -3,7 +3,7 @@
   v-model="show"
   :persistent="true"
   transition="fade-transition"
-  width="720"
+  width="800"
   scrollable
 >
   <v-card v-if="show">
@@ -32,7 +32,7 @@
       >
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="'CLO Options'"/>
+      <v-toolbar-title v-text="'Syllabus Content'"/>
     </v-toolbar>
 
     <v-card-text>
@@ -45,19 +45,20 @@
           >
             <simple-title-text-card
               v-model="syllabusContent"
-              :placeholder="'Enter ' + key + ' here'"
+              :placeholder="'Enter ' + contentTitle[key].text + ' here'"
               :text="key"
-              :label="contentTitle[i].text"
-              :icon="contentTitle[i].icon"
+              :label="contentTitle[key].text"
+              :icon="contentTitle[key].icon"
               :index="i"
               fixed-title
               class="mb-3"
+              required
             />
           </div>
 
           <v-layout>
             <div class="caption">
-              <em>This will be shown in Generator</em>
+              <em>This will be shown in Generator.</em>
               <div>
                 <span>Last updated in</span>
                 <strong v-text="$moment.unix(lastUpdated).format('MMMM DD, YYYY h:mmA')"/>.
@@ -122,28 +123,28 @@ export default {
     syllabusContent: null,
     lastUpdated: null,
 
-    contentTitle: [
-      {
+    contentTitle: {
+      institutionVision: {
         icon: 'visibility',
         text: 'Institution Vision Statement'
       },
-      {
+      institutionMission: {
         icon: 'done_all',
         text: 'Institution Mission Statement'
       },
-      {
+      departmentVision: {
         icon: 'visibility',
         text: 'Department Vision Statement'
       },
-      {
+      departmentMission: {
         icon: 'done_all',
         text: 'Department Mission Statement'
       },
-      {
+      programEducationalObjectives: {
         icon: 'done_all',
         text: 'Program Educational Objectives'
       }
-    ]
+    }
   }),
 
   watch: {

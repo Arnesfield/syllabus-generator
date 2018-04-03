@@ -74,6 +74,7 @@
   <template v-if="$bus.authHas($bus.session.auth, 1)">
     <dialog-clo-options ref="cloOptions"/>
     <dialog-syllabus-content ref="syllabusContent"/>
+    <dialog-grading-system ref="gradingSystem"/>
   </template>
 
 </v-navigation-drawer>
@@ -83,13 +84,15 @@
 import NavUser from './nav/NavUser'
 import DialogCloOptions from '@/include/dialogs/DialogCloOptions'
 import DialogSyllabusContent from '@/include/dialogs/DialogSyllabusContent'
+import DialogGradingSystem from '@/include/dialogs/DialogGradingSystem'
 
 export default {
   name: 'navigation',
   components: {
     NavUser,
     DialogCloOptions,
-    DialogSyllabusContent
+    DialogSyllabusContent,
+    DialogGradingSystem
   },
   data: () => ({
     logoutUrl: '/logout',
@@ -122,6 +125,7 @@ export default {
         items: [
           { title: 'Users', icon: 'account_circle', tip: 'Manage Users', to: '/manage/users' },
           { title: 'Courses', icon: 'school', tip: 'Manage Courses', to: '/manage/courses' },
+          { title: 'Curriculum', icon: 'assignment', tip: 'Curriculum', to: '/manage/curriculum' }
         ]
       },
       {
@@ -134,8 +138,8 @@ export default {
         header: 'Syllabus',
         auth: 1,
         items: [
-          { title: 'Curriculum', icon: 'assignment', tip: 'Curriculum', to: '/manage/curriculum' },
-          { title: 'Content', icon: 'description', tip: 'Syllabus Content', click: 'syllabusContent' },
+          { title: 'Syllabus Content', icon: 'description', tip: 'Syllabus Content', click: 'syllabusContent' },
+          { title: 'Grading System', icon: 'grade', tip: 'Grading System', click: 'gradingSystem' },
           { title: 'CLO Options', icon: 'settings', tip: 'CLO Options', click: 'cloOptions' }
         ]
       },
@@ -196,6 +200,11 @@ export default {
     syllabusContent() {
       if (this.$refs.syllabusContent) {
         this.$refs.syllabusContent.show = true
+      }
+    },
+    gradingSystem() {
+      if (this.$refs.gradingSystem) {
+        this.$refs.gradingSystem.show = true
       }
     },
 

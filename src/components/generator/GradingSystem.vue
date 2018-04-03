@@ -86,7 +86,8 @@
           @remove="remove"
           icon="grade"
           removable
-          placeholder="Enter label (e.g. Midterm Exam, Final Exam)"
+          label-text="Enter label (e.g. Midterm Exam, Final Exam)"
+          placeholder="Enter grading system"
         />
       </v-flex>
     </v-layout>
@@ -139,11 +140,13 @@ export default {
 
   methods: {
     notLatest() {
-      return this.grading.length == 0 || !this.grading.every((e, i) => {
-        return Boolean(this.suggested[i])
+      return (this.grading.length == 0
+        || this.grading.length !== this.suggested.length
+        || !this.grading.every((e, i) =>
+          Boolean(this.suggested[i])
           && this.suggested[i].label == e.label
           && this.suggested[i].text == e.text
-      })
+      ))
     },
 
     add() {

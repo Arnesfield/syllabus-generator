@@ -3,7 +3,7 @@
   v-model="show"
   :persistent="true"
   transition="fade-transition"
-  width="640"
+  width="1080"
   scrollable
 >
   <v-card v-if="show">
@@ -32,14 +32,14 @@
       >
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="'CLO Options'"/>
+      <v-toolbar-title v-text="'Grading System'"/>
       <v-spacer/>
       <v-btn
         icon
         dark
         :disabled="loading"
-        @click="addItem"
-        @keypress.enter="addItem"
+        @click="add"
+        @keypress.enter="add"
       >
         <v-icon>add</v-icon>
       </v-btn>
@@ -48,66 +48,41 @@
     <v-card-text>
       <v-form ref="form" v-model="form">
 
-        <template v-if="cloOptions.length">
-          <v-layout
-            row
-            align-baseline
-            :key="i"
-            v-for="(clo, i) in cloOptions"
+        <template v-if="gradingSystem.length">
+          <v-container
+            fluid
+            grid-list-lg
+            class="pa-0 mb-3"
           >
-            <v-tooltip top>
-              <v-btn
-                icon
-                flat
-                small
-                color="error"
-                slot="activator"
-                @click="cloOptions.splice(i, 1)"
-                :disabled="loading || cloOptions.length == 1"
+            <v-layout row wrap>
+              <v-flex
+                xs12
+                sm6
+                :key="i"
+                v-for="(item, i) in gradingSystem"
               >
-                <v-icon small>close</v-icon>
-              </v-btn>
-              <span>Remove</span>
-            </v-tooltip>
-            
-            <v-layout
-              row
-              wrap
-              align-center
-            >
-              <v-flex xs12 sm4>
-                <v-text-field
-                  label="Symbol"
-                  v-model="clo.symbol"
-                  :disabled="loading"
-                  :rules="[$fRule('required')]"
+                <simple-title-text-card
+                  v-model="gradingSystem[i]"
+                  label-text="Enter label (e.g. Midterm Exam, etc.)"
+                  placeholder="Enter grading system"
+                  icon="grade"
+                  :index="i"
+                  removable
                   required
-                />
-              </v-flex>
-
-              <v-flex xs12 sm8>
-                <v-text-field
-                  label="Description"
-                  class="ml-1"
-                  v-model="clo.text"
-                  :disabled="loading"
-                  :rules="[$fRule('required')]"
-                  required
+                  @remove="remove"
                 />
               </v-flex>
             </v-layout>
-
-          </v-layout>
+          </v-container>
 
           <v-layout>
             <div class="caption">
-              <em>This will be the only available options in CLO-PO mapping in Generator.</em>
+              <em>This will be suggested in Generator.</em>
               <div>
                 <span>Last updated in</span>
                 <strong v-text="$moment.unix(lastUpdated).format('MMMM DD, YYYY h:mmA')"/>.
               </div>
             </div>
-            
           </v-layout>
 
         </template>
@@ -116,7 +91,7 @@
           v-else
           :fetch="fetch"
           :loading="loading"
-          msg="Unable to load CLO options :("
+          msg="No grading system available :("
         />
 
       </v-form>
@@ -137,14 +112,14 @@
         outline
         tabindex="0"
         color="primary lighten-1"
-        @click="addItem"
-        @keypress.enter="addItem"
+        @click="add"
+        @keypress.enter="add"
         :disabled="loading"
       >Add</v-btn>
       <v-btn
         color="primary lighten-1"
         tabindex="0"
-        :disabled="loading || !form || cloOptions.length == 0"
+        :disabled="loading || !form || gradingSystem.length == 0"
         @click="submit"
         @keypress.enter="submit"
         v-text="'Update'"
@@ -157,20 +132,22 @@
 
 <script>
 import ManageNoData from '@/include/ManageNoData'
+import SimpleTitleTextCard from '@/include/SimpleTitleTextCard'
 
 export default {
-  name: 'dialog-clo-options',
+  name: 'dialog-grading-system',
   components: {
-    ManageNoData
+    ManageNoData,
+    SimpleTitleTextCard
   },
   data: () => ({
-    url: '/settings/clo_options',
+    url: '/settings/grading_system',
     updateUrl: '/settings/update',
     show: null,
     loading: false,
     form: false,
 
-    cloOptions: [],
+    gradingSystem: [],
     lastUpdated: null
   }),
 
@@ -181,11 +158,14 @@ export default {
   },
 
   methods: {
-    addItem() {
-      this.cloOptions.push({
-        symbol: null,
-        text: null
+    add() {
+      this.gradingSystem.push({
+        label: null,
+        text: 'Enter grading here'
       })
+    },
+    remove(i) {
+      this.gradingSystem.splice(i, 1)
     },
 
     fetch() {
@@ -195,8 +175,8 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-        this.cloOptions = res.data.cloOptions.content
-        this.lastUpdated = res.data.cloOptions.updated_at
+        this.gradingSystem = res.data.gradingSystem.content
+        this.lastUpdated = res.data.gradingSystem.updated_at
         this.loading = false
       }).catch(e => {
         console.error(e)
@@ -210,26 +190,26 @@ export default {
       }
 
       let data = new FormData()
-      data.append('name', 'cloOptions')
-      data.append('content', JSON.stringify(this.cloOptions))
+      data.append('name', 'gradingSystem')
+      data.append('content', JSON.stringify(this.gradingSystem))
 
       this.loading = true
       this.$http.post(this.updateUrl, data).then(res => {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-        this.$bus.$emit('snackbar--show', 'Updated CLO options.')
+        this.$bus.$emit('snackbar--show', 'Updated grading system.')
         this.loading = false
         this.show = false
       }).catch(e => {
         console.error(e)
-        this.$bus.$emit('snackbar--show', 'Unable to update CLO options.')
+        this.$bus.$emit('snackbar--show', 'Unable to update grading system.')
         this.loading = false
       })
     },
 
     clear() {
-      this.cloOptions = []
+      this.gradingSystem = []
     }
   }
 }
