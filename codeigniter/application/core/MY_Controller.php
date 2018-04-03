@@ -328,24 +328,56 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $arr;
   }
 
-  public function _getSyllabusContent() {
-    $this->load->model('settings_model');
-    $syllabusContents = $this->settings_model->get(array('name' => 'syllabusContents'));
 
-    while (!$syllabusContents) {
-      // insert default and return dat default
-      $options = array(
-        'institutionVision' => "FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.",
-        'institutionMission' => "FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.",
-        'departmentVision' => "The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.",
-        'departmentMission' => "The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.",
-        'programEducationalObjectives' => "The graduates of the Bachelor of Science in Information Technology program are:\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges."
-      );
+  private $_CLO_OPTIONS = array(
+    array(
+      'symbol' => 'I',
+      'text' => 'Introductory'
+    ),
+    array(
+      'symbol' => 'E',
+      'text' => 'Engaging'
+    ),
+    array(
+      'symbol' => 'D',
+      'text' => 'Demonstrative'
+    ),
+  );
+
+  private $_SYLLABUS_CONTENT = array(
+    'institutionVision' => "FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.",
+    'institutionMission' => "FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.",
+    'departmentVision' => "The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.",
+    'departmentMission' => "The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.",
+    'programEducationalObjectives' => "The graduates of the Bachelor of Science in Information Technology program are:\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges."
+  );
+
+  private $_GRADING_SYSTEM = array(
+    
+  );
+
+  public function _getSettings($name) {
+    $this->load->model('settings_model');
+    $settings = $this->settings_model->get(array('name' => $name));
+
+    while (!$settings) {
+      $options = FALSE;
+      if ($name == 'cloOptions') {
+        $options = $this->_CLO_OPTIONS;
+      } else if ($name == 'syllabusContent') {
+        $options = $this->_SYLLABUS_CONTENT;
+      } else if ($name == 'gradingSystem') {
+        $options = $this->_GRADING_SYSTEM;
+      }
+
+      if (!$options) {
+        $this->_json(FALSE);
+      }
 
       // json dat
       $content = json_encode($options);
       $data = array(
-        'name' => 'syllabusContents',
+        'name' => $name,
         'content' => $content,
         'updated_at' => time()
       );
@@ -357,11 +389,11 @@ class MY_Custom_Controller extends MY_View_Controller {
       }
 
       // fetch again
-      $syllabusContents = $this->settings_model->get(array('name' => 'syllabusContents'));
+      $settings = $this->settings_model->get(array('name' => $name));
     }
 
-    $syllabusContent = $this->_formatSettings($syllabusContents)[0];
-    return $syllabusContent;
+    $value = $this->_formatSettings($settings)[0];
+    return $value;
   }
 
   public function _uploadFile($file_name = 'file', $allowed_types = FALSE, $path = 'uploads/images/') {

@@ -52,7 +52,7 @@ class Generation extends MY_Custom_Controller {
     }
 
     // get default content here alsooo
-    $syllabusContent = $this->_getSyllabusContent();
+    $syllabusContent = $this->_getSettings('syllabusContent');
     $data['syllabusContent'] = $syllabusContent;
     
     $this->_json(TRUE, $data);

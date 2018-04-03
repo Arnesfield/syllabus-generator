@@ -53,7 +53,17 @@
 
   <template v-else-if="$route.name === 'Generator' && !$bus.generator.courseRefresh">
     <v-spacer/>
-    <v-tooltip left>
+    <v-tooltip bottom>
+      <v-btn
+        icon
+        slot="activator"
+        @click="$bus.$emit('generator--undo')"
+      >
+        <v-icon>undo</v-icon>
+      </v-btn>
+      <span>Undo changes</span>
+    </v-tooltip>
+    <v-tooltip bottom>
       <v-btn
         icon
         slot="activator"

@@ -4,7 +4,7 @@
   :style="!course ? {
     display: 'flex',
     width: '100%',
-    height: 'calc(100% - 96px)'
+    height: $bus.tabs.Generator.tabs ? 'calc(100% - 96px)' : 'calc(100% - 64px)'
   } : null"
   class="smooth-padding"
   :class="{ 'pa-0': fabNextStateSubmit }"
@@ -253,6 +253,7 @@ export default {
   created() {
     this.$bus.$on('generator--save', this.save)
     this.$bus.$on('generator--info.show', this.infoShow)
+    this.$bus.$on('generator--undo', this.undo)
     this.$bus.$on('refresh--btn', this.fetch)
     this.resetTabs()
     this.setInitial()
@@ -267,6 +268,7 @@ export default {
   beforeDestroy() {
     this.$bus.$off('generator--save', this.save)
     this.$bus.$off('generator--info.show', this.infoShow)
+    this.$bus.$off('generator--undo', this.undo)
     this.$bus.$off('refresh--btn', this.fetch)
 
     // reset bus defaults
@@ -317,6 +319,12 @@ export default {
         this.$bus.tabs.Generator.tabs = null
         this.$bus.tabs.Generator.items = null
       }
+    },
+
+    resetData() {
+      this.course = null
+      this.syllabus = null
+      this.allowEdit = null
     },
 
     infoShow() {
@@ -372,6 +380,25 @@ export default {
             }
           }
         })
+      })
+    },
+
+    undo() {
+      this.$bus.$emit('dialog--global.confirm.show', {
+        title: 'Undo syllabus',
+        msg: `
+          This will load the last saved syllabus.
+          Your current work
+            <strong class="warning--text">won\'t be saved</strong>.
+        `,
+        btn: {
+          text: 'Undo',
+          color: 'warning'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          onSuccess()
+          this.fetch(null)
+        }
       })
     },
 
@@ -438,6 +465,9 @@ export default {
         msg = null
       }
 
+      // reset first
+      this.resetData()
+
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         assignId: this.assignId
@@ -468,9 +498,7 @@ export default {
           // set syllabus content
           this.syllabusContent = res.data.syllabusContent
         } else {
-          this.course = null
-          this.syllabus = null
-          this.allowEdit = false
+          this.resetData()
           this.$bus.$emit('snackbar--show', msg || 'You cannot edit a submitted syllabus.')
         }
 

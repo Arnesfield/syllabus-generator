@@ -9,50 +9,18 @@ class Settings extends MY_Custom_Controller {
   }
 
   public function clo_options() {
-    $cloOptions = $this->settings_model->get(array('name' => 'cloOptions'));
-
-    while (!$cloOptions) {
-      // insert default and return dat default
-      $options = array(
-        array(
-          'symbol' => 'I',
-          'text' => 'Introductory'
-        ),
-        array(
-          'symbol' => 'E',
-          'text' => 'Engaging'
-        ),
-        array(
-          'symbol' => 'D',
-          'text' => 'Demonstrative'
-        ),
-      );
-
-      // json dat
-      $content = json_encode($options);
-      $data = array(
-        'name' => 'cloOptions',
-        'content' => $content,
-        'updated_at' => time()
-      );
-
-      $res = $this->settings_model->insert($data);
-
-      if (!$res) {
-        $this->_json(FALSE);
-      }
-
-      // fetch again
-      $cloOptions = $this->settings_model->get(array('name' => 'cloOptions'));
-    }
-
-    $cloOption = $this->_formatSettings($cloOptions)[0];
-    $this->_json(TRUE, 'cloOptions', $cloOption);
+    $cloOptions = $this->_getSettings('cloOptions');
+    $this->_json(TRUE, 'cloOptions', $cloOptions);
   }
 
   public function syllabus_content() {
-    $syllabusContent = $this->_getSyllabusContent();
+    $syllabusContent = $this->_getSettings('syllabusContent');
     $this->_json(TRUE, 'syllabusContent', $syllabusContent);
+  }
+
+  public function grading_system() {
+    $gradingSystem = $this->_getSettings('gradingSystem');
+    $this->_json(TRUE, 'gradingSystem', $gradingSystem);
   }
 
   public function update() {
