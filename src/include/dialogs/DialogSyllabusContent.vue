@@ -45,7 +45,7 @@
           >
             <simple-title-text-card
               v-model="syllabusContent"
-              :placeholder="'Enter ' + key"
+              :placeholder="'Enter ' + key + ' here'"
               :text="key"
               :label="contentTitle[i].text"
               :icon="contentTitle[i].icon"
@@ -71,7 +71,7 @@
           v-else
           :fetch="fetch"
           :loading="loading"
-          msg="Unable to load CLO options :("
+          msg="Unable to load syllabus content :("
         />
 
       </v-form>
@@ -91,7 +91,7 @@
       <v-btn
         color="primary lighten-1"
         tabindex="0"
-        :disabled="loading || !form || syllabusContent.length == 0"
+        :disabled="loading || !form || !syllabusContent"
         @click="submit"
         @keypress.enter="submit"
         v-text="'Update'"
