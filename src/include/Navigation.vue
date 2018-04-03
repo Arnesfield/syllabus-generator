@@ -71,10 +71,10 @@
     </v-tooltip>
   </v-list>
 
-  <dialog-clo-options
-    ref="cloOptions"
-    v-if="$bus.authHas($bus.session.auth, 1)"
-  />
+  <template v-if="$bus.authHas($bus.session.auth, 1)">
+    <dialog-clo-options ref="cloOptions"/>
+    <dialog-syllabus-content ref="syllabusContent"/>
+  </template>
 
 </v-navigation-drawer>
 </template>
@@ -82,12 +82,14 @@
 <script>
 import NavUser from './nav/NavUser'
 import DialogCloOptions from '@/include/dialogs/DialogCloOptions'
+import DialogSyllabusContent from '@/include/dialogs/DialogSyllabusContent'
 
 export default {
   name: 'navigation',
   components: {
     NavUser,
-    DialogCloOptions
+    DialogCloOptions,
+    DialogSyllabusContent
   },
   data: () => ({
     logoutUrl: '/logout',
@@ -132,7 +134,8 @@ export default {
         header: 'Syllabus',
         auth: 1,
         items: [
-          { title: 'Curriculum', icon: 'description', tip: 'Curriculum', to: '/manage/curriculum' },
+          { title: 'Curriculum', icon: 'assignment', tip: 'Curriculum', to: '/manage/curriculum' },
+          { title: 'Content', icon: 'description', tip: 'Syllabus Content', click: 'syllabusContent' },
           { title: 'CLO Options', icon: 'settings', tip: 'CLO Options', click: 'cloOptions' }
         ]
       },
@@ -188,6 +191,11 @@ export default {
     cloOptions() {
       if (this.$refs.cloOptions) {
         this.$refs.cloOptions.show = true
+      }
+    },
+    syllabusContent() {
+      if (this.$refs.syllabusContent) {
+        this.$refs.syllabusContent.show = true
       }
     },
 

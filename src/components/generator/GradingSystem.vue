@@ -80,26 +80,14 @@
         :key="i"
         v-for="(item, i) in grading"
       >
-        <v-card>
-          <v-text-field
-            solo
-            flat
-            v-model="item.label"
-            prepend-icon="grade"
-            :append-icon-cb="() => { remove(i) }"
-            append-icon="close"
-            placeholder="Enter label (e.g. Midterm Exam, Final Exam)"
-          />
-          <v-divider/>
-          <div class="mr-3 pa-2">
-            <markdown-textarea
-              edit-on-click
-              v-model="item.text"
-              :placeholder="item.label ? 'Enter ' + item.label + ' here' : 'Enter grading here'"
-              t-add-class="my-big-textarea pa-2"
-            />
-          </div>
-        </v-card>
+        <simple-title-text-card
+          v-model="grading[i]"
+          :index="i"
+          @remove="remove"
+          icon="grade"
+          removable
+          placeholder="Enter label (e.g. Midterm Exam, Final Exam)"
+        />
       </v-flex>
     </v-layout>
   </template>
@@ -119,12 +107,12 @@
 </template>
 
 <script>
-import MarkdownTextarea from '@/include/MarkdownTextarea'
+import SimpleTitleTextCard from '@/include/SimpleTitleTextCard'
 
 export default {
   name: 'grading-system',
   components: {
-    MarkdownTextarea
+    SimpleTitleTextCard
   },
   props: {
     value: Array

@@ -3,7 +3,7 @@
   v-model="show"
   :persistent="true"
   transition="fade-transition"
-  width="640"
+  width="720"
   scrollable
 >
   <v-card v-if="show">
@@ -38,66 +38,31 @@
     <v-card-text>
       <v-form ref="form" v-model="form">
 
-        <template v-if="cloOptions.length">
-          <v-layout
-            row
-            align-baseline
+        <template v-if="syllabusContent">
+          <div
             :key="i"
-            v-for="(clo, i) in cloOptions"
+            v-for="(key, i) in Object.keys(syllabusContent)"
           >
-            <v-tooltip top>
-              <v-btn
-                icon
-                flat
-                small
-                color="error"
-                slot="activator"
-                @click="cloOptions.splice(i, 1)"
-                :disabled="loading || cloOptions.length == 1"
-              >
-                <v-icon small>close</v-icon>
-              </v-btn>
-              <span>Remove</span>
-            </v-tooltip>
-            
-            <v-layout
-              row
-              wrap
-              align-center
-            >
-              <v-flex xs12 sm4>
-                <v-text-field
-                  label="Symbol"
-                  v-model="clo.symbol"
-                  :disabled="loading"
-                  :rules="[$fRule('required')]"
-                  required
-                />
-              </v-flex>
-
-              <v-flex xs12 sm8>
-                <v-text-field
-                  label="Description"
-                  class="ml-1"
-                  v-model="clo.text"
-                  :disabled="loading"
-                  :rules="[$fRule('required')]"
-                  required
-                />
-              </v-flex>
-            </v-layout>
-
-          </v-layout>
+            <simple-title-text-card
+              v-model="syllabusContent"
+              :placeholder="'Enter ' + key"
+              :text="key"
+              :label="contentTitle[i].text"
+              :icon="contentTitle[i].icon"
+              :index="i"
+              fixed-title
+              class="mb-3"
+            />
+          </div>
 
           <v-layout>
             <div class="caption">
-              <em>This will be shown in CLO-PO mapping in Generator</em>
+              <em>This will be shown in Generator</em>
               <div>
                 <span>Last updated in</span>
                 <strong v-text="$moment.unix(lastUpdated).format('MMMM DD, YYYY h:mmA')"/>.
               </div>
             </div>
-            
           </v-layout>
 
         </template>
@@ -114,6 +79,7 @@
 
     <v-divider/>
     <v-card-actions>
+      <v-spacer/>
       <v-btn
         flat
         tabindex="0"
@@ -122,19 +88,10 @@
         @keypress.enter="show = false"
         v-text="'Cancel'"
       />
-      <v-spacer/>
-      <v-btn
-        outline
-        tabindex="0"
-        color="primary lighten-1"
-        @click="addItem"
-        @keypress.enter="addItem"
-        :disabled="loading"
-      >Add</v-btn>
       <v-btn
         color="primary lighten-1"
         tabindex="0"
-        :disabled="loading || !form || cloOptions.length == 0"
+        :disabled="loading || !form || syllabusContent.length == 0"
         @click="submit"
         @keypress.enter="submit"
         v-text="'Update'"
@@ -147,21 +104,46 @@
 
 <script>
 import ManageNoData from '@/include/ManageNoData'
+import SimpleTitleTextCard from '@/include/SimpleTitleTextCard'
 
 export default {
-  name: 'dialog-clo-options',
+  name: 'dialog-syllabus-content',
   components: {
-    ManageNoData
+    ManageNoData,
+    SimpleTitleTextCard
   },
   data: () => ({
-    url: '/settings/clo_options',
+    url: '/settings/syllabus_content',
     updateUrl: '/settings/update',
     show: null,
     loading: false,
     form: false,
 
-    cloOptions: [],
-    lastUpdated: null
+    syllabusContent: null,
+    lastUpdated: null,
+
+    contentTitle: [
+      {
+        icon: 'visibility',
+        text: 'Institution Vision Statement'
+      },
+      {
+        icon: 'done_all',
+        text: 'Institution Mission Statement'
+      },
+      {
+        icon: 'visibility',
+        text: 'Department Vision Statement'
+      },
+      {
+        icon: 'done_all',
+        text: 'Department Mission Statement'
+      },
+      {
+        icon: 'done_all',
+        text: 'Program Educational Objectives'
+      }
+    ]
   }),
 
   watch: {
@@ -171,13 +153,6 @@ export default {
   },
 
   methods: {
-    addItem() {
-      this.cloOptions.push({
-        symbol: null,
-        text: null
-      })
-    },
-
     fetch() {
       this.loading = true
       this.$http.post(this.url).then(res => {
@@ -185,8 +160,8 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-        this.cloOptions = res.data.cloOptions.content
-        this.lastUpdated = res.data.cloOptions.updated_at
+        this.syllabusContent = res.data.syllabusContent.content
+        this.lastUpdated = res.data.syllabusContent.updated_at
         this.loading = false
       }).catch(e => {
         console.error(e)
@@ -200,26 +175,26 @@ export default {
       }
 
       let data = new FormData()
-      data.append('name', 'cloOptions')
-      data.append('content', JSON.stringify(this.cloOptions))
+      data.append('name', 'syllabusContent')
+      data.append('content', JSON.stringify(this.syllabusContent))
 
       this.loading = true
       this.$http.post(this.updateUrl, data).then(res => {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-        this.$bus.$emit('snackbar--show', 'Updated CLO options.')
+        this.$bus.$emit('snackbar--show', 'Updated syllabus content.')
         this.loading = false
         this.show = false
       }).catch(e => {
         console.error(e)
-        this.$bus.$emit('snackbar--show', 'Unable to update CLO options.')
+        this.$bus.$emit('snackbar--show', 'Unable to update syllabus content.')
         this.loading = false
       })
     },
 
     clear() {
-      this.cloOptions = []
+      this.syllabusContent = null
     }
   }
 }
