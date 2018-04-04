@@ -37,15 +37,39 @@ class Assigns_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getRelated($id = NULL) {
+  public function getMyAssigns($id = NULL) {
     $this->db->from('assigns');
 
     if ($id) {
       $this->db
-        ->like('content', '"assigned":'.$id)
-        ->or_like('content', '"assigned":"'.$id.'"')
-        ->or_like('content', '"id":'.$id.',')
-        ->or_like('content', '"id":"'.$id.'",');
+        ->where("
+        (
+          content LIKE '%\"assigned\":{\"id\":$id%' OR
+          content LIKE '%\"assigned\":{\"id\":\"$id\"%'
+        )
+        ", NULL, FALSE);
+    }
+
+    $this->db
+      ->where('status !=', -1)
+      ->order_by('updated_at', 'DESC')
+      ->order_by('created_at', 'DESC');
+      
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+
+  public function getMyReviews($id = NULL) {
+    $this->db->from('assigns');
+
+    if ($id) {
+      $this->db
+        ->where("
+        (
+          content LIKE '%\"levels\"%\"id\":$id%' OR
+          content LIKE '%\"levels\"%\"id\":\"$id\"%'
+        )
+        ", NULL, FALSE);
     }
 
     $this->db

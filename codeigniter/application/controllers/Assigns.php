@@ -15,8 +15,19 @@ class Assigns extends MY_Custom_Controller {
   }
   
   public function my() {
-    $id = $this->session->userdata('user')['id'];
-    $assigns = $this->assigns_model->getRelated($id);
+    $id = $this->input->post('id')
+      ? $this->input->post('id')
+      : $this->session->userdata('user')['id'];
+    $assigns = $this->assigns_model->getMyAssigns($id);
+    $assigns = $this->_createAssigns($assigns);
+    $this->_json(TRUE, 'assigns', $assigns);
+  }
+  
+  public function my_reviews() {
+    $id = $this->input->post('id')
+      ? $this->input->post('id')
+      : $this->session->userdata('user')['id'];
+    $assigns = $this->assigns_model->getMyReviews($id);
     $assigns = $this->_createAssigns($assigns);
     $this->_json(TRUE, 'assigns', $assigns);
   }

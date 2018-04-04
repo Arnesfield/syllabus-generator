@@ -107,9 +107,16 @@ export default {
       },
       {
         header: '',
-        auth: [3, 4, 5],
+        auth: 3,
         items: [
           { title: 'Assignments', icon: 'assignment', to: '/assignments' }
+        ]
+      },
+      {
+        header: '',
+        auth: 5,
+        items: [
+          { title: 'Reviews', icon: 'rate_review', to: '/reviews' }
         ]
       },
       {

@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
 import Assignments from '@/components/Assignments'
+import Reviews from '@/components/Reviews'
 import Workflow from '@/components/Workflow'
 import Syllabus from '@/components/Syllabus'
 
@@ -72,8 +73,17 @@ export default new Router({
       name: 'Assignments',
       component: Assignments,
       meta: {
-        auth: [3, 4, 5],
+        auth: 3,
         icon: 'assignment'
+      }
+    },
+    {
+      path: '/reviews',
+      name: 'Reviews',
+      component: Reviews,
+      meta: {
+        auth: 5,
+        icon: 'rate_review'
       }
     },
     {
