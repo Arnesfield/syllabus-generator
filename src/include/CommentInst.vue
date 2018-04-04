@@ -7,12 +7,17 @@
       :item="item.user"
       color="primary"
     />
-    <div class="subheader">
+    <div class="subheader" style="height: auto">
       <div>
         <div class="subheading black--text">
           <template>{{ $wrap.fullname(item.user) }}</template>
           <add-me :id="item.user.id"/>
         </div>
+        <div
+          class="caption grey--text text--darken-1"
+          v-if="item.user.title"
+          v-text="item.user.title"
+        />
         <div
           class="caption grey--text"
           v-text="$moment.unix(item.created_at).format('MM/DD/YY h:mmA')"

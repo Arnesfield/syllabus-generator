@@ -37,6 +37,7 @@ class Assigns extends MY_Custom_Controller {
     $assignId = $this->input->post('assignId');
     $value = $this->input->post('value');
     $plevel = $this->input->post('level');
+    $syllabusContent = $this->input->post('syllabus');
 
     $assigns = $this->assigns_model->get($assignId);
 
@@ -48,6 +49,7 @@ class Assigns extends MY_Custom_Controller {
     // check if uid exists in assign inst
 
     $assign = $assigns[0];
+    $assign_id = $assign['id'];
     $content = json_decode($assign['content'], TRUE);
     $assigned_id = $content['assigned']['id'];
 
@@ -83,6 +85,17 @@ class Assigns extends MY_Custom_Controller {
     $status = 2;
     if ($reject) { $status = 0; }
     else if ($accept) { $status = 1; }
+
+    // before approval, update syllabus
+    $this->load->model('syllabi_model');
+    $res = $this->syllabi_model->update(
+      array('content' => $syllabusContent),
+      array('assign_id' => $assign_id)
+    );
+
+    if (!$res) {
+      $this->_json(FALSE);
+    }
 
     $content = json_encode($content);
 

@@ -75,6 +75,7 @@
           <v-tab-item>
             <syllabus-preview
               :syllabus="syllabus"
+              :assign="assign"
               @submit="submit"
             />
           </v-tab-item>
@@ -499,6 +500,7 @@ export default {
           this.syllabusContent = res.data.syllabusContent
         } else {
           this.resetData()
+          this.allowEdit = false
           this.$bus.$emit('snackbar--show', msg || 'You cannot edit a submitted syllabus.')
         }
 

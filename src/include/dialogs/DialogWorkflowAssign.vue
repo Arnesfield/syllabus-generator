@@ -66,6 +66,7 @@
               :index="i"
               v-model="item.levels[i]"
               :loading="loading"
+              :is-last="item.levels.length-1 === i"
             />
           </v-tab-item>
         </v-tabs-items>
@@ -143,9 +144,9 @@
           icon
           :dark="valid"
           tabindex="0"
-          :color="valid ? 'primary lighten-1' : 'grey lighten-2'"
+          :color="form && valid ? 'primary lighten-1' : 'grey lighten-2'"
           slot="activator"
-          :disabled="loading || !valid"
+          :disabled="loading || !form || !valid"
           @click="submit"
           @keypress.enter="submit"
         >

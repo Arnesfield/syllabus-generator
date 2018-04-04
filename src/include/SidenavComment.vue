@@ -105,41 +105,43 @@
           >You <strong>disapproved</strong> this syllabus.</template>
         </v-alert>
         
-        <v-layout
-          class="mb-2"
-          v-if="Boolean(myStatus[i]) && revealAction && !revealAction[i]"
-        >
-          <v-btn
-            block
-            color="grey lighten-3"
-            :disabled="loading"
-            @click="$set(revealAction, i, true)"
-          >Change choice</v-btn>
-        </v-layout>
-        <v-layout v-if="revealAction && revealAction[i] && allowAction[i]" class="mb-2">
-          <v-btn
-            block
-            color="success"
-            class="mr-1"
-            :disabled="loading"
-            @click="doAction(1, i)"
-            @keypress.enter="doAction(1, i)"
+        <template v-if="assign.status != 1">
+          <v-layout
+            class="mb-2"
+            v-if="Boolean(myStatus[i]) && revealAction && !revealAction[i]"
           >
-            <v-icon>check</v-icon>
-            <span>Approve</span>
-          </v-btn>
-          <v-btn
-            block
-            color="error"
-            class="ml-1"
-            :disabled="loading"
-            @click="doAction(0, i)"
-            @keypress.enter="doAction(0, i)"
-          >
-            <v-icon>close</v-icon>
-            <span>Disapprove</span>
-          </v-btn>
-        </v-layout>
+            <v-btn
+              block
+              color="grey lighten-3"
+              :disabled="loading"
+              @click="$set(revealAction, i, true)"
+            >Change choice</v-btn>
+          </v-layout>
+          <v-layout v-if="revealAction && revealAction[i] && allowAction[i]" class="mb-2">
+            <v-btn
+              block
+              color="success"
+              class="mr-1"
+              :disabled="loading"
+              @click="doAction(1, i)"
+              @keypress.enter="doAction(1, i)"
+            >
+              <v-icon>check</v-icon>
+              <span>Approve</span>
+            </v-btn>
+            <v-btn
+              block
+              color="error"
+              class="ml-1"
+              :disabled="loading"
+              @click="doAction(0, i)"
+              @keypress.enter="doAction(0, i)"
+            >
+              <v-icon>close</v-icon>
+              <span>Disapprove</span>
+            </v-btn>
+          </v-layout>
+        </template>
 
         <!-- do not show this if not part of reviewers or assigned -->
         <v-card class="mb-2 non-clickable" hover v-if="allowComment[i] && comment">
@@ -194,6 +196,7 @@
 
 <script>
 import qs from 'qs'
+import find from 'lodash/find'
 import BtnRefresh from '@/include/BtnRefresh'
 import CommentInst from '@/include/CommentInst'
 import ManageNoData from '@/include/ManageNoData'
@@ -201,7 +204,9 @@ import ManageNoData from '@/include/ManageNoData'
 export default {
   name: 'sidenav-comment',
   props: {
-    assignId: [Number, String]
+    assignId: [Number, String],
+    value: Object,
+    syllabus: Object
   },
   components: {
     BtnRefresh,
@@ -217,6 +222,7 @@ export default {
     tabs: 0,
 
     assign: null,
+    dSyllabus: null,
     allowComment: [],
     allowAction: [],
     myStatus: [],
@@ -229,8 +235,21 @@ export default {
     loading(e) {
       this.$bus.refresh(e)
     },
+    value(e) {
+      this.assign = e
+    },
     assign(e) {
+      this.$emit('input', e)
       this.setInitial()
+    },
+    syllabus(e) {
+      this.dSyllabus = e
+    },
+    dSyllabus: {
+      deep: true,
+      handler(e) {
+        this.$emit('update:syllabus', e)
+      }
     },
     comment(to, from) {
       // loop through comment
@@ -269,14 +288,14 @@ export default {
   },
 
   created() {
+    this.assign = this.value
+    this.dSyllabus = this.syllabus
     this.$bus.$on('refresh--btn', this.fetch)
-    this.$bus.$on('syllabus--info.show', this.infoShow)
     this.setInitial()
     this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('refresh--btn', this.fetch)
-    this.$bus.$off('syllabus--info.show', this.infoShow)
   },
 
   methods: {
@@ -285,18 +304,13 @@ export default {
         this.tabs = '0'
         return
       }
-      this.tabs = String(this.$bus.checkLevels(this.levels))
+      this.$nextTick(() => {
+        this.tabs = String(this.$bus.checkLevels(this.levels))
+      })
     },
 
     getComments(i) {
       return this.comments.filter(e => e.level == i)
-    },
-
-    infoShow() {
-      if (!this.assign) {
-        return
-      }
-      this.$bus.$emit('dialog--detailed-workflow.show', this.assign)
     },
 
     alertProp(i) {
@@ -334,11 +348,18 @@ export default {
       let snackSuccessMsg = value == 1 ? 'Syllabus approved.' : 'Syllabus disapproved.'
       let snackErrorMsg = value == 1 ? 'Unable to approve syllabus.' : 'Unable to disapprove syllabus.'
 
+      let uid = this.$bus.session.user.id
+      let levels = this.assign.content.levels
+      let user = find(levels[i], (e) => e.id == uid)
+      let oldValue = user.status
+      user.status = value
+
       this.loading = true
       this.$http.post(this.approvalActionUrl, qs.stringify({
         assignId: this.assignId,
         value: value,
-        level: i
+        level: i,
+        syllabus: JSON.stringify(this.dSyllabus.content)
       })).then(res => {
         console.warn(res.data)
         if (!res.data.success) {
@@ -351,6 +372,7 @@ export default {
       }).catch(e => {
         console.error(e)
         this.loading = false
+        user.status = oldValue
         this.$bus.$emit('snackbar--show', {
           text: snackErrorMsg,
           btns: {

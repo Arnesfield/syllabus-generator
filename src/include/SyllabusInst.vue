@@ -1,5 +1,5 @@
 <template>
-<div v-if="value">
+<div v-if="syllabus">
 
   <iframe
     v-if="dPdf && encoded"
@@ -387,79 +387,26 @@
         </tr>
         <tr>
           <td>
-            <br>
-            <br>
+            <br><br><br>
             
-            <div class="text-xs-center">
-              <template
-                v-if="c.facultyInCharge.name"
-              >{{ c.facultyInCharge.name }}</template>
-              <template v-else>_____________________</template>
-            </div>
-            <div class="text-xs-center">
-              <template
-                v-if="c.facultyInCharge.position"
-              >{{ c.facultyInCharge.position }}</template>
-              <template v-else>Faculty-In-Charge</template>
-            </div>
+            <div
+              class="text-xs-center underline"
+              v-text="$wrap.fullname(c.facultyInCharge)"
+            />
+            <div class="text-xs-center">Faculty-In-Charge</div>
             
-            <br>
-            <br>
-
-            <div>Evaluated by:</div>
-
-            <br>
-            <br>
-
-            <div class="text-xs-center">
-              <template
-                v-if="c.evaluatedBy.name"
-              >{{ c.evaluatedBy.name }}</template>
-              <template v-else>_____________________</template>
-            </div>
-            <div class="text-xs-center">
-              <template
-                v-if="c.evaluatedBy.position"
-              >{{ c.evaluatedBy.position }}</template>
-              <template v-else>Coordinator</template>
-            </div>
-
-            <br>
-            <br>
-
+            <br><br>
+            
           </td>
 
-          <td>
-            <template v-if="c.approvedBy">
-              <template v-for="(by, i) in c.approvedBy">
-                <br :key="'br1-' + i">
-                <br :key="'br2-' + i">
-
-                <div
-                  :key="'name-' + i"
-                  class="text-xs-center"
-                >
-                  <template
-                    v-if="by.name"
-                  >{{ by.name }}</template>
-                  <template v-else>_____________________</template>
-                </div>
-                <div
-                  :key="'position-' + i"
-                  class="text-xs-center"
-                >
-                  <template
-                    v-if="by.position"
-                  >{{ by.position }}</template>
-                  <template v-else>Director</template>
-                </div>
-              </template>
-            </template>
+          <td rowspan="3">
+            <br><br><br>
+            <syllabus-users :levels="approvedBy"/>
+            <br><br>
           </td>
 
-          <td>
-            <br>
-            <br>
+          <td rowspan="3">
+            <br><br>
 
             <div class="text-xs-center">Version</div>
             <div
@@ -467,8 +414,7 @@
               class="text-xs-center"
             >syllabus.version</div>
 
-            <br>
-            <br>
+            <br><br>
 
             <div class="text-xs-center">Date Modified:</div>
             <div
@@ -482,6 +428,17 @@
 
           </td>
 
+        </tr>
+        <tr>
+          <th class="th-left">Evaluated by:</th>
+        </tr>
+        <tr>
+          <br><br><br>
+          <syllabus-users
+            :levels="evaluatedBy"
+            :filter="(e) => e.status != 2"
+          />
+          <br><br>
         </tr>
       </table>
 
@@ -499,6 +456,7 @@
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import CourseUnits from '@/include/CourseUnits'
+import SyllabusUsers from '@/include/SyllabusUsers'
 import DialogLoading from '@/include/dialogs/DialogLoading'
 import CurriculumView from '@/include/CurriculumView'
 
@@ -506,14 +464,13 @@ export default {
   name: 'syllabus-inst',
   components: {
     CourseUnits,
+    SyllabusUsers,
     DialogLoading,
     CurriculumView
   },
   props: {
-    syllabus: {
-      type: Object,
-      default: null
-    },
+    value: Object,
+    assign: Object,
     pdf: {
       type: Boolean,
       default: false
@@ -528,7 +485,7 @@ export default {
     }
   },
   data: () => ({
-    value: null,
+    syllabus: null,
     encoded: null,
     pages: {
       1: null,
@@ -547,12 +504,13 @@ export default {
     dPdf(e) {
       this.$emit('update:pdf', e)
     },
+    value(e) {
+      this.syllabus = e
+    },
     syllabus: {
       deep: true,
       handler(e) {
-        if (e !== null) {
-          this.value = e
-        }
+        this.$emit('input', e)
       }
     },
     pages: {
@@ -571,15 +529,40 @@ export default {
   },
 
   created() {
-    if (this.syllabus) {
-      this.value = this.syllabus
-    }
+    this.syllabus = this.value
     this.dPdf = this.pdf
   },
 
   computed: {
     c() {
-      return this.value ? this.value.content : null
+      return this.syllabus ? this.syllabus.content : null
+    },
+
+    evaluatedBy() {
+      let evaluatedBy = []
+      if (this.assign.status == 1) {
+        evaluatedBy = this.syllabus.content.evaluatedBy
+      } else {
+        evaluatedBy = this.assign.content.levels.reduce((filtered, e, i) => {
+          let length = this.assign.content.levels.length
+          if (length != 1 && length-1 > i) {
+            filtered.push(e)
+          }
+          return filtered
+        }, [])
+        this.$set(this.syllabus.content, 'evaluatedBy', evaluatedBy)
+      }
+      return evaluatedBy
+    },
+    approvedBy() {
+      let approvedBy = []
+      if (this.assign.status == 1) {
+        approvedBy = this.syllabus.content.approvedBy
+      } else {
+        approvedBy = [this.assign.content.levels[this.assign.content.levels.length-1]]
+        this.$set(this.syllabus.content, 'approvedBy', approvedBy)
+      }
+      return approvedBy
     }
   },
 

@@ -5,17 +5,22 @@
   } : null"
 >
 
-  <template v-if="syllabus">
+  <template v-if="syllabus && assign">
     <syllabus-inst
       ref="syllabusInst"
-      :syllabus="syllabus"
+      :assign="assign"
+      v-model="syllabus"
       style="margin: 0 auto"
       :pdf.sync="pdf"
       standardHeight="calc(100vh - 112px)"
       pdfHeight="calc(100vh - 112px)"
     />
-    <sidenav-comment :assignId="assignId"/>
   </template>
+  <sidenav-comment
+    v-model="assign"
+    :assignId="assignId"
+    :syllabus="syllabus"
+  />
 
   <v-container
     fluid
@@ -60,6 +65,7 @@ export default {
   data: () => ({
     url: '/syllabus',
     viewLogUrl: '/logs/addWorkflow',
+    assign: null,
     syllabus: null,
     pdf: false,
 
@@ -69,6 +75,7 @@ export default {
   watch: {
     assignId(to, from) {
       if (to !== null) {
+        this.assign = null
         this.syllabus = null
         this.pdf = false
         this.fetch()
@@ -79,6 +86,7 @@ export default {
   created() {
     this.$bus.$on('refresh--btn', this.fetch)
     this.$bus.$on('syllabus--pdf.toggle', this.pdfToggle)
+    this.$bus.$on('syllabus--info.show', this.infoShow)
     this.fetch(this.insertViewLog)
     // reset
     this.$bus.toolbar.comments.pdf = false
@@ -86,6 +94,7 @@ export default {
   beforeDestroy() {
     this.$bus.$off('refresh--btn', this.fetch)
     this.$bus.$off('syllabus--pdf.toggle', this.pdfToggle)
+    this.$bus.$off('syllabus--info.show', this.infoShow)
     this.$bus.toolbar.titleContent = null
   },
 
@@ -96,6 +105,13 @@ export default {
         content: 'viewed this syllabus.',
         type: 'view'
       }))
+    },
+
+    infoShow() {
+      if (!this.assign) {
+        return
+      }
+      this.$bus.$emit('dialog--detailed-workflow.show', this.assign)
     },
 
     pdfToggle() {
@@ -118,6 +134,7 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
+        this.assign = res.data.assign
         this.syllabus = res.data.syllabus
         this.$bus.toolbar.titleContent = this.syllabus.content.course.code
         if (typeof cb === 'function') {

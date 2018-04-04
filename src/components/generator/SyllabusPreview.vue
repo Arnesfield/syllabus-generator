@@ -4,7 +4,8 @@
   <div>
     <syllabus-inst
       ref="syllabusInst"
-      :syllabus="syllabus"
+      :assign="assign"
+      v-model="syllabus"
       style="margin: 0 auto"
       standardHeight="calc(100vh - 260px)"
       pdfHeight="calc(100vh - 264px)"
@@ -53,7 +54,8 @@ export default {
     SyllabusInst
   },
   props: {
-    syllabus: Object
+    syllabus: Object,
+    assign: Object
   },
   data: () => ({
     pdf: false

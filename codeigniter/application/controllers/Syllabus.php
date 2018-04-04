@@ -25,6 +25,12 @@ class Syllabus extends MY_Custom_Controller {
       $this->_json(FALSE);
     }
 
+    $syllabi = $this->syllabi_model->getByAssignId($assignId);
+
+    if (!$syllabi) {
+      $this->_json(FALSE);
+    }
+
     $allow_viewing = FALSE;
     $content = json_decode($assign['content'], TRUE);
     
@@ -54,14 +60,13 @@ class Syllabus extends MY_Custom_Controller {
       $this->_json(FALSE);
     }
 
-    $syllabi = $this->syllabi_model->getByAssignId($assignId);
-
-    if (!$syllabi) {
-      $this->_json(FALSE);
-    }
-
+    // also include the assign
+    $assign = $this->_createAssigns($assigns)[0];
     $syllabus = $this->_formatSyllabi($syllabi)[0];
-    $this->_json(TRUE, 'syllabus', $syllabus);
+    $this->_json(TRUE, array(
+      'syllabus' => $syllabus,
+      'assign' => $assign
+    ));
   }
 }
 

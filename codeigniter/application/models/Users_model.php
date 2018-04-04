@@ -34,8 +34,9 @@ class Users_model extends MY_Custom_Model {
             LOWER(fname) LIKE '%$search%' OR
             LOWER(mname) LIKE '%$search%' OR
             LOWER(lname) LIKE '%$search%' OR
-            LOWER(username) LIKE '%$search%'
-          ) OR MATCH(fname, mname, lname, username) AGAINST ('*$search*' IN BOOLEAN MODE)
+            LOWER(username) LIKE '%$search%' OR
+            LOWER(title) LIKE '%$search%'
+          ) OR MATCH(fname, mname, lname, username, title) AGAINST ('*$search*' IN BOOLEAN MODE)
         )
       ", NULL, FALSE);
     }

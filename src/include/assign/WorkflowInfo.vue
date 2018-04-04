@@ -35,6 +35,7 @@
         "
         :persistent-hint="!levels || levels < 1"
         :disabled="loading"
+        :rules="[$fRule('min', null, 2), $fRule('max', null, 30)]"
       />
     </v-flex>
   </v-layout>
@@ -79,7 +80,12 @@
             <span>Edit</span>
           </v-tooltip>
 
-          <v-subheader class="pl-0">{{ selectedCourse.code }}</v-subheader>
+          <v-subheader class="pl-0">
+            <div>
+              <div v-html="selectedCourse.code"/>
+              <div class="caption" v-html="selectedCourse.title"/>
+            </div>
+          </v-subheader>
 
         </v-layout>
       </template>
@@ -133,10 +139,18 @@
             caption
           />
 
-          <v-subheader
-            class="pl-2"
-          >{{ $wrap.fullname(selectedUser) }}&nbsp;
-            <add-me :id="selectedUser.id"/>
+          <v-subheader>
+            <div>
+              <div>
+                <span v-text="$wrap.fullname(selectedUser)"/>
+                <add-me :id="selectedUser.id"/>
+              </div>
+              <div
+                class="caption"
+                v-if="selectedUser.title"
+                v-html="selectedUser.title"
+              />
+            </div>
           </v-subheader>
 
         </v-layout>
@@ -330,12 +344,19 @@
           size="32"
           caption
         />
-        <div
-          class="subheader pl-3"
-          :class="{ 'primary--text text--lighten-1': props.isSelected }"
-        >{{ $wrap.fullname(props.item) }}&nbsp;
-          <add-me :id="props.item.id"/>
-        </div>
+        <v-subheader>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
+            <div>
+              <span v-text="$wrap.fullname(props.item)"/>
+              <add-me :id="props.item.id"/>
+            </div>
+            <div
+              class="caption"
+              v-if="props.item.title"
+              v-html="props.item.title"
+            />
+          </div>
+        </v-subheader>
       </v-layout>
     </select-list>
 
@@ -358,20 +379,25 @@
         slot-scope="props"
         align-center
       >
-        <span class="pl-2">
-          <icon-img
-            :item="props.item"
-            color="primary lighten-1"
-            size="32"
-            caption
-          />
-        </span>
-        <div
-          class="subheader pl-3"
-          :class="{ 'primary--text text--lighten-1': props.isSelected }"
-        >{{ $wrap.fullname(props.item) }}&nbsp;
-          <add-me :id="props.item.id"/>
-        </div>
+        <icon-img
+          :item="props.item"
+          color="primary lighten-1"
+          size="32"
+          caption
+        />
+        <v-subheader>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
+            <div>
+              <span v-text="$wrap.fullname(props.item)"/>
+              <add-me :id="props.item.id"/>
+            </div>
+            <div
+              class="caption"
+              v-if="props.item.title"
+              v-html="props.item.title"
+            />
+          </div>
+        </v-subheader>
       </v-layout>
     </select-list>
 
@@ -464,7 +490,7 @@ export default {
       }
     },
     levels(e) {
-      if (!e || e < 1) {
+      if (!e || e < 2 || e > 30) {
         // this.levels = 1
         return
       }

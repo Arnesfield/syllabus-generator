@@ -111,6 +111,17 @@ table.no-outside-border th {
   border: 1px solid #ccc;
 }
 
+.underline {
+  /* text-decoration: underline; */
+  border-bottom: 1px solid black;
+  width: fit-content;
+  max-width: 256px;
+  margin: 0 auto;
+}
+
+.overline {
+  text-decoration: overline;
+}
 
 /* override */
 .multi-line-textarea textarea {

@@ -1,9 +1,21 @@
 <template>
 <div>
   
-  <v-subheader>Level {{ index+1 }}</v-subheader>
+  <v-subheader>
+    <div>
+      <div>Level {{ index+1 }}</div>
+      <em class="caption grey--text">
+        <span>Note: Users' feedback of this level will be shown in the</span>
+        <strong class="warning--text">
+          <template v-if="isLast">Approved by</template>
+          <template v-else>Evaluated by</template>
+        </strong>
+        <span>section in the syllabus.</span>
+      </em>
+    </div>
+  </v-subheader>
 
-  <div class="px-2 pb-2">
+  <div class="px-2 pb-2 mt-2">
     <v-list class="elevation-1 py-0" two-line>
       <v-list-tile
         ripple
@@ -19,7 +31,7 @@
               @click="dialog = true"
               :disabled="loading"
             >
-              <v-icon>add</v-icon>
+              <v-icon>person</v-icon>
             </v-btn>
             <span>Add user</span>
           </v-tooltip>
@@ -34,7 +46,7 @@
         <v-layout
           :key="'layout-' + i"
           align-center
-          class="pr-2"
+          class="pr-2 py-1"
         >
           <v-tooltip top>
             <v-btn
@@ -56,11 +68,19 @@
             size="32"
             caption
           />
-          <div
-            class="subheader pl-3"
-          >{{ $wrap.fullname(selected[i]) }}&nbsp;
-            <add-me :id="selected[i].id"/>
-          </div>
+          <v-subheader>
+            <div>
+              <div>
+                <span v-text="$wrap.fullname(selected[i])"/>
+                <add-me :id="selected[i].id"/>
+              </div>
+              <div
+                class="caption"
+                v-if="selected[i].title"
+                v-html="selected[i].title"
+              />
+            </div>
+          </v-subheader>
         </v-layout>
       </template>
     </v-list>
@@ -73,7 +93,7 @@
       @click="dialog = true"
       :disabled="loading"
     >
-      <v-icon>add</v-icon>
+      <v-icon>person</v-icon>&nbsp;
       <span>Add User</span>
     </v-btn>
   </v-layout>
@@ -122,17 +142,24 @@
         align-center
       >
         <icon-img
-          :item="selected[props.index]"
+          :item="props.item"
           color="primary lighten-1"
           size="32"
           caption
         />
-        <div
-          class="subheader pl-3"
-          :class="{ 'primary--text text--lighten-1': props.isSelected }"
-        >{{ $wrap.fullname(selected[props.index]) }}&nbsp;
-          <add-me :id="selected[props.index].id"/>
-        </div>
+        <v-subheader>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
+            <div>
+              <span v-text="$wrap.fullname(props.item)"/>
+              <add-me :id="props.item.id"/>
+            </div>
+            <div
+              class="caption"
+              v-if="props.item.title"
+              v-html="props.item.title"
+            />
+          </div>
+        </v-subheader>
       </v-layout>
     </select-list>
 
@@ -153,20 +180,25 @@
         slot-scope="props"
         align-center
       >
-        <span class="pl-2">
-          <icon-img
-            :item="props.item"
-            color="primary lighten-1"
-            size="32"
-            caption
-          />
-        </span>
-        <div
-          class="subheader pl-3"
-          :class="{ 'primary--text text--lighten-1': props.isSelected }"
-        >{{ $wrap.fullname(props.item) }}&nbsp;
-          <add-me :id="props.item.id"/>
-        </div>
+        <icon-img
+          :item="props.item"
+          color="primary lighten-1"
+          size="32"
+          caption
+        />
+        <v-subheader>
+          <div :class="{ 'primary--text text--lighten-1': props.isSelected }">
+            <div>
+              <span v-text="$wrap.fullname(props.item)"/>
+              <add-me :id="props.item.id"/>
+            </div>
+            <div
+              class="caption"
+              v-if="props.item.title"
+              v-html="props.item.title"
+            />
+          </div>
+        </v-subheader>
       </v-layout>
     </select-list>
 
@@ -193,6 +225,10 @@ export default {
     value: Object,
     index: [String, Number],
     loading: {
+      type: Boolean,
+      default: false
+    },
+    isLast: {
       type: Boolean,
       default: false
     }

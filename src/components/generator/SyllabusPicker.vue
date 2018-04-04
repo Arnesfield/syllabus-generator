@@ -262,14 +262,8 @@ export default {
           departmentMission: null,
           programEducationalObjectives: null,
 
-          facultyInCharge: {
-            name: this.$wrap.fullname(this.$bus.session.user),
-            position: null
-          },
-          evaluatedBy: {
-            name: null,
-            position: null
-          },
+          facultyInCharge: this.$bus.session.user,
+          evaluatedBy: [],
           approvedBy: [],
 
           bookReferences: [],
