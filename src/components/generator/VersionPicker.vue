@@ -22,7 +22,7 @@
           dark
           :class="{
             blue: versionType != 0,
-            warning: versionType == 0
+            orange: versionType == 0
           }"
           :selected="versionType == 0"
           @click.native="versionType = 0"
@@ -55,7 +55,7 @@
           dark
           :class="{
             'blue darken-1': versionType != 1,
-            warning: versionType == 1
+            orange: versionType == 1
           }"
           :selected="versionType == 1"
           @click.native="versionType = 1"
