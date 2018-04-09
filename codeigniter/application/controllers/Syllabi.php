@@ -21,7 +21,7 @@ class Syllabi extends MY_Custom_Controller {
     }
     
     if ($noEmpty) {
-      $where['version'] = '';
+      $where['version !='] = '';
     }
 
     $syllabi = $this->syllabi_model->getByQuery($search, $where);
@@ -31,7 +31,9 @@ class Syllabi extends MY_Custom_Controller {
 
   public function suggest() {
     // suggest the latest, duh
-    $syllabi = $this->syllabi_model->getLatest();
+    $courseId = $this->input->post('courseId');
+    $where = array('course_id' => $courseId);
+    $syllabi = $this->syllabi_model->getLatest($where);
     $syllabi = $this->_formatSyllabi($syllabi);
     $this->_json(TRUE, 'syllabi', $syllabi);
   }

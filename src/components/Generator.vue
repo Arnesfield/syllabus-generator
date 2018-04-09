@@ -7,7 +7,7 @@
     height: $bus.tabs.Generator.tabs ? 'calc(100% - 96px)' : 'calc(100% - 64px)'
   } : null"
   class="smooth-padding"
-  :class="{ 'pa-0': fabNextStateSubmit }"
+  :class="{ 'pa-0': noPadding }"
 >
 
   <template v-if="allowEdit && course">
@@ -67,7 +67,15 @@
           <!-- grading -->
 
           <v-tab-item>
-            <grading-system v-model="syllabus.content.gradingSystem"/>
+            <grading-system
+              v-model="syllabus.content.gradingSystem"
+              :course-id="course.id"
+            />
+          </v-tab-item>
+
+          <!-- version -->
+          <v-tab-item class="full-height">
+            <version-picker v-model="syllabus.content.versionType"/>
           </v-tab-item>
 
           <!-- preview -->
@@ -163,6 +171,7 @@ import BookPicker from '@/components/generator/BookPicker'
 import CloView from '@/components/generator/CloView'
 import ActivityManager from '@/components/generator/ActivityManager'
 import GradingSystem from '@/components/generator/GradingSystem'
+import VersionPicker from '@/components/generator/VersionPicker'
 import SyllabusPreview from '@/components/generator/SyllabusPreview'
 
 export default {
@@ -180,6 +189,7 @@ export default {
     CloView,
     ActivityManager,
     GradingSystem,
+    VersionPicker,
     SyllabusPreview
   },
   props: {
@@ -201,7 +211,8 @@ export default {
       course: ['course'],
       syllabi: ['course', 'syllabi'],
       noCurriculum: ['course', 'syllabi', 'books', 'curriculum'],
-      all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'grading', 'done']
+      noVersion: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'grading', 'version'],
+      all: ['course', 'syllabi', 'books', 'curriculum', 'clo', 'activities', 'grading', 'version', 'preview']
     },
 
     loading: false,
@@ -211,6 +222,9 @@ export default {
   computed: {
     fabNextStateSubmit() {
       return this.tabs.all.length-1 == this.$bus.tabs.Generator.tab
+    },
+    noPadding() {
+      return this.tabs.all.length-2 <= this.$bus.tabs.Generator.tab
     },
     fabNextStateLast() {
       return this.$bus.tabs.Generator.items.length-1 == this.$bus.tabs.Generator.tab
@@ -302,7 +316,10 @@ export default {
             s.content.programOutcomes &&
             s.content.programOutcomes.content
           ) {
-            this.$bus.tabs.Generator.items = this.tabs.all
+            this.$bus.tabs.Generator.items =
+              typeof s.content.versionType === 'undefined' || s.content.versionType === null
+              ? this.tabs.noVersion
+              : this.tabs.all
           } else {
             this.$bus.tabs.Generator.items = this.tabs.noCurriculum
           }

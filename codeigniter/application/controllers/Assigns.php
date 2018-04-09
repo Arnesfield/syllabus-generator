@@ -38,6 +38,7 @@ class Assigns extends MY_Custom_Controller {
     $value = $this->input->post('value');
     $plevel = $this->input->post('level');
     $syllabusContent = $this->input->post('syllabus');
+    $versionType = $this->input->post('versionType');
 
     $assigns = $this->assigns_model->get($assignId);
 
@@ -83,15 +84,40 @@ class Assigns extends MY_Custom_Controller {
     $accept = array_search(2, $all_status) === FALSE;
 
     $status = 2;
-    if ($reject) { $status = 0; }
-    else if ($accept) { $status = 1; }
+    $syllabi_data = array('content' => $syllabusContent);
+
+    $this->load->model('syllabi_model');
+
+    if ($reject) {
+      $status = 0;
+      $syllabi_data['version'] = '';
+    }
+    else if ($accept) {
+      // fetch latest here and increment based on syllabus content
+      $where = array('course_id' => $content['course']);
+      $latest_syllabi = $this->syllabi_model->getLatest($where);
+
+      // default
+      $version = '1.0';
+      if ($latest_syllabi) {
+        $syllabus_version = $latest_syllabi[0]['version'];
+        // major and minor
+        if ($versionType == 0) {
+          $version = $this->_getMajor($syllabus_version);
+        } else if ($versionType == 1) {
+          $version = $this->_getMinor($syllabus_version);
+        }
+      }
+
+      // set
+      $syllabi_data['version'] = $version;
+
+      $status = 1;
+    }
 
     // before approval, update syllabus
-    $this->load->model('syllabi_model');
-    $res = $this->syllabi_model->update(
-      array('content' => $syllabusContent),
-      array('assign_id' => $assign_id)
-    );
+    $syllabi_where = array('assign_id' => $assign_id);
+    $res = $this->syllabi_model->update($syllabi_data, $syllabi_where);
 
     if (!$res) {
       $this->_json(FALSE);

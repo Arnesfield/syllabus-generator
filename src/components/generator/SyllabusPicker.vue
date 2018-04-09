@@ -41,32 +41,38 @@
       </v-list-tile>
 
       <!-- show suggested here -->
-      
-      <v-list-tile
-        ripple
-        @click="selected = suggested"
-        v-if="suggested && (!selected || suggested.id != selected.id)"
-      >
-        <v-list-tile-action class="thin-action">
-          <v-tooltip top>
-            <v-btn
-              icon
-              flat
-              slot="activator"
-              color="primary"
-              @click="selected = suggested"
-            >
-              <v-icon>new_releases</v-icon>
-            </v-btn>
-            <span>Select suggested</span>
-          </v-tooltip>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="suggested.version"/>
-          <v-list-tile-sub-title v-text="'Suggested latest version'"/>
-        </v-list-tile-content>
-      </v-list-tile>
-        
+      <template v-if="suggested && (!selected || suggested.id != selected.id)">
+        <v-divider/>
+        <v-list-tile
+          ripple
+          @click="selected = suggested"
+        >
+          <v-list-tile-action class="thin-action">
+            <v-tooltip top>
+              <v-btn
+                icon
+                flat
+                slot="activator"
+                color="warning"
+                @click="selected = suggested"
+              >
+                <v-icon>new_releases</v-icon>
+              </v-btn>
+              <span>Select suggested</span>
+            </v-tooltip>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title
+              class="warning--text"
+              v-text="suggested.version"
+            />
+            <v-list-tile-sub-title>
+              <span>Use the latest version. Last updated in</span>
+              <strong v-text="$moment.unix(suggested.updated_at).format('MMMM DD, YYYY h:mmA')"/>.
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
     </v-list>
   </div>
 
@@ -208,6 +214,9 @@ export default {
       this.selected = e
     },
     selected(e) {
+      if (e && e.content && e.content.versionType !== null) {
+        e.content.versionType = null
+      }
       this.selectedArr = e ? [e] : []
       this.$emit('input', e)
     },
@@ -272,7 +281,8 @@ export default {
           intendedLearningOutcomes: [],
           cloPoMap: {},
           weeklyActivities: [],
-          gradingSystem: []
+          gradingSystem: [],
+          versionType: null
         }
       }
 
@@ -318,8 +328,7 @@ export default {
 
       this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
-        courseId: this.course.id,
-        noEmpty: true
+        courseId: this.course.id
       })).then((res) => {
         console.warn(res.data)
         if (!res.data.success) {

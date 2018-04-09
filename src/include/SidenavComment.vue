@@ -359,7 +359,8 @@ export default {
         assignId: this.assignId,
         value: value,
         level: i,
-        syllabus: JSON.stringify(this.dSyllabus.content)
+        syllabus: JSON.stringify(this.dSyllabus.content),
+        versionType: this.dSyllabus.content.versionType
       })).then(res => {
         console.warn(res.data)
         if (!res.data.success) {
@@ -368,6 +369,8 @@ export default {
 
         this.loading = false
         this.$bus.$emit('snackbar--show', snackSuccessMsg)
+        // refresh syllabus
+        this.$bus.$emit('refresh--btn')
         this.fetch()
       }).catch(e => {
         console.error(e)

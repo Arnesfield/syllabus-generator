@@ -410,9 +410,10 @@
 
             <div class="text-xs-center">Version</div>
             <div
-              v-if="syllabus.version"
+              v-if="typeof syllabus.version === 'string' && syllabus.version.length"
               class="text-xs-center"
-            >syllabus.version</div>
+              v-text="syllabus.version"
+            />
 
             <br><br>
 

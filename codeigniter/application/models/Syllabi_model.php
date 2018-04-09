@@ -34,13 +34,19 @@ class Syllabi_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getLatest() {
+  public function getLatest($where = FALSE) {
     $this->db
       ->from('syllabi')
       ->where(array(
         'status !=' => -1,
         'version !=' => ''
-      ))
+      ));
+
+    if ($where) {
+      $this->db->where($where);
+    }
+
+    $this->db
       ->order_by("CONCAT(
         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 1), '.', -1), 10, '0'),
         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 2), '.', -1), 10, '0'),

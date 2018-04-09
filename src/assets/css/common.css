@@ -89,8 +89,21 @@ p {
   transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.smooth-height {
+  transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.smooth-width {
+  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 .smooth-bg-color {
   transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.smooth-bg-and-shadow {
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-property: box-shadow, background-color;
 }
 
 .hoverable > * {

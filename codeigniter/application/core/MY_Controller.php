@@ -403,6 +403,19 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $value;
   }
 
+  public function _getMinor($version, $as_array = FALSE) {
+    $arr = explode('.', $version);
+    $arr[count($arr)-1] += 1;
+    return $as_array ? $arr : implode('.', $arr);
+  }
+
+  public function _getMajor($version, $as_array = FALSE) {
+    $arr = explode('.', $version);
+    $arr[0] += 1;
+    $arr[count($arr)-1] = 0;
+    return $as_array ? $arr : implode('.', $arr);
+  }
+
   public function _uploadFile($file_name = 'file', $allowed_types = FALSE, $path = 'uploads/images/') {
     if (!$allowed_types) {
       $allowed_types = 'jpg|png|jpeg';
