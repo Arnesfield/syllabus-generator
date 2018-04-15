@@ -10,9 +10,9 @@
   <v-btn icon dark @click="$bus.navToggle">
     <v-icon>{{ $route.meta.icon }}</v-icon>
   </v-btn>
-  <v-toolbar-title v-text="$bus.toolbar.titleContent || title"></v-toolbar-title>
+  <v-toolbar-title v-text="title"></v-toolbar-title>
 
-  <template v-if="$route.name === 'Syllabus'">
+  <template v-if="checkRoute('Syllabus', 'SyllabusView')">
     <v-spacer/>
     <v-tooltip bottom>
       <v-btn
@@ -36,7 +36,10 @@
       </v-btn>
       <span>View info</span>
     </v-tooltip>
-    <template v-if="!$bus.toolbar.comments.model">
+    <template v-if="checkRoute('SyllabusView')">
+      <btn-refresh tip="bottom"/>
+    </template>
+    <template v-else-if="checkRoute('Syllabus') && !$bus.toolbar.comments.model">
       <btn-refresh tip="bottom"/>
       <v-tooltip bottom>
         <v-btn
@@ -51,7 +54,7 @@
     </template>
   </template>
 
-  <template v-else-if="$route.name === 'Generator' && !$bus.generator.courseRefresh">
+  <template v-else-if="checkRoute('Generator') && !$bus.generator.courseRefresh">
     <v-spacer/>
     <v-tooltip bottom>
       <v-btn
@@ -100,7 +103,15 @@ export default {
   },
   computed: {
     title() {
-      return this.$route.meta.title || this.$route.name || 'Application'
+      return this.$bus.toolbar.titleContent ||
+        this.$route.meta.title ||
+        this.$route.name ||
+        'Application'
+    }
+  },
+  methods: {
+    checkRoute(...arr) {
+      return arr.includes(this.$route.name)
     }
   }
 }

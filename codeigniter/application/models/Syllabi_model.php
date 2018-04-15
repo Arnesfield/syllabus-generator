@@ -73,6 +73,18 @@ class Syllabi_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
+  public function getAssignIdById($id) {
+    $this->db
+      ->select('a.*')
+      ->from('syllabi s')
+      ->join('assigns a', 'a.id = s.assign_id')
+      ->where('s.id', $id)
+      ->where('s.status !=', -1);
+
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+
   public function insert($data) {
     return $this->db->insert('syllabi', $data);
   }

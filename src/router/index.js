@@ -10,6 +10,7 @@ import Assignments from '@/components/Assignments'
 import Reviews from '@/components/Reviews'
 import Workflow from '@/components/Workflow'
 import Syllabus from '@/components/Syllabus'
+import SyllabusView from '@/components/SyllabusView'
 
 import ManageUsers from '@/components/manage/ManageUsers'
 import ManageCourses from '@/components/manage/ManageCourses'
@@ -77,6 +78,17 @@ export default new Router({
       meta: {
         auth: [3, 4, 5],
         icon: 'school'
+      }
+    },
+    {
+      path: '/syllabus/view/:courseId/:syllabusId',
+      name: 'SyllabusView',
+      component: SyllabusView,
+      props: true,
+      meta: {
+        auth: [3, 4, 5],
+        title: 'Syllabus',
+        icon: 'subject'
       }
     },
     {

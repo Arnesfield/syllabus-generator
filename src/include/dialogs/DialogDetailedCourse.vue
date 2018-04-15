@@ -76,7 +76,10 @@
       </div>
     </v-card-title>
 
-    <v-divider class="my-2"/>
+    <v-divider
+      class="my-2"
+      v-if="item"
+    />
 
     <v-card-text
       class="pt-0"
@@ -206,7 +209,7 @@
               <template v-for="(s, i) in item.syllabi">
                 <v-list-tile
                   ripple
-                  @click="() => {}"
+                  @click="selectSyllabus(item.id, s.id)"
                   :key="'tile-' + i"
                 >
                   <v-list-tile-content>
@@ -236,7 +239,7 @@
 
       <manage-no-data
         v-else
-        class="pt-3 pb-0"
+        class="py-3"
         :fetch="() => { fetch() }"
         :loading="loading"
         msg="Unable to load course :("
@@ -340,6 +343,10 @@ export default {
         this.show = false
         return
       }
+    },
+    selectSyllabus(cid, sid) {
+      this.show = false
+      this.$router.push('/syllabus/view/' + cid + '/' +  sid)
     },
     selectCourse(id, code) {
       // push id and code

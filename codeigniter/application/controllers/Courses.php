@@ -14,8 +14,11 @@ class Courses extends MY_Custom_Controller {
       : '';
     $withRelated = $this->input->post('withRelated') ? $this->input->post('withRelated') : FALSE;
     $withSyllabi = $this->input->post('withSyllabi') ? $this->input->post('withSyllabi') : FALSE;
+    $formatSyllabi = $this->input->post('formatSyllabi') ? $this->input->post('formatSyllabi') : FALSE;
+    $withAssign = $this->input->post('withAssign') ? $this->input->post('withAssign') : FALSE;
     $exceptId = $this->input->post('exceptId') ? $this->input->post('exceptId') : FALSE;
     $cid = $this->input->post('cid') ? $this->input->post('cid') : FALSE;
+    $sid = $this->input->post('sid') ? $this->input->post('sid') : FALSE;
     
     $where = array();
     if ($exceptId) {
@@ -36,14 +39,47 @@ class Courses extends MY_Custom_Controller {
 
       if ($course_ids) {
         $this->load->model('syllabi_model');
+
+        // also load assigns
+        $assigns = array();
+        if ($withAssign && $sid) {
+          $assigns = $this->syllabi_model->getAssignIdById($sid);
+          if (!$assigns) {
+            $this->_json(FALSE);
+          }
+          $this->load->model('assigns_model');
+          $assigns = $this->_createAssigns($assigns);
+
+          // convert to id => value
+          $newAssigns = array();
+          foreach ($assigns as $key => $value) {
+            $newAssigns[$value['id']] = $value;
+          }
+        }
+
         $where = array('version !=' => '');
         $syllabi = $this->syllabi_model->getByQuery(FALSE, $where, $course_ids);
 
+        if ($formatSyllabi) {
+          $syllabi = $this->_formatSyllabi($syllabi);
+        }
+
         // loop through courses
         foreach ($courses as $index => $course) {
-          $courses[$index]['syllabi'] = array_filter($syllabi, function($e) use ($course) {
+          $courses[$index]['syllabi'] = $curr_syllabi = array_filter($syllabi, function($e) use ($course) {
             return $e['course_id'] == $course['id'];
           });
+
+          if ($withAssign && $sid) {
+            // loop through assigns
+            // if same id as related ids
+            foreach ($curr_syllabi as $sIndex => $syllabus) {
+              if ($syllabus['id'] == $sid && $syllabus['course_id'] == $course['id']) {
+                $courses[$index]['assign'] = $newAssigns[$syllabus['assign_id']];
+                break;
+              }
+            }
+          }
         }
       }
     }

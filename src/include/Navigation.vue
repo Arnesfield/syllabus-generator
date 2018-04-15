@@ -172,10 +172,13 @@ export default {
       if (to.name !== 'Syllabus' && from.name === 'Syllabus') {
         this.$bus.nav.model = null
       }
-      if (to.name === 'Generator' || from.name === 'Generator') {
+      if (
+        this.checkRoute(to.name, 'Generator', 'SyllabusView') || 
+        this.checkRoute(from.name, 'Generator', 'SyllabusView')
+      ) {
         if (this.$bus.nav.model === null || this.$bus.nav.model === true) {
           this.$bus.nav.model = null
-          this.$bus.nav.miniVariant = to.name === 'Generator'
+          this.$bus.nav.miniVariant = this.checkRoute(to.name, 'Generator', 'SyllabusView')
         }
       }
     }
@@ -213,6 +216,10 @@ export default {
       if (this.$refs.gradingSystem) {
         this.$refs.gradingSystem.show = true
       }
+    },
+
+    checkRoute(route, ...arr) {
+      return arr.includes(route)
     },
 
     listItemClick(e) {
