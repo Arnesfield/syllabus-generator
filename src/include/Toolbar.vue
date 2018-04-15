@@ -6,11 +6,44 @@
     color="primary"
   >
     <v-toolbar-side-icon @click.stop="$bus.navToggle"/>
-    <router-link to="/" class="white--text clean-a">
-      <v-toolbar-title>Forge</v-toolbar-title>
-    </router-link>
+    <!-- <v-flex
+      hidden-xs-only
+      hidden-sm-only
+      xs2
+    >
+      <router-link to="/" class="white--text clean-a">
+        <v-toolbar-title>Forge</v-toolbar-title>
+      </router-link>
+    </v-flex> -->
 
-    <template v-if="$route.name === 'Generator'">
+    <v-flex xs1 sm1 md2>
+      <v-toolbar-title
+        class="clickable"
+        @click="$router.push('/')"
+      >
+        <v-avatar size="32px" class="mr-1">
+          <img src="/static/images/logo.png"/>
+        </v-avatar>
+        <span class="hidden-sm-and-down">Forge</span>
+      </v-toolbar-title>
+    </v-flex>
+
+    <!-- searchbar courses -->
+    <template v-if="checkRoute('Courses')">
+      <v-flex
+        xs12
+        sm9
+        md7
+        class="mx-2"
+      >
+        <searchbar/>
+      </v-flex>
+      <v-spacer/>
+      <btn-refresh/>
+    </template>
+
+    <!-- buttons and the like -->
+    <template v-if="checkRoute('Generator')">
       <v-spacer/>
       <v-tooltip bottom v-if="$bus.generator.allowEdit">
         <v-btn
@@ -61,7 +94,7 @@
 
     </template>
 
-    <template v-if="$route.name === 'Workflow' || $route.name === 'Assignments'">
+    <template v-if="checkRoute('Workflow', 'Assignments')">
       <v-spacer/>
       <btn-refresh/>
       <v-tooltip bottom>
@@ -92,12 +125,7 @@
     </template>
 
     <template
-      v-if="
-        $route.name === 'ManageUsers' ||
-        $route.name === 'ManageCourses' ||
-        $route.name === 'ManageBooks' ||
-        $route.name === 'ManageCurriculum'
-      "
+      v-if="checkRoute('ManageUsers', 'ManageCourses', 'ManageBooks', 'ManageCurriculum')"
     >
       <v-spacer/>
       <btn-refresh/>
@@ -107,12 +135,22 @@
 </template>
 
 <script>
+import Searchbar from '@/include/Searchbar'
 import BtnRefresh from '@/include/BtnRefresh'
 
 export default {
   name: 'toolbar',
   components: {
+    Searchbar,
     BtnRefresh
+  },
+  methods: {
+    checkRoute(...arr) {
+      // if (typeof arr === 'string') {
+      //   arr = [arr]
+      // }
+      return arr.includes(this.$route.name)
+    }
   }
 }
 </script>

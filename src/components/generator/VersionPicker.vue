@@ -101,8 +101,6 @@ export default {
     },
     versionType(e) {
       this.$emit('input', e)
-    },
-    loading(e) {
     }
   },
 

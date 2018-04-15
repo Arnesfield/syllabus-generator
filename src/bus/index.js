@@ -6,6 +6,7 @@ import session from './session'
 import progress from './progress'
 import toolbar from './toolbar'
 import tabs from './tabs'
+import search from './search'
 import generator from './generator'
 import settings from './settings'
 import toNumberArray from '@/assets/js/toNumberArray'
@@ -20,6 +21,7 @@ export default new Vue({
     progress: progress,
     toolbar: toolbar,
     tabs: tabs,
+    search: search,
     generator: generator,
     settings: settings
   }),

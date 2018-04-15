@@ -102,7 +102,7 @@ export default {
         auth: [3, 4, 5],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
-          // { title: 'Generator', icon: 'build', to: '/generator' }
+          { title: 'Courses', icon: 'school', to: '/courses' }
         ]
       },
       {

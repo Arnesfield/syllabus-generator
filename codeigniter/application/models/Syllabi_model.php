@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Syllabi_model extends MY_Custom_Model {
-  public function getByQuery($search = FALSE, $where = FALSE) {
+  public function getByQuery($search = FALSE, $where = FALSE, $where_in_cid = FALSE) {
     $this->db
       ->from('syllabi')
       // ->where('course_id', $cid)
@@ -19,6 +19,10 @@ class Syllabi_model extends MY_Custom_Model {
         LOWER(CONCAT(IFNULL(version, '')))
         LIKE '%$search%'
       ");
+    }
+
+    if ($where_in_cid) {
+      $this->db->where_in('course_id', $where_in_cid);
     }
 
     $this->db

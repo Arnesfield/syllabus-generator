@@ -18,13 +18,13 @@
 
       <v-layout row wrap>
         <v-flex
-          xs12 sm5 class="pr-2"
+          xs12 sm5 class="pr-2 minimal-scrollbar"
           style="max-height: 420px; overflow-y: auto"
         >
           <div class="body-1 grey--text">Workflow by</div>
           <v-list>
             <v-list-tile @click="() => {}">
-              <v-list-tile-action class="thin-48">
+              <v-list-tile-action class="thinner-action">
                 <icon-img
                   :item="createdBy()"
                   color="primary lighten-1"
@@ -33,9 +33,19 @@
                 />
               </v-list-tile-action>
               <v-list-tile-content>
-                <div>{{ $wrap.fullname(createdBy()) }}
-                  <add-me :id="createdBy().id"/>
-                </div>
+                <v-subheader>
+                  <div>
+                    <div>
+                      <span v-text="$wrap.fullname(createdBy())"/>
+                      <add-me :id="createdBy().id"/>
+                    </div>
+                    <div
+                      class="caption"
+                      v-if="createdBy().title"
+                      v-html="createdBy().title"
+                    />
+                  </div>
+                </v-subheader>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -172,7 +182,7 @@
           </v-list>
         </v-flex>
 
-        <v-flex xs12 sm7 class="pl-2">
+        <v-flex xs12 sm7 class="pl-2 minimal-scrollbar">
 
           <!-- end of about -->
           <div>
@@ -180,7 +190,7 @@
             <div class="body-1 grey--text">Assigned</div>
             <v-list>
               <v-list-tile @click="() => {}">
-                <v-list-tile-action class="thin-48">
+                <v-list-tile-action class="thinner-action">
                   <icon-img
                     :item="assigned()"
                     color="primary lighten-1"
@@ -189,9 +199,20 @@
                   />
                 </v-list-tile-action>
                 <v-list-tile-content>
-                  <div>{{ $wrap.fullname(assigned()) }}
-                    <add-me :id="assigned().id"/>
-                  </div>
+                  <v-subheader>
+                    <div>
+                      <div>
+                        <span v-text="$wrap.fullname(assigned())"/>
+                        <add-me :id="assigned().id"/>
+                      </div>
+                      <div class="caption">
+                        <template
+                          v-if="assigned().title"
+                        >{{ assigned().title }}&nbsp;</template>
+                        <template>(Faculty-In-Charge)</template>
+                      </div>
+                    </div>
+                  </v-subheader>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -215,13 +236,16 @@
                   :key="i+1"
                   v-for="(level, i) in levels()"
                 >
-                  <v-list style="max-height: 256px; overflow-y: auto">
+                  <v-list
+                    style="max-height: 256px; overflow-y: auto"
+                    class="minimal-scrollbar"
+                  >
                     <template v-for="(user, j) in level">
                       <v-list-tile
                         :key="'tile-' + j"
                         @click="() => {}"
                       >
-                        <v-list-tile-action class="thin-48">
+                        <v-list-tile-action class="thinner-action">
                           <icon-img
                             :item="user.user"
                             color="primary lighten-1"
@@ -230,9 +254,19 @@
                           />
                         </v-list-tile-action>
                         <v-list-tile-content>
-                          <div>{{ $wrap.fullname(user.user) }}
-                            <add-me :id="user.id"/>
-                          </div>
+                          <v-subheader>
+                            <div>
+                              <div>
+                                <span v-text="$wrap.fullname(user.user)"/>
+                                <add-me :id="user.id"/>
+                              </div>
+                              <div
+                                class="caption"
+                                v-if="user.user.title"
+                                v-html="user.user.title"
+                              />
+                            </div>
+                          </v-subheader>
                         </v-list-tile-content>
                         <v-list-tile-action :key="'action-' + j">
                           <status :item="user"/>

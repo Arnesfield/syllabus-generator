@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Generator from '@/components/Generator'
+import Courses from '@/components/Courses'
 import Assignments from '@/components/Assignments'
 import Reviews from '@/components/Reviews'
 import Workflow from '@/components/Workflow'
@@ -66,6 +67,16 @@ export default new Router({
       meta: {
         auth: [3, 4],
         icon: 'build'
+      }
+    },
+    {
+      path: '/courses/:courseId?',
+      name: 'Courses',
+      component: Courses,
+      props: true,
+      meta: {
+        auth: [3, 4, 5],
+        icon: 'school'
       }
     },
     {

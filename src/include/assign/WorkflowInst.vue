@@ -48,9 +48,18 @@
             />
           </span>
           <v-subheader class="py-0 pl-1 ml-2">
-            <div>{{ $wrap.fullname(assigned()) }}
-              <add-me :id="assigned().id"/>
-              <strong class="caption grey--text" v-text="'(assigned)'"/>
+            <div>
+              <div>
+                <span v-text="$wrap.fullname(assigned())"/>
+                <add-me :id="assigned().id"/>
+                <!-- <strong class="caption grey--text" v-text="'(assigned)'"/> -->
+              </div>
+              <div class="caption">
+                <template
+                  v-if="assigned().title"
+                >{{ assigned().title }}&nbsp;</template>
+                <template>(Faculty-In-Charge)</template>
+              </div>
             </div>
           </v-subheader>
         </v-layout>

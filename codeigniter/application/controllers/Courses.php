@@ -13,15 +13,41 @@ class Courses extends MY_Custom_Controller {
       ? $this->_filter($this->input->post('search'))
       : '';
     $withRelated = $this->input->post('withRelated') ? $this->input->post('withRelated') : FALSE;
+    $withSyllabi = $this->input->post('withSyllabi') ? $this->input->post('withSyllabi') : FALSE;
     $exceptId = $this->input->post('exceptId') ? $this->input->post('exceptId') : FALSE;
+    $cid = $this->input->post('cid') ? $this->input->post('cid') : FALSE;
     
-    $where = FALSE;
+    $where = array();
     if ($exceptId) {
-      $where = array('id !=' => $exceptId);
+      $where['id !='] = $exceptId;
+    }
+    if ($cid) {
+      $where['id'] = $cid;
     }
 
     $courses = $this->courses_model->getByQuery($search, $where);
     $courses = $this->_formatCourses($courses, $withRelated);
+
+    if ($withSyllabi) {
+      // get id of course
+      $course_ids = array_map(function($e) {
+        return $e['id'];
+      }, $courses);
+
+      if ($course_ids) {
+        $this->load->model('syllabi_model');
+        $where = array('version !=' => '');
+        $syllabi = $this->syllabi_model->getByQuery(FALSE, $where, $course_ids);
+
+        // loop through courses
+        foreach ($courses as $index => $course) {
+          $courses[$index]['syllabi'] = array_filter($syllabi, function($e) use ($course) {
+            return $e['course_id'] == $course['id'];
+          });
+        }
+      }
+    }
+
     $this->_json(TRUE, 'courses', $courses);
   }
 

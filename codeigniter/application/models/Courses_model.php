@@ -9,7 +9,16 @@ class Courses_model extends MY_Custom_Model {
       ->where('status !=', -1);
 
     if ($search) {
-      $this->db->where("lower(concat(IFNULL(title, ''), IFNULL(code, ''))) like lower(concat('%', '$search', '%'))");
+      $search = strtolower($search);
+      $this->db->where("
+        (
+          (
+            LOWER(code) LIKE '%$search%' OR
+            LOWER(title) LIKE '%$search%' OR
+            LOWER(tags) LIKE '%$search%'
+          ) OR MATCH(code, title, tags) AGAINST ('*$search*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE);
     }
 
     if ($where) {
