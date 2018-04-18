@@ -14,6 +14,7 @@ class Courses extends MY_Custom_Controller {
       : '';
     $withRelated = $this->input->post('withRelated') ? $this->input->post('withRelated') : FALSE;
     $withSyllabi = $this->input->post('withSyllabi') ? $this->input->post('withSyllabi') : FALSE;
+    $deep = $this->input->post('deep') ? $this->input->post('deep') : FALSE;
     $formatSyllabi = $this->input->post('formatSyllabi') ? $this->input->post('formatSyllabi') : FALSE;
     $withAssign = $this->input->post('withAssign') ? $this->input->post('withAssign') : FALSE;
     $exceptId = $this->input->post('exceptId') ? $this->input->post('exceptId') : FALSE;
@@ -29,7 +30,7 @@ class Courses extends MY_Custom_Controller {
     }
 
     $courses = $this->courses_model->getByQuery($search, $where);
-    $courses = $this->_formatCourses($courses, $withRelated);
+    $courses = $this->_formatCourses($courses, $withRelated, $deep);
 
     if ($withSyllabi) {
       // get id of course

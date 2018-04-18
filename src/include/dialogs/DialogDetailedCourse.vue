@@ -33,7 +33,7 @@
 
       <v-layout
         class="minimal-scrollbar"
-        style="position: relative; height: inherit; width: 100%; overflow-x: auto"
+        style="position: relative; height: inherit; width: calc(100% - 156px); overflow-x: auto"
         align-center
       >
         <v-breadcrumbs
@@ -64,6 +64,33 @@
       >
         <v-icon>close</v-icon>
       </v-btn>
+
+      <!-- menu -->
+      <v-menu
+        left
+        offset-y
+        v-if="item"
+      >
+        <v-btn
+          icon
+          slot="activator"
+        >
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile
+            ripple
+            :key="i"
+            v-for="(m, i) in menu"
+            :to="m.to"
+          >
+            <v-list-tile-action>
+              <v-icon>{{ m.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content v-text="m.text"/>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
 
     <v-card-title
@@ -280,6 +307,17 @@ export default {
     show: false,
     loading: false
   }),
+
+  computed: {
+    menu() {
+      let id = this.item.id
+      return [
+        { icon: 'trending_down', text: 'View course tree', to: '/tree/' + id },
+        { icon: 'trending_up', text: 'View reverse course tree', to: '/tree/reverse/' + id }
+      ]
+    }
+  },
+
   watch: {
     show(e) {
       // if unshow

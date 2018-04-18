@@ -36,6 +36,14 @@ table.syllabus-tbl ol ol,
   padding-left: 12px;
 }
 
+.my-tree-list {
+  padding-left: 24px;
+}
+
+.my-tree-list ul ul {
+  padding-left: 24px;
+}
+
 .tbl-img {
   height: 64px;
 }

@@ -8,6 +8,8 @@ import axios from 'axios'
 import moment from 'moment'
 import Showdown from 'showdown'
 
+import CourseTreeView from './include/CourseTreeView'
+
 import bus from './bus'
 import routerCond from './router/cond'
 import formRules from './assets/js/formRules'
@@ -44,6 +46,8 @@ Vue.prototype.$fRule = formRules
 Vue.prototype.$wrap = wrap
 Vue.prototype.$md = converter
 Vue.prototype.$moment = moment
+
+Vue.component('CourseTreeView', CourseTreeView)
 
 routerCond(router, http, bus)
 
