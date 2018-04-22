@@ -1,26 +1,40 @@
 <template>
-<li>
+<li class="no-wrap" style="list-style-type: disc">
 
-  <div
+  <span
     @click="toggle"
-    @dblclick="select"
-    :class="{ 'bold': isExpandable }"
-    class="clickable"
+    :class="{
+      'bold clickable': isExpandable,
+      'lighten-2': !isExpandable && !isSelected,
+      'accent': isSelected,
+      'blue': !isSelected
+    }"
+    class="blue white--text px-2 py-1 my-1"
+    style="display: inline-block; font-size: 1.25rem"
   >{{ item.code }}
     <span v-if="isExpandable">[{{ open ? '-' : '+' }}]</span>
-  </div>
+  </span>
+  <a
+    class="blue--text caption"
+    style="text-decoration: underline"
+    @click="() => { select(item.id) }"
+  >info</a>
 
   <course-tree-related-view
     v-show="open"
     v-if="hasPrerequisite"
     :items="item.prerequisites"
     text="Prerequisites"
+    @select="select"
+    :selected-id="selectedId"
   />
   <course-tree-related-view
     v-show="open"
     v-if="hasCorequisite"
     :items="item.corequisites"
     text="Corequisites"
+    @select="select"
+    :selected-id="selectedId"
   />
 
 </li>
@@ -35,7 +49,11 @@ export default {
     CourseTreeRelatedView
   },
   props: {
-    item: Object
+    item: Object,
+    selectedId: {
+      type: [Number, String],
+      default: undefined
+    }
   },
   data: () => ({
     open: false
@@ -49,7 +67,19 @@ export default {
     },
     isExpandable() {
       return this.hasPrerequisite || this.hasCorequisite
+    },
+    isSelected() {
+      return this.item ? this.item.id == this.selectedId : false
     }
+  },
+  watch: {
+    '$bus.toolbar.course.collapse': function(e) {
+      this.open = !e
+    }
+  },
+
+  created() {
+    this.open = !this.$bus.toolbar.course.collapse
   },
 
   methods: {
@@ -58,8 +88,8 @@ export default {
         this.open = !this.open
       }
     },
-    select() {
-      
+    select(id) {
+      this.$emit('select', id)
     }
   }
 }

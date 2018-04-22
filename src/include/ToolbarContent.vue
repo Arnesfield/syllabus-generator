@@ -78,6 +78,37 @@
     </v-tooltip>
   </template>
 
+  <template v-if="checkRoute('CourseTree')">
+    <v-spacer/>
+    <v-tooltip bottom>
+      <v-btn
+        icon
+        slot="activator"
+        @click="$bus.toolbar.course.collapse = !$bus.toolbar.course.collapse"
+      >
+        <v-icon v-if="$bus.toolbar.course.collapse">expand_more</v-icon>
+        <v-icon v-else>expand_less</v-icon>
+      </v-btn>
+      <span v-if="$bus.toolbar.course.collapse">Expand</span>
+      <span v-else>Collapse</span>
+    </v-tooltip>
+
+    <template v-if="!$bus.toolbar.course.model">
+      <btn-refresh tip="bottom"/>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          slot="activator"
+          @click="$bus.toolbar.course.model = true"
+        >
+          <v-icon>chevron_left</v-icon>
+        </v-btn>
+        <span>Reveal</span>
+      </v-tooltip>
+    </template>
+
+  </template>
+
   <v-tabs
     align-with-title
     show-arrows

@@ -6,4 +6,8 @@ export default {
     model: null,
     pdf: false
   },
+  course: {
+    model: null,
+    collapse: false
+  }
 }

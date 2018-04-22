@@ -9,9 +9,14 @@
   <div
     v-if="course"
     class="my-tree-list"
+    style="overflow-x: auto"
   >
     <ul class="mono">
-      <course-tree-view :item="course"/>
+      <course-tree-view
+        :item="course"
+        @select="select"
+        :selected-id="id"
+      />
     </ul>
   </div>
 
@@ -28,6 +33,7 @@
     />
   </v-layout>
 
+  <sidenav-course :course-id.sync="id"/>
   <dialog-detailed-course ref="dialog"/>
 
 </v-container>
@@ -35,12 +41,14 @@
 
 <script>
 import qs from 'qs'
+import SidenavCourse from '@/include/SidenavCourse'
 import DialogDetailedCourse from '@/include/dialogs/DialogDetailedCourse'
 import ManageNoData from '@/include/ManageNoData'
 
 export default {
   name: 'course-tree',
   components: {
+    SidenavCourse,
     DialogDetailedCourse,
     ManageNoData
   },
@@ -52,10 +60,14 @@ export default {
   },
   data: () => ({
     url: '/courses',
+    id: undefined,
     course: null,
     loading: false
   }),
   watch: {
+    loading(e) {
+      this.$bus.refresh(e)
+    },
     courseId(e) {
       e ? this.fetch() : undefined
     }
@@ -63,14 +75,21 @@ export default {
 
   created() {
     this.$bus.$on('refresh--btn', this.fetch)
+    this.id = this.courseId
     this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('refresh--btn', this.fetch)
     this.$bus.toolbar.titleContent = null
+    this.$bus.toolbar.course.collapse = false
+    this.$bus.toolbar.course.model = null
   },
 
   methods: {
+    select(id) {
+      this.id = id
+    },
+
     clear() {
       this.course = null
       this.$bus.toolbar.titleContent = null

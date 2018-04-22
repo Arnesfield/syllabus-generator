@@ -24,6 +24,10 @@ p {
   font-weight: bold;
 }
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -196,6 +200,6 @@ table.no-outside-border th {
 
 /* for offline purposes only */
 .material-icons {
-  width: 24px;
-  overflow: hidden;
+  /* width: 24px;
+  overflow: hidden; */
 }

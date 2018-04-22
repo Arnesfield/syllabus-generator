@@ -3,8 +3,8 @@
   app
   fixed
   :mini-variant="$bus.nav.miniVariant"
-  :clipped="$route.name != 'Syllabus'"
-  :temporary="$route.name == 'Syllabus'"
+  :clipped="clipped"
+  :temporary="temporary"
   v-model="$bus.nav.model"
 >
   <nav-user/>
@@ -164,14 +164,24 @@ export default {
   computed: {
     collapseText() {
       return this.$bus.nav.miniVariant ? 'Expand' : 'Collapse'
+    },
+    temporary() {
+      return this.checkRoute(this.$route.name, 'Syllabus', 'CourseTree')
+    },
+    clipped() {
+      return !this.temporary
     }
   },
 
   watch: {
     $route(to, from) {
-      if (to.name !== 'Syllabus' && from.name === 'Syllabus') {
+      if (
+        !this.checkRoute(to.name, 'Syllabus', 'CourseTree') &&
+        this.checkRoute(from.name, 'Syllabus', 'CourseTree')
+      ) {
         this.$bus.nav.model = null
       }
+      
       if (
         this.checkRoute(to.name, 'Generator', 'SyllabusView') || 
         this.checkRoute(from.name, 'Generator', 'SyllabusView')
