@@ -114,6 +114,10 @@ p {
   transition-property: box-shadow, background-color;
 }
 
+.smooth-opacity {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 .hoverable > * {
   transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }

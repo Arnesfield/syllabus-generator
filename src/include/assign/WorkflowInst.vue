@@ -97,7 +97,7 @@
           <span>View detailed</span>
         </v-tooltip>
 
-        <v-tooltip
+        <!-- <v-tooltip
           top
           v-if="$bus.session.user.id == createdBy().id"
         >
@@ -105,11 +105,14 @@
             <v-icon color="grey">edit</v-icon>
           </v-btn>
           <span>Edit</span>
-        </v-tooltip>
+        </v-tooltip> -->
 
         <v-tooltip
           top
-          v-if="$bus.session.user.id == assigned().id"
+          v-if="
+            $bus.session.user.id == assigned().id &&
+            (Number(assign.status) == 0 || Number(assign.status) == 3)
+          "
         >
           <v-btn icon slot="activator" :to="'/generator/' + assign.id">
             <v-icon color="grey">arrow_forward</v-icon>

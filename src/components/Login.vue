@@ -45,14 +45,14 @@
             </v-form>
           </v-card-title>
           <v-card-actions>
-            <div class="caption grey--text">
+            <!-- <div class="caption grey--text">
               <span v-if="loading">Forgot password</span>
               <router-link
                 to="/"
                 v-else
                 class="clean-a text--accent-1"
               >Forgot password</router-link>?
-            </div>
+            </div> -->
             <v-spacer/>
             <v-btn
               tabindex="1"
@@ -69,7 +69,7 @@
       
       <v-layout class="pt-3">
         <v-flex xs-6>
-          <div class="caption grey--text">&copy; forge {{ (new Date()).getFullYear() }}</div>
+          <div class="caption grey--text">&copy; forge {{ $autoYear }}</div>
         </v-flex>
         <v-flex xs-6>
           <div class="caption grey--text text-xs-right">&lt;/code&gt;</div>

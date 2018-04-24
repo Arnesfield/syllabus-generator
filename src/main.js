@@ -15,6 +15,7 @@ import routerCond from './router/cond'
 import formRules from './assets/js/formRules'
 import wrap from './assets/js/wrap'
 import base_url from './assets/js/baseURL'
+import autoYear from './assets/js/autoYear'
 import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
@@ -46,6 +47,7 @@ Vue.prototype.$fRule = formRules
 Vue.prototype.$wrap = wrap
 Vue.prototype.$md = converter
 Vue.prototype.$moment = moment
+Vue.prototype.$autoYear = autoYear
 
 Vue.component('CourseTreeView', CourseTreeView)
 
