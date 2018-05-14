@@ -164,6 +164,7 @@ export default {
     suggestUrl: '/books/suggest',
     books: [],
     selected: [],
+    limit: 30,
     
     dialog: false,
     search: null,
@@ -268,8 +269,12 @@ export default {
       this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
         courseId: this.syllabus.course_id,
-        limit: 30
+        limit: this.limit
       })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         this.loading = false
         this.books = res.data.books
       }).catch((e) => {

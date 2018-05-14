@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2018 at 12:38 PM
+-- Generation Time: May 14, 2018 at 03:11 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -87,10 +87,10 @@ INSERT INTO `books` (`id`, `citation`, `tags`, `created_at`, `updated_at`, `stat
 (15, 'Connoly, T. (2010). Database Systems: A practical Approach to Design, Implementation and Management 5th Edition, McGraw Hill International.', '', 0, 0, 1),
 (16, 'Harrington, J. (2010). SQL Clearly Explained, Morgan Kaufmann.', '', 0, 0, 1),
 (17, 'Kroenke, D. (2010). Database Concepts 4th Edition, Pearson.', '', 0, 0, 1),
-(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', '', 0, 0, 1),
-(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', '', 0, 0, 1),
+(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', '[\"Capstone Project\",\"Project Management\",\"System Analysis\",\"System Design\"]', 0, 1526302967, 1),
+(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', '[\"Software Requirements\",\"Capstone Project\",\"Project Management\"]', 0, 1526302661, 1),
 (20, 'Puntambekar, A. (2014). Object oriented analysis & design: a conceptual approach. Technical Publication: New Delhi', '', 0, 0, 1),
-(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', '', 0, 0, 1),
+(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', '[\"Capstone Project\",\"Project Management\"]', 0, 1526302620, 1),
 (22, 'Test1', '', 0, 0, 1),
 (23, 'Test2', '', 0, 0, 0),
 (24, 'Test3', '', 0, 0, 1),
@@ -1544,7 +1544,10 @@ INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `c
 (137, 3, 6, 'viewed this syllabus.', 'view', 1524392418, 1),
 (138, 3, 6, 'viewed this syllabus.', 'view', 1524392462, 1),
 (139, 3, 6, 'viewed this syllabus.', 'view', 1524392477, 1),
-(140, 3, 6, 'viewed this syllabus.', 'view', 1524392497, 1);
+(140, 3, 6, 'viewed this syllabus.', 'view', 1524392497, 1),
+(141, 3, 6, 'viewed this syllabus.', 'view', 1524495727, 1),
+(142, 3, 6, 'viewed this syllabus.', 'view', 1524541112, 1),
+(143, 3, 4, 'viewed this syllabus.', 'view', 1524594653, 1);
 
 --
 -- Indexes for dumped tables
@@ -1561,6 +1564,7 @@ ALTER TABLE `assigns`
 --
 ALTER TABLE `books`
   ADD PRIMARY KEY (`id`);
+ALTER TABLE `books` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
 
 --
 -- Indexes for table `book_field_relation`
@@ -1858,7 +1862,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

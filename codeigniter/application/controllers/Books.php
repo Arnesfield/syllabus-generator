@@ -21,10 +21,21 @@ class Books extends MY_Custom_Controller {
   public function suggest() {
     $course_id = $this->input->post('courseId');
     $limit = $this->input->post('limit');
-    $fields = $this->fields_model->getFieldsByCourseId($course_id);
-    foreach ($fields as $key => $field) {
-      $fields[$key] = $field['field_id'];
+
+    // get tags of course using cid
+    $this->load->model('courses_model');
+    $courses = $this->courses_model->getByQuery(FALSE, array(
+      'id' => $course_id
+    ));
+
+    if (!$courses) {
+      $this->_json(FALSE);
     }
+
+    $course = $this->_formatCourses($courses)[0];
+    // parse json array
+    $fields = $course['tags'];
+
     $books = $this->books_model->getRelatedBooksWithFields($fields, $limit);
     $books = $this->books_model->_to_col($books, 'citation');
     $this->_json(TRUE, 'books', $books);
