@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2018 at 03:11 PM
+-- Generation Time: May 14, 2018 at 06:12 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -524,6 +524,7 @@ CREATE TABLE `outcomes` (
   `id` int(11) NOT NULL,
   `content` text NOT NULL,
   `type` tinyint(4) NOT NULL,
+  `tags` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -531,38 +532,38 @@ CREATE TABLE `outcomes` (
 -- Dumping data for table `outcomes`
 --
 
-INSERT INTO `outcomes` (`id`, `content`, `type`, `status`) VALUES
-(1, 'Develop and execute the project requirements based from the proposal document.', 1, 1),
-(2, 'Test and evaluate the software product to validate for the process and output.', 1, 1),
-(3, 'Complete the system defined in the plan to satisfy the project specifications and present final documentation.', 1, 1),
-(4, 'Understand the fundamental concepts and principles of database management and database administration.', 1, 1),
-(5, 'Analyze business rules and translate them into user requirements.', 1, 1),
-(6, 'Design logical and relational database that meets specified user requirements following relational database design principles and constructs.', 1, 1),
-(7, 'Create SQL statements that retrieve information requirements of the organization needed for reports generation.', 1, 1),
-(8, 'Develop, execute and create the project deliverables.', 2, 1),
-(9, 'Test the software product to validate its process and output.', 2, 1),
-(10, 'Complete the work defined in the plan to satisfy the project specifications.', 2, 1),
-(11, 'Complete the 50% software development stated in the proposal.', 2, 1),
-(12, 'Understand Project Review and closure.', 2, 1),
-(13, 'Complete the 75% software development stated in the proposal.', 2, 1),
-(14, 'Create and present the final documentation.', 2, 1),
-(15, 'Execution of user acceptance testing.', 2, 1),
-(16, 'Mock defense', 2, 1),
-(17, 'Project Final Defense/Presentation', 2, 1),
-(18, 'Revision of Software and Documents', 2, 1),
-(19, 'Submission of Final Requirements', 2, 1),
-(20, 'Discussion of the Guidelines', 3, 1),
-(21, 'Classroom Discussion', 3, 1),
-(22, 'Class/Library Activity; Research current trends in IT.', 3, 1),
-(23, 'Require instrument for software testing.', 3, 1),
-(24, 'Actual user acceptance', 3, 1),
-(25, 'Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.', 4, 1),
-(26, 'Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.', 4, 1),
-(27, 'Follow formulated testing instrument and comply with the checking and testing of the software.', 4, 1),
-(28, 'The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.', 4, 1),
-(29, 'The students can be able to produce Results and Discussion of the Proposal Paper.', 4, 1),
-(30, 'Conducts user acceptance testing', 4, 1),
-(31, '', 0, 0);
+INSERT INTO `outcomes` (`id`, `content`, `type`, `tags`, `status`) VALUES
+(1, 'Develop and execute the project requirements based from the proposal document.', 1, '[\"Capstone Project\"]', 1),
+(2, 'Test and evaluate the software product to validate for the process and output.', 1, '', 1),
+(3, 'Complete the system defined in the plan to satisfy the project specifications and present final documentation.', 1, '', 1),
+(4, 'Understand the fundamental concepts and principles of database management and database administration.', 1, '', 1),
+(5, 'Analyze business rules and translate them into user requirements.', 1, '', 1),
+(6, 'Design logical and relational database that meets specified user requirements following relational database design principles and constructs.', 1, '', 1),
+(7, 'Create SQL statements that retrieve information requirements of the organization needed for reports generation.', 1, '', 1),
+(8, 'Develop, execute and create the project deliverables.', 2, '[\"Capstone Project\"]', 1),
+(9, 'Test the software product to validate its process and output.', 2, '', 1),
+(10, 'Complete the work defined in the plan to satisfy the project specifications.', 2, '', 1),
+(11, 'Complete the 50% software development stated in the proposal.', 2, '', 1),
+(12, 'Understand Project Review and closure.', 2, '', 1),
+(13, 'Complete the 75% software development stated in the proposal.', 2, '', 1),
+(14, 'Create and present the final documentation.', 2, '', 1),
+(15, 'Execution of user acceptance testing.', 2, '', 1),
+(16, 'Mock defense', 2, '', 1),
+(17, 'Project Final Defense/Presentation', 2, '', 1),
+(18, 'Revision of Software and Documents', 2, '', 1),
+(19, 'Submission of Final Requirements', 2, '', 1),
+(20, 'Discussion of the Guidelines', 3, '', 1),
+(21, 'Classroom Discussion', 3, '', 1),
+(22, 'Class/Library Activity; Research current trends in IT.', 3, '', 1),
+(23, 'Require instrument for software testing.', 3, '', 1),
+(24, 'Actual user acceptance', 3, '', 1),
+(25, 'Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.', 4, '', 1),
+(26, 'Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.', 4, '', 1),
+(27, 'Follow formulated testing instrument and comply with the checking and testing of the software.', 4, '', 1),
+(28, 'The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.', 4, '', 1),
+(29, 'The students can be able to produce Results and Discussion of the Proposal Paper.', 4, '', 1),
+(30, 'Conducts user acceptance testing', 4, '', 1),
+(31, '', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1628,6 +1629,7 @@ ALTER TABLE `material_field_relation`
 ALTER TABLE `outcomes`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`content`);
+ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX_TAGS` (`tags`);
 
 --
 -- Indexes for table `outcome_field_relation`

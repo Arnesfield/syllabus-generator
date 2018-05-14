@@ -205,6 +205,7 @@ export default {
     selected: [],
     suggested: [],
     highlighted: null,
+    limit: 30,
 
     syllabus: null,
     
@@ -327,8 +328,32 @@ export default {
     }, 300),
 
     suggest() {
-      this.loading = false
+      // do no execute sugget when bus suggestions is off
+      if (!this.$bus.generator.suggestions) {
+        this.loading = false
+        return
+      }
 
+      // get books
+      let books = this.syllabus.content.bookReferences
+
+      this.loading = true
+      this.$http.post(this.suggestUrl, qs.stringify({
+        type: 1,
+        books: books,
+        courseId: this.syllabus.course_id,
+        limit: this.limit
+      })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.loading = false
+        this.items = res.data.outcomes
+      }).catch((e) => {
+        console.error(e)
+        this.loading = false
+      })
     }
   }
 }

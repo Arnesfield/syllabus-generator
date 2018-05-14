@@ -39,6 +39,21 @@ class Books_model extends MY_Custom_Model {
     $query = $this->db->get();
     return $this->_res($query);
   }
+  
+  public function getWhereInCitation($books = FALSE) {
+    if (!$books) {
+      return array();
+    }
+
+    $query = $this->db
+      ->from('books')
+      ->where_in('citation', $books)
+      ->where('status !=', -1)
+      ->order_by('updated_at')
+      ->order_by('created_at')
+      ->get();
+    return $this->_res($query);
+  }
 
   public function getRelatedBooksWithFields($fields, $limit = 10) {
     if (!$fields) {

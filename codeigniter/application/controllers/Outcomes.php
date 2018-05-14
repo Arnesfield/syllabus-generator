@@ -35,10 +35,53 @@ class Outcomes extends MY_Custom_Controller {
   public function suggest() {
     $type = $this->input->post('type');
     $course_id = $this->input->post('courseId');
+    $books = $this->input->post('books');
+    $limit = $this->input->post('limit');
+
+    $tags = array();
+
+    // get books wherein title
+    $this->load->model('books_model');
+    $newBooks = $this->books_model->getWhereInCitation($books);
+    $newBooks = $this->_formatBooks($newBooks);
+    foreach ($newBooks as $key => $value) {
+      $tags = array_merge($tags, $value['tags']);
+    }
+
+    // get course
+    $this->load->model('courses_model');
+    $courses = $this->courses_model->getWhere(array('id' => $course_id));
+    if (!$courses) {
+      $this->_json(FALSE);
+    }
+    
+    $course = $this->_formatCourses($courses)[0];
+    $tags = array_merge($tags, $course['tags']);
+
+    // unique tags
+    $tags = array_unique($tags);
+
+    // get outcomes
+    $outcomes = $this->outcomes_model->getByTags($type, $tags);
+
+    // change outcomes to string
+    if ($outcomes) {
+      foreach ($outcomes as $key => $outcome) {
+        $outcomes[$key] = $outcome['content'];
+      }
+    }
+
+    $this->_json(TRUE, array(
+      'outcomes' => $outcomes,
+      'tags' => $tags
+    ));
+
+
+    return;
+
     $book_ids = $this->input->post('bookIds') ? $this->input->post('bookIds') : FALSE;
     $topic_ids = $this->input->post('topicIds') ? $this->input->post('topicIds') : FALSE;
     $curriculum_id = $this->input->post('curriculumId');
-    $limit = $this->input->post('limit');
     $cloLimit = $this->input->post('cloLimit');
 
     // clo content only when suggesting ilos

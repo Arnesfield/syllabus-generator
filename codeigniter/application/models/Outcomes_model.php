@@ -21,6 +21,30 @@ class Outcomes_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
+  public function getByTags($type, $tags = FALSE) {
+    if (!$tags) {
+      return FALSE;
+    }
+
+    // concatenate tags
+    $t = implode(' ', $tags);
+    $t = strtolower($t);
+
+    $query = $this->db
+      ->from('outcomes')
+      ->where("
+        (
+          (
+            LOWER(tags) LIKE '%$t%'
+          ) OR MATCH(tags) AGAINST ('*$t*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE)
+      ->where('type', $type)
+      ->get();
+
+    return $this->_res($query);
+  }
+
   public function getRelatedOutcomesWithFields($fields, $type, $limit = 10, $outcomes = FALSE) {
     if (!$fields) {
       return FALSE;
