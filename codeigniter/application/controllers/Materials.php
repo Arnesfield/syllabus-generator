@@ -37,40 +37,6 @@ class Materials extends MY_Custom_Controller {
     $materials = $this->materials_model->getByTags($tags, $limit);
     $materials = $this->materials_model->_to_col($materials, 'name');
     $this->_json(TRUE, 'materials', $materials);
-
-    return;
-
-    // get fields of course
-    // get fields of books selected
-    // get fields of materials
-
-    $cFields = $this->fields_model->getFieldsByCourseId($course_id);
-    $bFields = $this->fields_model->getFieldsByBookIds($book_ids);
-    $tMaterials = $this->fields_model->getMaterialsByTopicIds($topic_ids);
-    $fields = array();
-    if (is_array($cFields)) {
-      foreach ($cFields as $field) {
-        array_push($fields, $field['field_id']);
-      }
-    }
-    if (is_array($bFields)) {
-      foreach ($bFields as $field) {
-        // if not yet in array, include it
-        if (!in_array($field['field_id'], $fields)) {
-          array_push($fields, $field['field_id']);
-        }
-      }
-    }
-    $materialsArr = array();
-    if (is_array($tMaterials)) {
-      foreach ($tMaterials as $material) {
-        array_push($materialsArr, $material['material_id']);
-      }
-    }
-
-    $materials = $this->materials_model->getRelatedMaterialsWithFields($fields, $limit, $materialsArr);
-    $materials = $this->materials_model->_to_col($materials, 'name');
-    $this->_json(TRUE, 'materials', $materials);
   }
 }
 
