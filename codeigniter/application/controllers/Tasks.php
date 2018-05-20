@@ -18,10 +18,52 @@ class Tasks extends MY_Custom_Controller {
 
   public function suggest() {
     $course_id = $this->input->post('courseId');
-    $book_ids = $this->input->post('bookIds') ? $this->input->post('bookIds') : FALSE;
-    $topic_ids = $this->input->post('topicIds') ? $this->input->post('topicIds') : FALSE;
+    $books = $this->input->post('books') ? $this->input->post('books') : FALSE;
+    $topics = $this->input->post('topics') ? $this->input->post('topics') : FALSE;
     $curriculum_id = $this->input->post('curriculumId');
     $limit = $this->input->post('limit');
+
+    $tags = array();
+
+    // get course
+    $this->load->model('courses_model');
+    $courses = $this->courses_model->getWhere(array('id' => $course_id));
+    if (!$courses) {
+      $this->_json(FALSE);
+    }
+    
+    $course = $this->_formatCourses($courses)[0];
+    $tags = array_merge($tags, $course['tags']);
+
+    // get books wherein title
+    if ($books) {
+      $this->load->model('books_model');
+      $newBooks = $this->books_model->getWhereInCitation($books);
+      $newBooks = $this->_formatBooks($newBooks);
+      foreach ($newBooks as $key => $value) {
+        $tags = array_merge($tags, $value['tags']);
+      }
+    }
+
+    // get topics
+    if ($topics) {
+      $this->load->model('topics_model');
+      $newTopics = $this->topics_model->getWhereInName($topics);
+      $newTopics = $this->_formatTopics($newTopics);
+      foreach ($newTopics as $key => $value) {
+        $tags = array_merge($tags, $value['tags']);
+      }
+    }
+
+    // unique tags
+    $tags = array_unique($tags);
+
+    // get tasks
+    $tasks = $this->tasks_model->getByTags($tags, $limit);
+    $tasks = $this->tasks_model->_to_col($tasks, 'name');
+    $this->_json(TRUE, 'tasks', $tasks);
+
+    return;
 
     // get fields of course
     // get fields of books selected

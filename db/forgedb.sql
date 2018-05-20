@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2018 at 01:21 PM
+-- Generation Time: May 20, 2018 at 01:47 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -903,6 +903,7 @@ CREATE TABLE `tasks` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `tags` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -910,31 +911,31 @@ CREATE TABLE `tasks` (
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`id`, `name`, `description`, `status`) VALUES
-(1, 'Assignment', '', 1),
-(2, 'Recitation', '', 1),
-(3, 'Short Quiz', '', 1),
-(4, 'Case Study 1', '', 1),
-(5, 'Seatwork/Boardwork', '', 1),
-(6, 'Lab Exercise 1', '', 1),
-(7, 'Case Study 3', '', 1),
-(8, 'Lab Exercise 2', '', 1),
-(9, 'Case Study 4', '', 1),
-(10, 'Lab Exercise 3', '', 1),
-(11, 'Case Study 5', '', 1),
-(12, 'Lab Exercise 4', '', 1),
-(13, 'Case Study 6', '', 1),
-(14, 'Lab Exercise 5', '', 1),
-(15, 'Lab Exercise 6', '', 1),
-(16, 'Case Study 7', '', 1),
-(17, 'Lab Exercise 7', '', 1),
-(18, 'Lab Exercise 8', '', 1),
-(19, 'Seatwork', '', 1),
-(20, 'Group Dynamics', '', 1),
-(21, 'Group Presentation', '', 1),
-(22, 'Class Activity', '', 1),
-(23, 'Documentation', '', 1),
-(24, 'Testing', '', 1);
+INSERT INTO `tasks` (`id`, `name`, `description`, `tags`, `status`) VALUES
+(1, 'Assignment', '', '[\"Programming\",\"Database\"]', 1),
+(2, 'Recitation', '', '[\"Programming\",\"Database\"]', 1),
+(3, 'Short Quiz', '', '[\"Programming\",\"Database\"]', 1),
+(4, 'Case Study 1', '', '[\"Programming\"]', 1),
+(5, 'Seatwork/Boardwork', '', '[\"Programming\",\"Database\"]', 1),
+(6, 'Lab Exercise 1', '', '[\"Programming\"]', 1),
+(7, 'Case Study 3', '', '[\"Programming\"]', 1),
+(8, 'Lab Exercise 2', '', '[\"Programming\"]', 1),
+(9, 'Case Study 4', '', '[\"Programming\"]', 1),
+(10, 'Lab Exercise 3', '', '[\"Programming\"]', 1),
+(11, 'Case Study 5', '', '[\"Programming\"]', 1),
+(12, 'Lab Exercise 4', '', '[\"Programming\"]', 1),
+(13, 'Case Study 6', '', '[\"Programming\"]', 1),
+(14, 'Lab Exercise 5', '', '[\"Database\"]', 1),
+(15, 'Lab Exercise 6', '', '[\"Database\"]', 1),
+(16, 'Case Study 7', '', '[\"Database\"]', 1),
+(17, 'Lab Exercise 7', '', '[\"Database\"]', 1),
+(18, 'Lab Exercise 8', '', '[\"Database\"]', 1),
+(19, 'Seatwork', '', '[\"Programming\",\"Database\"]', 1),
+(20, 'Group Dynamics', '', '[\"Capstone Project\"]', 1),
+(21, 'Group Presentation', '', '[\"Capstone Project\"]', 1),
+(22, 'Class Activity', '', '[\"Capstone Project\"]', 1),
+(23, 'Documentation', '', '[\"Capstone Project\"]', 1),
+(24, 'Testing', '', '[\"Capstone Project\"]', 1);
 
 -- --------------------------------------------------------
 
@@ -1665,6 +1666,8 @@ ALTER TABLE `syllabi`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
+ALTER TABLE `tasks` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
+ALTER TABLE `tasks` ADD FULLTEXT KEY `FULLTEXT_INDEX_NAME_TAGS` (`name`,`tags`);
 
 --
 -- Indexes for table `task_field_relation`
