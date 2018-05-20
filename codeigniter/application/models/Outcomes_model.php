@@ -21,7 +21,7 @@ class Outcomes_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getByTags($type, $tags = FALSE) {
+  public function getByTags($type, $tags = FALSE, $limit = 10) {
     if (!$tags) {
       return array();
     }
@@ -40,6 +40,7 @@ class Outcomes_model extends MY_Custom_Model {
         )
       ", NULL, FALSE)
       ->where('type', $type)
+      ->limit($limit)
       ->get();
 
     return $this->_res($query);

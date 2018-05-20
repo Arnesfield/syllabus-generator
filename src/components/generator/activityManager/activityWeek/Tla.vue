@@ -228,6 +228,10 @@ export default {
         type: this.type,
         limit: this.limit
       })).then((res) => {
+        console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         this.loading = false
         this.tla = res.data.outcomes
       }).catch((e) => {

@@ -35,7 +35,7 @@ class Outcomes extends MY_Custom_Controller {
   public function suggest() {
     $type = $this->input->post('type');
     $course_id = $this->input->post('courseId');
-    $books = $this->input->post('books');
+    $books = $this->input->post('books') ? $this->input->post('books') : FALSE;
     $topics = $this->input->post('topics') ? $this->input->post('topics') : FALSE;
     $limit = $this->input->post('limit');
 
@@ -75,7 +75,7 @@ class Outcomes extends MY_Custom_Controller {
     $tags = array_unique($tags);
 
     // get outcomes
-    $outcomes = $this->outcomes_model->getByTags($type, $tags);
+    $outcomes = $this->outcomes_model->getByTags($type, $tags, $limit);
 
     // change outcomes to string
     if ($outcomes) {

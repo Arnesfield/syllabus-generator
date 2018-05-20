@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2018 at 12:56 PM
+-- Generation Time: May 20, 2018 at 01:21 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -477,6 +477,7 @@ CREATE TABLE `materials` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `tags` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -484,10 +485,10 @@ CREATE TABLE `materials` (
 -- Dumping data for table `materials`
 --
 
-INSERT INTO `materials` (`id`, `name`, `description`, `status`) VALUES
-(1, 'Whiteboard', '', 1),
-(2, 'Net book', '', 1),
-(3, 'DLP', '', 1);
+INSERT INTO `materials` (`id`, `name`, `description`, `tags`, `status`) VALUES
+(1, 'Whiteboard', '', '[\"Capstone Project\"]', 1),
+(2, 'Net book', '', '[\"Capstone Project\"]', 1),
+(3, 'DLP', '', '[\"Capstone Project\"]', 1);
 
 -- --------------------------------------------------------
 
@@ -1617,6 +1618,8 @@ ALTER TABLE `fields`
 --
 ALTER TABLE `materials`
   ADD PRIMARY KEY (`id`);
+ALTER TABLE `materials` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
+ALTER TABLE `materials` ADD FULLTEXT KEY `FULLTEXT_INDEX_NAME_TAGS` (`name`,`tags`);
 
 --
 -- Indexes for table `material_field_relation`

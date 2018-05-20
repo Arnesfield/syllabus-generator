@@ -18,7 +18,7 @@ class Topics extends MY_Custom_Controller {
 
   public function suggest() {
     $course_id = $this->input->post('courseId');
-    $books = $this->input->post('books');
+    $books = $this->input->post('books') ? $this->input->post('books') : FALSE;
     $outcomes = $this->_filter($this->input->post('outcomes'));
     $curriculum_id = $this->input->post('curriculumId');
     $limit = $this->input->post('limit');
