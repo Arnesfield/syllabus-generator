@@ -18,10 +18,44 @@ class Topics extends MY_Custom_Controller {
 
   public function suggest() {
     $course_id = $this->input->post('courseId');
-    $book_ids = $this->input->post('bookIds');
+    $books = $this->input->post('books');
     $outcomes = $this->_filter($this->input->post('outcomes'));
     $curriculum_id = $this->input->post('curriculumId');
     $limit = $this->input->post('limit');
+
+    $tags = array();
+
+    // get books wherein title
+    $this->load->model('books_model');
+    $newBooks = $this->books_model->getWhereInCitation($books);
+    $newBooks = $this->_formatBooks($newBooks);
+    foreach ($newBooks as $key => $value) {
+      $tags = array_merge($tags, $value['tags']);
+    }
+
+    // get course
+    $this->load->model('courses_model');
+    $courses = $this->courses_model->getWhere(array('id' => $course_id));
+    if (!$courses) {
+      $this->_json(FALSE);
+    }
+    
+    $course = $this->_formatCourses($courses)[0];
+    $tags = array_merge($tags, $course['tags']);
+
+    // unique tags
+    $tags = array_unique($tags);
+
+    // get topics
+    // iclude both clo and ilo content
+    $topics = $this->topics_model->getRelatedTopicsWithFieldsAndOutcomes($tags, $outcomes, $limit);
+    $topics = $this->topics_model->_to_col($topics, 'name');
+    $this->_json(TRUE, array(
+      'topics' => $topics,
+      'tags' => $tags
+    ));
+
+    return;
 
     // get fields of course
     // get selected outcomes (both CLO and ILO)

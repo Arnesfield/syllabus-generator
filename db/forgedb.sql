@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2018 at 06:12 PM
+-- Generation Time: May 20, 2018 at 12:19 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -987,6 +987,7 @@ INSERT INTO `task_field_relation` (`id`, `task_id`, `field_id`, `status`) VALUES
 CREATE TABLE `topics` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `tags` text NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -994,36 +995,36 @@ CREATE TABLE `topics` (
 -- Dumping data for table `topics`
 --
 
-INSERT INTO `topics` (`id`, `name`, `status`) VALUES
-(1, 'Lesson 1. Project Development', 1),
-(2, 'Lesson 2. Software Evaluation', 1),
-(3, 'Lesson 3. Project Control and Project Closure', 1),
-(4, 'Lesson 4. Project Management Process Issues', 1),
-(5, 'Lesson 5. Writing Proposals', 1),
-(6, 'Lesson 6. Writing Proposals', 1),
-(7, 'Users\' Acceptance Testing', 1),
-(8, 'Module 1. The Database Environment and Development Process', 1),
-(9, 'Module 2. Modeling Data in the Organization', 1),
-(10, 'Module 3. Enhanced E-R Model', 1),
-(11, 'Module 4. Logical Database Design and the Relational Model', 1),
-(12, 'Module 5. Introduction to SQL', 1),
-(13, 'Module 6. Data Definition Language (DDL)', 1),
-(14, 'Module 7. Data Manipulation Language (DML) and Transaction Control', 1),
-(15, 'Module 8. Advanced SQL', 1),
-(16, 'Module 9. Data Control Language (DCL)', 1),
-(17, 'Module 10. Data and Database Administration', 1),
-(18, 'Module 1. Introduction to Programming', 1),
-(19, 'Module 2.1. Introduction to C++', 1),
-(20, 'Module 2.2. Basic Input and Output', 1),
-(21, 'Module 2.3. Operators', 1),
-(22, 'Module 3. Assignment and Formatting', 1),
-(23, 'Module 4. Program Control Structures', 1),
-(24, 'Module 5. Repetition Control Structure', 1),
-(25, 'Module 6. Introduction to Arrays', 1),
-(26, 'PBL Orientation', 1),
-(27, 'Sample topic 1', 1),
-(28, 'Sample topic 2', 1),
-(29, 'Sample topic 3', 1);
+INSERT INTO `topics` (`id`, `name`, `tags`, `status`) VALUES
+(1, 'Lesson 1. Project Development', '[\"Capstone Project\"]', 1),
+(2, 'Lesson 2. Software Evaluation', '[\"Capstone Project\"]', 1),
+(3, 'Lesson 3. Project Control and Project Closure', '[\"Capstone Project\"]', 1),
+(4, 'Lesson 4. Project Management Process Issues', '[\"Capstone Project\"]', 1),
+(5, 'Lesson 5. Writing Proposals', '[\"Capstone Project\"]', 1),
+(6, 'Lesson 6. Writing Proposals', '[\"Capstone Project\"]', 1),
+(7, 'Users\' Acceptance Testing', '[\"Capstone Project\"]', 1),
+(8, 'Module 1. The Database Environment and Development Process', '[\"Database\"]', 1),
+(9, 'Module 2. Modeling Data in the Organization', '[\"Database\"]', 1),
+(10, 'Module 3. Enhanced E-R Model', '[\"Database\"]', 1),
+(11, 'Module 4. Logical Database Design and the Relational Model', '[\"Database\"]', 1),
+(12, 'Module 5. Introduction to SQL', '[\"Database\"]', 1),
+(13, 'Module 6. Data Definition Language (DDL)', '[\"Database\"]', 1),
+(14, 'Module 7. Data Manipulation Language (DML) and Transaction Control', '[\"Database\"]', 1),
+(15, 'Module 8. Advanced SQL', '[\"Database\"]', 1),
+(16, 'Module 9. Data Control Language (DCL)', '[\"Database\"]', 1),
+(17, 'Module 10. Data and Database Administration', '[\"Database\"]', 1),
+(18, 'Module 1. Introduction to Programming', '[\"Programming\"]', 1),
+(19, 'Module 2.1. Introduction to C++', '[\"Programming\"]', 1),
+(20, 'Module 2.2. Basic Input and Output', '[\"Programming\"]', 1),
+(21, 'Module 2.3. Operators', '[\"Programming\"]', 1),
+(22, 'Module 3. Assignment and Formatting', '[\"Programming\"]', 1),
+(23, 'Module 4. Program Control Structures', '[\"Programming\"]', 1),
+(24, 'Module 5. Repetition Control Structure', '[\"Programming\"]', 1),
+(25, 'Module 6. Introduction to Arrays', '[\"Programming\"]', 1),
+(26, 'PBL Orientation', '[\"Capstone Project\"]', 1),
+(27, 'Sample topic 1', '', 1),
+(28, 'Sample topic 2', '', 1),
+(29, 'Sample topic 3', '', 1);
 
 -- --------------------------------------------------------
 
@@ -1673,6 +1674,7 @@ ALTER TABLE `task_field_relation`
 --
 ALTER TABLE `topics`
   ADD PRIMARY KEY (`id`);
+ALTER TABLE `topics` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
 
 --
 -- Indexes for table `topic_field_relation`

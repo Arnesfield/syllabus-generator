@@ -23,12 +23,27 @@ class Topics_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getRelatedTopicsWithFieldsAndOutcomes($fields, $outcomes, $limit = 10) {
-    if (!$fields) {
+  public function getRelatedTopicsWithFieldsAndOutcomes($tags, $outcomes, $limit = 10) {
+    if (!$tags) {
       return FALSE;
     }
 
+    // concatenate tags
+    $t = implode(' ', $tags);
+    $t = strtolower($t);
+
     $this->db
+      ->from('topics')
+      ->where("
+        (
+          (
+            LOWER(tags) LIKE '%$t%'
+          ) OR MATCH(tags) AGAINST ('*$t*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE)
+      ->limit($limit);
+
+    /* $this->db
       ->select('
         t.id AS id,
         t.name AS name
@@ -47,7 +62,7 @@ class Topics_model extends MY_Custom_Model {
     $this->db
       ->group_by('t.id')
       ->order_by('COUNT(*)', 'DESC')
-      ->limit($limit);
+      ->limit($limit); */
 
     $query = $this->db->get();
     return $this->_res($query);

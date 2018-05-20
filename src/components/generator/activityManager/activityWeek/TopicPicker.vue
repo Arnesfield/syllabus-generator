@@ -121,6 +121,7 @@ export default {
     suggestUrl: '/topics/suggest',
     topics: [],
     selected: [],
+    limit: 30,
 
     dialog: false,
     search: null,
@@ -211,13 +212,9 @@ export default {
         this.loading = false
         return
       }
-      // include book ids
-      let bookIds = []
-      if (typeof this.syllabus.content.bookReferences !== 'undefined') {
-        this.syllabus.content.bookReferences.forEach(e => {
-          bookIds.push(e.id)
-        })
-      }
+
+      // get books
+      let books = this.syllabus.content.bookReferences
 
       // include clo content
       let cloContent = ''
@@ -236,13 +233,16 @@ export default {
 
       this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
-        bookIds: bookIds,
+        books: books,
         outcomes: outcomes,
         courseId: this.syllabus.course_id,
         curriculumId: poId,
-        limit: 30
+        limit: this.limit
       })).then((res) => {
         console.warn(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
         this.loading = false
         this.topics = res.data.topics
       }).catch((e) => {
