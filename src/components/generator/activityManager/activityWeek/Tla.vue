@@ -123,6 +123,7 @@ export default {
     suggestUrl: '/outcomes/suggest',
     tla: [],
     selected: [],
+    limit: 30,
 
     dialog: false,
     search: null,
@@ -209,32 +210,23 @@ export default {
         this.loading = false
         return
       }
-      // include book ids
-      let bookIds = []
-      if (typeof this.syllabus.content.bookReferences !== 'undefined') {
-        this.syllabus.content.bookReferences.forEach(e => {
-          bookIds.push(e.id)
-        })
-      }
+      
+      // get books
+      let books = this.syllabus.content.bookReferences
 
-      // include topic ids
-      let topicIds = []
-      this.act.topics.forEach(e => {
-        if (typeof e.id !== 'undefined') {
-          topicIds.push(e.id)
-        }
-      })
+      // include topic
+      let topics = this.act.topics
 
       let poId = this.syllabus.content.programOutcomes.id
 
       this.loading = true
       this.$http.post(this.suggestUrl, qs.stringify({
-        bookIds: bookIds,
-        topicIds: topicIds,
+        books: books,
+        topics: topics,
         courseId: this.syllabus.course_id,
         curriculumId: poId,
         type: this.type,
-        limit: 30
+        limit: this.limit
       })).then((res) => {
         this.loading = false
         this.tla = res.data.outcomes

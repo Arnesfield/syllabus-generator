@@ -3,8 +3,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Topics_model extends MY_Custom_Model {
 
-  public function getByQuery($search) {
+  public function getWhereInName($topics = FALSE) {
+    if (!$topics) {
+      return array();
+    }
+    
+    $query = $this->db
+      ->from('topics')
+      ->where_in('name', $topics)
+      ->where('status !=', -1)
+      ->get();
+    return $this->_res($query);
+  }
+
+  public function getByQuery($search = FALSE, $where = FALSE) {
     $this->db
+      ->from('topics')
+      ->where('status !=', -1);
+    
+    if ($search) {
+      $search = strtolower($search);
+      $this->db->where("
+        (
+          (
+            LOWER(name) LIKE '%$search%' OR
+            LOWER(tags) LIKE '%$search%'
+          ) OR MATCH(name, tags) AGAINST ('*$search*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE);
+    }
+    
+    if ($where) {
+      $this->db->where($where);
+    }
+
+    /* $this->db
       ->select('
         t.id AS id,
         t.name AS name
@@ -18,7 +51,8 @@ class Topics_model extends MY_Custom_Model {
         ))
         like lower(concat('%', '$search', '%'))
       ")
-      ->group_by('t.id');
+      ->group_by('t.id'); */
+    
     $query = $this->db->get();
     return $this->_res($query);
   }
@@ -34,6 +68,7 @@ class Topics_model extends MY_Custom_Model {
 
     $this->db
       ->from('topics')
+      ->where('status !=', -1)
       ->where("
         (
           (

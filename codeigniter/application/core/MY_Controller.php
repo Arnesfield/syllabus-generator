@@ -232,6 +232,16 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $books;
   }
 
+  public function _formatTopics($topics) {
+    if ($topics) {
+      foreach ($topics as $key => $topic) {
+        $tags = json_decode($topic['tags'], TRUE);
+        $topics[$key]['tags'] = is_array($tags) ? $tags : array();
+      }
+    }
+    return $topics;
+  }
+
   public function _formatCurriculum($arr) {
     if ($arr) {
       foreach ($arr as $key => $value) {

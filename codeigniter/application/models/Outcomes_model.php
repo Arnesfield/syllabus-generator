@@ -23,7 +23,7 @@ class Outcomes_model extends MY_Custom_Model {
 
   public function getByTags($type, $tags = FALSE) {
     if (!$tags) {
-      return FALSE;
+      return array();
     }
 
     // concatenate tags
@@ -47,7 +47,7 @@ class Outcomes_model extends MY_Custom_Model {
 
   public function getRelatedOutcomesWithFields($fields, $type, $limit = 10, $outcomes = FALSE) {
     if (!$fields) {
-      return FALSE;
+      return array();
     }
     
     $this->db
@@ -76,7 +76,7 @@ class Outcomes_model extends MY_Custom_Model {
   
   public function getILOsFromCLOs($clo_content = FALSE, $limit = 10) {
     if (!$clo_content) {
-      return FALSE;
+      return array();
     }
 
     $this->db

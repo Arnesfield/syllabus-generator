@@ -36,17 +36,10 @@ class Outcomes extends MY_Custom_Controller {
     $type = $this->input->post('type');
     $course_id = $this->input->post('courseId');
     $books = $this->input->post('books');
+    $topics = $this->input->post('topics') ? $this->input->post('topics') : FALSE;
     $limit = $this->input->post('limit');
 
     $tags = array();
-
-    // get books wherein title
-    $this->load->model('books_model');
-    $newBooks = $this->books_model->getWhereInCitation($books);
-    $newBooks = $this->_formatBooks($newBooks);
-    foreach ($newBooks as $key => $value) {
-      $tags = array_merge($tags, $value['tags']);
-    }
 
     // get course
     $this->load->model('courses_model');
@@ -57,6 +50,26 @@ class Outcomes extends MY_Custom_Controller {
     
     $course = $this->_formatCourses($courses)[0];
     $tags = array_merge($tags, $course['tags']);
+
+    // get books wherein title
+    if ($books) {
+      $this->load->model('books_model');
+      $newBooks = $this->books_model->getWhereInCitation($books);
+      $newBooks = $this->_formatBooks($newBooks);
+      foreach ($newBooks as $key => $value) {
+        $tags = array_merge($tags, $value['tags']);
+      }
+    }
+
+    // get topics
+    if ($topics) {
+      $this->load->model('topics_model');
+      $newTopics = $this->topics_model->getWhereInName($topics);
+      $newTopics = $this->_formatTopics($newTopics);
+      foreach ($newTopics as $key => $value) {
+        $tags = array_merge($tags, $value['tags']);
+      }
+    }
 
     // unique tags
     $tags = array_unique($tags);
@@ -71,10 +84,7 @@ class Outcomes extends MY_Custom_Controller {
       }
     }
 
-    $this->_json(TRUE, array(
-      'outcomes' => $outcomes,
-      'tags' => $tags
-    ));
+    $this->_json(TRUE, 'outcomes', $outcomes);
 
 
     return;
