@@ -454,6 +454,48 @@ class MY_Custom_Controller extends MY_View_Controller {
     );
   }
 
+  // generator commons
+
+  public function _g_getTagsOfCourse($course_id, $tags = array()) {
+    // get course
+    $this->load->model('courses_model');
+    $courses = $this->courses_model->getWhere(array('id' => $course_id));
+    if (!$courses) {
+      $this->_json(FALSE);
+    }
+    
+    $course = $this->_formatCourses($courses)[0];
+    $tags = array_merge($tags, $course['tags']);
+
+    return $tags;
+  }
+
+  public function _g_getTagsOfBooks($books, $tags = array()) {
+    // get books wherein title
+    if ($books) {
+      $this->load->model('books_model');
+      $newBooks = $this->books_model->getWhereInCitation($books);
+      $newBooks = $this->_formatBooks($newBooks);
+      foreach ($newBooks as $key => $value) {
+        $tags = array_merge($tags, $value['tags']);
+      }
+    }
+    return $tags;
+  }
+
+  public function _g_getTagsOfTopics($topics, $tags = array()) {
+    // get topics
+    if ($topics) {
+      $this->load->model('topics_model');
+      $newTopics = $this->topics_model->getWhereInName($topics);
+      $newTopics = $this->_formatTopics($newTopics);
+      foreach ($newTopics as $key => $value) {
+        $tags = array_merge($tags, $value['tags']);
+      }
+    }
+    return $tags;
+  }
+
   public function _updateSess() {
     $this->load->model('users_model');
     $uid = $this->session->userdata('user')['id'];

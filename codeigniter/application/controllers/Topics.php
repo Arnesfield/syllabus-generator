@@ -25,25 +25,9 @@ class Topics extends MY_Custom_Controller {
 
     $tags = array();
 
-    // get course
-    $this->load->model('courses_model');
-    $courses = $this->courses_model->getWhere(array('id' => $course_id));
-    if (!$courses) {
-      $this->_json(FALSE);
-    }
-    
-    $course = $this->_formatCourses($courses)[0];
-    $tags = array_merge($tags, $course['tags']);
-
-    if ($books) {
-      // get books wherein title
-      $this->load->model('books_model');
-      $newBooks = $this->books_model->getWhereInCitation($books);
-      $newBooks = $this->_formatBooks($newBooks);
-      foreach ($newBooks as $key => $value) {
-        $tags = array_merge($tags, $value['tags']);
-      }
-    }
+    // get tags of course and books
+    $tags = $this->_g_getTagsOfCourse($course_id, $tags);
+    $tags = $this->_g_getTagsOfBooks($books, $tags);
 
     // unique tags
     $tags = array_unique($tags);

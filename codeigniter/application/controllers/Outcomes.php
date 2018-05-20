@@ -41,35 +41,10 @@ class Outcomes extends MY_Custom_Controller {
 
     $tags = array();
 
-    // get course
-    $this->load->model('courses_model');
-    $courses = $this->courses_model->getWhere(array('id' => $course_id));
-    if (!$courses) {
-      $this->_json(FALSE);
-    }
-    
-    $course = $this->_formatCourses($courses)[0];
-    $tags = array_merge($tags, $course['tags']);
-
-    // get books wherein title
-    if ($books) {
-      $this->load->model('books_model');
-      $newBooks = $this->books_model->getWhereInCitation($books);
-      $newBooks = $this->_formatBooks($newBooks);
-      foreach ($newBooks as $key => $value) {
-        $tags = array_merge($tags, $value['tags']);
-      }
-    }
-
-    // get topics
-    if ($topics) {
-      $this->load->model('topics_model');
-      $newTopics = $this->topics_model->getWhereInName($topics);
-      $newTopics = $this->_formatTopics($newTopics);
-      foreach ($newTopics as $key => $value) {
-        $tags = array_merge($tags, $value['tags']);
-      }
-    }
+    // get tags of course, books, and topics
+    $tags = $this->_g_getTagsOfCourse($course_id, $tags);
+    $tags = $this->_g_getTagsOfBooks($books, $tags);
+    $tags = $this->_g_getTagsOfTopics($topics, $tags);
 
     // unique tags
     $tags = array_unique($tags);
