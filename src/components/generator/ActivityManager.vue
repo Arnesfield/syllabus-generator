@@ -3,8 +3,8 @@
 
   <h4 class="headline mb-2">Weekly Activities</h4>
 
-  <div class="scrollable-x">
-    <table class="syllabus-tbl" border="1">
+  <div class="scrollable-x elevation-1">
+    <table class="syllabus-tbl no-outside-border">
       <tr>
         <th style="width: 1px">&nbsp;</th>
         <th style="width: 1px">Weeks</th>
@@ -17,7 +17,21 @@
       </tr>
       <tr>
         <td>
-          <button type="button" @click="add(0)">+</button>
+          <div style="margin: 0 auto; width: 32px">
+            <v-tooltip top>
+              <v-btn
+                icon
+                small
+                flat
+                class="ma-0"
+                slot="activator"
+                @click="add(0)"
+              >
+                <v-icon small color="grey darken-1">add</v-icon>
+              </v-btn>
+              <span>Add</span>
+            </v-tooltip>
+          </div>
         </td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>

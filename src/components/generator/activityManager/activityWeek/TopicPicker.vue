@@ -18,8 +18,22 @@
   >
     <ul>
       <li :key="i" v-for="(t, i) in selected">
-        <button type="button" @click="selected.splice(i, 1)" class="red--text">&times;</button>
-        <span v-html="$md.makeHtml(t)"/>
+        <v-layout align-baseline>
+          <v-tooltip top>
+            <v-btn
+              icon
+              small
+              flat
+              class="ma-0"
+              slot="activator"
+              @click="selected.splice(i, 1)"
+            >
+              <v-icon small color="error">close</v-icon>
+            </v-btn>
+            <span>Remove</span>
+          </v-tooltip>
+          <span v-html="$md.makeHtml(t)"/>
+        </v-layout>
       </li>
     </ul>
   </div>

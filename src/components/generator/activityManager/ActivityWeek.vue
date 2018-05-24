@@ -1,8 +1,34 @@
 <template>
 <tr>
-  <td>
-    <button type="button" @click="$emit('remove', index)" class="red--text">&times;</button>
-    <button type="button" @click="$emit('add', index + 1)">+</button>
+  <td style="width: 1px; margin: 0 auto">
+    <div style="margin: 0 auto; width: 32px">
+      <v-tooltip top>
+        <v-btn
+          icon
+          small
+          flat
+          class="ma-0"
+          slot="activator"
+          @click="$emit('remove', index)"
+        >
+          <v-icon small color="error">close</v-icon>
+        </v-btn>
+        <span>Remove</span>
+      </v-tooltip>
+      <v-tooltip top>
+        <v-btn
+          icon
+          small
+          flat
+          class="ma-0"
+          slot="activator"
+          @click="$emit('add', index + 1)"
+        >
+          <v-icon small color="grey darken-1">add</v-icon>
+        </v-btn>
+        <span>Add Below</span>
+      </v-tooltip>
+    </div>
   </td>
   <td>
     <input class="noOfWeeks" type="number" min="1" max="99" v-model="act.noOfWeeks">
