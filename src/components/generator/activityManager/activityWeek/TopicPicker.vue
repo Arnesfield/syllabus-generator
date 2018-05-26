@@ -128,7 +128,8 @@ export default {
   props: {
     act: Object,
     syllabus: Object,
-    index: Number
+    index: Number,
+    value: Array
   },
   data: () => ({
     url: '/topics',
@@ -143,10 +144,14 @@ export default {
   }),
 
   watch: {
+    value(e) {
+      this.selected = e
+    },
     selected(to, from) {
       // set to topics in syllabus
-      this.act.topics = to
+      // this.act.topics = to
       // update topics on tla
+      this.$emit('input', to)
       this.$bus.$emit('gen--topics.updated')
     },
     dialog(e) {
@@ -174,9 +179,10 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
 
     // set topics
-    if (this.act) {
-      this.selected = this.act.topics
-    }
+    // if (this.act) {
+    //   this.selected = this.act.topics
+    // }
+    this.selected = this.value
 
     this.suggest()
   },

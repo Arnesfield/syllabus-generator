@@ -1,7 +1,38 @@
 <template>
 <div v-if="syllabus">
 
-  <h4 class="headline mb-2">Weekly Activities</h4>
+  <div class="pa-2">
+    <v-list class="elevation-1 py-0" two-line>
+      <v-list-tile
+        ripple
+        @click="add(activities.length)"
+      >
+        <v-list-tile-action class="thin-action">
+          <v-tooltip top>
+            <v-btn
+              icon
+              flat
+              slot="activator"
+              color="primary"
+              @click="add(activities.length)"
+            >
+              <v-icon>today</v-icon>
+            </v-btn>
+            <span>Add activity</span>
+          </v-tooltip>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title
+            v-text="'Add activity'"
+            class="primary--text text--lighten-1"
+          />
+          <v-list-tile-sub-title v-text="'Total activities: ' + activities.length"/>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+  </div>
+
+  <v-divider class="mb-3 mt-2"/>
 
   <div class="scrollable-x elevation-1">
     <table class="syllabus-tbl no-outside-border">

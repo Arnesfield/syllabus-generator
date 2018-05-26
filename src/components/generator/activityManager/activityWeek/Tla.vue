@@ -130,7 +130,8 @@ export default {
     act: Object,
     syllabus: Object,
     index: Number,
-    type: Number
+    type: Number,
+    value: Array
   },
   data: () => ({
     url: '/outcomes',
@@ -145,12 +146,16 @@ export default {
   }),
 
   watch: {
+    value(e) {
+      this.selected = e
+    },
     selected(to, from) {
-      if (this.type === 3) {
-        this.act.tlaFaculty = to
-      } else if (this.type === 4) {
-        this.act.tlaStudent = to
-      }
+      // if (this.type === 3) {
+      //   this.act.tlaFaculty = to
+      // } else if (this.type === 4) {
+      //   this.act.tlaStudent = to
+      // }
+      this.$emit('input', to)
     },
     dialog(e) {
       if (e) {
@@ -176,13 +181,14 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
 
     // set tla
-    if (this.act) {
-      if (this.type === 3) {
-        this.selected = this.act.tlaFaculty
-      } else if (this.type === 4) {
-        this.selected = this.act.tlaStudent
-      }
-    }
+    // if (this.act) {
+    //   if (this.type === 3) {
+    //     this.selected = this.act.tlaFaculty
+    //   } else if (this.type === 4) {
+    //     this.selected = this.act.tlaStudent
+    //   }
+    // }
+    this.selected = this.value
 
     this.suggest()
   },

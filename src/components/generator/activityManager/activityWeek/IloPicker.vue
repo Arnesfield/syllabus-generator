@@ -128,7 +128,8 @@ export default {
   props: {
     act: Object,
     syllabus: Object,
-    index: Number
+    index: Number,
+    value: Array
   },
   data: () => ({
     url: '/outcomes',
@@ -142,8 +143,12 @@ export default {
   }),
 
   watch: {
+    value(e) {
+      this.selected = e
+    },
     selected(to, from) {
-      this.act.ilo = to
+      // this.act.ilo = to
+      this.$emit('input', to)
       this.$bus.$emit('gen--ilo.updated')
     },
     dialog(e) {
@@ -171,9 +176,10 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
 
     // set ilo
-    if (this.act) {
-      this.selected = this.act.ilo
-    }
+    // if (this.act) {
+    //   this.selected = this.act.ilo
+    // }
+    this.selected = this.value
 
     this.suggest()
   },

@@ -128,7 +128,8 @@ export default {
   props: {
     act: Object,
     syllabus: Object,
-    index: Number
+    index: Number,
+    value: Array
   },
   data: () => ({
     url: '/materials',
@@ -143,8 +144,12 @@ export default {
   }),
 
   watch: {
+    value(e) {
+      this.selected = e
+    },
     selected(to, from) {
-      this.act.instructionalMaterials = to
+      // this.act.instructionalMaterials = to
+      this.$emit('input', to)
     },
     dialog(e) {
       if (e) {
@@ -170,9 +175,10 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
 
     // set materials
-    if (this.act) {
-      this.selected = this.act.instructionalMaterials
-    }
+    // if (this.act) {
+    //   this.selected = this.act.instructionalMaterials
+    // }
+    this.selected = this.value
 
     this.suggest()
   },

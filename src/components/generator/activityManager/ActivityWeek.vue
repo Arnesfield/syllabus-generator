@@ -38,6 +38,7 @@
       :act="act"
       :index="index"
       :syllabus="syllabus"
+      v-model="act.ilo"
     />
   </td>
   <td style="width: 1px">
@@ -45,6 +46,7 @@
       :act="act"
       :index="index"
       :syllabus="syllabus"
+      v-model="act.topics"
     />
   </td>
   <td style="width: 1px">
@@ -53,6 +55,7 @@
       :index="index"
       :syllabus="syllabus"
       :type="3"
+      v-model="act.tlaFaculty"
     />
   </td>
   <td style="width: 1px">
@@ -61,6 +64,7 @@
       :index="index"
       :syllabus="syllabus"
       :type="4"
+      v-model="act.tlaStudent"
     />
   </td>
   <td style="width: 1px">
@@ -68,6 +72,7 @@
       :act="act"
       :index="index"
       :syllabus="syllabus"
+      v-model="act.instructionalMaterials"
     />
   </td>
   <td style="width: 1px">
@@ -75,6 +80,7 @@
       :act="act"
       :index="index"
       :syllabus="syllabus"
+      v-model="act.assessmentTasks"
     />
   </td>
   <td style="width: 1px">

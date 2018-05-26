@@ -128,7 +128,8 @@ export default {
   props: {
     act: Object,
     syllabus: Object,
-    index: Number
+    index: Number,
+    value: Array
   },
   data: () => ({
     url: '/tasks',
@@ -143,9 +144,13 @@ export default {
   }),
 
   watch: {
+    value(e) {
+      this.selected = e
+    },
     selected(to, from) {
       // set to tasks in syllabus
-      this.act.assessmentTasks = to
+      // this.act.assessmentTasks = to
+      this.$emit('input', to)
     },
     dialog(e) {
       if (e) {
@@ -171,9 +176,10 @@ export default {
     this.$bus.$on('watch--generator.suggestions', this.suggest)
 
     // set tasks
-    if (this.act) {
-      this.selected = this.act.assessmentTasks
-    }
+    // if (this.act) {
+    //   this.selected = this.act.assessmentTasks
+    // }
+    this.selected = this.value
 
     this.suggest()
   },
