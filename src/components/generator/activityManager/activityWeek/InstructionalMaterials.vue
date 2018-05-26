@@ -180,7 +180,7 @@ export default {
     // }
     this.selected = this.value
 
-    this.suggest()
+    // this.suggest()
   },
   beforeDestroy() {
     this.$bus.$off('gen--topics.updated', this.suggest)

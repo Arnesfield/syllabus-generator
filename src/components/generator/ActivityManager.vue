@@ -89,6 +89,23 @@
     </table>
   </div>
 
+  <v-container
+    fluid
+    grid-list-lg
+    class="mt-3 pa-0"
+  >
+    <v-layout row wrap>
+      <v-spacer/>
+      <v-btn
+        color="primary lighten-1"
+        @click="add(activities.length)"
+      >
+        <v-icon>today</v-icon>&nbsp;
+        <span>Add activity</span>
+      </v-btn>
+    </v-layout>
+  </v-container>
+
 </div>
 </template>
 
