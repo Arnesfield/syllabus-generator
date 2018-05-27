@@ -78,12 +78,16 @@
         :index="index"
         :act="activity"
         :syllabus="syllabus"
+        :activities="activities"
         v-for="(activity, index) in activities"
         @add="add"
         @remove="remove"/>
       <tr>
         <td>&nbsp;</td>
-        <td class="text-xs-center">Total Week/s: {{ totalWeeks }}</td>
+        <td class="text-xs-center">
+          <div>Total Week/s: <strong v-text="totalWeeks"/></div>
+          <div>Total Hour/s: <strong v-text="totalHours"/></div>
+        </td>
         <td :colspan="cloLength + 7">&nbsp;</td>
       </tr>
     </table>
@@ -92,7 +96,7 @@
   <v-container
     fluid
     grid-list-lg
-    class="mt-3 pa-0"
+    class="mt-3 pa-0 height-padding"
   >
     <v-layout row wrap>
       <v-spacer/>
@@ -111,6 +115,7 @@
 
 <script>
 import ActivityWeek from './activityManager/ActivityWeek'
+import getTotalOf from '@/assets/js/getTotalOf'
 
 export default {
   name: 'activity-manager',
@@ -129,9 +134,10 @@ export default {
       return this.syllabus.content.courseLearningOutcomes.length
     },
     totalWeeks() {
-      return this.activities.reduce((total, act) => {
-        return total + Number(act.noOfWeeks)
-      }, 0)
+      return getTotalOf(this.activities, 'noOfWeeks')
+    },
+    totalHours() {
+      return getTotalOf(this.activities, 'noOfHours')
     }
   },
 
@@ -158,13 +164,16 @@ export default {
     add(i) {
       this.activities.splice(i, 0, {
         noOfWeeks: 1,
+        noOfHours: 1.00,
         topics: [],
         ilo: [],
         cloMap: [],
         tlaFaculty: [],
         tlaStudent: [],
         instructionalMaterials: [],
-        assessmentTasks: []
+        assessmentTasks: [],
+        text: null,
+        asObject: true
       })
     },
     remove(i) {

@@ -229,64 +229,86 @@
           :key="'act-' + i"
           v-for="(act, i) in c.weeklyActivities"
         >
-          <td>{{ act.noOfWeeks }}</td>
-          
-          <td>
-            <ul>
-              <li
-                :key="'ilo-' + i"
-                v-for="(ilo, i) in act.ilo"
-                v-html="$md.makeHtml(ilo)"
-              />
-            </ul>
+          <td class="text-xs-center">
+            <div v-text="getWeeks(act, i)"></div>
+            <div>({{ act.noOfHours }} hrs)</div>
           </td>
           
-          <td>
-            <ul>
-              <li
-                :key="'topic-' + i"
-                v-for="(topic, i) in act.topics"
-                v-html="$md.makeHtml(topic)"
-              />
-            </ul>
-          </td>
-          
-          <td>
-            <ul>
-              <li
-                :key="'tlaFaculty-' + i"
-                v-for="(tla, i) in act.tlaFaculty"
-                v-html="$md.makeHtml(tla)"
-              ></li>
-            </ul>
-          </td>
+          <template v-if="act.asObject">
 
-          <td>
-            <ul>
-              <li
-                :key="'tlaStudent-' + i"
-                v-for="(tla, i) in act.tlaStudent"
-                v-html="$md.makeHtml(tla)"
-              ></li>
-            </ul>
-          </td>
+            <td>
+              <ul>
+                <li
+                  :key="'ilo-' + i"
+                  v-for="(ilo, i) in act.ilo"
+                  v-html="$md.makeHtml(ilo)"
+                />
+              </ul>
+            </td>
+            
+            <td>
+              <ul>
+                <li
+                  :key="'topic-' + i"
+                  v-for="(topic, i) in act.topics"
+                  v-html="$md.makeHtml(topic)"
+                />
+              </ul>
+            </td>
+            
+            <td>
+              <ul>
+                <li
+                  :key="'tlaFaculty-' + i"
+                  v-for="(tla, i) in act.tlaFaculty"
+                  v-html="$md.makeHtml(tla)"
+                ></li>
+              </ul>
+            </td>
 
-          <td>
-            <ul>
-              <li
-                :key="'assessmentTasks-' + i"
-                v-for="(task, i) in act.assessmentTasks"
-                v-html="$md.makeHtml(task)"
-              ></li>
-            </ul>
-          </td>
+            <td>
+              <ul>
+                <li
+                  :key="'tlaStudent-' + i"
+                  v-for="(tla, i) in act.tlaStudent"
+                  v-html="$md.makeHtml(tla)"
+                ></li>
+              </ul>
+            </td>
 
-          <td>
-            <template
-              v-for="(clo, i) in sortCloMap(act.cloMap)"
-            >{{ clo+1 }}{{ i != act.cloMap.length-1 ? ', ' : '' }}</template>
-          </td>
+            <td>
+              <ul>
+                <li
+                  :key="'assessmentTasks-' + i"
+                  v-for="(task, i) in act.assessmentTasks"
+                  v-html="$md.makeHtml(task)"
+                ></li>
+              </ul>
+            </td>
 
+            <td>
+              <template
+                v-for="(clo, i) in sortCloMap(act.cloMap)"
+              >{{ clo+1 }}{{ i != act.cloMap.length-1 ? ', ' : '' }}</template>
+            </td>
+
+          </template>
+
+          <template v-else>
+            <td colspan="6">
+              <div v-text="act.text"></div>
+            </td>
+          </template>
+
+        </tr>
+
+        <tr>
+          <td class="text-xs-center">
+            <strong>{{ totalHours }} hrs</strong>
+          </td>
+          <td colspan="6">
+            <strong>Total Hours</strong>
+          </td>
         </tr>
 
       </table>
@@ -315,11 +337,11 @@
 
       <table border="1" class="mt-3 syllabus-tbl">
         <tr>
-          <th>CLO</th>
+          <th style="width: 1px">CLO</th>
           <th>Summative Assessment Task (SAT)</th>
         </tr>
         <tr :key="'sat-' + clo" v-for="(_, clo) in c.cloPoMap">
-          <td>{{ Number(clo)+1 }}</td>
+          <td class="text-xs-center">{{ Number(clo)+1 }}</td>
           <td>
             <template
               v-for="(task, j) in y = sat(clo)"
@@ -337,6 +359,7 @@
             <td
               :key="i"
               :style="{ width: 100 / c.gradingSystem.length + '%' }"
+              class="text-xs-center bold"
               v-for="(item, i) in c.gradingSystem"
               v-html="$md.makeHtml(item.label)"
             />
@@ -363,18 +386,13 @@
         </tr>
         <tr v-if="c.bookReferences.length">
           <td>
-            <template
-              v-for="(book, i) in c.bookReferences"
-            >
+            <div>
               <div
                 :key="'book-' + i"
                 v-html="$md.makeHtml(book)"
-              ></div>
-              <br
-                :key="'book-br-' + i"
-                v-if="c.bookReferences.length-1 != i"
+                v-for="(book, i) in c.bookReferences"
               />
-            </template>
+            </div>
           </td>
         </tr>
       </table>
@@ -460,6 +478,8 @@ import CourseUnits from '@/include/CourseUnits'
 import SyllabusUsers from '@/include/SyllabusUsers'
 import DialogLoading from '@/include/dialogs/DialogLoading'
 import CurriculumView from '@/include/CurriculumView'
+import getWeeks from '@/assets/js/getWeeks'
+import getTotalOf from '@/assets/js/getTotalOf'
 
 export default {
   name: 'syllabus-inst',
@@ -564,10 +584,18 @@ export default {
         this.$set(this.syllabus.content, 'approvedBy', approvedBy)
       }
       return approvedBy
+    },
+
+    totalHours() {
+      return getTotalOf(this.c.weeklyActivities, 'noOfHours')
     }
   },
 
   methods: {
+    getWeeks(act, index) {
+      return getWeeks(this.c.weeklyActivities, act, index)
+    },
+
     resetPages() {
       Object.keys(this.pages).forEach(e => {
         this.pages[e] = null
@@ -639,6 +667,10 @@ export default {
       }
 
       let materials = this.c.weeklyActivities.reduce((filtered, e) => {
+        // if activity is not object, do not include
+        if (!e.asObject) {
+          return filtered
+        }
         let names = e.instructionalMaterials
         return filtered.concat(names)
       }, [])
@@ -652,6 +684,10 @@ export default {
       }
 
       let tasks = this.c.weeklyActivities.reduce((filtered, e) => {
+        // if activity is not object, do not include
+        if (!e.asObject) {
+          return filtered
+        }
         // check if clo exists in cloMap
         let names = []
         if (e.cloMap.indexOf(Number(clo)) > -1) {

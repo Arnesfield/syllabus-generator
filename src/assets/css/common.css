@@ -161,6 +161,10 @@ table.no-outside-border th {
   background-color: #c1c1c1;
 }
 
+.height-padding {
+  min-height: 120px;
+}
+
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;

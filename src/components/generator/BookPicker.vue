@@ -59,7 +59,7 @@
     </v-list>
   </div>
 
-  <v-layout>
+  <v-layout class="height-padding">
     <v-spacer/>
     <v-btn
       color="primary lighten-1"
