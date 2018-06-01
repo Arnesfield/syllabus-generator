@@ -224,83 +224,84 @@
 
         <!-- week -->
 
-        <tr
-          v-if="c.weeklyActivities"
-          :key="'act-' + i"
-          v-for="(act, i) in c.weeklyActivities"
-        >
-          <td class="text-xs-center">
-            <div v-text="getWeeks(act, i)"></div>
-            <div>({{ act.noOfHours }} hrs)</div>
-          </td>
-          
-          <template v-if="act.asObject">
-
-            <td>
-              <ul>
-                <li
-                  :key="'ilo-' + i"
-                  v-for="(ilo, i) in act.ilo"
-                  v-html="$md.makeHtml(ilo)"
-                />
-              </ul>
+        <template v-if="c.weeklyActivities">
+          <tr
+            :key="'act-' + i"
+            v-for="(act, i) in c.weeklyActivities"
+          >
+            <td class="text-xs-center">
+              <div v-text="getWeeks(act, i)"></div>
+              <div>({{ act.noOfHours }} hrs)</div>
             </td>
             
-            <td>
-              <ul>
-                <li
-                  :key="'topic-' + i"
-                  v-for="(topic, i) in act.topics"
-                  v-html="$md.makeHtml(topic)"
-                />
-              </ul>
-            </td>
-            
-            <td>
-              <ul>
-                <li
-                  :key="'tlaFaculty-' + i"
-                  v-for="(tla, i) in act.tlaFaculty"
-                  v-html="$md.makeHtml(tla)"
-                ></li>
-              </ul>
-            </td>
+            <template v-if="act.asObject">
 
-            <td>
-              <ul>
-                <li
-                  :key="'tlaStudent-' + i"
-                  v-for="(tla, i) in act.tlaStudent"
-                  v-html="$md.makeHtml(tla)"
-                ></li>
-              </ul>
-            </td>
+              <td>
+                <ul>
+                  <li
+                    :key="'ilo-' + i"
+                    v-for="(ilo, i) in act.ilo"
+                    v-html="$md.makeHtml(ilo)"
+                  />
+                </ul>
+              </td>
+              
+              <td>
+                <ul>
+                  <li
+                    :key="'topic-' + i"
+                    v-for="(topic, i) in act.topics"
+                    v-html="$md.makeHtml(topic)"
+                  />
+                </ul>
+              </td>
+              
+              <td>
+                <ul>
+                  <li
+                    :key="'tlaFaculty-' + i"
+                    v-for="(tla, i) in act.tlaFaculty"
+                    v-html="$md.makeHtml(tla)"
+                  ></li>
+                </ul>
+              </td>
 
-            <td>
-              <ul>
-                <li
-                  :key="'assessmentTasks-' + i"
-                  v-for="(task, i) in act.assessmentTasks"
-                  v-html="$md.makeHtml(task)"
-                ></li>
-              </ul>
-            </td>
+              <td>
+                <ul>
+                  <li
+                    :key="'tlaStudent-' + i"
+                    v-for="(tla, i) in act.tlaStudent"
+                    v-html="$md.makeHtml(tla)"
+                  ></li>
+                </ul>
+              </td>
 
-            <td>
-              <template
-                v-for="(clo, i) in sortCloMap(act.cloMap)"
-              >{{ clo+1 }}{{ i != act.cloMap.length-1 ? ', ' : '' }}</template>
-            </td>
+              <td>
+                <ul>
+                  <li
+                    :key="'assessmentTasks-' + i"
+                    v-for="(task, i) in act.assessmentTasks"
+                    v-html="$md.makeHtml(task)"
+                  ></li>
+                </ul>
+              </td>
 
-          </template>
+              <td>
+                <template
+                  v-for="(clo, i) in sortCloMap(act.cloMap)"
+                >{{ clo+1 }}{{ i != act.cloMap.length-1 ? ', ' : '' }}</template>
+              </td>
 
-          <template v-else>
-            <td colspan="6">
-              <div v-text="act.text"></div>
-            </td>
-          </template>
+            </template>
 
-        </tr>
+            <template v-else>
+              <td colspan="6">
+                <div v-html="$md.makeHtml(act.text)"></div>
+              </td>
+            </template>
+
+          </tr>
+        </template>
 
         <tr>
           <td class="text-xs-center">
