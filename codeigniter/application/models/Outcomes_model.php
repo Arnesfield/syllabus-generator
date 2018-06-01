@@ -3,10 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Outcomes_model extends MY_Custom_Model {
 
-  public function getByQuery($search, $where) {
-    $this->db
-      ->select('id, content')
-      ->from('outcomes');
+  public function getByQuery($search, $where, $limit = NULL) {
+    $this->db->from('outcomes');
 
     if ($where) {
       $this->db->where($where);
@@ -14,7 +12,18 @@ class Outcomes_model extends MY_Custom_Model {
 
     if ($search) {
       $search = strtolower($search);
-      $this->db->where("LOWER(content) LIKE '%$search%'");
+      $this->db->where("
+        (
+          (
+            LOWER(content) LIKE '%$search%' OR
+            LOWER(tags) LIKE '%$search%'
+          ) OR MATCH(content, tags) AGAINST ('*$search*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE);
+    }
+
+    if (is_numeric($limit)) {
+      $this->db->limit($limit);
     }
     
     $query = $this->db->get();

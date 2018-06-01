@@ -242,6 +242,16 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $topics;
   }
 
+  public function _formatOutcomes($arr) {
+    if ($arr) {
+      foreach ($arr as $key => $value) {
+        $tags = json_decode($value['tags'], TRUE);
+        $arr[$key]['tags'] = is_array($tags) ? $tags : array();
+      }
+    }
+    return $arr;
+  }
+
   public function _formatCurriculum($arr) {
     if ($arr) {
       foreach ($arr as $key => $value) {

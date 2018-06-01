@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2018 at 02:35 PM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 7.1.7
+-- Generation Time: Jun 01, 2018 at 08:18 AM
+-- Server version: 10.1.9-MariaDB
+-- PHP Version: 5.6.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -42,7 +40,8 @@ CREATE TABLE `assigns` (
 --
 
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
-(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":2}],[{\"id\":4,\"status\":2}],[{\"id\":5,\"status\":2}]]}', 3, 1527422461, 1527424326, 2);
+(1, '{"assigned":{"id":3,"status":2},"course":1,"remarks":null,"levels":[[{"id":4,"status":2}],[{"id":4,"status":2}],[{"id":5,"status":2}]]}', 3, 1527422461, 1527424326, 2),
+(2, '{"assigned":{"id":3,"status":2},"course":1,"remarks":null,"levels":[[{"id":4,"status":2}],[{"id":5,"status":2}]]}', 3, 1527828566, 1527828566, 3);
 
 -- --------------------------------------------------------
 
@@ -64,8 +63,8 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`id`, `citation`, `tags`, `created_at`, `updated_at`, `status`) VALUES
-(1, 'Author Name. (1999). Some title of book or article about Android Development.', '[\"Android Application Development\"]', 0, 1522834404, 1),
-(2, 'Author\'s Name. (2001). Some book about JavaScript.', '[\"JavaScript\",\"Programming\",\"Web Development\",\"VueJS\"]', 0, 1522315528, 1),
+(1, 'Author Name. (1999). Some title of book or article about Android Development.', '["Android Application Development"]', 0, 1522834404, 1),
+(2, 'Author''s Name. (2001). Some book about JavaScript.', '["JavaScript","Programming","Web Development","VueJS"]', 0, 1522315528, 1),
 (3, 'Zak, Diane (2011) An Introduction to Programming with C++. 6th ed.  Australia: Course Technology', '', 0, 0, 1),
 (4, 'McGrath, Mike (2012) C++ Programming in Easy Steps.  4th ed.  Warwickshire, United Kingdom: Easy Steps Limited', '', 0, 0, 1),
 (5, 'Gaddis, Tony (2007) Starting out with C++. Pearson Publishing.	', '', 0, 1521736538, 1),
@@ -81,16 +80,16 @@ INSERT INTO `books` (`id`, `citation`, `tags`, `created_at`, `updated_at`, `stat
 (15, 'Connoly, T. (2010). Database Systems: A practical Approach to Design, Implementation and Management 5th Edition, McGraw Hill International.', '', 0, 0, 1),
 (16, 'Harrington, J. (2010). SQL Clearly Explained, Morgan Kaufmann.', '', 0, 0, 1),
 (17, 'Kroenke, D. (2010). Database Concepts 4th Edition, Pearson.', '', 0, 0, 1),
-(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', '[\"Capstone Project\",\"Project Management\",\"System Analysis\",\"System Design\"]', 0, 1526302967, 1),
-(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', '[\"Software Requirements\",\"Capstone Project\",\"Project Management\"]', 0, 1526302661, 1),
+(18, 'Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ', '["Capstone Project","Project Management","System Analysis","System Design"]', 0, 1526302967, 1),
+(19, 'Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press', '["Software Requirements","Capstone Project","Project Management"]', 0, 1526302661, 1),
 (20, 'Puntambekar, A. (2014). Object oriented analysis & design: a conceptual approach. Technical Publication: New Delhi', '', 0, 0, 1),
-(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', '[\"Capstone Project\",\"Project Management\"]', 0, 1526302620, 1),
+(21, 'Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology', '["Capstone Project","Project Management"]', 0, 1526302620, 1),
 (22, 'Test1', '', 0, 0, 1),
 (23, 'Test2', '', 0, 0, 0),
 (24, 'Test3', '', 0, 0, 1),
 (25, 'Test4', '', 0, 0, 1),
 (26, 'Test5', '', 0, 0, 0),
-(27, 'test', '[\"VBScript\",\"Programming\"]', 1522315610, 1522315748, 1);
+(27, 'test', '["VBScript","Programming"]', 1522315610, 1522315748, 1);
 
 -- --------------------------------------------------------
 
@@ -275,19 +274,19 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`id`, `title`, `code`, `description`, `objectives`, `unitsLec`, `unitsLab`, `tags`, `prerequisites`, `corequisites`, `created_at`, `updated_at`, `status`) VALUES
-(1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', '', 3, 0, '[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\"]', '[\"6\"]', '[]', 0, 1522415141, 1),
+(1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', '', 3, 0, '["Capstone Project","Software Testing","Software Evaluation","Software Requirements"]', '["6"]', '[]', 0, 1522415141, 1),
 (2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', '', 2, 1, '', '', '', 0, 0, 1),
 (3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', '', 2, 1, '', '', '', 0, 0, 1),
 (4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', '<p>Upon successful completion of this course, the student will be able to:</p>\r\n<ul>\r\n  <li>To develop understanding of the context of Database Management including: (a) the Database environment and (b) the Database development process.</li>\r\n  <li>To build expertise in Database Analysis that includes: (a) Modeling data in the organization and (b) the Enhanced E-R Model and business rules.</li>\r\n  <li>To develop skills in Database Design including: (a) Logical Database design and (b) the Relational Model.</li>\r\n  <li>To develop and implement Databases and enhance skills in advanced database topics including: (a) SQL/ Advanced SQL, and (b) Data and Database Administration.</li>\r\n</ul>', 2, 1, '', '', '', 0, 0, 1),
-(5, 'COMPUTER PROGRAMMING 1', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', '<p>Upon successful completion of this course, the student will be able to:</p> <ul>   <li>Know the similarities and differences between C and C++</li>   <li>Translate logic formulation into algorithms and flowchart;</li>   <li>Create working C++ programs;</li>   <li>Test and debug C++ programs; and</li>   <li>Create simple programs for input and output operations</li>   <li>Use the visual studio IDE in running C++ programs.</li>   <li>Understand and apply different control structures of C++</li>   <li>Understand and apply the principles of data storage and array manipulation</li>   <li>Perform tests in programs by using the \"if\" and \"switch\" control flow branching statements and repeat code segments by including \"for, while,\" and \"do…while\" control flow loops</li>   <li>Use critical thinking skills to create and debug C programs.</li> </ul>', 2, 1, '[]', '[]', '[\"14\"]', 0, 1522907882, 1),
-(6, 'PROJECT MANAGEMENT FOR IT-WMA', 'ITWPROMAN', 'This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.', '', 3, 0, '[]', '[]', '[\"3\"]', 0, 1523780512, 1),
-(7, 'SOME COURSE TITLE 1', 'NEWCOURSE1', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 2, 1, '', '', '', 0, 0, 0),
-(8, 'SOME COURSE TITLE 2', 'NEWCOURSE2', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, '', '', '', 0, 0, 1),
-(9, 'SOME COURSE TITLE 3', 'NEWCOURSE3', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, '', '', '', 0, 0, 0),
-(10, 'SOME COURSE TITLE 4', 'NEWCOURSE4', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 2, 1, '', '', '', 0, 0, 1),
-(11, 'SOME COURSE TITLE 5', 'NEWCOURSE5', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 3, 0, '', '', '', 0, 0, 1),
+(5, 'COMPUTER PROGRAMMING 1', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', '<p>Upon successful completion of this course, the student will be able to:</p> <ul>   <li>Know the similarities and differences between C and C++</li>   <li>Translate logic formulation into algorithms and flowchart;</li>   <li>Create working C++ programs;</li>   <li>Test and debug C++ programs; and</li>   <li>Create simple programs for input and output operations</li>   <li>Use the visual studio IDE in running C++ programs.</li>   <li>Understand and apply different control structures of C++</li>   <li>Understand and apply the principles of data storage and array manipulation</li>   <li>Perform tests in programs by using the "if" and "switch" control flow branching statements and repeat code segments by including "for, while," and "do…while" control flow loops</li>   <li>Use critical thinking skills to create and debug C programs.</li> </ul>', 2, 1, '[]', '[]', '["14"]', 0, 1522907882, 1),
+(6, 'PROJECT MANAGEMENT FOR IT-WMA', 'ITWPROMAN', 'This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.', '', 3, 0, '[]', '[]', '["3"]', 0, 1523780512, 1),
+(7, 'SOME COURSE TITLE 1', 'NEWCOURSE1', 'Some description with <h1>Header</h1> and '' " this \\ ?', 'Some objectives with <h1>Header</h1> and '' " this \\ ?', 2, 1, '', '', '', 0, 0, 0),
+(8, 'SOME COURSE TITLE 2', 'NEWCOURSE2', 'Some description with <h1>Header</h1> and '' " this \\ ?', 'Some objectives with <h1>Header</h1> and '' " this \\ ?', 3, 0, '', '', '', 0, 0, 1),
+(9, 'SOME COURSE TITLE 3', 'NEWCOURSE3', 'Some description with <h1>Header</h1> and '' " this \\ ?', 'Some objectives with <h1>Header</h1> and '' " this \\ ?', 3, 0, '', '', '', 0, 0, 0),
+(10, 'SOME COURSE TITLE 4', 'NEWCOURSE4', 'Some description with <h1>Header</h1> and '' " this \\ ?', 'Some objectives with <h1>Header</h1> and '' " this \\ ?', 2, 1, '', '', '', 0, 0, 1),
+(11, 'SOME COURSE TITLE 5', 'NEWCOURSE5', 'Some description with <h1>Header</h1> and '' " this \\ ?', 'Some objectives with <h1>Header</h1> and '' " this \\ ?', 3, 0, '', '', '', 0, 0, 1),
 (12, '', '', '', '', 0, 0, '', '', '', 0, 0, 1),
-(13, 'Some new course 1', 'SOMENEW1', 'Some nice course description\r\n1. with numbers :o\r\n2. waw\r\n3. another', 'Some nice course objectives with bullets\r\n- nice\r\n- waw\r\n    - sub-bullets too\r\n    - sub-bullets too', 3, 0, '[\"Programming\",\"Animation\"]', '[\"3\"]', '[\"2\",\"1\"]', 1522424825, 1523780496, 1),
+(13, 'Some new course 1', 'SOMENEW1', 'Some nice course description\r\n1. with numbers :o\r\n2. waw\r\n3. another', 'Some nice course objectives with bullets\r\n- nice\r\n- waw\r\n    - sub-bullets too\r\n    - sub-bullets too', 3, 0, '["Programming","Animation"]', '["3"]', '["2","1"]', 1522424825, 1523780496, 1),
 (14, 'COMPUTER PROGRAMMING 1 FOR IT (LAB)', 'ITPROG1L', 'Test', 'test', 0, 1, '[]', '[]', '[]', 1522907865, 1522907865, 1);
 
 -- --------------------------------------------------------
@@ -393,9 +392,9 @@ CREATE TABLE `curriculum` (
 --
 
 INSERT INTO `curriculum` (`id`, `label`, `content`, `latest`, `created_at`, `updated_at`, `status`) VALUES
-(1, '2015', '[{\"label\":\"a\",\"text\":\"Able to apply knowledge of computing fundamentals, technical concepts and practices, best practices and standards in the application of core information technologies, mathematics, science, and domain knowledge appropriate for the information technology practice to the abstraction and conceptualization of solution models from defined problems and requirements\"},{\"label\":\"b\",\"text\":\"Identify, formulate, research literature, and analyze user needs and taking them into account to solve complex information technology problems, reaching substantiated conclusions using fundamental principles of mathematics, computing fundamentals, technical concepts and practices in the core information technologies, and relevant domain disciplines.\"},{\"label\":\"c\",\"text\":\"Design and evaluate possible solutions for complex computing problems, and design and evaluate systems, components, or processes that meet specified user needs with appropriate consideration for public health and safety, cultural, societal, and environmental considerations\"},{\"label\":\"d\",\"text\":\"An ability to assist in the creation of an effective project plan to implement solution that includes selection, creation, evaluation, and administration of IT Systems\"},{\"label\":\"e\",\"text\":\"An ability to effectively integrate IT-based solutions into the user environment\"},{\"label\":\"f\",\"text\":\"An ability to administer delivered information system assuring its appropriateness to the user’s environment\"},{\"label\":\"g\",\"text\":\"Create, select, adapt and apply appropriate techniques, resources, and modern computing tools to complex computing activities, with an understanding of the limitations\"},{\"label\":\"h\",\"text\":\"Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings\"},{\"label\":\"i\",\"text\":\"Communicate effectively with the computing community and with society at large (in local and international scenes) about complex computing activities by being able to comprehend and write effective reports, design documentation, make effective presentations, and give and understand clear instructions\"},{\"label\":\"j\",\"text\":\"Understand and assess societal, health, safety, legal, and cultural issues within local and global contexts, and the consequential responsibilities relevant to professional computing practice\"},{\"label\":\"k\",\"text\":\"Understand and commit to professional ethics, responsibilities, and norms of professional computing practice\"},{\"label\":\"l\",\"text\":\"Recognize the need, and have the ability, to engage in independent learning for continual development as a computing professional\"}]', 0, 0, 1522493111, 1),
-(2, '2017', '[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}]', 1, 0, 1522772992, 1),
-(3, '2018', '[{\"label\":\"a\",\"text\":\"Sample\"}]', 0, 1522493286, 1522771798, 1);
+(1, '2015', '[{"label":"a","text":"Able to apply knowledge of computing fundamentals, technical concepts and practices, best practices and standards in the application of core information technologies, mathematics, science, and domain knowledge appropriate for the information technology practice to the abstraction and conceptualization of solution models from defined problems and requirements"},{"label":"b","text":"Identify, formulate, research literature, and analyze user needs and taking them into account to solve complex information technology problems, reaching substantiated conclusions using fundamental principles of mathematics, computing fundamentals, technical concepts and practices in the core information technologies, and relevant domain disciplines."},{"label":"c","text":"Design and evaluate possible solutions for complex computing problems, and design and evaluate systems, components, or processes that meet specified user needs with appropriate consideration for public health and safety, cultural, societal, and environmental considerations"},{"label":"d","text":"An ability to assist in the creation of an effective project plan to implement solution that includes selection, creation, evaluation, and administration of IT Systems"},{"label":"e","text":"An ability to effectively integrate IT-based solutions into the user environment"},{"label":"f","text":"An ability to administer delivered information system assuring its appropriateness to the user’s environment"},{"label":"g","text":"Create, select, adapt and apply appropriate techniques, resources, and modern computing tools to complex computing activities, with an understanding of the limitations"},{"label":"h","text":"Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings"},{"label":"i","text":"Communicate effectively with the computing community and with society at large (in local and international scenes) about complex computing activities by being able to comprehend and write effective reports, design documentation, make effective presentations, and give and understand clear instructions"},{"label":"j","text":"Understand and assess societal, health, safety, legal, and cultural issues within local and global contexts, and the consequential responsibilities relevant to professional computing practice"},{"label":"k","text":"Understand and commit to professional ethics, responsibilities, and norms of professional computing practice"},{"label":"l","text":"Recognize the need, and have the ability, to engage in independent learning for continual development as a computing professional"}]', 0, 0, 1522493111, 1),
+(2, '2017', '[{"label":"a","text":"Apply knowledge of computing, science and mathematics appropriate to the discipline."},{"label":"b","text":"Understand best practices and standards and their applications."},{"label":"c","text":"Analyze complex problems and identify and define the computing requirements appropriate to its solution."},{"label":"d","text":"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems."},{"label":"e","text":"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints."},{"label":"f","text":"Integrate IT-based solutions into the user environment effectively."},{"label":"g","text":"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession."},{"label":"h","text":"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal."},{"label":"i","text":"Assist in the creation of an effective IT project plan."},{"label":"j","text":"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions."},{"label":"k","text":"Analyze the local and global impact of computing information technology on individuals, organizations and society."},{"label":"l","text":"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology."},{"label":"m","text":"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development."}]', 1, 0, 1522772992, 1),
+(3, '2018', '[{"label":"a","text":"Sample"}]', 0, 1522493286, 1527831387, 1);
 
 -- --------------------------------------------------------
 
@@ -480,9 +479,9 @@ CREATE TABLE `materials` (
 --
 
 INSERT INTO `materials` (`id`, `name`, `description`, `tags`, `status`) VALUES
-(1, 'Whiteboard', '', '[\"Capstone Project\"]', 1),
-(2, 'Net book', '', '[\"Capstone Project\"]', 1),
-(3, 'DLP', '', '[\"Capstone Project\"]', 1);
+(1, 'Whiteboard', '', '["Capstone Project"]', 1),
+(2, 'Net book', '', '["Capstone Project"]', 1),
+(3, 'DLP', '', '["Capstone Project"]', 1);
 
 -- --------------------------------------------------------
 
@@ -528,36 +527,36 @@ CREATE TABLE `outcomes` (
 --
 
 INSERT INTO `outcomes` (`id`, `content`, `type`, `tags`, `status`) VALUES
-(1, 'Develop and execute the project requirements based from the proposal document.', 1, '[\"Capstone Project\"]', 1),
-(2, 'Test and evaluate the software product to validate for the process and output.', 1, '[\"Capstone Project\"]', 1),
-(3, 'Complete the system defined in the plan to satisfy the project specifications and present final documentation.', 1, '[\"Capstone Project\"]', 1),
-(4, 'Understand the fundamental concepts and principles of database management and database administration.', 1, '[\"Database\"]', 1),
-(5, 'Analyze business rules and translate them into user requirements.', 1, '[\"Database\"]', 1),
-(6, 'Design logical and relational database that meets specified user requirements following relational database design principles and constructs.', 1, '[\"Database\"]', 1),
-(7, 'Create SQL statements that retrieve information requirements of the organization needed for reports generation.', 1, '[\"Database\"]', 1),
-(8, 'Develop, execute and create the project deliverables.', 2, '[\"Capstone Project\"]', 1),
-(9, 'Test the software product to validate its process and output.', 2, '[\"Capstone Project\"]', 1),
-(10, 'Complete the work defined in the plan to satisfy the project specifications.', 2, '[\"Capstone Project\"]', 1),
-(11, 'Complete the 50% software development stated in the proposal.', 2, '[\"Capstone Project\"]', 1),
-(12, 'Understand Project Review and closure.', 2, '[\"Capstone Project\"]', 1),
-(13, 'Complete the 75% software development stated in the proposal.', 2, '[\"Capstone Project\"]', 1),
-(14, 'Create and present the final documentation.', 2, '[\"Capstone Project\"]', 1),
-(15, 'Execution of user acceptance testing.', 2, '[\"Capstone Project\"]', 1),
-(16, 'Mock defense', 2, '[\"Capstone Project\"]', 1),
-(17, 'Project Final Defense/Presentation', 2, '[\"Capstone Project\"]', 1),
-(18, 'Revision of Software and Documents', 2, '[\"Capstone Project\"]', 1),
-(19, 'Submission of Final Requirements', 2, '[\"Capstone Project\"]', 1),
-(20, 'Discussion of the Guidelines', 3, '[\"Capstone Project\"]', 1),
-(21, 'Classroom Discussion', 3, '[\"Capstone Project\"]', 1),
-(22, 'Class/Library Activity; Research current trends in IT.', 3, '[\"Capstone Project\"]', 1),
-(23, 'Require instrument for software testing.', 3, '[\"Capstone Project\"]', 1),
-(24, 'Actual user acceptance', 3, '[\"Capstone Project\"]', 1),
-(25, 'Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.', 4, '[\"Capstone Project\"]', 1),
-(26, 'Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.', 4, '[\"Capstone Project\"]', 1),
-(27, 'Follow formulated testing instrument and comply with the checking and testing of the software.', 4, '[\"Capstone Project\"]', 1),
-(28, 'The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.', 4, '[\"Capstone Project\"]', 1),
-(29, 'The students can be able to produce Results and Discussion of the Proposal Paper.', 4, '[\"Capstone Project\"]', 1),
-(30, 'Conducts user acceptance testing', 4, '[\"Capstone Project\"]', 1),
+(1, 'Develop and execute the project requirements based from the proposal document.', 1, '["Capstone Project"]', 1),
+(2, 'Test and evaluate the software product to validate for the process and output.', 1, '["Capstone Project"]', 1),
+(3, 'Complete the system defined in the plan to satisfy the project specifications and present final documentation.', 1, '["Capstone Project"]', 1),
+(4, 'Understand the fundamental concepts and principles of database management and database administration.', 1, '["Database"]', 1),
+(5, 'Analyze business rules and translate them into user requirements.', 1, '["Database"]', 1),
+(6, 'Design logical and relational database that meets specified user requirements following relational database design principles and constructs.', 1, '["Database"]', 1),
+(7, 'Create SQL statements that retrieve information requirements of the organization needed for reports generation.', 1, '["Database"]', 1),
+(8, 'Develop, execute and create the project deliverables.', 2, '["Capstone Project"]', 1),
+(9, 'Test the software product to validate its process and output.', 2, '["Capstone Project"]', 1),
+(10, 'Complete the work defined in the plan to satisfy the project specifications.', 2, '["Capstone Project"]', 1),
+(11, 'Complete the 50% software development stated in the proposal.', 2, '["Capstone Project"]', 1),
+(12, 'Understand Project Review and closure.', 2, '["Capstone Project"]', 1),
+(13, 'Complete the 75% software development stated in the proposal.', 2, '["Capstone Project"]', 1),
+(14, 'Create and present the final documentation.', 2, '["Capstone Project"]', 1),
+(15, 'Execution of user acceptance testing.', 2, '["Capstone Project"]', 1),
+(16, 'Mock defense', 2, '["Capstone Project"]', 1),
+(17, 'Project Final Defense/Presentation', 2, '["Capstone Project"]', 1),
+(18, 'Revision of Software and Documents', 2, '["Capstone Project"]', 1),
+(19, 'Submission of Final Requirements', 2, '["Capstone Project"]', 1),
+(20, 'Discussion of the Guidelines', 3, '["Capstone Project"]', 1),
+(21, 'Classroom Discussion', 3, '["Capstone Project"]', 1),
+(22, 'Class/Library Activity; Research current trends in IT.', 3, '["Capstone Project"]', 1),
+(23, 'Require instrument for software testing.', 3, '["Capstone Project"]', 1),
+(24, 'Actual user acceptance', 3, '["Capstone Project"]', 1),
+(25, 'Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.', 4, '["Capstone Project"]', 1),
+(26, 'Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.', 4, '["Capstone Project"]', 1),
+(27, 'Follow formulated testing instrument and comply with the checking and testing of the software.', 4, '["Capstone Project"]', 1),
+(28, 'The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.', 4, '["Capstone Project"]', 1),
+(29, 'The students can be able to produce Results and Discussion of the Proposal Paper.', 4, '["Capstone Project"]', 1),
+(30, 'Conducts user acceptance testing', 4, '["Capstone Project"]', 1),
 (31, '', 0, '', 0);
 
 -- --------------------------------------------------------
@@ -851,9 +850,9 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `name`, `content`, `updated_at`) VALUES
-(1, 'syllabusContent', '{\"institutionVision\":\"FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.\",\"departmentVision\":\"The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.\",\"departmentMission\":\"The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.\",\"programEducationalObjectives\":\"The graduates of the Bachelor of Science in Information Technology program are:\\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges.\"}', 1523275579),
-(2, 'gradingSystem', '[{\"label\":\"Midterm Grade\",\"text\":\"**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises\\/Machine Problems 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Project\\/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t40%**\\n\\n.\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"},{\"label\":\"Final Grade\",\"text\":\"**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises\\/Machine Problems 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Project\\/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t15%**\\n\\n**Final Exam (FE)\\t25%**\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"}]', 1523275585),
-(3, 'cloOptions', '[{\"symbol\":\"I\",\"text\":\"Introductory\"},{\"symbol\":\"E\",\"text\":\"Engaging\"},{\"symbol\":\"D\",\"text\":\"Demonstrative\"}]', 1523275586);
+(1, 'syllabusContent', '{"institutionVision":"FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.","institutionMission":"FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.","departmentVision":"The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.","departmentMission":"The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.","programEducationalObjectives":"The graduates of the Bachelor of Science in Information Technology program are:\\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges."}', 1523275579),
+(2, 'gradingSystem', '[{"label":"Midterm Grade","text":"**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises\\/Machine Problems 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Project\\/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t40%**\\n\\n.\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._"},{"label":"Final Grade","text":"**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises\\/Machine Problems 40%\\n    2. Teacher\\u2019s Evaluation 5%\\n    3. Project\\/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t15%**\\n\\n**Final Exam (FE)\\t25%**\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._"}]', 1523275585),
+(3, 'cloOptions', '[{"symbol":"I","text":"Introductory"},{"symbol":"E","text":"Engaging"},{"symbol":"D","text":"Demonstrative"}]', 1523275586);
 
 -- --------------------------------------------------------
 
@@ -878,7 +877,7 @@ CREATE TABLE `syllabi` (
 --
 
 INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `assign_id`, `content`, `version`, `created_at`, `updated_at`, `status`) VALUES
-(1, 1, 3, 1, '{\"institutionVision\":\"FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.\",\"departmentVision\":\"The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.\",\"departmentMission\":\"The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.\",\"programEducationalObjectives\":\"The graduates of the Bachelor of Science in Information Technology program are:\\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges.\",\"facultyInCharge\":{\"id\":\"3\",\"fname\":\"Smith\",\"mname\":\"\",\"lname\":\"Paul\",\"username\":\"ralph\",\"title\":\"\",\"weight\":\"0\",\"password\":\"$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6\",\"img_src\":\"\",\"tags\":[],\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"0\",\"auth\":[3,4]},\"evaluatedBy\":[[{\"id\":4,\"status\":2,\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}],[{\"id\":4,\"status\":2,\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}]],\"approvedBy\":[[{\"id\":5,\"status\":2,\"user\":{\"id\":\"5\",\"fname\":\"Rossana\",\"mname\":\"T.\",\"lname\":\"Adao\",\"username\":\"joanne\",\"title\":\"Senior Director, CCS\",\"weight\":\"10\",\"password\":\"$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522867906\",\"auth\":\"[\\\"5\\\"]\"}}]],\"bookReferences\":[\"Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology\",\"Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press\",\"Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ\"],\"programOutcomes\":{\"id\":\"2\",\"label\":\"2017\",\"content\":[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"latest\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522772992\",\"status\":\"1\"},\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\",\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":[{\"d\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"e\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"i\":{\"symbol\":\"I\",\"text\":\"Introductory\"}}],\"weeklyActivities\":[{\"noOfWeeks\":1,\"noOfHours\":\"5.34\",\"topics\":[\"Lesson 1. Project Development\",\"Lesson 2. Software Evaluation\"],\"ilo\":[\"Develop, execute and create the project deliverables.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[0],\"tlaFaculty\":[\"Discussion of the Guidelines\"],\"tlaStudent\":[\"Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.\",\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\"],\"instructionalMaterials\":[\"Whiteboard\"],\"assessmentTasks\":[\"Group Presentation\",\"Group Dynamics\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":\"2\",\"noOfHours\":\"5.34\",\"topics\":[\"Lesson 2. Software Evaluation\",\"Lesson 3. Project Control and Project Closure\"],\"ilo\":[\"Complete the work defined in the plan to satisfy the project specifications.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[1,2],\"tlaFaculty\":[\"Require instrument for software testing.\",\"Class/Library Activity; Research current trends in IT.\"],\"tlaStudent\":[\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\",\"The students can be able to produce Results and Discussion of the Proposal Paper.\"],\"instructionalMaterials\":[\"DLP\",\"Net book\"],\"assessmentTasks\":[\"Documentation\",\"Class Activity\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":1,\"noOfHours\":\"2\",\"topics\":[],\"ilo\":[],\"cloMap\":[0,1],\"tlaFaculty\":[],\"tlaStudent\":[],\"instructionalMaterials\":[],\"assessmentTasks\":[\"Testing\"],\"text\":\"Final Exam\",\"asObject\":false}],\"gradingSystem\":[{\"label\":\"Midterm Grade\",\"text\":\"**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t40%**\\n\\n.\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"},{\"label\":\"Final Grade\",\"text\":\"**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t15%**\\n\\n**Final Exam (FE)\\t25%**\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"}],\"versionType\":0,\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\"],\"prerequisites\":[{\"id\":\"6\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[],\"prerequisites\":\"[]\",\"corequisites\":\"[\\\"3\\\"]\",\"created_at\":\"0\",\"updated_at\":\"1523780512\",\"status\":\"1\"}],\"corequisites\":[],\"created_at\":\"0\",\"updated_at\":\"1522415141\",\"status\":\"1\"}}', '', 1527422833, 1527424326, 2);
+(1, 1, 3, 1, '{"institutionVision":"FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.","institutionMission":"FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.","departmentVision":"The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.","departmentMission":"The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.","programEducationalObjectives":"The graduates of the Bachelor of Science in Information Technology program are:\\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges.","facultyInCharge":{"id":"3","fname":"Smith","mname":"","lname":"Paul","username":"ralph","title":"","weight":"0","password":"$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6","img_src":"","tags":[],"status":"1","created_at":"0","updated_at":"0","auth":[3,4]},"evaluatedBy":[[{"id":4,"status":2,"user":{"id":"4","fname":"Roman","mname":"","lname":"De Angel","username":"roman","title":"Coordinator, ITWMA","weight":"1","password":"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO","img_src":"","tags":"[]","status":"1","created_at":"0","updated_at":"1522835142","auth":"[\\"3\\",\\"5\\"]"}}],[{"id":4,"status":2,"user":{"id":"4","fname":"Roman","mname":"","lname":"De Angel","username":"roman","title":"Coordinator, ITWMA","weight":"1","password":"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO","img_src":"","tags":"[]","status":"1","created_at":"0","updated_at":"1522835142","auth":"[\\"3\\",\\"5\\"]"}}]],"approvedBy":[[{"id":5,"status":2,"user":{"id":"5","fname":"Rossana","mname":"T.","lname":"Adao","username":"joanne","title":"Senior Director, CCS","weight":"10","password":"$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa","img_src":"","tags":"[]","status":"1","created_at":"0","updated_at":"1522867906","auth":"[\\"5\\"]"}}]],"bookReferences":["Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology","Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press","Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ"],"programOutcomes":{"id":"2","label":"2017","content":[{"label":"a","text":"Apply knowledge of computing, science and mathematics appropriate to the discipline."},{"label":"b","text":"Understand best practices and standards and their applications."},{"label":"c","text":"Analyze complex problems and identify and define the computing requirements appropriate to its solution."},{"label":"d","text":"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems."},{"label":"e","text":"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints."},{"label":"f","text":"Integrate IT-based solutions into the user environment effectively."},{"label":"g","text":"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession."},{"label":"h","text":"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal."},{"label":"i","text":"Assist in the creation of an effective IT project plan."},{"label":"j","text":"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions."},{"label":"k","text":"Analyze the local and global impact of computing information technology on individuals, organizations and society."},{"label":"l","text":"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology."},{"label":"m","text":"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development."}],"latest":"1","created_at":"0","updated_at":"1522772992","status":"1"},"courseLearningOutcomes":["Develop and execute the project requirements based from the proposal document.","Test and evaluate the software product to validate for the process and output.","Complete the system defined in the plan to satisfy the project specifications and present final documentation."],"intendedLearningOutcomes":[],"cloPoMap":[{"d":{"symbol":"I","text":"Introductory"}},{"e":{"symbol":"I","text":"Introductory"}},{"i":{"symbol":"I","text":"Introductory"}}],"weeklyActivities":[{"noOfWeeks":1,"noOfHours":"5.34","topics":["Lesson 1. Project Development","Lesson 2. Software Evaluation"],"ilo":["Develop, execute and create the project deliverables.","Test the software product to validate its process and output."],"cloMap":[0],"tlaFaculty":["Discussion of the Guidelines"],"tlaStudent":["Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.","Class/Library Activity; search the current trends in IT so that they will have the idea in making their title."],"instructionalMaterials":["Whiteboard"],"assessmentTasks":["Group Presentation","Group Dynamics"],"text":null,"asObject":true},{"noOfWeeks":"2","noOfHours":"5.34","topics":["Lesson 2. Software Evaluation","Lesson 3. Project Control and Project Closure"],"ilo":["Complete the work defined in the plan to satisfy the project specifications.","Test the software product to validate its process and output."],"cloMap":[1,2],"tlaFaculty":["Require instrument for software testing.","Class/Library Activity; Research current trends in IT."],"tlaStudent":["Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.","The students can be able to produce Results and Discussion of the Proposal Paper."],"instructionalMaterials":["DLP","Net book"],"assessmentTasks":["Documentation","Class Activity"],"text":null,"asObject":true},{"noOfWeeks":1,"noOfHours":"2","topics":[],"ilo":[],"cloMap":[0,1],"tlaFaculty":[],"tlaStudent":[],"instructionalMaterials":[],"assessmentTasks":["Testing"],"text":"Final Exam","asObject":false}],"gradingSystem":[{"label":"Midterm Grade","text":"**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t40%**\\n\\n.\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._"},{"label":"Final Grade","text":"**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t15%**\\n\\n**Final Exam (FE)\\t25%**\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._"}],"versionType":0,"course":{"id":"1","title":"CAPSTONE PROJECT 1","code":"ITWPROJ1","description":"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.","objectives":"","unitsLec":"3","unitsLab":"0","tags":["Capstone Project","Software Testing","Software Evaluation","Software Requirements"],"prerequisites":[{"id":"6","title":"PROJECT MANAGEMENT FOR IT-WMA","code":"ITWPROMAN","description":"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.","objectives":"","unitsLec":"3","unitsLab":"0","tags":[],"prerequisites":"[]","corequisites":"[\\"3\\"]","created_at":"0","updated_at":"1523780512","status":"1"}],"corequisites":[],"created_at":"0","updated_at":"1522415141","status":"1"}}', '', 1527422833, 1527424326, 2);
 
 -- --------------------------------------------------------
 
@@ -899,30 +898,30 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `name`, `description`, `tags`, `status`) VALUES
-(1, 'Assignment', '', '[\"Programming\",\"Database\"]', 1),
-(2, 'Recitation', '', '[\"Programming\",\"Database\"]', 1),
-(3, 'Short Quiz', '', '[\"Programming\",\"Database\"]', 1),
-(4, 'Case Study 1', '', '[\"Programming\"]', 1),
-(5, 'Seatwork/Boardwork', '', '[\"Programming\",\"Database\"]', 1),
-(6, 'Lab Exercise 1', '', '[\"Programming\"]', 1),
-(7, 'Case Study 3', '', '[\"Programming\"]', 1),
-(8, 'Lab Exercise 2', '', '[\"Programming\"]', 1),
-(9, 'Case Study 4', '', '[\"Programming\"]', 1),
-(10, 'Lab Exercise 3', '', '[\"Programming\"]', 1),
-(11, 'Case Study 5', '', '[\"Programming\"]', 1),
-(12, 'Lab Exercise 4', '', '[\"Programming\"]', 1),
-(13, 'Case Study 6', '', '[\"Programming\"]', 1),
-(14, 'Lab Exercise 5', '', '[\"Database\"]', 1),
-(15, 'Lab Exercise 6', '', '[\"Database\"]', 1),
-(16, 'Case Study 7', '', '[\"Database\"]', 1),
-(17, 'Lab Exercise 7', '', '[\"Database\"]', 1),
-(18, 'Lab Exercise 8', '', '[\"Database\"]', 1),
-(19, 'Seatwork', '', '[\"Programming\",\"Database\"]', 1),
-(20, 'Group Dynamics', '', '[\"Capstone Project\"]', 1),
-(21, 'Group Presentation', '', '[\"Capstone Project\"]', 1),
-(22, 'Class Activity', '', '[\"Capstone Project\"]', 1),
-(23, 'Documentation', '', '[\"Capstone Project\"]', 1),
-(24, 'Testing', '', '[\"Capstone Project\"]', 1);
+(1, 'Assignment', '', '["Programming","Database"]', 1),
+(2, 'Recitation', '', '["Programming","Database"]', 1),
+(3, 'Short Quiz', '', '["Programming","Database"]', 1),
+(4, 'Case Study 1', '', '["Programming"]', 1),
+(5, 'Seatwork/Boardwork', '', '["Programming","Database"]', 1),
+(6, 'Lab Exercise 1', '', '["Programming"]', 1),
+(7, 'Case Study 3', '', '["Programming"]', 1),
+(8, 'Lab Exercise 2', '', '["Programming"]', 1),
+(9, 'Case Study 4', '', '["Programming"]', 1),
+(10, 'Lab Exercise 3', '', '["Programming"]', 1),
+(11, 'Case Study 5', '', '["Programming"]', 1),
+(12, 'Lab Exercise 4', '', '["Programming"]', 1),
+(13, 'Case Study 6', '', '["Programming"]', 1),
+(14, 'Lab Exercise 5', '', '["Database"]', 1),
+(15, 'Lab Exercise 6', '', '["Database"]', 1),
+(16, 'Case Study 7', '', '["Database"]', 1),
+(17, 'Lab Exercise 7', '', '["Database"]', 1),
+(18, 'Lab Exercise 8', '', '["Database"]', 1),
+(19, 'Seatwork', '', '["Programming","Database"]', 1),
+(20, 'Group Dynamics', '', '["Capstone Project"]', 1),
+(21, 'Group Presentation', '', '["Capstone Project"]', 1),
+(22, 'Class Activity', '', '["Capstone Project"]', 1),
+(23, 'Documentation', '', '["Capstone Project"]', 1),
+(24, 'Testing', '', '["Capstone Project"]', 1);
 
 -- --------------------------------------------------------
 
@@ -985,32 +984,32 @@ CREATE TABLE `topics` (
 --
 
 INSERT INTO `topics` (`id`, `name`, `tags`, `status`) VALUES
-(1, 'Lesson 1. Project Development', '[\"Capstone Project\"]', 1),
-(2, 'Lesson 2. Software Evaluation', '[\"Capstone Project\"]', 1),
-(3, 'Lesson 3. Project Control and Project Closure', '[\"Capstone Project\"]', 1),
-(4, 'Lesson 4. Project Management Process Issues', '[\"Capstone Project\"]', 1),
-(5, 'Lesson 5. Writing Proposals', '[\"Capstone Project\"]', 1),
-(6, 'Lesson 6. Writing Proposals', '[\"Capstone Project\"]', 1),
-(7, 'Users\' Acceptance Testing', '[\"Capstone Project\"]', 1),
-(8, 'Module 1. The Database Environment and Development Process', '[\"Database\"]', 1),
-(9, 'Module 2. Modeling Data in the Organization', '[\"Database\"]', 1),
-(10, 'Module 3. Enhanced E-R Model', '[\"Database\"]', 1),
-(11, 'Module 4. Logical Database Design and the Relational Model', '[\"Database\"]', 1),
-(12, 'Module 5. Introduction to SQL', '[\"Database\"]', 1),
-(13, 'Module 6. Data Definition Language (DDL)', '[\"Database\"]', 1),
-(14, 'Module 7. Data Manipulation Language (DML) and Transaction Control', '[\"Database\"]', 1),
-(15, 'Module 8. Advanced SQL', '[\"Database\"]', 1),
-(16, 'Module 9. Data Control Language (DCL)', '[\"Database\"]', 1),
-(17, 'Module 10. Data and Database Administration', '[\"Database\"]', 1),
-(18, 'Module 1. Introduction to Programming', '[\"Programming\"]', 1),
-(19, 'Module 2.1. Introduction to C++', '[\"Programming\"]', 1),
-(20, 'Module 2.2. Basic Input and Output', '[\"Programming\"]', 1),
-(21, 'Module 2.3. Operators', '[\"Programming\"]', 1),
-(22, 'Module 3. Assignment and Formatting', '[\"Programming\"]', 1),
-(23, 'Module 4. Program Control Structures', '[\"Programming\"]', 1),
-(24, 'Module 5. Repetition Control Structure', '[\"Programming\"]', 1),
-(25, 'Module 6. Introduction to Arrays', '[\"Programming\"]', 1),
-(26, 'PBL Orientation', '[\"Capstone Project\"]', 1),
+(1, 'Lesson 1. Project Development', '["Capstone Project"]', 1),
+(2, 'Lesson 2. Software Evaluation', '["Capstone Project"]', 1),
+(3, 'Lesson 3. Project Control and Project Closure', '["Capstone Project"]', 1),
+(4, 'Lesson 4. Project Management Process Issues', '["Capstone Project"]', 1),
+(5, 'Lesson 5. Writing Proposals', '["Capstone Project"]', 1),
+(6, 'Lesson 6. Writing Proposals', '["Capstone Project"]', 1),
+(7, 'Users'' Acceptance Testing', '["Capstone Project"]', 1),
+(8, 'Module 1. The Database Environment and Development Process', '["Database"]', 1),
+(9, 'Module 2. Modeling Data in the Organization', '["Database"]', 1),
+(10, 'Module 3. Enhanced E-R Model', '["Database"]', 1),
+(11, 'Module 4. Logical Database Design and the Relational Model', '["Database"]', 1),
+(12, 'Module 5. Introduction to SQL', '["Database"]', 1),
+(13, 'Module 6. Data Definition Language (DDL)', '["Database"]', 1),
+(14, 'Module 7. Data Manipulation Language (DML) and Transaction Control', '["Database"]', 1),
+(15, 'Module 8. Advanced SQL', '["Database"]', 1),
+(16, 'Module 9. Data Control Language (DCL)', '["Database"]', 1),
+(17, 'Module 10. Data and Database Administration', '["Database"]', 1),
+(18, 'Module 1. Introduction to Programming', '["Programming"]', 1),
+(19, 'Module 2.1. Introduction to C++', '["Programming"]', 1),
+(20, 'Module 2.2. Basic Input and Output', '["Programming"]', 1),
+(21, 'Module 2.3. Operators', '["Programming"]', 1),
+(22, 'Module 3. Assignment and Formatting', '["Programming"]', 1),
+(23, 'Module 4. Program Control Structures', '["Programming"]', 1),
+(24, 'Module 5. Repetition Control Structure', '["Programming"]', 1),
+(25, 'Module 6. Introduction to Arrays', '["Programming"]', 1),
+(26, 'PBL Orientation', '["Capstone Project"]', 1),
 (27, 'Sample topic 1', '', 1),
 (28, 'Sample topic 2', '', 1),
 (29, 'Sample topic 3', '', 1);
@@ -1368,12 +1367,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weight`, `password`, `img_src`, `tags`, `status`, `created_at`, `updated_at`, `auth`) VALUES
-(1, 'John', 'Smith', 'Doe', 'test', 'Admin', 0, '$2y$10$tEU6V/HbHOZ59TQQpUrIb.eE3enrCo5i.fYkvSKY9EPFwJJqnMh1C', 'F_1522260047.png', '[]', 1, 0, 1522834696, '[\"1\"]'),
-(2, 'Jane', '', 'Doe', 'charlyn', '', 0, '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', '', 1, 0, 1521732242, '[\"3\"]'),
-(3, 'Smith', '', 'Paul', 'ralph', '', 0, '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', '', 1, 0, 0, '[\"3\",\"4\"]'),
-(4, 'Roman', '', 'De Angel', 'roman', 'Coordinator, ITWMA', 1, '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', '[]', 1, 0, 1522835142, '[\"3\",\"5\"]'),
-(5, 'Rossana', 'T.', 'Adao', 'joanne', 'Senior Director, CCS', 10, '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', '[]', 1, 0, 1522867906, '[\"5\"]'),
-(8, 'Ace', 'C.', 'Lagman', 'lagman', 'Program Director, IT', 1, '$2y$10$XVY3K2/Mh/Ry7.Uqm/Va/up9eFgKwVyqOYkD67.3ueju2yfRbRUdu', 'F_1522263636.png', '[\"Software Testing\",\"Programming\",\"Android Application Development\",\"JavaScript\",\"Ruby\",\"NodeJS\",\"AngularJS\"]', 1, 1522263636, 1522835033, '[\"5\"]');
+(1, 'John', 'Smith', 'Doe', 'test', 'Admin', 0, '$2y$10$tEU6V/HbHOZ59TQQpUrIb.eE3enrCo5i.fYkvSKY9EPFwJJqnMh1C', 'F_1522260047.png', '[]', 1, 0, 1522834696, '["1"]'),
+(2, 'Jane', '', 'Doe', 'charlyn', '', 0, '$2y$10$3jQ.7tz1XYlAyMzsU1Mgfu9XciWKkMa26yPfiV2bPLGP0nVsniDuq', '', '', 1, 0, 1521732242, '["3"]'),
+(3, 'Smith', '', 'Paul', 'ralph', '', 0, '$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6', '', '', 1, 0, 0, '["3","4"]'),
+(4, 'Roman', '', 'De Angel', 'roman', 'Coordinator, ITWMA', 1, '$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO', '', '[]', 1, 0, 1522835142, '["3","5"]'),
+(5, 'Rossana', 'T.', 'Adao', 'joanne', 'Senior Director, CCS', 10, '$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa', '', '[]', 1, 0, 1522867906, '["5"]'),
+(8, 'Ace', 'C.', 'Lagman', 'lagman', 'Program Director, IT', 1, '$2y$10$XVY3K2/Mh/Ry7.Uqm/Va/up9eFgKwVyqOYkD67.3ueju2yfRbRUdu', 'F_1522263636.png', '["Software Testing","Programming","Android Application Development","JavaScript","Ruby","NodeJS","AngularJS"]', 1, 1522263636, 1522835033, '["5"]');
 
 -- --------------------------------------------------------
 
@@ -1390,6 +1389,14 @@ CREATE TABLE `workflow_logs` (
   `created_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `workflow_logs`
+--
+
+INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `created_at`, `status`) VALUES
+(1, 3, 1, 'viewed this syllabus.', 'view', 1527827835, 1),
+(2, 3, 1, 'viewed this syllabus.', 'view', 1527828400, 1);
 
 --
 -- Indexes for dumped tables
@@ -1473,6 +1480,7 @@ ALTER TABLE `outcomes`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`content`);
 ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX_TAGS` (`tags`);
+ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX_CONTENT_TAGS` (`content`,`tags`);
 
 --
 -- Indexes for table `outcome_field_relation`
@@ -1567,153 +1575,127 @@ ALTER TABLE `workflow_logs`
 -- AUTO_INCREMENT for table `assigns`
 --
 ALTER TABLE `assigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
 --
 -- AUTO_INCREMENT for table `book_field_relation`
 --
 ALTER TABLE `book_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
-
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
 --
 -- AUTO_INCREMENT for table `course_field_relation`
 --
 ALTER TABLE `course_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
 --
 -- AUTO_INCREMENT for table `course_relation`
 --
 ALTER TABLE `course_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `curriculum`
 --
 ALTER TABLE `curriculum`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
-
 --
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `material_field_relation`
 --
 ALTER TABLE `material_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `outcomes`
 --
 ALTER TABLE `outcomes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
 --
 -- AUTO_INCREMENT for table `outcome_field_relation`
 --
 ALTER TABLE `outcome_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
-
 --
 -- AUTO_INCREMENT for table `outcome_relation`
 --
 ALTER TABLE `outcome_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
 --
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `syllabi`
 --
 ALTER TABLE `syllabi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
 --
 -- AUTO_INCREMENT for table `task_field_relation`
 --
 ALTER TABLE `task_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
 --
 -- AUTO_INCREMENT for table `topics`
 --
 ALTER TABLE `topics`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
 --
 -- AUTO_INCREMENT for table `topic_field_relation`
 --
 ALTER TABLE `topic_field_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
-
 --
 -- AUTO_INCREMENT for table `topic_material_relation`
 --
 ALTER TABLE `topic_material_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-
 --
 -- AUTO_INCREMENT for table `topic_outcome_relation`
 --
 ALTER TABLE `topic_outcome_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
-
 --
 -- AUTO_INCREMENT for table `topic_task_relation`
 --
 ALTER TABLE `topic_task_relation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

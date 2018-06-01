@@ -132,7 +132,8 @@ export default {
         items: [
           { title: 'Users', icon: 'account_circle', tip: 'Manage Users', to: '/manage/users' },
           { title: 'Courses', icon: 'school', tip: 'Manage Courses', to: '/manage/courses' },
-          { title: 'Curriculum', icon: 'assignment', tip: 'Curriculum', to: '/manage/curriculum' }
+          { title: 'Curriculum', icon: 'assignment', tip: 'Manage Curriculum', to: '/manage/curriculum' },
+          { title: 'CLO', icon: 'notes', tip: 'Manage CLO', to: '/manage/clo' }
         ]
       },
       {

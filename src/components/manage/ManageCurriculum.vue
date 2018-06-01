@@ -14,9 +14,17 @@
       two-line
       class="elevation-1 py-0"
     >
-      <v-list-tile @click="() => {}">
+      <v-list-tile
+        @click="editItem(latest)"
+        @keypress.enter="editItem(latest)"
+        tabindex="0"
+        ripple
+      >
         <v-list-tile-action class="thin-48">
-          <status :item="latest"/>
+          <status
+            :item="latest"
+            :msg="statusMsg"
+          />
         </v-list-tile-action>
 
         <v-layout align-center>
@@ -66,10 +74,14 @@
           @click="editItem(item)"
           @keypress.enter="editItem(item)"
           tabindex="0"
+          ripple
         >
 
           <v-list-tile-action class="thin-48">
-            <status :item="item"/>
+            <status
+              :item="item"
+              :msg="statusMsg"
+            />
           </v-list-tile-action>
 
           <v-layout align-center>
@@ -151,7 +163,13 @@ export default {
   data: () => ({
     url: '/curriculum',
     curriculum: [],
-    loading: false
+    loading: false,
+    statusMsg: {
+      0: 'Deactivated',
+      1: 'Activated',
+      2: 'Undecided',
+      3: 'Not yet submitted'
+    }
   }),
   watch: {
     loading(e) {

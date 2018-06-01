@@ -11,6 +11,8 @@ class Outcomes extends MY_Custom_Controller {
   
   public function index() {
     $type = $this->input->post('type') ? $this->input->post('type') : FALSE;
+    $detailed = $this->input->post('detailed') ? $this->input->post('detailed') : FALSE;
+    $limit = $this->input->post('limit') ? $this->input->post('limit') : FALSE;
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : FALSE;
@@ -20,13 +22,17 @@ class Outcomes extends MY_Custom_Controller {
       $where['type'] = $type;
     }
     
-    $outcomes = $this->outcomes_model->getByQuery($search, $where);
+    $outcomes = $this->outcomes_model->getByQuery($search, $where, $limit);
 
-    // change outcomes to string
-    if ($outcomes) {
-      foreach ($outcomes as $key => $outcome) {
-        $outcomes[$key] = $outcome['content'];
+    if (!$detailed) {
+      // change outcomes to string if not detailed
+      if ($outcomes) {
+        foreach ($outcomes as $key => $outcome) {
+          $outcomes[$key] = $outcome['content'];
+        }
       }
+    } else {
+      $outcomes = $this->_formatOutcomes($outcomes);
     }
 
     $this->_json(TRUE, 'outcomes', $outcomes);
