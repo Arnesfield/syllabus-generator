@@ -3,7 +3,7 @@
   v-model="show"
   :persistent="true"
   transition="fade-transition"
-  width="800"
+  width="720"
   scrollable
 >
   <v-card v-if="show">

@@ -3,7 +3,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Outcomes_model extends MY_Custom_Model {
 
-  public function getByQuery($search, $where, $limit = NULL) {
+  public function getByQuery($search, $where, $limit = NULL, $detailed = FALSE) {
+    $detailed_content = '';
+    
+    if ($detailed) {
+      $detailed_content = "
+        CONCAT(content, ' ',
+          CASE
+            WHEN (type = 1) THEN 'Course Learning Outcomes (CLO)'
+            WHEN (type = 2) THEN 'Intended Learning Ouctomes (ILO)'
+            WHEN (type = 3) THEN 'Faculty: Teaching and Learning Activities (TLA)'
+            WHEN (type = 4) THEN 'Student: Teaching and Learning Activities (TLA)'
+          END
+        )
+      ";
+    }
+
     $this->db
       ->from('outcomes')
       ->where('status !=', -1);
@@ -14,10 +29,12 @@ class Outcomes_model extends MY_Custom_Model {
 
     if ($search) {
       $search = strtolower($search);
+      $content = $detailed_content ? $detailed_content : 'content';
+
       $this->db->where("
         (
           (
-            LOWER(content) LIKE '%$search%' OR
+            LOWER($content) LIKE '%$search%' OR
             LOWER(tags) LIKE '%$search%'
           ) OR MATCH(content, tags) AGAINST ('*$search*' IN BOOLEAN MODE)
         )

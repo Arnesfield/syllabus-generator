@@ -4,7 +4,7 @@
   <v-container class="py-0">
     <v-text-field
       solo
-      label="Search CLO"
+      label="Search outcome"
       prepend-icon="search"
       :append-icon="search ? 'close' : undefined"
       :append-icon-cb="() => { search ? search = null : null }"

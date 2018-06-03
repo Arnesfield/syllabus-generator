@@ -21,6 +21,17 @@
           v-html="$md.makeHtml(value.content)"
           class="pb-1"
         />
+        <v-layout
+          v-if="type"
+          align-center
+        >
+          <v-icon
+            small
+            :color="type.color"
+            class="pa-2"
+          >{{ type.icon }}</v-icon>
+          <div class="caption grey--text text--darken-1 pr-2">{{ type.text }}</div>
+        </v-layout>
         <div>
           <v-chip
             :key="i-1"
@@ -52,8 +63,21 @@ export default {
       2: 'Undecided',
       3: 'Not yet submitted'
     },
+    types: {
+      1: { text: 'Course Learning Outcomes (CLO)', icon: 'notes', color: 'primary lighten-1' },
+      2: { text: 'Intended Learning Ouctomes (ILO)', icon: 'short_text', color: 'blue' },
+      3: { text: 'Faculty: Teaching and Learning Activities (TLA)', icon: 'school', color: 'accent' },
+      4: { text: 'Student: Teaching and Learning Activities (TLA)', icon: 'assignment', color: 'warning' }
+    },
+
     totalVisible: 10
   }),
+
+  computed: {
+    type() {
+      return this.value ? this.types[this.value.type] : null
+    }
+  },
 
   methods: {
     totalVisibleTags(item) {

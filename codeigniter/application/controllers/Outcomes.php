@@ -22,7 +22,7 @@ class Outcomes extends MY_Custom_Controller {
       $where['type'] = $type;
     }
     
-    $outcomes = $this->outcomes_model->getByQuery($search, $where, $limit);
+    $outcomes = $this->outcomes_model->getByQuery($search, $where, $limit, $detailed);
 
     if (!$detailed) {
       // change outcomes to string if not detailed
