@@ -151,6 +151,21 @@ export default {
           { title: 'CLO Options', icon: 'settings', tip: 'CLO Options', click: 'cloOptions' }
         ]
       },
+      {
+        header: 'Report',
+        auth: 1,
+        items: [
+          { title: 'Audit Trail', icon: 'timeline', tip: 'Audit Trail', to: '/reports/audit' },
+          { title: 'User Logs', icon: 'access_time', tip: 'Grading System', to: '/reports/logs' },
+        ]
+      },
+      {
+        header: 'Explorer',
+        auth: [1, 3, 4, 5],
+        items: [
+          { title: 'Outcomes', icon: 'notes', tip: 'Outcomes', to: '/explorer/outcomes' }
+        ]
+      },
       // logout
       {
         auth: -1,

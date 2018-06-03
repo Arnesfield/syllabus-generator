@@ -19,6 +19,8 @@ import ManageBooks from '@/components/manage/ManageBooks'
 import ManageCurriculum from '@/components/manage/ManageCurriculum'
 import ManageOutcomes from '@/components/manage/ManageOutcomes'
 
+import OutcomesExplorer from '@/components/OutcomesExplorer'
+
 import NotFound from '@/components/errors/NotFound'
 
 Vue.use(Router)
@@ -195,6 +197,21 @@ export default new Router({
     },
 
     // end of manage
+
+    // explorer
+
+    {
+      path: '/explorer/outcomes',
+      name: 'OutcomesExplorer',
+      component: OutcomesExplorer,
+      meta: {
+        auth: [1, 3, 4, 5],
+        title: 'Outcomes',
+        icon: 'notes'
+      }
+    },
+
+    // end of explorer
 
     // last resort
     {

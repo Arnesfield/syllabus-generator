@@ -74,6 +74,7 @@ class Outcomes_model extends MY_Custom_Model {
       ", NULL, FALSE)
       ->where('type', $type)
       ->where('status !=', -1)
+      ->where('status !=', 0)
       ->limit($limit)
       ->get();
 

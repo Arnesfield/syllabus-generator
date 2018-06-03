@@ -12,10 +12,12 @@
       <status
         :item="value"
         :msg="statusMsg"
+        v-if="!report"
       />
       <div
         style="padding-top: 14px; padding-bottom: 10px"
         class="pr-3"
+        :class="{ 'pl-3': report }"
       >
         <div
           v-html="$md.makeHtml(value.content)"
@@ -53,7 +55,11 @@ export default {
     Status
   },
   props: {
-    value: Object
+    value: Object,
+    report: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data: () => ({
@@ -89,7 +95,7 @@ export default {
     },
 
     editItem() {
-      this.$emit('edit', this.value)
+      this.$emit('select', this.value)
     }
   }
 }

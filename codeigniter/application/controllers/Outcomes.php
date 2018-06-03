@@ -12,6 +12,7 @@ class Outcomes extends MY_Custom_Controller {
   public function index() {
     $type = $this->input->post('type') ? $this->input->post('type') : FALSE;
     $detailed = $this->input->post('detailed') ? $this->input->post('detailed') : FALSE;
+    $strict = $this->input->post('strict') ? $this->input->post('strict') : FALSE;
     $limit = $this->input->post('limit') ? $this->input->post('limit') : FALSE;
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
@@ -20,6 +21,9 @@ class Outcomes extends MY_Custom_Controller {
     $where = array();
     if ($type) {
       $where['type'] = $type;
+    }
+    if ($strict) {
+      $where['status !='] = 0;
     }
     
     $outcomes = $this->outcomes_model->getByQuery($search, $where, $limit, $detailed);

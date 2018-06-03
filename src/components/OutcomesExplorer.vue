@@ -22,13 +22,12 @@
     >
       <manage-outcome-inst
         v-model="items[i]"
+        report
         class="pa-2"
-        @select="editItem"
+        @select="selectItem"
       />
     </v-flex>
   </v-layout>
-
-  <dialog-manage-outcome ref="dialog"/>
 
 </v-container>
 </template>
@@ -36,13 +35,11 @@
 <script>
 import qs from 'qs'
 import ManageOutcomeInst from '@/include/ManageOutcomeInst'
-import DialogManageOutcome from '@/include/dialogs/DialogManageOutcome'
 
 export default {
-  name: 'manage-outcomes',
+  name: 'report-outcomes',
   components: {
-    ManageOutcomeInst,
-    DialogManageOutcome
+    ManageOutcomeInst
   },
   data: () => ({
     url: '/outcomes',
@@ -63,12 +60,6 @@ export default {
 
   created() {
     this.fetch()
-    this.$bus.$on('outcome--add', this.addItem)
-    this.$bus.$on('manage--outcome.update', this.fetch)
-  },
-  beforeDestroy() {
-    this.$bus.$off('outcome--add', this.addItem)
-    this.$bus.$off('manage--outcome.update', this.fetch)
   },
 
   mounted() {
@@ -78,21 +69,10 @@ export default {
   },
 
   methods: {
-    editItem(item) {
-      // edit item here
-      if (this.$refs.dialog) {
-        this.$refs.dialog.editItem(item)
-      }
-    },
-    addItem(item) {
-      if (this.$refs.dialog) {
-        this.$refs.dialog.addItem()
-      }
-    },
-
     fetch() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
+        strict: true,
         detailed: true,
         search: this.search,
         limit: this.limit
@@ -108,6 +88,10 @@ export default {
         console.error(e)
         this.loading = false
       })
+    },
+
+    selectItem(item) {
+      
     }
   }
 }

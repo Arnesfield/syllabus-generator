@@ -206,6 +206,7 @@ export default {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: search,
+        strict: true,
         type: 2
       })).then((res) => {
         this.loading = false

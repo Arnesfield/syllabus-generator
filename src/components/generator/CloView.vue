@@ -313,6 +313,7 @@ export default {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         type: 1,
+        strict: true,
         search: search
       })).then((res) => {
         console.warn(res.data)
