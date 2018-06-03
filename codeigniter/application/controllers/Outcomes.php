@@ -76,6 +76,54 @@ class Outcomes extends MY_Custom_Controller {
     // $clo_content = $this->input->post('cloContent') ? $this->input->post('cloContent') : FALSE;
     // $ilosFromClos = $this->outcomes_model->getILOsFromCLOs($clo_content, $cloLimit);
   }
+
+  public function manage() {
+    $content = $this->input->post('content');
+    $type = $this->input->post('type');
+    $status = $this->input->post('status');
+
+    $tags = $this->input->post('tags');
+
+    // options
+    $mode = $this->input->post('mode');
+
+    $TIME = time();
+
+    $data = array(
+      'content' => $content,
+      'type' => $type,
+      'status' => $status,
+      'tags' => $tags,
+      'updated_at' => $TIME
+    );
+
+    $res = FALSE;
+    if ($mode == 'add') {
+      $data['created_at'] = $TIME;
+      $res = $this->outcomes_model->insert($data);
+    } else if ($mode == 'edit') {
+      $id = $this->input->post('id');
+      $res = $this->outcomes_model->update($data, array('id' => $id));
+    }
+
+    if ($res) {
+      // insert new tags
+      $this->load->model('tags_model');
+      $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+    }
+
+    $this->_json($res);
+  }
+
+  public function delete() {
+    $id = $this->input->post('id');
+
+    $data = array('status' => -1, 'updated_at' => time());
+    $where = array('id' => $id);
+
+    $res = $this->outcomes_model->update($data, $where);
+    $this->_json($res);
+  }
 }
 
 ?>

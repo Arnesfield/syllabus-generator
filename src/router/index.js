@@ -17,7 +17,7 @@ import ManageUsers from '@/components/manage/ManageUsers'
 import ManageCourses from '@/components/manage/ManageCourses'
 import ManageBooks from '@/components/manage/ManageBooks'
 import ManageCurriculum from '@/components/manage/ManageCurriculum'
-import ManageClo from '@/components/manage/ManageClo'
+import ManageOutcomes from '@/components/manage/ManageOutcomes'
 
 import NotFound from '@/components/errors/NotFound'
 
@@ -184,12 +184,12 @@ export default new Router({
       }
     },
     {
-      path: '/manage/clo',
-      name: 'ManageClo',
-      component: ManageClo,
+      path: '/manage/outcomes',
+      name: 'ManageOutcomes',
+      component: ManageOutcomes,
       meta: {
         auth: 1,
-        title: 'Manage CLO',
+        title: 'Manage Outcomes',
         icon: 'notes'
       }
     },

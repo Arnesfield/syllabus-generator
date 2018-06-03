@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Outcomes_model extends MY_Custom_Model {
 
   public function getByQuery($search, $where, $limit = NULL) {
-    $this->db->from('outcomes');
+    $this->db
+      ->from('outcomes')
+      ->where('status !=', -1);
 
     if ($where) {
       $this->db->where($where);
@@ -26,6 +28,11 @@ class Outcomes_model extends MY_Custom_Model {
       $this->db->limit($limit);
     }
     
+    $this->db
+      ->order_by('content')
+      ->order_by('updated_at')
+      ->order_by('created_at');
+
     $query = $this->db->get();
     return $this->_res($query);
   }
@@ -49,13 +56,14 @@ class Outcomes_model extends MY_Custom_Model {
         )
       ", NULL, FALSE)
       ->where('type', $type)
+      ->where('status !=', -1)
       ->limit($limit)
       ->get();
 
     return $this->_res($query);
   }
 
-  public function getRelatedOutcomesWithFields($fields, $type, $limit = 10, $outcomes = FALSE) {
+  /* public function getRelatedOutcomesWithFields($fields, $type, $limit = 10, $outcomes = FALSE) {
     if (!$fields) {
       return array();
     }
@@ -103,6 +111,17 @@ class Outcomes_model extends MY_Custom_Model {
 
     $query = $this->db->get();
     return $this->_res($query);
+  } */
+
+  public function insert($data) {
+    return $this->db->insert('outcomes', $data);
+  }
+
+  public function update($data, $where) {
+    return $this->db
+      ->set($data)
+      ->where($where)
+      ->update('outcomes');
   }
 }
 

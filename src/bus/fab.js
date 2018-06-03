@@ -36,12 +36,12 @@ export default {
       tip: 'Add curriculum',
       btns: null
     },
-    ManageClo: {
+    ManageOutcomes: {
       color: 'accent',
       before: 'add',
       after: 'close',
-      click: 'clo--add',
-      tip: 'Add CLO',
+      click: 'outcome--add',
+      tip: 'Add Outcome',
       btns: null
     },
     Workflow: {

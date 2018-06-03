@@ -33,25 +33,44 @@
         <v-icon>close</v-icon>
       </v-btn>
       <v-toolbar-title
-        v-text="mode == 'add' ? 'Add Book' : 'Update Book'"
+        v-text="mode == 'add' ? 'Add Outcome' : 'Update Outcome'"
       />
+      <template v-if="mode == 'edit'">
+        <v-spacer/>
+        <v-tooltip top>
+          <v-btn
+            icon
+            dark
+            slot="activator"
+            :disabled="loading"
+            @click="deleteItem"
+            @keypress.enter="deleteItem"
+          >
+            <v-icon>delete</v-icon>
+          </v-btn>
+          <span>Delete</span>
+        </v-tooltip>
+      </template>
     </v-toolbar>
 
     <v-card-text>
       <v-form ref="form" v-model="form">
-        
-        <!-- citation -->
+
+        <!-- content -->
 
         <v-layout align-content-start>
           <v-flex hidden-xs-only sm4>
-            <v-subheader>Citation</v-subheader>
+            <v-subheader>Content</v-subheader>
           </v-flex>
           <v-flex sm8>
             <markdown-textarea
               :md-view="false"
               edit-on-click
-              v-model="citation"
-              placeholder="Enter citation"
+              v-model="content"
+              placeholder="Enter outcome content"
+              t-add-class="my-medium-textarea pa-2"
+              ref="mdContent"
+              required
             />
           </v-flex>
         </v-layout>
@@ -72,6 +91,23 @@
           </v-flex>
         </v-layout>
 
+        <!-- type -->
+
+        <v-layout align-center>
+          <v-flex hidden-xs-only sm4>
+            <v-subheader>Type</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <select-status
+              v-model="type"
+              :items="types"
+              :loading="loading"
+              label="Outcome Type"
+              required
+            />
+          </v-flex>
+        </v-layout>
+
         <!-- status -->
 
         <v-layout align-center>
@@ -88,9 +124,19 @@
           </v-flex>
         </v-layout>
 
+        <v-layout v-if="lastUpdated">
+          <div class="caption">
+            <em>This will be suggested in Generator.</em>
+            <div>
+              <span>Last updated in</span>
+              <strong v-text="$moment.unix(lastUpdated).format('MMMM DD, YYYY h:mmA')"/>.
+            </div>
+          </div>
+        </v-layout>
+
       </v-form>
     </v-card-text>
-      
+
     <v-divider/>
     <v-card-actions>
       <v-btn
@@ -125,34 +171,45 @@
 </template>
 
 <script>
+import qs from 'qs'
 import find from 'lodash/find'
 import SelectTags from '@/include/SelectTags'
 import SelectStatus from '@/include/SelectStatus'
 import MarkdownTextarea from '@/include/MarkdownTextarea'
 
 export default {
-  name: 'dialog-manage-book',
+  name: 'dialog-manage-outcome',
   components: {
     SelectTags,
     SelectStatus,
     MarkdownTextarea
   },
   data: () => ({
-    url: '/books/manage',
+    url: '/outcomes/manage',
+    deleteUrl: '/outcomes/delete',
     show: false,
     loading: false,
     form: false,
     mode: 'add',
     item: null,
 
+    lastUpdated: null,
+
     statusTypes: [
       { text: 'Activated', icon: 'check_circle', color: 'success', value: 1 },
       { text: 'Deactivated', icon: 'cancel', color: 'warning', value: 0 }
     ],
+    types: [
+      { text: 'Course Learning Outcomes (CLO)', icon: 'notes', color: 'primary lighten-1', value: 1 },
+      { text: 'Intended Learning Ouctomes (ILO)', icon: 'short_text', color: 'blue', value: 2 },
+      { text: 'Faculty: Teaching and Learning Activities (TLA)', icon: 'school', color: 'accent', value: 3 },
+      { text: 'Student: Teaching and Learning Activities (TLA)', icon: 'assignment', color: 'warning', value: 4 }
+    ],
 
     // values
     id: null,
-    citation: null,
+    content: null,
+    type: null,
     status: null,
     tags: []
   }),
@@ -179,13 +236,61 @@ export default {
 
       this.show = true
     },
+    deleteItem() {
+      let item = this.item
+      this.$bus.$emit('dialog--global.confirm.show', {
+        item: item,
+        title: 'Delete outcome',
+        msg: 'This will permanently delete the outcome.',
+        btn: {
+          text: 'Delete',
+          color: 'error'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          this.$http.post(this.deleteUrl, qs.stringify({
+            id: item.id
+          })).then(res => {
+            console.warn(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+
+            this.$bus.$emit('snackbar--show', 'Outcome deleted.')
+            this.$bus.$emit('manage--outcome.update')
+            this.loading = false
+            this.show = false
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete outcome.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  sb.snackbar = false
+                  fn(onSuccess, onError, doClose, fn)
+                  // this.deleteComment(item)
+                }
+              }
+            })
+            onError()
+            doClose()
+          })
+        }
+      })
+    },
 
     setValuesFromItem(item) {
       // set values
       this.id = item.id
-      this.citation = item.citation
+      this.content = item.content
+      this.type = find(this.types, { value: Number(item.type) })
       this.status = find(this.statusTypes, { value: Number(item.status) })
       this.tags = item.tags || []
+
+      this.lastUpdated = Number(item.updated_at || item.created_at)
     },
 
     submit() {
@@ -196,7 +301,8 @@ export default {
       let data = new FormData()
 
       data.append('mode', this.mode)
-      data.append('citation', this.citation)
+      data.append('content', this.content)
+      data.append('type', this.type.value)
       data.append('status', this.status.value)
 
       data.append('tags', JSON.stringify(this.tags))
@@ -213,17 +319,17 @@ export default {
         }
 
         let msg = this.mode == 'add'
-          ? 'Added book successfully.'
-          : 'Updated book successfully.'
+          ? 'Added outcome successfully.'
+          : 'Updated outcome successfully.'
         this.$bus.$emit('snackbar--show', msg)
-        this.$bus.$emit('manage--books.update')
+        this.$bus.$emit('manage--outcome.update')
         this.loading = false
         this.show = false
       }).catch(e => {
         console.error(e)
         let msg = this.mode == 'add'
-          ? 'Unable to add book.'
-          : 'Unable to update book.'
+          ? 'Unable to add outcome.'
+          : 'Unable to update outcome.'
         this.$bus.$emit('snackbar--show', msg)
         this.loading = false
       })
@@ -237,8 +343,13 @@ export default {
         }
       }
 
+      if (this.$refs.mdContent) {
+        this.$refs.mdContent.reset()
+      }
+
       this.id = null
-      this.citation = null
+      this.content = null
+      this.type = null
       this.status = null
       this.tags = []
 

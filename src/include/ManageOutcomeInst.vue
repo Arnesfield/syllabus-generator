@@ -37,7 +37,7 @@
 import Status from '@/include/Status'
 
 export default {
-  name: 'manage-clo-inst',
+  name: 'manage-outcome-inst',
   components: {
     Status
   },

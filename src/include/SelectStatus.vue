@@ -3,7 +3,7 @@
   :items="items"
   :disabled="loading"
   v-model="status"
-  label="Status"
+  :label="label"
   single-line
   :prepend-icon="status && status.icon ? status.icon : 'indeterminate_check_box'"
   return-object
@@ -40,6 +40,10 @@ export default {
     value: Object,
     items: Array,
     loading: Boolean,
+    label: {
+      type: String,
+      default: 'Status'
+    },
     required: {
       type: Boolean,
       default: false

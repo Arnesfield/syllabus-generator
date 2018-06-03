@@ -120,6 +120,7 @@
           <v-flex sm8>
             <markdown-textarea
               :md-view="false"
+              edit-on-click
               v-model="description"
               placeholder="Enter course description"
               t-add-class="my-medium-textarea pa-2"
@@ -138,6 +139,7 @@
           <v-flex sm8>
             <markdown-textarea
               :md-view="false"
+              edit-on-click
               v-model="objectives"
               t-add-class="my-medium-textarea pa-2"
               placeholder="Enter course objectives"
