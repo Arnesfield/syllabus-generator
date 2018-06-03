@@ -1,14 +1,32 @@
 <template>
-<v-container fluid>
+<v-container fluid grid-list-lg>
 
-  <template v-for="(item, i) in items">
-    <manage-clo-inst
-      :key="i"
-      v-model="items[i]"
-      class="mb-2"
-      @edit="editItem"
+  <v-container class="py-0">
+    <v-text-field
+      solo
+      label="Search CLO"
+      prepend-icon="search"
+      :append-icon="search ? 'close' : undefined"
+      :append-icon-cb="() => { search ? search = null : null }"
+      class="mb-4"
+      ref="searchbar"
+      v-model="search"
     />
-  </template>
+  </v-container>
+
+  <v-layout row wrap>
+    <v-flex
+      :key="i"
+      xs12 sm6 md4
+      v-for="(item, i) in items"
+    >
+      <manage-clo-inst
+        v-model="items[i]"
+        class="pa-2"
+        @edit="editItem"
+      />
+    </v-flex>
+  </v-layout>
 
 </v-container>
 </template>
@@ -33,11 +51,20 @@ export default {
   watch: {
     loading(e) {
       this.$bus.refresh(e)
+    },
+    search(e) {
+      this.fetch()
     }
   },
 
   created() {
     this.fetch()
+  },
+
+  mounted() {
+    if (this.$refs.searchbar) {
+      this.$nextTick(this.$refs.searchbar.focus)
+    }
   },
 
   methods: {

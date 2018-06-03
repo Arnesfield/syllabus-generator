@@ -7,27 +7,29 @@
   tabindex="0"
   class="clickable"
 >
-  <v-layout>
-    <status
-      :item="value"
-      :msg="statusMsg"
-    />
-    <div
-      style="padding-top: 14px; padding-bottom: 10px"
-      class="pr-2"
-    >
-      <div
-        v-html="$md.makeHtml(value.content)"
-        class="pb-1"
+  <div>
+    <v-layout>
+      <status
+        :item="value"
+        :msg="statusMsg"
       />
-      <div>
-        <v-chip
-          :key="i-1"
-          v-for="i in totalVisibleTags(value)"
-        >{{ value.tags[i-1] }}</v-chip>
+      <div
+        style="padding-top: 14px; padding-bottom: 10px"
+        class="pr-3"
+      >
+        <div
+          v-html="$md.makeHtml(value.content)"
+          class="pb-1"
+        />
+        <div>
+          <v-chip
+            :key="i-1"
+            v-for="i in totalVisibleTags(value)"
+          >{{ value.tags[i-1] }}</v-chip>
+        </div>
       </div>
-    </div>
-  </v-layout>
+    </v-layout>
+  </div>
 </v-card>
 </template>
 
