@@ -12,7 +12,7 @@
   </v-btn>
   <v-toolbar-title v-text="title"></v-toolbar-title>
 
-  <template v-if="checkRoute('Syllabus', 'SyllabusView')">
+  <template v-if="checkRoute(['Syllabus', 'SyllabusView'])">
     <v-spacer/>
     <v-tooltip bottom>
       <v-btn
@@ -109,6 +109,34 @@
 
   </template>
 
+  <template v-if="checkRoute('ManageOutcomes')">
+    <v-spacer/>
+
+    <template v-if="!$bus.toolbar.outcomes.model">
+      <btn-refresh tip="bottom"/>
+    </template>
+
+  </template>
+
+  <template v-if="checkRoute('OutcomesExplorer')">
+    <v-spacer/>
+
+    <template v-if="!$bus.toolbar.outcomes.model">
+      <btn-refresh tip="bottom"/>
+      <v-tooltip bottom>
+        <v-btn
+          icon
+          slot="activator"
+          @click="$bus.toolbar.outcomes.model = true"
+        >
+          <v-icon>chevron_left</v-icon>
+        </v-btn>
+        <span>Reveal</span>
+      </v-tooltip>
+    </template>
+
+  </template>
+
   <v-tabs
     align-with-title
     show-arrows
@@ -141,7 +169,10 @@ export default {
     }
   },
   methods: {
-    checkRoute(...arr) {
+    checkRoute(arr) {
+      if (typeof arr !== 'object') {
+        arr = [arr]
+      }
       return arr.includes(this.$route.name)
     }
   }

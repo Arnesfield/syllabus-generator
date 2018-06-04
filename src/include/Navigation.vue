@@ -174,7 +174,12 @@ export default {
           { title: 'Logout', icon: 'exit_to_app', click: 'logout' }
         ]
       }
-    ]
+    ],
+
+    routes: {
+      hidden: ['Syllabus', 'CourseTree', 'OutcomesExplorer'],
+      short: ['Generator', 'SyllabusView']
+    }
   }),
 
   computed: {
@@ -182,7 +187,7 @@ export default {
       return this.$bus.nav.miniVariant ? 'Expand' : 'Collapse'
     },
     temporary() {
-      return this.checkRoute(this.$route.name, 'Syllabus', 'CourseTree')
+      return this.checkRoute(this.$route.name, this.routes.hidden)
     },
     clipped() {
       return !this.temporary
@@ -192,19 +197,19 @@ export default {
   watch: {
     $route(to, from) {
       if (
-        !this.checkRoute(to.name, 'Syllabus', 'CourseTree') &&
-        this.checkRoute(from.name, 'Syllabus', 'CourseTree')
+        !this.checkRoute(to.name, this.routes.hidden) &&
+        this.checkRoute(from.name, this.routes.hidden)
       ) {
         this.$bus.nav.model = null
       }
-      
+
       if (
-        this.checkRoute(to.name, 'Generator', 'SyllabusView') || 
-        this.checkRoute(from.name, 'Generator', 'SyllabusView')
+        this.checkRoute(to.name, this.routes.short) || 
+        this.checkRoute(from.name, this.routes.short)
       ) {
         if (this.$bus.nav.model === null || this.$bus.nav.model === true) {
           this.$bus.nav.model = null
-          this.$bus.nav.miniVariant = this.checkRoute(to.name, 'Generator', 'SyllabusView')
+          this.$bus.nav.miniVariant = this.checkRoute(to.name, this.routes.short)
         }
       }
     }
@@ -244,7 +249,7 @@ export default {
       }
     },
 
-    checkRoute(route, ...arr) {
+    checkRoute(route, arr) {
       return arr.includes(route)
     },
 

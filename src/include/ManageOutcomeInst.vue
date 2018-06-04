@@ -6,6 +6,7 @@
   @keypress.enter="editItem"
   tabindex="0"
   class="clickable"
+  :class="{ 'primary lighten-1': isSelected }"
 >
   <div>
     <v-layout>
@@ -57,6 +58,10 @@ export default {
   props: {
     value: Object,
     report: {
+      type: Boolean,
+      default: false
+    },
+    isSelected: {
       type: Boolean,
       default: false
     }

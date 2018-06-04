@@ -9,5 +9,8 @@ export default {
   course: {
     model: null,
     collapse: false
+  },
+  outcomes: {
+    model: null
   }
 }

@@ -63,10 +63,12 @@ export default {
 
   created() {
     this.fetch()
+    this.$bus.$on('refresh--btn', this.fetch)
     this.$bus.$on('outcome--add', this.addItem)
     this.$bus.$on('manage--outcome.update', this.fetch)
   },
   beforeDestroy() {
+    this.$bus.$off('refresh--btn', this.fetch)
     this.$bus.$off('outcome--add', this.addItem)
     this.$bus.$off('manage--outcome.update', this.fetch)
   },

@@ -25,20 +25,27 @@
         report
         class="pa-2"
         @select="selectItem"
+        :is-selected="isSelected(i)"
       />
     </v-flex>
   </v-layout>
+
+  <sidenav-outcomes :items="list"/>
 
 </v-container>
 </template>
 
 <script>
 import qs from 'qs'
+import find from 'lodash/find'
+import remove from 'lodash/remove'
+import SidenavOutcomes from '@/include/SidenavOutcomes'
 import ManageOutcomeInst from '@/include/ManageOutcomeInst'
 
 export default {
   name: 'report-outcomes',
   components: {
+    SidenavOutcomes,
     ManageOutcomeInst
   },
   data: () => ({
@@ -46,7 +53,8 @@ export default {
     items: [],
     limit: 30,
     loading: false,
-    search: null
+    search: null,
+    list: []
   }),
 
   watch: {
@@ -60,6 +68,10 @@ export default {
 
   created() {
     this.fetch()
+    this.$bus.$on('refresh--btn', this.fetch)
+  },
+  beforeDestroy() {
+    this.$bus.$off('refresh--btn', this.fetch)
   },
 
   mounted() {
@@ -91,7 +103,20 @@ export default {
     },
 
     selectItem(item) {
-      
+      // add this item to an array
+      let existing = Boolean(find(this.list, { id: item.id }))
+      if (existing) {
+        // remove item
+        
+      } else {
+        this.list.push(item)
+      }
+    },
+
+    isSelected(i) {
+      // check if item is in list
+      let item = this.items[i]
+      return Boolean(find(this.list, { id: item.id }))
     }
   }
 }
