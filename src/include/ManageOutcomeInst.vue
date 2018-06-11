@@ -6,31 +6,32 @@
   @keypress.enter="selectItem"
   tabindex="0"
   class="clickable"
-  :class="{ 'primary lighten-4': isSelected }"
-  style="position: relative"
+  :class="{ 'yellow lighten-4': isSelected }"
+  style="position: relative; height: 100%"
 >
   <div>
     <v-layout>
-      <status
-        :item="value"
-        :msg="statusMsg"
-        v-if="!report"
-      />
       <div
         style="padding-top: 14px; padding-bottom: 10px"
-        class="pr-3 full-width"
-        :class="{ 'pl-3': report }"
+        class="pa-3 full-width"
       >
         <v-layout
-          class=" pb-1"
+          v-if="type"
+          align-center
         >
-          <div
-            v-html="$md.makeHtml(value.content)"
-            class="px-2 pt-2"
-            :class="{ 'primary--text text--darken-2': isSelected }"
+          <v-icon
+            small
+            :color="type.color"
+            class="pa-2"
+          >{{ type.icon }}</v-icon>
+          <div class="caption grey--text text--darken-1 pr-2">{{ type.text }}</div>
+          <v-spacer/>
+          <status
+            :item="value"
+            :msg="statusMsg"
+            v-if="!report"
           />
           <template v-if="closable">
-            <v-spacer/>
             <v-tooltip top>
               <v-btn
                 icon
@@ -48,15 +49,13 @@
           </template>
         </v-layout>
         <v-layout
-          v-if="type"
-          align-center
+          class="pb-2"
         >
-          <v-icon
-            small
-            :color="type.color"
-            class="pa-2"
-          >{{ type.icon }}</v-icon>
-          <div class="caption grey--text text--darken-1 pr-2">{{ type.text }}</div>
+          <div
+            v-html="$md.makeHtml(value.content)"
+            class="px-2 pt-2"
+            :class="{ 'primary--text text--darken-2': isSelected }"
+          />
         </v-layout>
         <div>
           <v-chip
@@ -75,7 +74,7 @@
     <v-btn
       icon
       small
-      color="white"
+      color="blue lighten-5"
     >
       <v-icon medium color="blue">check_circle</v-icon>
     </v-btn>

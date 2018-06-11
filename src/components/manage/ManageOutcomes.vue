@@ -17,7 +17,7 @@
   <v-layout row wrap>
     <v-flex
       :key="i"
-      xs12 sm6 md4
+      xs12 sm6 md4 lg3
       v-for="(item, i) in items"
     >
       <manage-outcome-inst

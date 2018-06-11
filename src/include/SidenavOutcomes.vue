@@ -8,6 +8,7 @@
   v-model="$bus.toolbar.outcomes.model"
   right
   style="padding-bottom: 0"
+  class="grey lighten-4"
 >
 
   <v-toolbar
@@ -31,15 +32,17 @@
   </v-toolbar>
 
   <div v-if="dItems && dItems.length">
+    <v-subheader>{{ dItems.length }} Selected</v-subheader>
     <manage-outcome-inst
       :key="i"
       v-for="(item, i) in dItems"
       v-model="dItems[i]"
       report
       closable
-      class="pa-2 ma-3"
+      class="pa-2 mx-3 mb-3"
       @close="() => { closeItem(i) }"
     />
+    <div style="height: 80px"></div>
   </div>
   <v-container
     fluid

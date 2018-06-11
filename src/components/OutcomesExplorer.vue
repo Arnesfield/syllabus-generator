@@ -34,10 +34,10 @@
 
   <v-divider class="mt-3 mb-2"/>
 
-  <v-layout row wrap>
+  <v-layout row wrap class="mb-5">
     <v-flex
       :key="i"
-      xs12 sm6 md4
+      xs12 sm6 md4 lg3
       v-for="(item, i) in items"
       :class="{ 'pa-3': isSelected(i)}"
       class="smooth-padding"
