@@ -2,11 +2,12 @@
 <v-card
   hover
   ripple
-  @click.native="editItem"
-  @keypress.enter="editItem"
+  @click.native="selectItem"
+  @keypress.enter="selectItem"
   tabindex="0"
   class="clickable"
-  :class="{ 'primary lighten-1': isSelected }"
+  :class="{ 'primary lighten-4': isSelected }"
+  style="position: relative"
 >
   <div>
     <v-layout>
@@ -17,13 +18,35 @@
       />
       <div
         style="padding-top: 14px; padding-bottom: 10px"
-        class="pr-3"
+        class="pr-3 full-width"
         :class="{ 'pl-3': report }"
       >
-        <div
-          v-html="$md.makeHtml(value.content)"
-          class="pb-1"
-        />
+        <v-layout
+          class=" pb-1"
+        >
+          <div
+            v-html="$md.makeHtml(value.content)"
+            class="px-2 pt-2"
+            :class="{ 'primary--text text--darken-2': isSelected }"
+          />
+          <template v-if="closable">
+            <v-spacer/>
+            <v-tooltip top>
+              <v-btn
+                icon
+                small
+                slot="activator"
+                @click="closeItem"
+              >
+                <v-icon
+                  small
+                  color="grey"
+                >close</v-icon>
+              </v-btn>
+              <span>Remove</span>
+            </v-tooltip>
+          </template>
+        </v-layout>
         <v-layout
           v-if="type"
           align-center
@@ -44,6 +67,19 @@
       </div>
     </v-layout>
   </div>
+
+  <div
+    class="selectedCheck"
+    v-if="isSelected"
+  >
+    <v-btn
+      icon
+      small
+      color="white"
+    >
+      <v-icon medium color="blue">check_circle</v-icon>
+    </v-btn>
+  </div>
 </v-card>
 </template>
 
@@ -62,6 +98,10 @@ export default {
       default: false
     },
     isSelected: {
+      type: Boolean,
+      default: false
+    },
+    closable: {
       type: Boolean,
       default: false
     }
@@ -99,9 +139,21 @@ export default {
         ? this.totalVisible : item.tags.length
     },
 
-    editItem() {
+    selectItem() {
       this.$emit('select', this.value)
+    },
+    closeItem() {
+      this.$emit('close', this.value)
     }
   }
 }
 </script>
+
+<style scoped>
+.selectedCheck {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(18px, -16px)
+}
+</style>

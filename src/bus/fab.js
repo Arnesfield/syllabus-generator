@@ -44,6 +44,14 @@ export default {
       tip: 'Add Outcome',
       btns: null
     },
+    OutcomesExplorer: {
+      color: 'accent',
+      before: 'search',
+      after: 'close',
+      click: 'outcomes--search',
+      tip: 'Search for syllabi',
+      btns: null
+    },
     Workflow: {
       color: 'accent',
       before: 'add',

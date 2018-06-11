@@ -6,6 +6,7 @@
   fixed
   bottom
   right
+  style="z-index: 100"
 >
   <template v-if="fab !== null">
     <v-tooltip left slot="activator" :disabled="!fab.tip">

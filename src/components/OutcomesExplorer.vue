@@ -8,17 +8,39 @@
       prepend-icon="search"
       :append-icon="search ? 'close' : undefined"
       :append-icon-cb="() => { search ? search = null : null }"
-      class="mb-4"
+      class="mb-2"
       ref="searchbar"
       v-model="search"
     />
+    <div>
+      <v-alert
+        v-model="tip"
+        type="info"
+        dismissible
+      >Tip: Select multiple outcomes and get the syllabi with the selected outcomes.</v-alert>
+    </div>
+    <v-layout row wrap>
+      <v-spacer class="hidden-sm-and-down"/>
+      <v-btn
+        large
+        color="primary lighten-1"
+        @click="outcomesSearch"
+      >
+        <v-icon>search</v-icon>
+        <span>Search for syllabi</span>
+      </v-btn>
+    </v-layout>
   </v-container>
+
+  <v-divider class="mt-3 mb-2"/>
 
   <v-layout row wrap>
     <v-flex
       :key="i"
       xs12 sm6 md4
       v-for="(item, i) in items"
+      :class="{ 'pa-3': isSelected(i)}"
+      class="smooth-padding"
     >
       <manage-outcome-inst
         v-model="items[i]"
@@ -38,7 +60,7 @@
 <script>
 import qs from 'qs'
 import find from 'lodash/find'
-import remove from 'lodash/remove'
+import indexOf from 'lodash/indexOf'
 import SidenavOutcomes from '@/include/SidenavOutcomes'
 import ManageOutcomeInst from '@/include/ManageOutcomeInst'
 
@@ -54,7 +76,9 @@ export default {
     limit: 30,
     loading: false,
     search: null,
-    list: []
+    list: [],
+
+    tip: true
   }),
 
   watch: {
@@ -69,9 +93,11 @@ export default {
   created() {
     this.fetch()
     this.$bus.$on('refresh--btn', this.fetch)
+    this.$bus.$on('outcomes--search', this.outcomesSearch)
   },
   beforeDestroy() {
     this.$bus.$off('refresh--btn', this.fetch)
+    this.$bus.$off('outcomes--search', this.outcomesSearch)
   },
 
   mounted() {
@@ -81,6 +107,10 @@ export default {
   },
 
   methods: {
+    outcomesSearch() {
+      // search syllabi here
+    },
+
     fetch() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
@@ -104,10 +134,10 @@ export default {
 
     selectItem(item) {
       // add this item to an array
-      let existing = Boolean(find(this.list, { id: item.id }))
-      if (existing) {
+      let existing = find(this.list, { id: item.id })
+      if (Boolean(existing)) {
         // remove item
-        
+        this.list.splice(indexOf(this.list, existing), 1)
       } else {
         this.list.push(item)
       }

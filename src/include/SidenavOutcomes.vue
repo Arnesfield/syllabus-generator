@@ -30,13 +30,15 @@
     </v-tooltip>
   </v-toolbar>
 
-  <div v-if="items && items.length">
+  <div v-if="dItems && dItems.length">
     <manage-outcome-inst
       :key="i"
-      v-for="(item, i) in items"
-      v-model="items[i]"
+      v-for="(item, i) in dItems"
+      v-model="dItems[i]"
       report
+      closable
       class="pa-2 ma-3"
+      @close="() => { closeItem(i) }"
     />
   </div>
   <v-container
@@ -61,6 +63,43 @@ export default {
   },
   props: {
     items: Array
+  },
+
+  data: () => ({
+    dItems: []
+  }),
+
+  watch: {
+    items(e) {
+      this.dItems = e
+    },
+    dItems: {
+      deep: true,
+      handler(e) {
+        this.setNavVisibility()
+        this.$emit('update:items', e)
+      }
+    }
+  },
+
+  created() {
+    this.dItems = this.items
+    this.setNavVisibility()
+  },
+
+  methods: {
+    setNavVisibility() {
+      // hide nav when there are no items
+      if (this.dItems && this.dItems.length) {
+        this.$bus.toolbar.outcomes.model = null
+      } else {
+        this.$bus.toolbar.outcomes.model = false
+      }
+    },
+
+    closeItem(i) {
+      this.dItems.splice(i, 1)
+    }
   }
 }
 </script>
