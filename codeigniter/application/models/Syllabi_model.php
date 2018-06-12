@@ -85,6 +85,24 @@ class Syllabi_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
+  public function getByContent($like) {
+    $this->db
+      ->from('syllabi')
+      ->where(array(
+        'status !=' => -1,
+        'version !=' => ''
+      ));
+
+    if ($like) {
+      foreach ($like as $key => $value) {
+        $this->db->like('content', $value, 'both', FALSE);
+      }
+    }
+    
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+
   public function insert($data) {
     return $this->db->insert('syllabi', $data);
   }

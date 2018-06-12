@@ -38,6 +38,39 @@ class Syllabi extends MY_Custom_Controller {
     $this->_json(TRUE, 'syllabi', $syllabi);
   }
 
+  public function outcomes() {
+    $outcomes = $this->input->post('outcomes') ? $this->input->post('outcomes') : array();
+
+    // based on outcomes,
+    // add them to where clause
+    // per content, add "" join with %
+    $like = array();
+
+
+    $append = function($outcomes, $i, $start = '', $end = '') {
+      if (!array_key_exists($i, $outcomes)) {
+        return array();
+      }
+
+      $list = array();
+      foreach ($outcomes[$i] as $key => $value) {
+        array_push($list, $start.'"'.$value.'"'.$end);
+      }
+      return $list;
+    };
+    
+    $clo = $append($outcomes, 1, '"courseLearningOutcomes":%', '%"weeklyActivities":');
+    $ilo = $append($outcomes, 2, '"ilo":%');
+    $tlaFaculty = $append($outcomes, 3, '"tlaFaculty":%');
+    $tlaStudent = $append($outcomes, 4, '"tlaStudent":%');
+
+    $like = array_merge($clo, $ilo, $tlaFaculty, $tlaStudent);
+    
+    $syllabi = $this->syllabi_model->getByContent($like);
+    $syllabi = $this->_formatSyllabi($syllabi);
+    $this->_json(TRUE, 'syllabi', $syllabi);
+  }
+
   public function save($return = FALSE) {
     $assignId = $this->input->post('assignId');
     $syllabus = $this->input->post('syllabus');

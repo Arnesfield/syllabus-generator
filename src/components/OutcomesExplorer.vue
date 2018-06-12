@@ -53,6 +53,10 @@
   </v-layout>
 
   <sidenav-outcomes :items="list"/>
+  <dialog-syllabi-list
+    :items="list"
+    ref="dialog"
+  />
 
 </v-container>
 </template>
@@ -63,12 +67,14 @@ import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 import SidenavOutcomes from '@/include/SidenavOutcomes'
 import ManageOutcomeInst from '@/include/ManageOutcomeInst'
+import DialogSyllabiList from '@/include/dialogs/DialogSyllabiList'
 
 export default {
   name: 'report-outcomes',
   components: {
     SidenavOutcomes,
-    ManageOutcomeInst
+    ManageOutcomeInst,
+    DialogSyllabiList
   },
   data: () => ({
     url: '/outcomes',
@@ -109,6 +115,11 @@ export default {
   methods: {
     outcomesSearch() {
       // search syllabi here
+      if (!this.$refs.dialog) {
+        return
+      }
+
+      this.$refs.dialog.show = true
     },
 
     fetch() {

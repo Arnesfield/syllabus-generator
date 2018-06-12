@@ -278,7 +278,6 @@ export default {
           bookReferences: [],
           programOutcomes: null,
           courseLearningOutcomes: [],
-          intendedLearningOutcomes: [],
           cloPoMap: {},
           weeklyActivities: [],
           gradingSystem: [],
