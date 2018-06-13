@@ -7,7 +7,7 @@
   scrollable
   fullscreen
 >
-  <v-card>
+  <v-card class="grey lighten-5">
     
     <v-progress-linear
       color="warning"
@@ -33,11 +33,26 @@
       >
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title>Syllabi</v-toolbar-title>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text>
-      
+    <v-card-text class="pa-0">
+      <v-container fluid grid-list-lg>
+        <v-layout>
+          <v-flex
+            xs12
+            sm6
+            md4
+            lg3
+            :key="i"
+            v-for="(syllabus, i) in syllabi"
+          >
+            <selectable-syllabus-view
+              :item="syllabus"
+            />
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-card-text>
   </v-card>
 </v-dialog>
@@ -46,9 +61,13 @@
 <script>
 import qs from 'qs'
 import filter from 'lodash/filter'
+import SelectableSyllabusView from '@/include/SelectableSyllabusView'
 
 export default {
   name: 'dialog-syllabi-list',
+  components: {
+    SelectableSyllabusView
+  },
   props: {
     items: Array
   },
@@ -69,6 +88,13 @@ export default {
   },
 
   computed: {
+    title() {
+      let n = this.syllabi.length
+      if (!n) {
+        return 'No Results'
+      }
+      return n === 1 ? '1 Syllabus Result' : n + ' Syllabi Results'
+    },
     filterItems() {
       let items = {}
       for (let i = 1; i <= 4; i++) {
