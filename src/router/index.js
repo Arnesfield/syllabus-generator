@@ -100,7 +100,7 @@ export default new Router({
       component: SyllabusView,
       props: true,
       meta: {
-        auth: [3, 4, 5],
+        auth: [1, 3, 4, 5],
         title: 'Syllabus',
         icon: 'subject'
       }

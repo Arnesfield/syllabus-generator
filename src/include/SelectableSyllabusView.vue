@@ -1,5 +1,9 @@
 <template>
-<v-card>
+<v-card
+  hover
+  :href="'/#/syllabus/view/' + course.id + '/' + item.id"
+  target="_blank"
+>
   <v-card-title>
     <div>
       <div

@@ -196,23 +196,12 @@ export default {
 
   watch: {
     $route(to, from) {
-      if (
-        !this.checkRoute(to.name, this.routes.hidden) &&
-        this.checkRoute(from.name, this.routes.hidden)
-      ) {
-        this.$bus.nav.model = null
-      }
-
-      if (
-        this.checkRoute(to.name, this.routes.short) || 
-        this.checkRoute(from.name, this.routes.short)
-      ) {
-        if (this.$bus.nav.model === null || this.$bus.nav.model === true) {
-          this.$bus.nav.model = null
-          this.$bus.nav.miniVariant = this.checkRoute(to.name, this.routes.short)
-        }
-      }
+      this.triggerRoute(to, from)
     }
+  },
+
+  created() {
+    this.triggerRoute(this.$route, this.$route)
   },
 
   methods: {
@@ -231,6 +220,25 @@ export default {
         this.$bus.$emit('snackbar--show', 'Unable to logout.')
         this.$bus.refresh(false)
       })
+    },
+
+    triggerRoute(to, from) {
+      if (
+        !this.checkRoute(to.name, this.routes.hidden) &&
+        this.checkRoute(from.name, this.routes.hidden)
+      ) {
+        this.$bus.nav.model = null
+      }
+
+      if (
+        this.checkRoute(to.name, this.routes.short) || 
+        this.checkRoute(from.name, this.routes.short)
+      ) {
+        if (this.$bus.nav.model === null || this.$bus.nav.model === true) {
+          this.$bus.nav.model = null
+          this.$bus.nav.miniVariant = this.checkRoute(to.name, this.routes.short)
+        }
+      }
     },
 
     cloOptions() {

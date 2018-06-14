@@ -27,7 +27,6 @@
       <v-btn
         icon
         dark
-        :disabled="loading"
         @click="show = false"
         @keypress.enter="show = false"
       >
@@ -36,9 +35,17 @@
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text class="pa-0">
-      <v-container fluid grid-list-lg>
-        <v-layout>
+    <v-card-text class="pa-0 full-height">
+      <v-container
+        fluid
+        grid-list-lg
+        :fill-height="!syllabi.length"
+      >
+        <v-layout
+          row
+          wrap
+          v-if="syllabi.length"
+        >
           <v-flex
             xs12
             sm6
@@ -52,6 +59,23 @@
             />
           </v-flex>
         </v-layout>
+        <v-layout
+          v-else
+          align-center
+          justify-center
+        >
+          <manage-no-data
+            msg="No results :("
+            :fetch="fetch"
+            :loading="loading"
+          >
+            <v-icon
+              slot="icon"
+              size="64px"
+              class="mb-4"
+            >assignment_late</v-icon>
+          </manage-no-data>
+        </v-layout>
       </v-container>
     </v-card-text>
   </v-card>
@@ -62,11 +86,13 @@
 import qs from 'qs'
 import filter from 'lodash/filter'
 import SelectableSyllabusView from '@/include/SelectableSyllabusView'
+import ManageNoData from '@/include/ManageNoData'
 
 export default {
   name: 'dialog-syllabi-list',
   components: {
-    SelectableSyllabusView
+    SelectableSyllabusView,
+    ManageNoData
   },
   props: {
     items: Array
@@ -89,6 +115,9 @@ export default {
 
   computed: {
     title() {
+      if (this.loading) {
+        return 'Loading'
+      }
       let n = this.syllabi.length
       if (!n) {
         return 'No Results'
