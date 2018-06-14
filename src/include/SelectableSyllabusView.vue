@@ -21,12 +21,10 @@
     </div>
   </v-card-title>
 
-  <v-divider/>
-
   <v-card-text class="pa-0">
 
     <!-- assigned to -->
-    <v-layout row wrap align-center class="px-2 pb-2 pt-3">
+    <v-layout row wrap align-center class="px-2">
       <span class="ml-3">
         <icon-img
           :item="c.facultyInCharge"
@@ -50,8 +48,6 @@
         </div>
       </v-subheader>
     </v-layout>
-
-    <v-divider/>
 
     <div class="px-3 py-2 caption">
 
