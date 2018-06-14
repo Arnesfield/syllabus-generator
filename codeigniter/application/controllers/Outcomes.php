@@ -6,7 +6,6 @@ class Outcomes extends MY_Custom_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model('outcomes_model');
-    $this->load->model('fields_model');
   }
   
   public function index() {

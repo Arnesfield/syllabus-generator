@@ -33,22 +33,6 @@ class Courses_model extends MY_Custom_Model {
     return $this->_res($query);
   }
   
-  public function getRelatedCoursesById($id, $type) {
-    $query = $this->db
-      ->select()
-      ->from('course_relation cr')
-      ->join('courses c', 'c.id = cr.course_id')
-      ->join('courses r', 'r.id = cr.related_course_id')
-      ->where(array(
-        'c.id' => $id,
-        'cr.type' => $type,
-        'c.status !=' => -1,
-        'r.status !=' => -1
-      ))
-      ->get();
-    return $this->_res($query);
-  }
-  
   public function getWhere($where) {
     $this->db
       ->from('courses')

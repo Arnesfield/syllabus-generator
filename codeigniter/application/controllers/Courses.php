@@ -88,20 +88,6 @@ class Courses extends MY_Custom_Controller {
     $this->_json(TRUE, 'courses', $courses);
   }
 
-  public function related() {
-    $id = $this->input->post('id');
-
-    // prereq type 1
-    // coreq type 2
-
-    $prerequisites = $this->courses_model->getRelatedCoursesById($id, 1);
-    $corequisites = $this->courses_model->getRelatedCoursesById($id, 2);
-    $this->_json(TRUE, array(
-      'prerequisites' => $prerequisites,
-      'corequisites' => $corequisites
-    ));
-  }
-
   public function addCsv() {
     $courses = $this->input->post('courses');
     $res = $this->courses_model->insertMultiple($courses);

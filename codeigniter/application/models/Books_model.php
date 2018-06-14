@@ -3,28 +3,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Books_model extends MY_Custom_Model {
 
-  public function getByQuery($search = FALSE) {
+  public function getByQuery($search = FALSE, $where = FALSE) {
     $this->db
-      ->select('
-        b.id AS id,
-        b.citation AS citation,
-        b.status AS status
-      ')
-      ->from('book_field_relation bfr')
-      ->join('books b', 'b.id = bfr.book_id')
-      ->join('fields f', 'f.id = bfr.field_id')
-      ->where(array(
-        'b.status !=' => -1
-      ));
-    
+      ->from('books')
+      ->where('status !=', -1);
+
     if ($search) {
+      $search = strtolower($search);
       $this->db->where("
-        lower(concat(IFNULL(f.title, ''), IFNULL(b.citation, '')))
-        like lower(concat('%', '$search', '%'))
-      ");
+        (
+          (
+            LOWER(citation) LIKE '%$search%' OR
+            LOWER(tags) LIKE '%$search%'
+          ) OR MATCH(citation, tags) AGAINST ('*$search*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE);
     }
 
-    $this->db->group_by('id');
+    if ($where) {
+      $this->db->where($where);
+    }
+
+    $this->db
+      ->order_by('citation')
+      ->order_by('updated_at')
+      ->order_by('created_at');
 
     $query = $this->db->get();
     return $this->_res($query);

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2018 at 03:08 PM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 7.1.7
+-- Generation Time: Jun 14, 2018 at 11:44 AM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -42,7 +42,7 @@ CREATE TABLE `assigns` (
 --
 
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
-(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":2}],[{\"id\":4,\"status\":2}],[{\"id\":5,\"status\":2}]]}', 3, 1527422461, 1527424326, 2),
+(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":\"1\"}],[{\"id\":4,\"status\":\"1\"}],[{\"id\":5,\"status\":\"1\"}]]}', 3, 1527422461, 1528682434, 1),
 (2, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":2}],[{\"id\":5,\"status\":2}]]}', 3, 1527828566, 1527828566, 3);
 
 -- --------------------------------------------------------
@@ -96,146 +96,6 @@ INSERT INTO `books` (`id`, `citation`, `tags`, `created_at`, `updated_at`, `stat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `book_field_relation`
---
-
-CREATE TABLE `book_field_relation` (
-  `id` int(11) NOT NULL,
-  `book_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `book_field_relation`
---
-
-INSERT INTO `book_field_relation` (`id`, `book_id`, `field_id`, `status`) VALUES
-(1, 1, 1, 1),
-(2, 1, 2, 1),
-(3, 1, 3, 1),
-(4, 1, 5, 1),
-(5, 1, 12, 1),
-(6, 2, 16, 1),
-(7, 2, 2, 1),
-(8, 2, 4, 1),
-(9, 2, 3, 1),
-(10, 3, 2, 1),
-(11, 3, 20, 1),
-(12, 3, 35, 1),
-(13, 4, 2, 1),
-(14, 4, 20, 1),
-(15, 4, 35, 1),
-(16, 5, 2, 1),
-(17, 5, 20, 1),
-(18, 5, 35, 1),
-(19, 6, 2, 1),
-(20, 6, 20, 1),
-(21, 6, 35, 1),
-(22, 7, 2, 1),
-(23, 7, 20, 1),
-(24, 7, 35, 1),
-(25, 8, 2, 1),
-(26, 8, 20, 1),
-(27, 8, 35, 1),
-(28, 9, 2, 1),
-(29, 9, 20, 1),
-(30, 9, 35, 1),
-(31, 10, 2, 1),
-(32, 10, 20, 1),
-(33, 10, 35, 1),
-(34, 11, 17, 1),
-(35, 11, 25, 1),
-(36, 11, 21, 1),
-(37, 12, 17, 1),
-(38, 12, 21, 1),
-(39, 12, 19, 1),
-(40, 11, 19, 1),
-(41, 12, 33, 1),
-(42, 12, 26, 1),
-(43, 11, 33, 1),
-(44, 11, 26, 1),
-(45, 13, 17, 1),
-(46, 13, 19, 1),
-(47, 13, 21, 1),
-(48, 13, 26, 1),
-(49, 13, 33, 1),
-(50, 14, 17, 1),
-(51, 14, 19, 1),
-(52, 14, 21, 1),
-(53, 14, 26, 1),
-(54, 14, 33, 1),
-(55, 14, 25, 1),
-(56, 13, 22, 1),
-(57, 13, 23, 1),
-(58, 13, 24, 1),
-(59, 12, 22, 1),
-(60, 12, 23, 1),
-(61, 12, 24, 1),
-(62, 14, 22, 1),
-(63, 14, 23, 1),
-(64, 14, 24, 1),
-(65, 15, 17, 1),
-(66, 15, 19, 1),
-(67, 15, 21, 1),
-(68, 15, 22, 1),
-(69, 15, 23, 1),
-(70, 15, 24, 1),
-(71, 15, 25, 1),
-(72, 15, 26, 1),
-(73, 15, 33, 1),
-(74, 16, 17, 1),
-(75, 16, 19, 1),
-(76, 16, 21, 1),
-(77, 16, 22, 1),
-(78, 16, 23, 1),
-(79, 16, 24, 1),
-(80, 16, 25, 1),
-(81, 16, 26, 1),
-(82, 16, 33, 1),
-(83, 17, 17, 1),
-(84, 17, 19, 1),
-(85, 17, 21, 1),
-(86, 17, 22, 1),
-(87, 17, 23, 1),
-(88, 17, 24, 1),
-(89, 17, 25, 1),
-(90, 17, 26, 1),
-(91, 17, 33, 1),
-(92, 11, 34, 1),
-(93, 12, 34, 1),
-(94, 13, 34, 1),
-(95, 14, 34, 1),
-(96, 15, 34, 1),
-(97, 16, 34, 1),
-(98, 17, 34, 1),
-(99, 18, 13, 1),
-(100, 18, 38, 1),
-(101, 18, 39, 1),
-(102, 19, 13, 1),
-(103, 19, 15, 1),
-(104, 19, 40, 1),
-(105, 20, 13, 1),
-(106, 20, 38, 1),
-(107, 20, 39, 1),
-(108, 21, 13, 1),
-(109, 21, 29, 1),
-(110, 21, 38, 1),
-(111, 18, 29, 1),
-(112, 19, 38, 1),
-(113, 19, 39, 1),
-(114, 19, 29, 1),
-(115, 20, 29, 1),
-(116, 21, 39, 1),
-(117, 0, 0, 1),
-(118, 0, 0, 1),
-(119, 0, 0, 1),
-(120, 0, 0, 1),
-(121, 0, 0, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `comments`
 --
 
@@ -248,6 +108,13 @@ CREATE TABLE `comments` (
   `created_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `assign_id`, `comment`, `level`, `created_at`, `status`) VALUES
+(1, 5, 1, 'test', 2, 1528682509, 1);
 
 -- --------------------------------------------------------
 
@@ -290,88 +157,6 @@ INSERT INTO `courses` (`id`, `title`, `code`, `description`, `objectives`, `unit
 (12, '', '', '', '', 0, 0, '', '', '', 0, 0, 1),
 (13, 'Some new course 1', 'SOMENEW1', 'Some nice course description\r\n1. with numbers :o\r\n2. waw\r\n3. another', 'Some nice course objectives with bullets\r\n- nice\r\n- waw\r\n    - sub-bullets too\r\n    - sub-bullets too', 3, 0, '[\"Programming\",\"Animation\"]', '[\"3\"]', '[\"2\",\"1\"]', 1522424825, 1523780496, 1),
 (14, 'COMPUTER PROGRAMMING 1 FOR IT (LAB)', 'ITPROG1L', 'Test', 'test', 0, 1, '[]', '[]', '[]', 1522907865, 1522907865, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `course_field_relation`
---
-
-CREATE TABLE `course_field_relation` (
-  `id` int(11) NOT NULL,
-  `course_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `course_field_relation`
---
-
-INSERT INTO `course_field_relation` (`id`, `course_id`, `field_id`, `status`) VALUES
-(1, 1, 13, 1),
-(2, 1, 14, 1),
-(3, 1, 15, 1),
-(4, 2, 2, 1),
-(5, 2, 3, 1),
-(6, 2, 5, 1),
-(7, 2, 10, 1),
-(8, 2, 11, 1),
-(9, 3, 2, 1),
-(10, 3, 4, 1),
-(11, 3, 6, 1),
-(12, 3, 7, 1),
-(13, 3, 8, 1),
-(14, 3, 9, 1),
-(15, 1, 38, 1),
-(16, 1, 39, 1),
-(17, 1, 40, 1),
-(18, 1, 31, 1),
-(19, 1, 32, 1),
-(20, 4, 17, 1),
-(21, 4, 21, 1),
-(22, 4, 19, 1),
-(23, 4, 22, 1),
-(24, 4, 23, 1),
-(25, 4, 24, 1),
-(26, 4, 25, 1),
-(27, 4, 26, 1),
-(28, 1, 29, 1),
-(29, 4, 33, 1),
-(30, 4, 34, 1),
-(31, 5, 2, 1),
-(32, 5, 20, 1),
-(33, 5, 35, 1),
-(34, 5, 36, 1),
-(35, 5, 37, 1),
-(36, 5, 27, 1),
-(37, 5, 28, 1),
-(38, 5, 18, 1),
-(39, 0, 0, 1),
-(40, 0, 0, 1),
-(41, 0, 0, 1),
-(42, 0, 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `course_relation`
---
-
-CREATE TABLE `course_relation` (
-  `id` int(11) NOT NULL,
-  `course_id` int(11) NOT NULL,
-  `related_course_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `course_relation`
---
-
-INSERT INTO `course_relation` (`id`, `course_id`, `related_course_id`, `type`, `status`) VALUES
-(1, 1, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -488,31 +273,6 @@ INSERT INTO `materials` (`id`, `name`, `description`, `tags`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `material_field_relation`
---
-
-CREATE TABLE `material_field_relation` (
-  `id` int(11) NOT NULL,
-  `material_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `material_field_relation`
---
-
-INSERT INTO `material_field_relation` (`id`, `material_id`, `field_id`, `status`) VALUES
-(1, 1, 13, 1),
-(2, 1, 29, 1),
-(3, 2, 13, 1),
-(4, 2, 29, 1),
-(5, 3, 13, 1),
-(6, 3, 29, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `outcomes`
 --
 
@@ -566,279 +326,6 @@ INSERT INTO `outcomes` (`id`, `content`, `type`, `tags`, `created_at`, `updated_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `outcome_field_relation`
---
-
-CREATE TABLE `outcome_field_relation` (
-  `id` int(11) NOT NULL,
-  `outcome_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `outcome_field_relation`
---
-
-INSERT INTO `outcome_field_relation` (`id`, `outcome_id`, `field_id`, `status`) VALUES
-(1, 1, 13, 1),
-(2, 1, 14, 1),
-(3, 1, 15, 1),
-(4, 1, 29, 1),
-(5, 1, 31, 1),
-(6, 1, 32, 1),
-(7, 1, 38, 1),
-(8, 1, 39, 1),
-(9, 1, 40, 1),
-(10, 2, 13, 1),
-(11, 2, 14, 1),
-(12, 2, 15, 1),
-(13, 2, 29, 1),
-(14, 2, 31, 1),
-(15, 2, 32, 1),
-(16, 2, 38, 1),
-(17, 2, 39, 1),
-(18, 2, 40, 1),
-(19, 3, 13, 1),
-(20, 3, 14, 1),
-(21, 3, 15, 1),
-(22, 3, 29, 1),
-(23, 3, 31, 1),
-(24, 3, 32, 1),
-(25, 3, 38, 1),
-(26, 3, 39, 1),
-(27, 3, 40, 1),
-(28, 8, 13, 1),
-(29, 8, 14, 1),
-(30, 8, 15, 1),
-(31, 8, 29, 1),
-(32, 8, 31, 1),
-(33, 8, 32, 1),
-(34, 8, 38, 1),
-(35, 8, 39, 1),
-(36, 8, 40, 1),
-(37, 9, 13, 1),
-(38, 9, 14, 1),
-(39, 9, 15, 1),
-(40, 9, 29, 1),
-(41, 9, 31, 1),
-(42, 9, 32, 1),
-(43, 9, 38, 1),
-(44, 9, 39, 1),
-(45, 9, 40, 1),
-(46, 10, 13, 1),
-(47, 10, 14, 1),
-(48, 10, 15, 1),
-(49, 10, 29, 1),
-(50, 10, 31, 1),
-(51, 10, 32, 1),
-(52, 10, 38, 1),
-(53, 10, 39, 1),
-(54, 10, 40, 1),
-(55, 11, 13, 1),
-(56, 11, 14, 1),
-(57, 11, 15, 1),
-(58, 11, 29, 1),
-(59, 11, 31, 1),
-(60, 11, 32, 1),
-(61, 11, 38, 1),
-(62, 11, 39, 1),
-(63, 11, 40, 1),
-(64, 12, 13, 1),
-(65, 12, 14, 1),
-(66, 12, 15, 1),
-(67, 12, 29, 1),
-(68, 12, 31, 1),
-(69, 12, 32, 1),
-(70, 12, 38, 1),
-(71, 12, 39, 1),
-(72, 12, 40, 1),
-(73, 13, 13, 1),
-(74, 13, 14, 1),
-(75, 13, 15, 1),
-(76, 13, 29, 1),
-(77, 13, 31, 1),
-(78, 13, 32, 1),
-(79, 13, 38, 1),
-(80, 13, 39, 1),
-(81, 13, 40, 1),
-(82, 14, 13, 1),
-(83, 14, 14, 1),
-(84, 14, 15, 1),
-(85, 14, 29, 1),
-(86, 14, 31, 1),
-(87, 14, 32, 1),
-(88, 14, 38, 1),
-(89, 14, 39, 1),
-(90, 14, 40, 1),
-(91, 15, 13, 1),
-(92, 15, 14, 1),
-(93, 15, 15, 1),
-(94, 15, 29, 1),
-(95, 15, 31, 1),
-(96, 15, 32, 1),
-(97, 15, 38, 1),
-(98, 15, 39, 1),
-(99, 15, 40, 1),
-(100, 16, 13, 1),
-(101, 16, 14, 1),
-(102, 16, 15, 1),
-(103, 16, 29, 1),
-(104, 16, 31, 1),
-(105, 16, 32, 1),
-(106, 16, 38, 1),
-(107, 16, 39, 1),
-(108, 16, 40, 1),
-(109, 17, 13, 1),
-(110, 17, 14, 1),
-(111, 17, 15, 1),
-(112, 17, 29, 1),
-(113, 17, 31, 1),
-(114, 17, 32, 1),
-(115, 17, 38, 1),
-(116, 17, 39, 1),
-(117, 17, 40, 1),
-(118, 18, 13, 1),
-(119, 18, 14, 1),
-(120, 18, 15, 1),
-(121, 18, 29, 1),
-(122, 18, 31, 1),
-(123, 18, 32, 1),
-(124, 18, 38, 1),
-(125, 18, 39, 1),
-(126, 18, 40, 1),
-(127, 19, 13, 1),
-(128, 19, 14, 1),
-(129, 19, 15, 1),
-(130, 19, 29, 1),
-(131, 19, 31, 1),
-(132, 19, 32, 1),
-(133, 19, 38, 1),
-(134, 19, 39, 1),
-(135, 19, 40, 1),
-(136, 4, 17, 1),
-(137, 4, 19, 1),
-(138, 4, 21, 1),
-(139, 4, 22, 1),
-(140, 4, 23, 1),
-(141, 4, 24, 1),
-(142, 4, 25, 1),
-(143, 4, 26, 1),
-(144, 4, 33, 1),
-(145, 4, 34, 1),
-(146, 5, 17, 1),
-(147, 5, 19, 1),
-(148, 5, 21, 1),
-(149, 5, 22, 1),
-(150, 5, 23, 1),
-(151, 5, 24, 1),
-(152, 5, 25, 1),
-(153, 5, 26, 1),
-(154, 5, 33, 1),
-(155, 5, 34, 1),
-(156, 6, 17, 1),
-(157, 6, 19, 1),
-(158, 6, 21, 1),
-(159, 6, 22, 1),
-(160, 6, 23, 1),
-(161, 6, 24, 1),
-(162, 6, 25, 1),
-(163, 6, 26, 1),
-(164, 6, 33, 1),
-(165, 6, 34, 1),
-(166, 7, 17, 1),
-(167, 7, 19, 1),
-(168, 7, 21, 1),
-(169, 7, 22, 1),
-(170, 7, 23, 1),
-(171, 7, 24, 1),
-(172, 7, 25, 1),
-(173, 7, 26, 1),
-(174, 7, 33, 1),
-(175, 7, 34, 1),
-(176, 20, 13, 1),
-(177, 20, 29, 1),
-(178, 21, 13, 1),
-(179, 21, 29, 1),
-(180, 22, 13, 1),
-(181, 22, 29, 1),
-(182, 23, 13, 1),
-(183, 23, 29, 1),
-(184, 23, 32, 1),
-(185, 23, 31, 1),
-(186, 24, 13, 1),
-(187, 24, 29, 1),
-(188, 24, 31, 1),
-(189, 24, 32, 1),
-(190, 24, 14, 1),
-(191, 25, 13, 1),
-(192, 25, 29, 1),
-(193, 26, 13, 1),
-(194, 26, 29, 1),
-(195, 27, 13, 1),
-(196, 27, 29, 1),
-(197, 27, 31, 1),
-(198, 27, 32, 1),
-(199, 28, 13, 1),
-(200, 28, 29, 1),
-(201, 28, 15, 1),
-(202, 28, 38, 1),
-(203, 28, 39, 1),
-(204, 28, 40, 1),
-(205, 29, 13, 1),
-(206, 29, 29, 1),
-(207, 29, 38, 1),
-(208, 29, 39, 1),
-(209, 29, 40, 1),
-(210, 30, 13, 1),
-(211, 30, 14, 1),
-(212, 30, 29, 1),
-(213, 30, 31, 1),
-(214, 30, 32, 1),
-(215, 0, 0, 0),
-(216, 0, 0, 0),
-(217, 0, 0, 0),
-(218, 0, 0, 0),
-(219, 0, 0, 0),
-(220, 0, 0, 0),
-(221, 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `outcome_relation`
---
-
-CREATE TABLE `outcome_relation` (
-  `id` int(11) NOT NULL,
-  `clo_id` int(11) NOT NULL,
-  `ilo_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `outcome_relation`
---
-
-INSERT INTO `outcome_relation` (`id`, `clo_id`, `ilo_id`, `status`) VALUES
-(1, 1, 8, 1),
-(2, 1, 12, 1),
-(3, 1, 18, 1),
-(4, 2, 11, 1),
-(5, 2, 13, 1),
-(6, 2, 15, 1),
-(7, 2, 18, 1),
-(8, 3, 11, 1),
-(9, 3, 13, 1),
-(10, 3, 14, 1),
-(11, 3, 15, 1),
-(12, 3, 16, 1),
-(13, 3, 17, 1),
-(14, 3, 18, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `settings`
 --
 
@@ -881,7 +368,7 @@ CREATE TABLE `syllabi` (
 --
 
 INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `assign_id`, `content`, `version`, `created_at`, `updated_at`, `status`) VALUES
-(1, 1, 3, 1, '{\"institutionVision\":\"FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.\",\"departmentVision\":\"The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.\",\"departmentMission\":\"The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.\",\"programEducationalObjectives\":\"The graduates of the Bachelor of Science in Information Technology program are:\\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges.\",\"facultyInCharge\":{\"id\":\"3\",\"fname\":\"Smith\",\"mname\":\"\",\"lname\":\"Paul\",\"username\":\"ralph\",\"title\":\"\",\"weight\":\"0\",\"password\":\"$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6\",\"img_src\":\"\",\"tags\":[],\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"0\",\"auth\":[3,4]},\"evaluatedBy\":[[{\"id\":4,\"status\":2,\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}],[{\"id\":4,\"status\":2,\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}]],\"approvedBy\":[[{\"id\":5,\"status\":2,\"user\":{\"id\":\"5\",\"fname\":\"Rossana\",\"mname\":\"T.\",\"lname\":\"Adao\",\"username\":\"joanne\",\"title\":\"Senior Director, CCS\",\"weight\":\"10\",\"password\":\"$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522867906\",\"auth\":\"[\\\"5\\\"]\"}}]],\"bookReferences\":[\"Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology\",\"Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press\",\"Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ\"],\"programOutcomes\":{\"id\":\"2\",\"label\":\"2017\",\"content\":[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"latest\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522772992\",\"status\":\"1\"},\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\",\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":[{\"d\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"e\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"i\":{\"symbol\":\"I\",\"text\":\"Introductory\"}}],\"weeklyActivities\":[{\"noOfWeeks\":1,\"noOfHours\":\"5.34\",\"topics\":[\"Lesson 1. Project Development\",\"Lesson 2. Software Evaluation\"],\"ilo\":[\"Develop, execute and create the project deliverables.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[0],\"tlaFaculty\":[\"Discussion of the Guidelines\"],\"tlaStudent\":[\"Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.\",\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\"],\"instructionalMaterials\":[\"Whiteboard\"],\"assessmentTasks\":[\"Group Presentation\",\"Group Dynamics\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":\"2\",\"noOfHours\":\"5.34\",\"topics\":[\"Lesson 2. Software Evaluation\",\"Lesson 3. Project Control and Project Closure\"],\"ilo\":[\"Complete the work defined in the plan to satisfy the project specifications.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[1,2],\"tlaFaculty\":[\"Require instrument for software testing.\",\"Class/Library Activity; Research current trends in IT.\"],\"tlaStudent\":[\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\",\"The students can be able to produce Results and Discussion of the Proposal Paper.\"],\"instructionalMaterials\":[\"DLP\",\"Net book\"],\"assessmentTasks\":[\"Documentation\",\"Class Activity\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":1,\"noOfHours\":\"2\",\"topics\":[],\"ilo\":[],\"cloMap\":[0,1],\"tlaFaculty\":[],\"tlaStudent\":[],\"instructionalMaterials\":[],\"assessmentTasks\":[\"Testing\"],\"text\":\"Final Exam\",\"asObject\":false}],\"gradingSystem\":[{\"label\":\"Midterm Grade\",\"text\":\"**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t40%**\\n\\n.\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"},{\"label\":\"Final Grade\",\"text\":\"**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t15%**\\n\\n**Final Exam (FE)\\t25%**\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"}],\"versionType\":0,\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\"],\"prerequisites\":[{\"id\":\"6\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[],\"prerequisites\":\"[]\",\"corequisites\":\"[\\\"3\\\"]\",\"created_at\":\"0\",\"updated_at\":\"1523780512\",\"status\":\"1\"}],\"corequisites\":[],\"created_at\":\"0\",\"updated_at\":\"1522415141\",\"status\":\"1\"}}', '', 1527422833, 1527424326, 2);
+(1, 1, 3, 1, '{\"institutionVision\":\"FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.\",\"institutionMission\":\"FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.\",\"departmentVision\":\"The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.\",\"departmentMission\":\"The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.\",\"programEducationalObjectives\":\"The graduates of the Bachelor of Science in Information Technology program are:\\n1. engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.\\n2. entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.\\n3. responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges.\",\"facultyInCharge\":{\"id\":\"3\",\"fname\":\"Smith\",\"mname\":\"\",\"lname\":\"Paul\",\"username\":\"ralph\",\"title\":\"\",\"weight\":\"0\",\"password\":\"$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6\",\"img_src\":\"\",\"tags\":[],\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"0\",\"auth\":[3,4]},\"evaluatedBy\":[[{\"id\":4,\"status\":\"1\",\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}],[{\"id\":4,\"status\":\"1\",\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}]],\"approvedBy\":[[{\"id\":5,\"status\":1,\"user\":{\"id\":\"5\",\"fname\":\"Rossana\",\"mname\":\"T.\",\"lname\":\"Adao\",\"username\":\"joanne\",\"title\":\"Senior Director, CCS\",\"weight\":\"10\",\"password\":\"$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522867906\",\"auth\":\"[\\\"5\\\"]\"}}]],\"bookReferences\":[\"Schwalbe, Kathy (2011). Information Technology Project Management. Rev. 6th ed. Australia: Course Technology\",\"Wiegers K. (2013). Software requirements (3rd). Redmond, Washington: Microsoft Press\",\"Kendall (2014). System analysis and design (9th). Pearson: Upper Saddle River, NJ\"],\"programOutcomes\":{\"id\":\"2\",\"label\":\"2017\",\"content\":[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"latest\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522772992\",\"status\":\"1\"},\"courseLearningOutcomes\":[\"Develop and execute the project requirements based from the proposal document.\",\"Test and evaluate the software product to validate for the process and output.\",\"Complete the system defined in the plan to satisfy the project specifications and present final documentation.\"],\"intendedLearningOutcomes\":[],\"cloPoMap\":[{\"d\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"e\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"i\":{\"symbol\":\"I\",\"text\":\"Introductory\"}}],\"weeklyActivities\":[{\"noOfWeeks\":1,\"noOfHours\":\"5.34\",\"topics\":[\"Lesson 1. Project Development\",\"Lesson 2. Software Evaluation\"],\"ilo\":[\"Develop, execute and create the project deliverables.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[0],\"tlaFaculty\":[\"Discussion of the Guidelines\"],\"tlaStudent\":[\"Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.\",\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\"],\"instructionalMaterials\":[\"Whiteboard\"],\"assessmentTasks\":[\"Group Presentation\",\"Group Dynamics\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":\"2\",\"noOfHours\":\"5.34\",\"topics\":[\"Lesson 2. Software Evaluation\",\"Lesson 3. Project Control and Project Closure\"],\"ilo\":[\"Complete the work defined in the plan to satisfy the project specifications.\",\"Test the software product to validate its process and output.\"],\"cloMap\":[1,2],\"tlaFaculty\":[\"Require instrument for software testing.\",\"Class/Library Activity; Research current trends in IT.\"],\"tlaStudent\":[\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\",\"The students can be able to produce Results and Discussion of the Proposal Paper.\"],\"instructionalMaterials\":[\"DLP\",\"Net book\"],\"assessmentTasks\":[\"Documentation\",\"Class Activity\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":1,\"noOfHours\":\"2\",\"topics\":[],\"ilo\":[],\"cloMap\":[0,1],\"tlaFaculty\":[],\"tlaStudent\":[],\"instructionalMaterials\":[],\"assessmentTasks\":[\"Testing\"],\"text\":\"Final Exam\",\"asObject\":false}],\"gradingSystem\":[{\"label\":\"Midterm Grade\",\"text\":\"**Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t40%**\\n\\n.\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"},{\"label\":\"Final Grade\",\"text\":\"**Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)**\\n\\n.\\n\\n**Lecture: 70%**\\n\\n- **Class Standing  (CS) 60%**\\n\\n    1. Average of at least two long quizzes 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Class participation 25%\\n        - (Seatwork, Assignments, Recitations)\\n    4. Short Quizzes, Class Exercises 30%\\n\\n.\\n\\n**Midterm Exam (ME) 40%**\\n\\n.\\n\\n**Lab: 30%**\\n\\n- **Class Standing  (CS) 60%**\\n    1. Laboratory Exercises/Machine Problems 40%\\n    2. Teacher’s Evaluation 5%\\n    3. Project/s 30%\\n    4. Practical Exam  25%\\n\\n.\\n\\n**Midterm Exam (ME)\\t15%**\\n\\n**Final Exam (FE)\\t25%**\\n\\n.\\n\\n**PASSING RAW SCORE: 70**\\n\\n_Note:  Grades in Lecture and Lab should be the same._\"}],\"versionType\":0,\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\"],\"prerequisites\":[{\"id\":\"6\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[],\"prerequisites\":\"[]\",\"corequisites\":\"[\\\"3\\\"]\",\"created_at\":\"0\",\"updated_at\":\"1523780512\",\"status\":\"1\"}],\"corequisites\":[],\"created_at\":\"0\",\"updated_at\":\"1522415141\",\"status\":\"1\"}}', '1.0', 1527422833, 1527424326, 2);
 
 -- --------------------------------------------------------
 
@@ -930,49 +417,6 @@ INSERT INTO `tasks` (`id`, `name`, `description`, `tags`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `task_field_relation`
---
-
-CREATE TABLE `task_field_relation` (
-  `id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `task_field_relation`
---
-
-INSERT INTO `task_field_relation` (`id`, `task_id`, `field_id`, `status`) VALUES
-(1, 20, 13, 1),
-(2, 20, 29, 1),
-(3, 20, 0, 1),
-(4, 21, 13, 1),
-(5, 21, 29, 1),
-(6, 22, 13, 1),
-(7, 22, 29, 1),
-(8, 22, 14, 1),
-(9, 23, 13, 1),
-(10, 23, 29, 1),
-(11, 23, 38, 1),
-(12, 23, 39, 1),
-(13, 23, 40, 1),
-(14, 24, 13, 1),
-(15, 24, 29, 1),
-(16, 24, 31, 1),
-(17, 24, 32, 1),
-(18, 2, 13, 1),
-(19, 2, 29, 1),
-(20, 0, 0, 0),
-(21, 0, 0, 0),
-(22, 0, 0, 0),
-(23, 0, 0, 0),
-(24, 0, 0, 0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `topics`
 --
 
@@ -1017,331 +461,6 @@ INSERT INTO `topics` (`id`, `name`, `tags`, `status`) VALUES
 (27, 'Sample topic 1', '', 1),
 (28, 'Sample topic 2', '', 1),
 (29, 'Sample topic 3', '', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `topic_field_relation`
---
-
-CREATE TABLE `topic_field_relation` (
-  `id` int(11) NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `topic_field_relation`
---
-
-INSERT INTO `topic_field_relation` (`id`, `topic_id`, `field_id`, `status`) VALUES
-(1, 1, 13, 1),
-(2, 1, 15, 1),
-(3, 2, 13, 1),
-(4, 2, 31, 1),
-(5, 3, 13, 1),
-(6, 3, 29, 1),
-(7, 4, 13, 1),
-(8, 4, 29, 1),
-(9, 5, 13, 1),
-(10, 5, 29, 1),
-(11, 6, 13, 1),
-(12, 6, 29, 1),
-(13, 2, 29, 1),
-(14, 7, 13, 1),
-(15, 7, 32, 1),
-(16, 8, 17, 1),
-(17, 8, 21, 1),
-(18, 9, 26, 1),
-(19, 9, 33, 1),
-(20, 9, 17, 1),
-(21, 9, 21, 1),
-(22, 10, 17, 1),
-(23, 10, 21, 1),
-(24, 10, 26, 1),
-(25, 10, 33, 1),
-(26, 11, 17, 1),
-(27, 11, 21, 1),
-(28, 11, 26, 1),
-(29, 11, 33, 1),
-(30, 12, 17, 1),
-(31, 12, 21, 1),
-(32, 12, 19, 1),
-(33, 13, 17, 1),
-(34, 13, 19, 1),
-(35, 13, 21, 1),
-(36, 13, 22, 1),
-(37, 14, 17, 1),
-(38, 14, 19, 1),
-(39, 14, 21, 1),
-(40, 14, 23, 1),
-(41, 14, 24, 1),
-(42, 15, 17, 1),
-(43, 15, 21, 1),
-(44, 15, 19, 1),
-(45, 16, 17, 1),
-(46, 16, 19, 1),
-(47, 16, 21, 1),
-(48, 16, 24, 1),
-(49, 17, 17, 1),
-(50, 17, 21, 1),
-(51, 17, 25, 1),
-(52, 18, 2, 1),
-(53, 18, 35, 1),
-(54, 18, 36, 1),
-(55, 18, 20, 1),
-(56, 19, 35, 1),
-(57, 19, 20, 1),
-(58, 19, 2, 1),
-(59, 20, 2, 1),
-(60, 20, 20, 1),
-(61, 20, 35, 1),
-(62, 20, 37, 1),
-(63, 21, 2, 1),
-(64, 21, 20, 1),
-(65, 21, 35, 1),
-(66, 21, 28, 1),
-(67, 22, 2, 1),
-(68, 22, 20, 1),
-(69, 22, 35, 1),
-(70, 22, 30, 1),
-(71, 23, 2, 1),
-(72, 23, 20, 1),
-(73, 23, 35, 1),
-(74, 23, 27, 1),
-(75, 24, 2, 1),
-(76, 24, 20, 1),
-(77, 24, 35, 1),
-(78, 24, 27, 1),
-(79, 25, 2, 1),
-(80, 25, 20, 1),
-(81, 25, 35, 1),
-(82, 25, 18, 1),
-(83, 27, 13, 1),
-(84, 27, 31, 1),
-(85, 27, 32, 1),
-(86, 28, 13, 1),
-(87, 28, 31, 1),
-(88, 28, 32, 1),
-(89, 29, 13, 1),
-(90, 29, 31, 1),
-(91, 29, 32, 1),
-(92, 26, 13, 1),
-(93, 26, 29, 1),
-(94, 0, 0, 0),
-(95, 0, 0, 0),
-(96, 0, 0, 0),
-(97, 0, 0, 0),
-(98, 0, 0, 0),
-(99, 0, 0, 0),
-(100, 0, 0, 0),
-(101, 0, 0, 0),
-(102, 0, 0, 0),
-(103, 0, 0, 0),
-(104, 0, 0, 0),
-(105, 0, 0, 0),
-(106, 0, 0, 0),
-(107, 0, 0, 0),
-(108, 0, 0, 0),
-(109, 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `topic_material_relation`
---
-
-CREATE TABLE `topic_material_relation` (
-  `id` int(11) NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `material_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `topic_material_relation`
---
-
-INSERT INTO `topic_material_relation` (`id`, `topic_id`, `material_id`, `status`) VALUES
-(1, 1, 1, 1),
-(2, 2, 1, 1),
-(3, 3, 1, 1),
-(4, 4, 1, 1),
-(5, 5, 1, 1),
-(6, 6, 1, 1),
-(7, 8, 1, 1),
-(8, 9, 1, 1),
-(9, 10, 1, 1),
-(10, 11, 1, 1),
-(11, 18, 1, 1),
-(12, 19, 1, 1),
-(13, 26, 1, 1),
-(14, 19, 2, 1),
-(15, 20, 2, 1),
-(16, 21, 2, 1),
-(17, 22, 2, 1),
-(18, 23, 2, 1),
-(19, 24, 2, 1),
-(20, 25, 2, 1),
-(21, 1, 3, 1),
-(22, 2, 3, 1),
-(23, 3, 3, 1),
-(24, 4, 3, 1),
-(25, 5, 3, 1),
-(26, 6, 3, 1),
-(27, 8, 3, 1),
-(28, 9, 3, 1),
-(29, 10, 3, 1),
-(30, 11, 3, 1),
-(31, 12, 3, 1),
-(32, 13, 3, 1),
-(33, 14, 3, 1),
-(34, 15, 3, 1),
-(35, 16, 3, 1),
-(36, 17, 3, 1),
-(37, 18, 3, 1),
-(38, 19, 3, 1),
-(39, 20, 3, 1),
-(40, 21, 3, 1),
-(41, 22, 3, 1),
-(42, 23, 3, 1),
-(43, 24, 3, 1),
-(44, 25, 3, 1),
-(45, 26, 3, 1),
-(46, 27, 3, 1),
-(47, 28, 3, 1),
-(48, 29, 3, 1),
-(49, 0, 0, 0),
-(50, 0, 0, 0),
-(51, 0, 0, 0),
-(52, 0, 0, 0),
-(53, 0, 0, 0),
-(54, 0, 0, 0),
-(55, 0, 0, 0),
-(56, 0, 0, 0),
-(57, 0, 0, 0),
-(58, 0, 0, 0),
-(59, 0, 0, 0),
-(60, 0, 0, 0),
-(61, 0, 0, 0),
-(62, 0, 0, 0),
-(63, 0, 0, 0),
-(64, 0, 0, 0),
-(65, 0, 0, 0),
-(66, 0, 0, 0),
-(67, 0, 0, 0),
-(68, 0, 0, 0),
-(69, 0, 0, 0),
-(70, 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `topic_outcome_relation`
---
-
-CREATE TABLE `topic_outcome_relation` (
-  `id` int(11) NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `outcome_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `topic_outcome_relation`
---
-
-INSERT INTO `topic_outcome_relation` (`id`, `topic_id`, `outcome_id`, `status`) VALUES
-(1, 1, 8, 1),
-(2, 2, 9, 1),
-(3, 1, 10, 1),
-(4, 2, 10, 1),
-(5, 27, 11, 1),
-(6, 28, 11, 1),
-(7, 3, 12, 1),
-(8, 4, 12, 1),
-(9, 28, 13, 1),
-(10, 29, 13, 1),
-(11, 5, 14, 1),
-(12, 6, 14, 1),
-(13, 7, 15, 1),
-(14, 26, 8, 1),
-(15, 26, 20, 1),
-(16, 1, 21, 1),
-(17, 2, 21, 1),
-(18, 1, 22, 1),
-(19, 2, 22, 1),
-(20, 27, 23, 1),
-(21, 28, 23, 1),
-(22, 29, 23, 1),
-(23, 3, 21, 1),
-(24, 4, 21, 1),
-(25, 5, 21, 1),
-(26, 6, 21, 1),
-(27, 7, 24, 1),
-(28, 7, 30, 1),
-(29, 5, 29, 1),
-(30, 6, 29, 1),
-(31, 26, 25, 1),
-(32, 1, 26, 1),
-(33, 2, 26, 1),
-(34, 27, 27, 1),
-(35, 28, 27, 1),
-(36, 29, 27, 1),
-(37, 3, 28, 1),
-(38, 4, 28, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `topic_task_relation`
---
-
-CREATE TABLE `topic_task_relation` (
-  `id` int(11) NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `topic_task_relation`
---
-
-INSERT INTO `topic_task_relation` (`id`, `topic_id`, `task_id`, `status`) VALUES
-(1, 1, 2, 1),
-(2, 1, 20, 1),
-(3, 2, 2, 1),
-(4, 2, 20, 1),
-(5, 27, 21, 1),
-(6, 28, 21, 1),
-(7, 29, 21, 1),
-(8, 3, 22, 1),
-(9, 4, 22, 1),
-(10, 5, 23, 1),
-(11, 6, 23, 1),
-(12, 7, 24, 1),
-(13, 0, 0, 0),
-(14, 0, 0, 0),
-(15, 0, 0, 0),
-(16, 0, 0, 0),
-(17, 0, 0, 0),
-(18, 0, 0, 0),
-(19, 0, 0, 0),
-(20, 0, 0, 0),
-(21, 0, 0, 0),
-(22, 0, 0, 0),
-(23, 0, 0, 0),
-(24, 0, 0, 0),
-(25, 0, 0, 0),
-(26, 0, 0, 0),
-(27, 0, 0, 0),
-(28, 0, 0, 0),
-(29, 0, 0, 0),
-(30, 0, 0, 0),
-(31, 0, 0, 0),
-(32, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1400,7 +519,20 @@ CREATE TABLE `workflow_logs` (
 
 INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `created_at`, `status`) VALUES
 (1, 3, 1, 'viewed this syllabus.', 'view', 1527827835, 1),
-(2, 3, 1, 'viewed this syllabus.', 'view', 1527828400, 1);
+(2, 3, 1, 'viewed this syllabus.', 'view', 1527828400, 1),
+(3, 4, 1, 'viewed this syllabus.', 'view', 1528682422, 1),
+(4, 4, 1, '<strong>level 1</strong> &mdash; approved this syllabus.', 'approval', 1528682423, 1),
+(5, 4, 1, '<strong>level 2</strong> &mdash; approved this syllabus.', 'approval', 1528682425, 1),
+(6, 5, 1, 'viewed this syllabus.', 'view', 1528682433, 1),
+(7, 5, 1, '<strong>level 3</strong> &mdash; approved this syllabus.', 'approval', 1528682434, 1),
+(8, 5, 1, 'viewed this syllabus.', 'view', 1528682440, 1),
+(9, 5, 1, 'viewed this syllabus.', 'view', 1528682446, 1),
+(10, 5, 1, 'viewed this syllabus.', 'view', 1528682449, 1),
+(11, 5, 1, 'viewed this syllabus.', 'view', 1528682506, 1),
+(12, 3, 1, 'viewed this syllabus.', 'view', 1528788853, 1),
+(13, 3, 1, 'viewed this syllabus.', 'view', 1528789387, 1),
+(14, 3, 1, 'viewed this syllabus.', 'view', 1528861615, 1),
+(15, 3, 1, 'viewed this syllabus.', 'view', 1528965269, 1);
 
 --
 -- Indexes for dumped tables
@@ -1418,12 +550,7 @@ ALTER TABLE `assigns`
 ALTER TABLE `books`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `books` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
-
---
--- Indexes for table `book_field_relation`
---
-ALTER TABLE `book_field_relation`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `books` ADD FULLTEXT KEY `FULLTEXT_INDEX_CITATION_TAGS` (`citation`,`tags`);
 
 --
 -- Indexes for table `comments`
@@ -1437,18 +564,6 @@ ALTER TABLE `comments`
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `courses` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`code`,`title`,`tags`);
-
---
--- Indexes for table `course_field_relation`
---
-ALTER TABLE `course_field_relation`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `course_relation`
---
-ALTER TABLE `course_relation`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `curriculum`
@@ -1472,12 +587,6 @@ ALTER TABLE `materials` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
 ALTER TABLE `materials` ADD FULLTEXT KEY `FULLTEXT_INDEX_NAME_TAGS` (`name`,`tags`);
 
 --
--- Indexes for table `material_field_relation`
---
-ALTER TABLE `material_field_relation`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `outcomes`
 --
 ALTER TABLE `outcomes`
@@ -1485,18 +594,6 @@ ALTER TABLE `outcomes`
 ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`content`);
 ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX_TAGS` (`tags`);
 ALTER TABLE `outcomes` ADD FULLTEXT KEY `FULLTEXT_INDEX_CONTENT_TAGS` (`content`,`tags`);
-
---
--- Indexes for table `outcome_field_relation`
---
-ALTER TABLE `outcome_field_relation`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `outcome_relation`
---
-ALTER TABLE `outcome_relation`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `settings`
@@ -1520,42 +617,12 @@ ALTER TABLE `tasks` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
 ALTER TABLE `tasks` ADD FULLTEXT KEY `FULLTEXT_INDEX_NAME_TAGS` (`name`,`tags`);
 
 --
--- Indexes for table `task_field_relation`
---
-ALTER TABLE `task_field_relation`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `topics`
 --
 ALTER TABLE `topics`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `topics` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`tags`);
 ALTER TABLE `topics` ADD FULLTEXT KEY `FULLTEXT_INDEX_NAME_TAGS` (`name`,`tags`);
-
---
--- Indexes for table `topic_field_relation`
---
-ALTER TABLE `topic_field_relation`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `topic_material_relation`
---
-ALTER TABLE `topic_material_relation`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `topic_outcome_relation`
---
-ALTER TABLE `topic_outcome_relation`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `topic_task_relation`
---
-ALTER TABLE `topic_task_relation`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -1588,34 +655,16 @@ ALTER TABLE `books`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `book_field_relation`
---
-ALTER TABLE `book_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
-
---
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `course_field_relation`
---
-ALTER TABLE `course_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `course_relation`
---
-ALTER TABLE `course_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `curriculum`
@@ -1636,28 +685,10 @@ ALTER TABLE `materials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `material_field_relation`
---
-ALTER TABLE `material_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT for table `outcomes`
 --
 ALTER TABLE `outcomes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
---
--- AUTO_INCREMENT for table `outcome_field_relation`
---
-ALTER TABLE `outcome_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
-
---
--- AUTO_INCREMENT for table `outcome_relation`
---
-ALTER TABLE `outcome_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1678,40 +709,10 @@ ALTER TABLE `tasks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT for table `task_field_relation`
---
-ALTER TABLE `task_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
 -- AUTO_INCREMENT for table `topics`
 --
 ALTER TABLE `topics`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT for table `topic_field_relation`
---
-ALTER TABLE `topic_field_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
-
---
--- AUTO_INCREMENT for table `topic_material_relation`
---
-ALTER TABLE `topic_material_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-
---
--- AUTO_INCREMENT for table `topic_outcome_relation`
---
-ALTER TABLE `topic_outcome_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
-
---
--- AUTO_INCREMENT for table `topic_task_relation`
---
-ALTER TABLE `topic_task_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1723,7 +724,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
