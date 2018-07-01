@@ -49,7 +49,7 @@
       </v-subheader>
     </v-layout>
 
-    <div class="px-3 py-2 caption">
+    <div class="px-3 pt-2 pb-3 caption">
 
       <table style="border-collapse: collapse">
         <tr>
