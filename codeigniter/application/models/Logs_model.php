@@ -62,6 +62,10 @@ class Logs_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
+  public function insertTrail($data) {
+    return $this->db->insert('audit_trail', $data);
+  }
+
   public function insertUserLog($data) {
     return $this->db->insert('user_logs', $data);
   }

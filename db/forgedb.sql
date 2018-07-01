@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.1
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2018 at 11:20 AM
+-- Generation Time: Jul 01, 2018 at 07:27 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -44,6 +44,20 @@ CREATE TABLE `assigns` (
 INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
 (1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":\"1\"}],[{\"id\":4,\"status\":\"1\"}],[{\"id\":5,\"status\":\"1\"}]]}', 3, 1527422461, 1528682434, 1),
 (2, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":2}],[{\"id\":5,\"status\":2}]]}', 3, 1527828566, 1527828566, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `audit_trail`
+--
+
+CREATE TABLE `audit_trail` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -506,7 +520,7 @@ INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weig
 CREATE TABLE `user_logs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
   `created_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -520,7 +534,8 @@ INSERT INTO `user_logs` (`id`, `user_id`, `type`, `created_at`, `status`) VALUES
 (2, 3, 0, 1530368551, 1),
 (3, 3, 1, 1530368587, 1),
 (4, 3, 0, 1530368592, 1),
-(5, 1, 1, 1530368598, 1);
+(5, 1, 1, 1530368598, 1),
+(6, 3, 1, 1530465130, 1);
 
 -- --------------------------------------------------------
 
@@ -557,7 +572,8 @@ INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `c
 (12, 3, 1, 'viewed this syllabus.', 'view', 1528788853, 1),
 (13, 3, 1, 'viewed this syllabus.', 'view', 1528789387, 1),
 (14, 3, 1, 'viewed this syllabus.', 'view', 1528861615, 1),
-(15, 3, 1, 'viewed this syllabus.', 'view', 1528965269, 1);
+(15, 3, 1, 'viewed this syllabus.', 'view', 1528965269, 1),
+(16, 3, 1, 'viewed this syllabus.', 'view', 1530465135, 1);
 
 --
 -- Indexes for dumped tables
@@ -567,6 +583,12 @@ INSERT INTO `workflow_logs` (`id`, `user_id`, `assign_id`, `content`, `type`, `c
 -- Indexes for table `assigns`
 --
 ALTER TABLE `assigns`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `audit_trail`
+--
+ALTER TABLE `audit_trail`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -680,6 +702,12 @@ ALTER TABLE `assigns`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
@@ -755,13 +783,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

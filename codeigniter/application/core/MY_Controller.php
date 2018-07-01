@@ -466,6 +466,20 @@ class MY_Custom_Controller extends MY_View_Controller {
 
   // logs
 
+  public function _insert_trail($type, $extra = array()) {
+    $uid = $this->session->userdata('user')['id'];
+    $data = array(
+      'user_id' => $uid,
+      'created_at' => time(),
+      'type' => $type,
+      'status' => 1
+    );
+
+    // merge with extra data
+    $data = array_merge($data, $extra);
+    return $this->logs_model->insertTrail($data);
+  }
+
   public function _insert_userlog($type) {
     $uid = $this->session->userdata('user')['id'];
 
