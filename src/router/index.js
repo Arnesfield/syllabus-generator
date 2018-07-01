@@ -19,6 +19,9 @@ import ManageBooks from '@/components/manage/ManageBooks'
 import ManageCurriculum from '@/components/manage/ManageCurriculum'
 import ManageOutcomes from '@/components/manage/ManageOutcomes'
 
+import Audit from '@/components/reports/Audit'
+import UserLogs from '@/components/reports/UserLogs'
+
 import OutcomesExplorer from '@/components/OutcomesExplorer'
 
 import NotFound from '@/components/errors/NotFound'
@@ -197,6 +200,32 @@ export default new Router({
     },
 
     // end of manage
+
+    // reports
+
+    {
+      path: '/reports/audit',
+      name: 'Audit',
+      component: Audit,
+      meta: {
+        auth: 1,
+        title: 'Audit Trail',
+        icon: 'timeline'
+      }
+    },
+    {
+      path: '/reports/logs/:userId?',
+      name: 'UserLogs',
+      component: UserLogs,
+      props: true,
+      meta: {
+        auth: 1,
+        title: 'User Logs',
+        icon: 'access_time'
+      }
+    },
+
+    // end of reports
 
     // explorer
 

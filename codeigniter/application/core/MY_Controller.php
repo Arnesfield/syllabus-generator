@@ -464,6 +464,19 @@ class MY_Custom_Controller extends MY_View_Controller {
     );
   }
 
+  // logs
+
+  public function _insert_userlog($type) {
+    $uid = $this->session->userdata('user')['id'];
+
+    return $this->logs_model->insertUserLog(array(
+      'user_id' => $uid,
+      'created_at' => time(),
+      'type' => $type,
+      'status' => 1
+    ));
+  }
+
   // generator commons
 
   public function _g_getTagsOfCourse($course_id, $tags = array()) {

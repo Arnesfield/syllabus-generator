@@ -50,6 +50,8 @@ class Login extends MY_Custom_Controller {
       'auth' => $user['auth']
     ));
 
+    $this->_insert_userlog(1);
+
     $this->_json(TRUE, array(
       'user' => $user
     ));

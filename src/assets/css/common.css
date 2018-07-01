@@ -52,6 +52,10 @@ p {
   background-color: rgba(0, 0, 0, 0.08);
 }
 
+.none {
+  display: none;
+}
+
 .thin-24 {
   width: 24px;
   min-width: 24px;

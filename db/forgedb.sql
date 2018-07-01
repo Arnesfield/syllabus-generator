@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2018 at 11:44 AM
+-- Generation Time: Jul 01, 2018 at 11:20 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -500,6 +500,31 @@ INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `username`, `title`, `weig
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_logs`
+--
+
+CREATE TABLE `user_logs` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_logs`
+--
+
+INSERT INTO `user_logs` (`id`, `user_id`, `type`, `created_at`, `status`) VALUES
+(1, 3, 1, 1530368542, 1),
+(2, 3, 0, 1530368551, 1),
+(3, 3, 1, 1530368587, 1),
+(4, 3, 0, 1530368592, 1),
+(5, 1, 1, 1530368598, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `workflow_logs`
 --
 
@@ -633,6 +658,12 @@ ALTER TABLE `users`
 ALTER TABLE `users` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`fname`,`mname`,`lname`,`username`,`title`);
 
 --
+-- Indexes for table `user_logs`
+--
+ALTER TABLE `user_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `workflow_logs`
 --
 ALTER TABLE `workflow_logs`
@@ -719,6 +750,12 @@ ALTER TABLE `topics`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `user_logs`
+--
+ALTER TABLE `user_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `workflow_logs`
