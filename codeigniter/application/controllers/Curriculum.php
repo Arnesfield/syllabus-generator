@@ -56,6 +56,11 @@ class Curriculum extends MY_Custom_Controller {
     );
     $where = array('id' => $id);
     $res = $this->curriculum_model->update($data, $where);
+
+    if ($res) {
+      $this->_insert_trail('manage_curriculum', 3, array('content' => "Deleted Curriculum $id"));
+    }
+
     $this->_json($res);
   }
 
@@ -96,6 +101,24 @@ class Curriculum extends MY_Custom_Controller {
     } else if ($mode == 'edit') {
       $id = $this->input->post('id');
       $res = $this->curriculum_model->update($data, array('id' => $id));
+    }
+
+    if ($res) {
+      // insert trail
+      $trail = array();
+      if ($mode == 'add') {
+        $trail['type'] = 1;
+        $trail['data'] = array();
+      } else if ($mode == 'edit') {
+        $trail['type'] = 2;
+        $trail['data'] = array('content' => "Updated Curriculum $id");
+      } else {
+        $trail = FALSE;
+      }
+
+      if ($trail !== FALSE) {
+        $this->_insert_trail('manage_curriculum', $trail['type'], $trail['data']);
+      }
     }
 
     $this->_json($res);
