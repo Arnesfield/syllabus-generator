@@ -50,12 +50,12 @@
           </v-btn>
           <span>Edit</span>
         </v-tooltip>
-        <v-tooltip top>
+        <!-- <v-tooltip top>
           <v-btn slot="activator" icon class="mx-0" @click="deleteItem(props.item)">
             <v-icon color="pink">delete</v-icon>
           </v-btn>
           <span>Delete</span>
-        </v-tooltip>
+        </v-tooltip> -->
       </td>
     </template>
   </v-data-table>
