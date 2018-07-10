@@ -21,6 +21,7 @@ class Courses extends MY_Custom_Controller {
     $cid = $this->input->post('cid') ? $this->input->post('cid') : FALSE;
     $sid = $this->input->post('sid') ? $this->input->post('sid') : FALSE;
     $log = $this->input->post('log') ? $this->input->post('log') : FALSE;
+    $logSyllabus = $this->input->post('logSyllabus') ? $this->input->post('logSyllabus') : FALSE;
     
     $where = array();
     if ($exceptId) {
@@ -95,6 +96,10 @@ class Courses extends MY_Custom_Controller {
       } else {
         $this->_insert_trail('course', 1, array('content' => "Viewed Course $cid"));
       }
+    }
+    
+    if ($logSyllabus) {
+      $this->_insert_trail('syllabus', 1, array('content' => "Viewed Syllabus $sid"));
     }
 
     $this->_json(TRUE, 'courses', $courses);

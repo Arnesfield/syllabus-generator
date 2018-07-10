@@ -127,7 +127,8 @@ export default {
         withRelated: true,
         withSyllabi: true,
         formatSyllabi: true,
-        withAssign: true
+        withAssign: true,
+        logSyllabus: true
       })).then(res => {
         console.warn(res.data)
         if (!res.data.success) {
