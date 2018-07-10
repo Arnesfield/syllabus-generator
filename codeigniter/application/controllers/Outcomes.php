@@ -110,6 +110,22 @@ class Outcomes extends MY_Custom_Controller {
     }
 
     if ($res) {
+      // insert trail
+      $trail = array();
+      if ($mode == 'add') {
+        $trail['type'] = 1;
+        $trail['data'] = array();
+      } else if ($mode == 'edit') {
+        $trail['type'] = 2;
+        $trail['data'] = array('content' => "Updated Outcome $id");
+      } else {
+        $trail = FALSE;
+      }
+
+      if ($trail !== FALSE) {
+        $this->_insert_trail('manage_outcomes', $trail['type'], $trail['data']);
+      }
+
       // insert new tags
       $this->load->model('tags_model');
       $this->tags_model->insertMultiple(json_decode($tags, TRUE));
@@ -125,6 +141,11 @@ class Outcomes extends MY_Custom_Controller {
     $where = array('id' => $id);
 
     $res = $this->outcomes_model->update($data, $where);
+
+    if ($res) {
+      $this->_insert_trail('manage_outcomes', 3, array('content' => "Deleted Outcome $id"));
+    }
+
     $this->_json($res);
   }
 }
