@@ -4,7 +4,7 @@ Comments of Panelists
   ✔ make the system fully functional (management modules) @done (2018-4-5 03:12:41)
   ✔ access level should be hierarchical (workflow-related) @done (2018-3-28 15:08:34)
   ☐ make sure all comments in the proposal defense are addressed
-  ☐ include course type to categorize CLO and other possible usage (programming, graphics)
+  ✔ include course type to categorize CLO and other possible usage (programming, graphics) @done (2018-7-10 22:27:16)
   ✔ redo results and discussion based on panelist comment @done (2018-4-5 03:12:16)
   ✔ no management module yet for all process @done (2018-4-5 03:15:18)
 
@@ -22,7 +22,7 @@ Comments of Panelists
 
 ** R **
   ☐ provide APK of the app
-  ☐ CLO - categorize (course type)
+  ✔ CLO - categorize (course type) @done (2018-7-10 22:27:43)
   ✔ PO should provide code (I,E,D) > CRUD @done (2018-3-23 18:45:44)
   ☐ there are several modules that is not working
   ☐ mobile module should work (make it sychronized)
@@ -38,6 +38,6 @@ Comments of Panelists
   ✔ Change "Save button" Position @done (2018-4-3 16:56:53)
   ☐ Course tagging (Monitorng per course)
   ✔ Evaluated by: Name @done (2018-4-5 03:11:42)
-  ☐ Versioning
+  ✔ Versioning @done (2018-7-10 22:32:02)
   ✔ Standard grading system (Fixed for lecture and Lab) @done (2018-4-3 16:57:02)
   ☐ Notifications
