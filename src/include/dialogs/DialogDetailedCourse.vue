@@ -263,7 +263,8 @@ export default {
       this.$http.post(this.url, qs.stringify({
         cid: id,
         withRelated: true,
-        withSyllabi: true
+        withSyllabi: true,
+        log: true
       })).then(res => {
         console.warn(res.data)
         if (!res.data.success) {

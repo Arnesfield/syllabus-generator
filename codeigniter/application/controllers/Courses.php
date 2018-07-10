@@ -20,6 +20,7 @@ class Courses extends MY_Custom_Controller {
     $exceptId = $this->input->post('exceptId') ? $this->input->post('exceptId') : FALSE;
     $cid = $this->input->post('cid') ? $this->input->post('cid') : FALSE;
     $sid = $this->input->post('sid') ? $this->input->post('sid') : FALSE;
+    $log = $this->input->post('log') ? $this->input->post('log') : FALSE;
     
     $where = array();
     if ($exceptId) {
@@ -82,6 +83,17 @@ class Courses extends MY_Custom_Controller {
             }
           }
         }
+      }
+    }
+
+    if ($log && $courses) {
+      $cid = $courses[0]['id'];
+
+      // if requesting for tree
+      if ($withRelated && $deep) {
+        $this->_insert_trail('course', 2, array('content' => "Viewed Course $cid Tree"));
+      } else {
+        $this->_insert_trail('course', 1, array('content' => "Viewed Course $cid"));
       }
     }
 

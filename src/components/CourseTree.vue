@@ -100,7 +100,8 @@ export default {
       this.$http.post(this.url, qs.stringify({
         deep: true,
         withRelated: true,
-        cid: this.courseId
+        cid: this.courseId,
+        log: true
       })).then(res => {
         console.warn(res.data)
         if (!res.data.success) {
