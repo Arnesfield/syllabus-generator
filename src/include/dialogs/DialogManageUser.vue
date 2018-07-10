@@ -265,47 +265,57 @@
             </v-subheader>
           </v-flex>
           <v-flex sm8 class="py-2 mt-1">
-            <v-icon class="pr-2 mr-1">insert_photo</v-icon>
-            <input
-              type="file"
-              :disabled="loading"
-              @change="filesChange"
-              :name="fileName"
-            />
-            
-            <v-layout
-              v-if="fileError"
-              class="red--text pa-2"
-              align-center
-            >
-              <v-icon color="warning">cancel</v-icon>
-              <div class="ml-2">{{ fileError }}</div>
-            </v-layout>
 
-            <v-layout
-              v-if="imgSrc"
-              class="mt-3"
-            >
-              <v-avatar
-                tile
-                size="128"
-                class="elevation-1"
+            <v-checkbox
+              v-if="mode == 'edit'"
+              v-model="removeImage"
+              label="Remove image?"
+            />
+
+            <template v-if="!removeImage">
+              <v-icon class="pr-2 mr-1">insert_photo</v-icon>
+              <input
+                type="file"
+                :disabled="loading"
+                @change="filesChange"
+                :name="fileName"
+              />
+              
+              <v-layout
+                v-if="fileError"
+                class="red--text pa-2"
+                align-center
               >
-                <img :src="file ? imgSrc : $wrap.localImg(imgSrc)"/>
-              </v-avatar>
-              <div class="pa-2 caption">
-                <div>
-                  <strong>
-                    <template v-if="file">Image Preview</template>
-                    <template v-else>Existing Image</template>
-                  </strong>
+                <v-icon color="warning">cancel</v-icon>
+                <div class="ml-2">{{ fileError }}</div>
+              </v-layout>
+
+              <v-layout
+                v-if="imgSrc"
+                class="mt-3"
+              >
+                <v-avatar
+                  tile
+                  size="128"
+                  class="elevation-1"
+                >
+                  <img :src="file ? imgSrc : $wrap.localImg(imgSrc)"/>
+                </v-avatar>
+                <div class="pa-2 caption">
+                  <div>
+                    <strong>
+                      <template v-if="file">Image Preview</template>
+                      <template v-else>Existing Image</template>
+                    </strong>
+                  </div>
+                  <template v-if="file">
+                    <div v-text="file.name"/>
+                    <div v-text="$wrap.fileSize(file.size)"/>
+                  </template>
                 </div>
-                <template v-if="file">
-                  <div v-text="file.name"/>
-                  <div v-text="$wrap.fileSize(file.size)"/>
-                </template>
-              </div>
-            </v-layout>
+              </v-layout>
+            </template>
+
           </v-flex>
         </v-layout>
 
@@ -394,7 +404,9 @@ export default {
     passconf: null,
     status: null,
     auth: [],
-    tags: []
+    tags: [],
+
+    removeImage: false
   }),
   watch: {
     show(e) {
@@ -411,6 +423,7 @@ export default {
       this.alsoPassword = true
       this.item = null
       this.show = true
+      this.removeImage = false
       this.clear()
     },
     editItem(item) {
@@ -422,6 +435,7 @@ export default {
       this.defaultPass = true
       this.alsoPassword = false
       this.show = true
+      this.removeImage = false
     },
 
     setValuesFromItem(item) {
@@ -501,9 +515,12 @@ export default {
         }
       }
 
-      if (this.file) {
+      // if file exists and is not remove image
+      if (this.file && !this.removeImage) {
         data.append('file', this.file)
       }
+
+      data.append('removeImage', this.removeImage)
 
       this.loading = true
       this.$http.post(this.url, data).then(res => {

@@ -78,6 +78,7 @@ class Users extends MY_Custom_Controller {
     // options
     $mode = $this->input->post('mode');
     $alsoPassword = $this->input->post('alsoPassword');
+    $removeImage = $this->input->post('removeImage');
 
     $TIME = time();
     
@@ -103,6 +104,12 @@ class Users extends MY_Custom_Controller {
     // change img src if yeah you get it
     if ($img_src !== FALSE) {
       $data['img_src'] = $img_src;
+    }
+
+    // BUT, if remove, just empty it hehe
+    $removeImage = filter_var($removeImage, FILTER_VALIDATE_BOOLEAN);
+    if ($removeImage) {
+      $data['img_src'] = '';
     }
     
     $res = FALSE;
