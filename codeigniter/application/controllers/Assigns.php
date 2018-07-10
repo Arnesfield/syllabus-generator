@@ -143,8 +143,8 @@ class Assigns extends MY_Custom_Controller {
     $data = array(
       'assign_id' => $assignId,
       'content' => $text . ($value == 1 ? 'approved this syllabus.' : 'disapproved this syllabus.'),
-      // approval
-      'type' => 2
+      // approval / disapproval
+      'type' => $value == 1 ? 2 : 3
     );
     
     $res = $this->_insertWorkflowLog($data);
