@@ -466,11 +466,34 @@ class MY_Custom_Controller extends MY_View_Controller {
 
   // logs
 
-  public function _insert_trail($type, $extra = array()) {
+  private $_TRAIL_CATEGORIES = array(
+    'user' => 1,
+    'workflow_actions' => 2,
+    'manage_users' => 3,
+    'manage_courses' => 4,
+    'manage_curriculum' => 5,
+    'manage_outcomes' => 6,
+    'manage_books' => 7,
+    'syllabus_content' => 8,
+    'grading_system' => 9,
+    'clo_options' => 10,
+    'workflow' => 11,
+    'generator' => 12,
+    'course' => 13,
+    'syllabus' => 14
+  );
+
+  public function _insert_trail($category, $type, $extra = array()) {
+    // if category does not exist
+    if (!array_key_exists($category, $this->_TRAIL_CATEGORIES)) {
+      return FALSE;
+    }
+
     $uid = $this->session->userdata('user')['id'];
     $data = array(
       'user_id' => $uid,
       'created_at' => time(),
+      'category' => $this->_TRAIL_CATEGORIES[$category],
       'type' => $type,
       'status' => 1
     );

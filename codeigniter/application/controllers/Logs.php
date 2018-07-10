@@ -12,6 +12,48 @@ class Logs extends MY_Custom_Controller {
    * 2 - Workflow logs
    *     1 - View
    *     2 - Approval
+   *     3 - Disapproval
+   * 3 - Manage Users
+   *     1 - Add
+   *     2 - Update
+   *     3 - Delete
+   *     4 - CSV
+   * 4 - Manage Courses
+   *     1 - Add
+   *     2 - Update
+   *     3 - Delete
+   *     4 - CSV
+   * 5 - Manage Curriculum
+   *     1 - Add
+   *     2 - Update
+   *     3 - Delete
+   * 6 - Manage Outcomes
+   *     1 - Add
+   *     2 - Update
+   *     3 - Delete
+   * 7 - Manage Books
+   *     1 - Add
+   *     2 - Update
+   *     3 - Delete
+   *     4 - CSV
+   * 8 - Syllabus Content
+   *     1 - Update
+   * 9 - Grading System
+   *     1 - Update
+   * 10 - CLO Options
+   *      1 - Update
+   * 
+   * 11 - Workflow
+   *      1 - Create
+   *      2 - Delete
+   * 12 - Generator
+   *      1 - Save
+   *      2 - Submit
+   * 13 - Course
+   *      1 - View
+   *      2 - Tree View
+   * 14 - Syllabus
+   *      1 - View
    */
 
   public function workflow() {
