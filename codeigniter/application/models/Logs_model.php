@@ -5,7 +5,7 @@ class Logs_model extends MY_Custom_Model {
   public function getWorkflow($where = FALSE) {
     $this->db
       ->select('
-        w.*,
+        au.*,
         u.id AS user_id,
         u.fname AS fname,
         u.mname AS mname,
@@ -14,10 +14,12 @@ class Logs_model extends MY_Custom_Model {
         u.title AS title,
         u.img_src AS img_src
       ')
-      ->from('workflow_logs w')
-      ->join('users u', 'u.id = w.user_id')
+      ->from('audit_trail au')
+      ->join('users u', 'u.id = au.user_id')
       ->where(array(
-        'w.status !=' => -1,
+        // workflow category # is 2
+        'au.category' => 2,
+        'au.status !=' => -1,
         'u.status !=' => 0,
         'u.status !=' => -1
       ));
@@ -26,7 +28,7 @@ class Logs_model extends MY_Custom_Model {
       $this->db->where($where);
     }
 
-    $this->db->order_by('w.created_at', 'DESC');
+    $this->db->order_by('au.created_at', 'DESC');
     
     $query = $this->db->get();
     return $this->_res($query);
@@ -35,7 +37,7 @@ class Logs_model extends MY_Custom_Model {
   public function getUserLogs($where = FALSE) {
     $this->db
       ->select('
-        ul.*,
+        au.*,
         u.id AS user_id,
         u.fname AS fname,
         u.mname AS mname,
@@ -44,10 +46,12 @@ class Logs_model extends MY_Custom_Model {
         u.title AS title,
         u.img_src AS img_src
       ')
-      ->from('user_logs ul')
-      ->join('users u', 'u.id = ul.user_id')
+      ->from('audit_trail au')
+      ->join('users u', 'u.id = au.user_id')
       ->where(array(
-        'ul.status !=' => -1,
+        // user log # is 1
+        'au.category' => 1,
+        'au.status !=' => -1,
         'u.status !=' => 0,
         'u.status !=' => -1
       ));
@@ -56,7 +60,7 @@ class Logs_model extends MY_Custom_Model {
       $this->db->where($where);
     }
 
-    $this->db->order_by('ul.created_at', 'DESC');
+    $this->db->order_by('au.created_at', 'DESC');
     
     $query = $this->db->get();
     return $this->_res($query);
@@ -67,11 +71,13 @@ class Logs_model extends MY_Custom_Model {
   }
 
   public function insertUserLog($data) {
-    return $this->db->insert('user_logs', $data);
+    $data['category'] = 1;
+    return $this->db->insert('audit_trail', $data);
   }
-
+  
   public function insertWorkflow($data) {
-    return $this->db->insert('workflow_logs', $data);
+    $data['category'] = 2;
+    return $this->db->insert('audit_trail', $data);
   }
 }
 

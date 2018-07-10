@@ -3,6 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Logs extends MY_Custom_Controller {
 
+  /**
+   * Trail categories and their types
+   * 
+   * 1 - User logs
+   *     0 - Out
+   *     1 - In
+   * 2 - Workflow logs
+   *     1 - View
+   *     2 - Approval
+   */
+
   public function workflow() {
     $where = FALSE;
     if ($id = $this->input->post('id')) {
@@ -60,7 +71,7 @@ class Logs extends MY_Custom_Controller {
     if ($monthly) {
       // get 30 days
       $days = 30;
-      $where['ul.created_at >='] = strtotime("-$days day", strtotime('00:00:00'));
+      $where['au.created_at >='] = strtotime("-$days day", strtotime('00:00:00'));
     }
 
     $logs = $this->logs_model->getUserLogs($where);

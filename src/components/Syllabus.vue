@@ -103,7 +103,8 @@ export default {
       this.$http.post(this.viewLogUrl, qs.stringify({
         id: this.assignId,
         content: 'viewed this syllabus.',
-        type: 'view'
+        // view is 1
+        type: 1
       }))
     },
 
