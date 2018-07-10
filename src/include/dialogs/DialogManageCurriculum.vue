@@ -176,7 +176,7 @@
 
         <!-- last updated -->
         
-        <v-layout class="mt-2">
+        <v-layout class="mt-2" v-if="item">
           <div class="caption">
             <em>This will be searchable/suggested in Generator.</em>
             <div>
