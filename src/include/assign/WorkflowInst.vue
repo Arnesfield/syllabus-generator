@@ -97,15 +97,20 @@
           <span>View detailed</span>
         </v-tooltip>
 
-        <!-- <v-tooltip
+        <v-tooltip
           top
           v-if="$bus.session.user.id == createdBy().id"
         >
-          <v-btn icon slot="activator">
-            <v-icon color="grey">edit</v-icon>
+          <v-btn
+            icon
+            slot="activator"
+            @click="deleteItem"
+            @keypress.enter="deleteItem"
+          >
+            <v-icon color="grey">delete</v-icon>
           </v-btn>
-          <span>Edit</span>
-        </v-tooltip> -->
+          <span>Delete</span>
+        </v-tooltip>
 
         <v-tooltip
           top
@@ -135,6 +140,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import truncate from 'lodash/truncate'
 import AddMe from '@/include/AddMe'
 import Status from '@/include/Status'
@@ -167,6 +173,10 @@ export default {
     }
   },
 
+  data: () => ({
+    deleteUrl: '/assigns/delete'
+  }),
+
   methods: {
     course() {
       return this.assign.content.course
@@ -191,6 +201,52 @@ export default {
       let levels = this.assign.content.levels
       let myLevel = this.$bus.checkLevels(levels, 1)
       return myLevel + ' of ' + levels.length
+    },
+
+    deleteItem() {
+      let item = this.assign
+      this.$bus.$emit('dialog--global.confirm.show', {
+        item: item,
+        title: 'Delete workflow',
+        msg: 'This will permanently delete the workflow.',
+        btn: {
+          text: 'Delete',
+          color: 'error'
+        },
+        fn: (onSuccess, onError, doClose, fn) => {
+          this.$http.post(this.deleteUrl, qs.stringify({
+            id: item.id
+          })).then(res => {
+            console.warn(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+
+            this.$bus.$emit('snackbar--show', 'Workflow deleted.')
+            this.$bus.$emit('refresh--btn')
+            this.loading = false
+            this.show = false
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete workflow.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  sb.snackbar = false
+                  fn(onSuccess, onError, doClose, fn)
+                  // this.deleteComment(item)
+                }
+              }
+            })
+            onError()
+            doClose()
+          })
+        }
+      })
     }
   }
 }
