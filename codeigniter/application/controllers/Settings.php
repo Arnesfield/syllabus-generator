@@ -34,6 +34,17 @@ class Settings extends MY_Custom_Controller {
     $where = array('name' => $name);
 
     $res = $this->settings_model->update($data, $where);
+
+    // insert trail
+    if ($res) {
+      $categories = array(
+        'cloOptions' => 'clo_options',
+        'gradingSystem' => 'grading_system',
+        'syllabusContent' => 'syllabus_content'
+      );
+      $this->_insert_trail($categories[$name], 1);
+    }
+
     $this->_json($res);
   }
 }
