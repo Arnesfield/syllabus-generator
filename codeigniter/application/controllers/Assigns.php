@@ -164,6 +164,11 @@ class Assigns extends MY_Custom_Controller {
     );
 
     $res = $this->assigns_model->insert($data);
+
+    if ($res) {
+      $this->_insert_trail('workflow', 1);
+    }
+
     $this->_json($res);
   }
 
@@ -175,6 +180,11 @@ class Assigns extends MY_Custom_Controller {
     );
     $where = array('id' => $id);
     $res = $this->assigns_model->update($data, $where);
+
+    if ($res) {
+      $this->_insert_trail('workflow', 2, array('content' => "Deleted Workflow $id"));
+    }
+
     $this->_json($res);
   }
 }
