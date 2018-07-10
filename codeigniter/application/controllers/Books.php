@@ -49,6 +49,11 @@ class Books extends MY_Custom_Controller {
   public function addCsv() {
     $books = $this->input->post('books');
     $res = $this->books_model->insertMultiple($books);
+
+    if ($res) {
+      $this->_insert_trail('manage_books', 4);
+    }
+
     $this->_json($res);
   }
 
@@ -60,6 +65,11 @@ class Books extends MY_Custom_Controller {
     );
     $where = array('id' => $id);
     $res = $this->books_model->update($data, $where);
+
+    if ($res) {
+      $this->_insert_trail('manage_books', 3, array('content' => "Deleted Book $id"));
+    }
+
     $this->_json($res);
   }
 
@@ -90,6 +100,22 @@ class Books extends MY_Custom_Controller {
     }
 
     if ($res) {
+      // insert trail
+      $trail = array();
+      if ($mode == 'add') {
+        $trail['type'] = 1;
+        $trail['data'] = array();
+      } else if ($mode == 'edit') {
+        $trail['type'] = 2;
+        $trail['data'] = array('content' => "Updated Book $id");
+      } else {
+        $trail = FALSE;
+      }
+
+      if ($trail !== FALSE) {
+        $this->_insert_trail('manage_books', $trail['type'], $trail['data']);
+      }
+
       // insert new tags
       $this->load->model('tags_model');
       $this->tags_model->insertMultiple(json_decode($tags, TRUE));
