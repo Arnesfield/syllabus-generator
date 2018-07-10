@@ -491,7 +491,7 @@ export default {
 
       data.append('mode', this.mode)
       data.append('fname', this.fname)
-      data.append('mname', this.mname)
+      data.append('mname', this.mname || '')
       data.append('lname', this.lname)
       data.append('username', this.username)
       data.append('title', this.title)
