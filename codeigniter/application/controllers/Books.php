@@ -67,7 +67,10 @@ class Books extends MY_Custom_Controller {
     $res = $this->books_model->update($data, $where);
 
     if ($res) {
-      $this->_insert_trail('manage_books', 3, array('content' => "Deleted Book $id"));
+      $this->_insert_trail('manage_books', 3, array(
+        'book_id' => $id,
+        'content' => "Deleted Book $id"
+      ));
     }
 
     $this->_json($res);
@@ -107,7 +110,10 @@ class Books extends MY_Custom_Controller {
         $trail['data'] = array();
       } else if ($mode == 'edit') {
         $trail['type'] = 2;
-        $trail['data'] = array('content' => "Updated Book $id");
+        $trail['data'] = array(
+          'book_id' => $id,
+          'content' => "Updated Book $id"
+        );
       } else {
         $trail = FALSE;
       }

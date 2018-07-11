@@ -92,14 +92,23 @@ class Courses extends MY_Custom_Controller {
 
       // if requesting for tree
       if ($withRelated && $deep) {
-        $this->_insert_trail('course', 2, array('content' => "Viewed Course $cid Tree"));
+        $this->_insert_trail('course', 2, array(
+          'course_id' => $cid,
+          'content' => "Viewed Course $cid Tree"
+        ));
       } else {
-        $this->_insert_trail('course', 1, array('content' => "Viewed Course $cid"));
+        $this->_insert_trail('course', 1, array(
+          'course_id' => $cid,
+          'content' => "Viewed Course $cid"
+        ));
       }
     }
     
     if ($logSyllabus) {
-      $this->_insert_trail('syllabus', 1, array('content' => "Viewed Syllabus $sid"));
+      $this->_insert_trail('syllabus', 1, array(
+        'syllabus_id' => $sid,
+        'content' => "Viewed Syllabus $sid"
+      ));
     }
 
     $this->_json(TRUE, 'courses', $courses);
@@ -126,7 +135,10 @@ class Courses extends MY_Custom_Controller {
     $res = $this->courses_model->update($data, $where);
 
     if ($res) {
-      $this->_insert_trail('manage_courses', 3, array('content' => "Deleted Course $id"));
+      $this->_insert_trail('manage_courses', 3, array(
+        'course_id' => $id,
+        'content' => "Deleted Course $id"
+      ));
     }
 
     $this->_json($res);
@@ -181,7 +193,10 @@ class Courses extends MY_Custom_Controller {
         $trail['data'] = array();
       } else if ($mode == 'edit') {
         $trail['type'] = 2;
-        $trail['data'] = array('content' => "Updated Course $id");
+        $trail['data'] = array(
+          'course_id' => $id,
+          'content' => "Updated Course $id"
+        );
       } else {
         $trail = FALSE;
       }

@@ -117,7 +117,10 @@ class Syllabi extends MY_Custom_Controller {
       if ($res) {
         $syllabi_2 = $this->syllabi_model->getByAssignId($assignId);
         $sid = $syllabi_2[0]['id'];
-        $this->_insert_trail('generator', 1, array('content' => "Saved Syllabus $sid"));
+        $this->_insert_trail('generator', 1, array(
+          'syllabus_id' => $sid,
+          'content' => "Saved Syllabus $sid"
+        ));
       }
 
       if ($return) {
@@ -139,7 +142,10 @@ class Syllabi extends MY_Custom_Controller {
     $res = $this->syllabi_model->update($data, array('id' => $sid));
 
     if ($res) {
-      $this->_insert_trail('generator', 1, array('content' => "Saved Syllabus $sid"));
+      $this->_insert_trail('generator', 1, array(
+        'syllabus_id' => $sid,
+        'content' => "Saved Syllabus $sid"
+      ));
     }
 
     if ($return) {
@@ -170,7 +176,10 @@ class Syllabi extends MY_Custom_Controller {
     if ($res) {
       $syllabi = $this->syllabi_model->getByAssignId($assignId);
       $sid = $syllabi[0]['id'];
-      $this->_insert_trail('generator', 2, array('content' => "Submitted Syllabus $sid"));
+      $this->_insert_trail('generator', 2, array(
+        'syllabus_id' => $sid,
+        'content' => "Submitted Syllabus $sid"
+      ));
     }
 
     $this->_json($res);

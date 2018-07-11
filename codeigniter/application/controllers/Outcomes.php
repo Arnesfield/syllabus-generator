@@ -117,7 +117,10 @@ class Outcomes extends MY_Custom_Controller {
         $trail['data'] = array();
       } else if ($mode == 'edit') {
         $trail['type'] = 2;
-        $trail['data'] = array('content' => "Updated Outcome $id");
+        $trail['data'] = array(
+          'outcome_id' => $id,
+          'content' => "Updated Outcome $id"
+        );
       } else {
         $trail = FALSE;
       }
@@ -143,7 +146,10 @@ class Outcomes extends MY_Custom_Controller {
     $res = $this->outcomes_model->update($data, $where);
 
     if ($res) {
-      $this->_insert_trail('manage_outcomes', 3, array('content' => "Deleted Outcome $id"));
+      $this->_insert_trail('manage_outcomes', 3, array(
+        'outcome_id' => $id,
+        'content' => "Deleted Outcome $id"
+      ));
     }
 
     $this->_json($res);

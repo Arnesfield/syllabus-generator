@@ -182,7 +182,10 @@ class Assigns extends MY_Custom_Controller {
     $res = $this->assigns_model->update($data, $where);
 
     if ($res) {
-      $this->_insert_trail('workflow', 2, array('content' => "Deleted Workflow $id"));
+      $this->_insert_trail('workflow', 2, array(
+        'assign_id' => $id,
+        'content' => "Deleted Workflow $id"
+      ));
     }
 
     $this->_json($res);
