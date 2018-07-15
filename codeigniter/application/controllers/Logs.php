@@ -56,6 +56,66 @@ class Logs extends MY_Custom_Controller {
    *      1 - View
    */
 
+  public function index() {
+    $userId = $this->input->post('userId') ? $this->input->post('userId') : FALSE;
+
+    $where = FALSE;
+
+    if ($userId) {
+      $where['au.user_id'] = $userId;
+    }
+
+    // get logs
+    $logs = $this->logs_model->get($where);
+    $this->_json(TRUE, 'logs', $logs);
+  }
+
+  public function detailed() {
+    $item = $this->input->post('item');
+
+    // get all if id is not 0
+    $this->load->model(array(
+      'users_model',
+      'courses_model',
+      'assigns_model',
+      'curriculum_model',
+      'outcomes_model',
+      'syllabi_model',
+      'books_model'
+    ));
+
+    if ($related_users = $this->users_model->get(array('id' => $item['related_user_id']))) {
+      $item['related_user'] = $related_users[0];
+    }
+
+    if ($courses = $this->courses_model->getByQuery(FALSE, array('id' => $item['course_id']))) {
+      $item['course'] = $courses[0];
+    }
+
+    if ($item['assign_id'] != 0 && $assigns = $this->assigns_model->get($item['assign_id'])) {
+      $assigns = $this->_createAssigns($assigns);
+      $item['assign'] = $assigns[0];
+    }
+
+    if ($curriculum = $this->curriculum_model->getByQuery(FALSE, array('id' => $item['curriculum_id']))) {
+      $item['curriculum'] = $curriculum[0];
+    }
+
+    if ($outcomes = $this->outcomes_model->getByQuery(FALSE, array('id' => $item['outcome_id']))) {
+      $item['outcome'] = $outcomes[0];
+    }
+
+    if ($syllabi = $this->syllabi_model->getByQuery(FALSE, array('id' => $item['syllabus_id']))) {
+      $item['syllabus'] = $syllabi[0];
+    }
+
+    if ($books = $this->books_model->getByQuery(FALSE, array('id' => $item['book_id']))) {
+      $item['book'] = $books[0];
+    }
+
+    $this->_json(TRUE, 'item', $item);
+  }
+
   public function workflow() {
     $where = FALSE;
     if ($id = $this->input->post('id')) {

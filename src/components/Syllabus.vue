@@ -132,6 +132,7 @@ export default {
       this.$http.post(this.url, qs.stringify({
         assignId: this.assignId
       })).then(res => {
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

@@ -1,6 +1,6 @@
 <template>
 <v-avatar
-  class="elevation-1"
+  :class="noElevation ? '' : 'elevation-1'"
   :size="size"
   :color="color"
 >
@@ -42,6 +42,10 @@ export default {
       default: 'accent'
     },
     caption: {
+      type: Boolean,
+      default: false
+    },
+    noElevation: {
       type: Boolean,
       default: false
     },

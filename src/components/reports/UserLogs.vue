@@ -25,6 +25,10 @@
       </td> -->
     </template>
     <template slot="items" slot-scope="props">
+      <td>
+        <span class="none">{{ props.item.created_at }}</span>
+        <div v-html="$moment.unix(props.item.created_at).format('MMMM DD, YYYY h:mm A')"></div>
+      </td>
       <td>{{ props.item.user_id }}</td>
       <td>
         <template v-if="props.item.img_src.length">
@@ -57,10 +61,6 @@
             <template v-else>Out</template>
           </v-chip>
         </v-layout>
-      </td>
-      <td>
-        <span class="none">{{ props.item.created_at }}</span>
-        <div v-html="$moment.unix(props.item.created_at).format('MMMM DD, YYYY h:mm A')"></div>
       </td>
     </template>
   </v-data-table>
@@ -98,13 +98,13 @@ export default {
   data: () => ({
     url: '/logs/user',
     headers: [
+      { text: 'Datetime', value: 'created_at', align: 'left', sortable: false },
       { text: 'User Id', value: 'user_id', align: 'left', sortable: false },
       { text: 'Image', value: 'img_src', align: 'left', sortable: false },
       { text: 'Name', value: 'fname', align: 'left' },
       { text: 'Username', value: 'username', align: 'left' },
       { text: 'Title', value: 'title', align: 'left', sortable: false },
-      { text: 'Type', value: 'type', align: 'left', sortable: false },
-      { text: 'Datetime', value: 'created_at', align: 'left' }
+      { text: 'Type', value: 'type', align: 'left', sortable: false }
     ],
     logs: [],
 

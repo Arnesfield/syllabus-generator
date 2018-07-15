@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2018 at 05:52 PM
+-- Generation Time: Jul 15, 2018 at 03:10 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -69,6 +69,30 @@ CREATE TABLE `audit_trail` (
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `audit_trail`
+--
+
+INSERT INTO `audit_trail` (`id`, `user_id`, `related_user_id`, `course_id`, `assign_id`, `curriculum_id`, `outcome_id`, `syllabus_id`, `book_id`, `content`, `category`, `type`, `created_at`, `status`) VALUES
+(1, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531641802, 1),
+(2, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1531645955, 1),
+(3, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531645957, 1),
+(4, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1531645959, 1),
+(5, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531645962, 1),
+(6, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1531646044, 1),
+(7, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531646047, 1),
+(8, 3, 0, 0, 3, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1531646053, 1),
+(9, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1531646060, 1),
+(10, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531646072, 1),
+(11, 1, 0, 4, 0, 0, 0, 0, 0, 'Updated Course 4', 4, 2, 1531652288, 1),
+(12, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1531658523, 1),
+(13, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531658525, 1),
+(14, 3, 0, 0, 3, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1531658534, 1),
+(15, 3, 0, 0, 3, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1531658914, 1),
+(16, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1531658917, 1),
+(17, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1531658919, 1),
+(18, 1, 0, 0, 0, 0, 0, 0, 8, 'Updated Book 8', 7, 2, 1531659890, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -96,7 +120,7 @@ INSERT INTO `books` (`id`, `citation`, `tags`, `created_at`, `updated_at`, `stat
 (5, 'Gaddis, Tony (2007) Starting out with C++. Pearson Publishing.	', '', 0, 1521736538, 1),
 (6, 'Gregoire, Marc, et. al. (2011) Professional C++. 2nd ed.  Indianapolis, Indiana: Wiley', '', 0, 0, 1),
 (7, 'Deitel, Paul J. (2009) C++ for programmers. Prentice Hall.', '', 0, 0, 1),
-(8, 'D. S. Malik (2008) C++ programming. Thomson Course Technology.', '', 0, 0, 1),
+(8, 'D. S. Malik (2008) C++ programming. Thomson Course Technology.', '[]', 0, 1531659890, 1),
 (9, 'Deitel, Paul J. (2008) C++ how to program. Pearson Publishing.', '', 0, 0, 1),
 (10, 'Josuttis, Nicolai M. (2012) The C++ Standard Library: a tutorial and reference. 2nd ed.  Upper Saddle River, NJ. :  Addison-Wesley', '', 0, 0, 1),
 (11, 'Mullins, C. (2013). Database Administration 2nd Edition, Addison-Wesley.', '', 0, 0, 1),
@@ -170,7 +194,7 @@ INSERT INTO `courses` (`id`, `title`, `code`, `description`, `objectives`, `unit
 (1, 'CAPSTONE PROJECT 1', 'ITWPROJ1', 'This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.', '', 3, 0, '[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\"]', '[\"6\"]', '[]', 0, 1531235490, 1),
 (2, 'MOBILE APPLICATION DEVELOPMENT 2', 'ITWSPEC4', 'Some description about mobile application development in iOS.', '', 2, 1, '', '', '', 0, 0, 1),
 (3, 'WEB APPLICATION DEVELOPMENT 2', 'ITWSPEC6', 'Some description about web application development using PHP frameworks.', '', 2, 1, '', '', '', 0, 0, 1),
-(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', '<p>Upon successful completion of this course, the student will be able to:</p>\r\n<ul>\r\n  <li>To develop understanding of the context of Database Management including: (a) the Database environment and (b) the Database development process.</li>\r\n  <li>To build expertise in Database Analysis that includes: (a) Modeling data in the organization and (b) the Enhanced E-R Model and business rules.</li>\r\n  <li>To develop skills in Database Design including: (a) Logical Database design and (b) the Relational Model.</li>\r\n  <li>To develop and implement Databases and enhance skills in advanced database topics including: (a) SQL/ Advanced SQL, and (b) Data and Database Administration.</li>\r\n</ul>', 2, 1, '', '', '', 0, 0, 1),
+(4, 'DATABASE MANAGEMENT SYSTEMS 1', 'ITEDBASE1', 'This course introduces the concept of databases and database management system. In this course, the students will  learn how to examine the database management in business for routine processing and management reporting, design databases using ERD, and use SQL statements to store, retrieve and manipulate data in the database. In addition, students will be introduced to basic data and database administration and installation of DBMS.', 'Upon successful completion of this course, the student will be able to:\r\n- To develop understanding of the context of Database Management including: (a) the Database environment and (b) the Database development process.\r\n- To build expertise in Database Analysis that includes: (a) Modeling data in the organization and (b) the Enhanced E-R Model and business rules.\r\n- To develop skills in Database Design including: (a) Logical Database design and (b) the Relational Model.\r\n- To develop and implement Databases and enhance skills in advanced database topics including: (a) SQL/ Advanced SQL, and (b) Data and Database Administration.', 2, 1, '[]', '[]', '[]', 0, 1531652288, 1),
 (5, 'COMPUTER PROGRAMMING 1', 'ITPROG1', 'This course is an introduction to programming which will provide the students the skills in programming through the use of conventional techniques of flowcharting and pseudo-coding.', '<p>Upon successful completion of this course, the student will be able to:</p> <ul>   <li>Know the similarities and differences between C and C++</li>   <li>Translate logic formulation into algorithms and flowchart;</li>   <li>Create working C++ programs;</li>   <li>Test and debug C++ programs; and</li>   <li>Create simple programs for input and output operations</li>   <li>Use the visual studio IDE in running C++ programs.</li>   <li>Understand and apply different control structures of C++</li>   <li>Understand and apply the principles of data storage and array manipulation</li>   <li>Perform tests in programs by using the \"if\" and \"switch\" control flow branching statements and repeat code segments by including \"for, while,\" and \"do…while\" control flow loops</li>   <li>Use critical thinking skills to create and debug C programs.</li> </ul>', 2, 1, '[]', '[]', '[\"14\"]', 0, 1522907882, 1),
 (6, 'PROJECT MANAGEMENT FOR IT-WMA', 'ITWPROMAN', 'This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.', '', 3, 0, '[]', '[]', '[\"3\"]', 0, 1523780512, 1),
 (7, 'SOME COURSE TITLE 1', 'NEWCOURSE1', 'Some description with <h1>Header</h1> and \' \" this \\ ?', 'Some objectives with <h1>Header</h1> and \' \" this \\ ?', 2, 1, '', '', '', 0, 0, 0),
@@ -642,7 +666,7 @@ ALTER TABLE `assigns`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `books`
