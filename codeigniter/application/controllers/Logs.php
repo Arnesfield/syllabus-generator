@@ -142,6 +142,11 @@ class Logs extends MY_Custom_Controller {
   }
 
   public function user() {
+    $search = $this->input->post('search')
+      ? $this->_filter($this->input->post('search'))
+      : FALSE;
+    $limit = $this->_getPostLimit();
+    
     $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
     $monthly = $this->input->post('monthly') ? $this->input->post('monthly') : FALSE;
     $graph = $this->input->post('graph') ? $this->input->post('graph') : FALSE;
@@ -176,7 +181,7 @@ class Logs extends MY_Custom_Controller {
       $where['au.created_at >='] = strtotime("-$days day", strtotime('00:00:00'));
     }
 
-    $logs = $this->logs_model->getUserLogs($where);
+    $logs = $this->logs_model->getUserLogs($search, $where, $limit);
     $data['logs'] = $logs;
 
     $self = $this;

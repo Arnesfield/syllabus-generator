@@ -65,7 +65,7 @@ class Logs_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getUserLogs($where = FALSE) {
+  public function getUserLogs($search = FALSE, $where = FALSE, $limit = FALSE) {
     $this->db
       ->select('
         au.*,
@@ -91,7 +91,26 @@ class Logs_model extends MY_Custom_Model {
       $this->db->where($where);
     }
 
+    if ($search) {
+      $search = strtolower($search);
+      $this->db->where("
+        (
+          (
+            LOWER(u.fname) LIKE '%$search%' OR
+            LOWER(u.mname) LIKE '%$search%' OR
+            LOWER(u.lname) LIKE '%$search%' OR
+            LOWER(u.username) LIKE '%$search%' OR
+            LOWER(u.title) LIKE '%$search%'
+          ) OR MATCH(u.fname, u.mname, u.lname, u.username, u.title) AGAINST ('*$search*' IN BOOLEAN MODE)
+        )
+      ", NULL, FALSE);
+    }
+
     $this->db->order_by('au.created_at', 'DESC');
+
+    if ($limit !== FALSE) {
+      $this->db->limit($limit);
+    }
     
     $query = $this->db->get();
     return $this->_res($query);
