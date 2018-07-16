@@ -12,8 +12,13 @@ class Books extends MY_Custom_Controller {
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : '';
-    $books = $this->books_model->getByQuery($search);
-    $books = $this->books_model->_to_col($books, 'citation');
+    $only = $this->input->post('only') ? $this->input->post('only') : FALSE;
+    $only = filter_var($only, FILTER_VALIDATE_BOOLEAN);
+    $limit = $this->_getPostLimit();
+
+    $books = $this->books_model->getByQuery($search, FALSE, $limit);
+    $books = $only ? $this->_formatBooks($books) : $this->books_model->_to_col($books, 'citation');
+
     $this->_json(TRUE, 'books', $books);
   }
 
@@ -37,12 +42,6 @@ class Books extends MY_Custom_Controller {
 
     $books = $this->books_model->getRelatedBooksWithFields($fields, $limit);
     $books = $this->books_model->_to_col($books, 'citation');
-    $this->_json(TRUE, 'books', $books);
-  }
-
-  public function only() {
-    $books = $this->books_model->get();
-    $books = $this->_formatBooks($books);
     $this->_json(TRUE, 'books', $books);
   }
 

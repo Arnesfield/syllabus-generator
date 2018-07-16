@@ -236,6 +236,7 @@ export default {
         limit: this.limit,
         offset: this.offset
       })).then(res => {
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
