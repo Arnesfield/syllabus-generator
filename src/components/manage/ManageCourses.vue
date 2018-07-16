@@ -80,6 +80,7 @@
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
 import DialogManageCourse from '@/include/dialogs/DialogManageCourse'
 import DialogCsvCourses from '@/include/dialogs/DialogCsvCourses'
 
@@ -204,7 +205,7 @@ export default {
       this.$bus.dialog.ManageCourses.csv = true
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         withRelated: true,
@@ -223,7 +224,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }
+    }, 300)
   }
 }
 </script>

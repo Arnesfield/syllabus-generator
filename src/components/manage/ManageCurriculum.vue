@@ -155,6 +155,7 @@
 <script>
 import qs from 'qs'
 import find from 'lodash/find'
+import debounce from 'lodash/debounce'
 import Status from '@/include/Status'
 import ManageNoData from '@/include/ManageNoData'
 import DialogManageCurriculum from '@/include/dialogs/DialogManageCurriculum'
@@ -229,7 +230,7 @@ export default {
       return end.diff(start, 'hours') <= 24
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: this.search,
@@ -246,7 +247,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }
+    }, 300)
   }
 }
 </script>

@@ -93,6 +93,7 @@
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
 import IconImg from '@/include/IconImg'
 import DialogManageUser from '@/include/dialogs/DialogManageUser'
 import DialogCsvUsers from '@/include/dialogs/DialogCsvUsers'
@@ -220,7 +221,7 @@ export default {
       this.$bus.dialog.ManageUsers.csv = true
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         search: this.search,
@@ -238,7 +239,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }
+    }, 300)
   }
 }
 </script>

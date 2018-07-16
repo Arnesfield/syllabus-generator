@@ -72,6 +72,7 @@
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
 import DialogManageBook from '@/include/dialogs/DialogManageBook'
 import DialogCsvBooks from '@/include/dialogs/DialogCsvBooks'
 
@@ -193,7 +194,7 @@ export default {
       this.$bus.dialog.ManageBooks.csv = true
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         only: true,
@@ -212,7 +213,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }
+    }, 300)
   }
 }
 </script>

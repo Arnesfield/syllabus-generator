@@ -65,6 +65,7 @@
 import qs from 'qs'
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
+import debounce from 'lodash/debounce'
 import SidenavOutcomes from '@/include/SidenavOutcomes'
 import ManageOutcomeInst from '@/include/ManageOutcomeInst'
 import DialogSyllabiList from '@/include/dialogs/DialogSyllabiList'
@@ -122,7 +123,7 @@ export default {
       this.$refs.dialog.show = true
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         strict: true,
@@ -141,7 +142,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    },
+    }, 300),
 
     selectItem(item) {
       // add this item to an array

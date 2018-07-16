@@ -35,6 +35,7 @@
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
 import ManageOutcomeInst from '@/include/ManageOutcomeInst'
 import DialogManageOutcome from '@/include/dialogs/DialogManageOutcome'
 
@@ -92,7 +93,7 @@ export default {
       }
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
         detailed: true,
@@ -110,7 +111,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }
+    }, 300)
   }
 }
 </script>
