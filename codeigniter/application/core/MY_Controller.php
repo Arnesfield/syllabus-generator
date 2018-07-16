@@ -348,6 +348,23 @@ class MY_Custom_Controller extends MY_View_Controller {
     return $arr;
   }
 
+  public function _getPostLimit($limit_str = 'limit', $offset_str = 'offset', $raw = FALSE) {
+    if (empty($this->input->post($limit_str))) {
+      return FALSE;
+    }
+
+    $limit = (int) $this->input->post($limit_str);
+    $page = $this->input->post($offset_str) ? $this->input->post($offset_str) : 0;
+    
+    if ($limit <= -1) {
+      return FALSE;
+    }
+
+    $offset = ($page-1) * $limit;
+
+    return $raw ? $limit : $limit * 2 + $offset;
+  }
+  
 
   private $_CLO_OPTIONS = array(
     array(

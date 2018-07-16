@@ -13,9 +13,10 @@ class Users extends MY_Custom_Controller {
       ? $this->_filter($this->input->post('search'))
       : FALSE;
     $auth = $this->input->post('auth') ? $this->input->post('auth') : FALSE;
+    $limit = $this->_getPostLimit();
     $where = array();
 
-    $users = $this->users_model->getByQuery($search, $where, $auth);
+    $users = $this->users_model->getByQuery($search, $where, $auth, $limit);
     $users = $this->_formatUsers($users, TRUE);
     $this->_json(TRUE, 'users', $users);
   }

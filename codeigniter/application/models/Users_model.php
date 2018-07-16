@@ -20,7 +20,7 @@ class Users_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getByQuery($search = FALSE, $where = FALSE, $auth = FALSE) {
+  public function getByQuery($search = FALSE, $where = FALSE, $auth = FALSE, $limit = FALSE) {
     
     $this->db
       ->from('users')
@@ -59,6 +59,10 @@ class Users_model extends MY_Custom_Model {
     $this->db
       ->order_by('updated_at')
       ->order_by('created_at');
+
+    if ($limit !== FALSE) {
+      $this->db->limit($limit);
+    }
 
     $query = $this->db->get();
     return $this->_res($query);
