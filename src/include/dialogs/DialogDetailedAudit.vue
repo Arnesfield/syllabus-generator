@@ -128,10 +128,10 @@
         >
           <div class="primary--text">Syllabus Info</div>
           <div>Syllabus ID: <strong v-text="item.syllabus_id"/></div>
-          <a
-            @click="$router.push('/syllabus/view/' + item.syllabus_id)"
+          <!-- <a
+            @click="$router.push('/syllabus/view/' + item.course_id + '/' + item.syllabus_id)"
             style="text-decoration: underline"
-          >View syllabus</a>
+          >View syllabus</a> -->
         </div>
 
         <!-- book -->
