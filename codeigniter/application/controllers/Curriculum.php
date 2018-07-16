@@ -28,6 +28,7 @@ class Curriculum extends MY_Custom_Controller {
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : '';
+    $limit = $this->_getPostLimit();
 
     $where = array();
 
@@ -36,7 +37,7 @@ class Curriculum extends MY_Custom_Controller {
       $where['status !='] = 0;
     }
     
-    $curriculum = $this->curriculum_model->getByQuery($search, $where);
+    $curriculum = $this->curriculum_model->getByQuery($search, $where, $limit);
     $curriculum = $this->_formatCurriculum($curriculum);
     $this->_json(TRUE, 'curriculum', $curriculum);
   }

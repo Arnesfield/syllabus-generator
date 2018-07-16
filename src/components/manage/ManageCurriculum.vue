@@ -1,11 +1,16 @@
 <template>
-<v-container
-  fluid
-  :style="curriculum.length ? null : {
-    display: 'flex',
-    height: 'calc(100% - 96px)'
-  }"
->
+<v-container fluid>
+  
+  <v-text-field
+    solo
+    label="Search curriculum"
+    prepend-icon="search"
+    :append-icon="search ? 'close' : undefined"
+    :append-icon-cb="() => { search ? search = null : null }"
+    class="mb-2"
+    ref="searchbar"
+    v-model="search"
+  />
 
   <template v-if="latest">
     <v-subheader>Latest</v-subheader>
@@ -136,7 +141,7 @@
   >
     <manage-no-data
       class="mb-5"
-      msg="No curriculum yet :("
+      msg="No curriculum to show :("
       :loading="loading"
       :fetch="fetch"
     />
@@ -148,6 +153,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import find from 'lodash/find'
 import Status from '@/include/Status'
 import ManageNoData from '@/include/ManageNoData'
@@ -169,11 +175,18 @@ export default {
       1: 'Activated',
       2: 'Undecided',
       3: 'Not yet submitted'
-    }
+    },
+    limit: 100,
+    offset: 1,
+
+    search: null
   }),
   watch: {
     loading(e) {
       this.$bus.refresh(e)
+    },
+    search(e) {
+      this.fetch()
     }
   },
   computed: {
@@ -218,7 +231,11 @@ export default {
 
     fetch() {
       this.loading = true
-      this.$http.post(this.url).then(res => {
+      this.$http.post(this.url, qs.stringify({
+        search: this.search,
+        limit: this.limit,
+        offset: this.offset
+      })).then(res => {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

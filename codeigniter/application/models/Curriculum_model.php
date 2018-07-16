@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Curriculum_model extends MY_Custom_Model {
 
-  public function getByQuery($search = FALSE, $where = FALSE) {
+  public function getByQuery($search = FALSE, $where = FALSE, $limit = FALSE) {
     $this->db
       ->from('curriculum')
       ->where('status !=', -1);
@@ -21,6 +21,10 @@ class Curriculum_model extends MY_Custom_Model {
       ->order_by('label', 'DESC')
       ->order_by('updated_at', 'DESC')
       ->order_by('created_at', 'DESC');
+
+    if ($limit !== FALSE) {
+      $this->db->limit($limit);
+    }
       
     $query = $this->db->get();
     return $this->_res($query);
