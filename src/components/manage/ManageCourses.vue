@@ -1,5 +1,17 @@
 <template>
 <v-container fluid>
+
+  <v-text-field
+    solo
+    label="Search course"
+    prepend-icon="search"
+    :append-icon="search ? 'close' : undefined"
+    :append-icon-cb="() => { search ? search = null : null }"
+    class="mb-2"
+    ref="searchbar"
+    v-model="search"
+  />
+
   <v-data-table
     class="elevation-1"
     :loading="loading"
@@ -92,18 +104,28 @@ export default {
     courses: [],
     // for data table
     loading: null,
-    pagination: {}
+    pagination: {},
+    limit: 5,
+    offset: 1,
+
+    search: null
   }),
 
   watch: {
     pagination: {
       deep: true,
-      handler() {
-        console.log(this.pagination)
+      handler(e) {
+        console.log(e)
+        this.limit = e.rowsPerPage
+        this.offset = e.page
+        this.fetch()
       }
     },
     loading(e) {
       this.$bus.refresh(e)
+    },
+    search(e) {
+      this.fetch()
     }
   },
 
@@ -112,7 +134,7 @@ export default {
     this.$bus.$on('manage--courses.upload', this.csvCourses)
     this.$bus.$on('manage--courses.update', this.fetch)
     this.$bus.$on('refresh--btn', this.fetch)
-    this.fetch()
+    // this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('manage--courses.add', this.addItem)
@@ -185,7 +207,10 @@ export default {
     fetch() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
-        withRelated: true
+        withRelated: true,
+        search: this.search,
+        limit: this.limit,
+        offset: this.offset
       })).then((res) => {
         console.warn(res.data)
         if (!res.data.success) {

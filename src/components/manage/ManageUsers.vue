@@ -2,15 +2,15 @@
 <v-container fluid>
 
   <v-text-field
-      solo
-      label="Search user"
-      prepend-icon="search"
-      :append-icon="search ? 'close' : undefined"
-      :append-icon-cb="() => { search ? search = null : null }"
-      class="mb-2"
-      ref="searchbar"
-      v-model="search"
-    />
+    solo
+    label="Search user"
+    prepend-icon="search"
+    :append-icon="search ? 'close' : undefined"
+    :append-icon-cb="() => { search ? search = null : null }"
+    class="mb-2"
+    ref="searchbar"
+    v-model="search"
+  />
 
   <v-data-table
     class="elevation-1"

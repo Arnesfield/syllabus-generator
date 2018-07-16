@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Courses_model extends MY_Custom_Model {
 
-  public function getByQuery($search = FALSE, $where = FALSE) {
+  public function getByQuery($search = FALSE, $where = FALSE, $limit = FALSE) {
     $this->db
       ->from('courses')
       ->where('status !=', -1);
@@ -28,6 +28,10 @@ class Courses_model extends MY_Custom_Model {
     $this->db
       ->order_by('updated_at')
       ->order_by('created_at');
+
+    if ($limit !== FALSE) {
+      $this->db->limit($limit);
+    }
 
     $query = $this->db->get();
     return $this->_res($query);

@@ -22,6 +22,7 @@ class Courses extends MY_Custom_Controller {
     $sid = $this->input->post('sid') ? $this->input->post('sid') : FALSE;
     $log = $this->input->post('log') ? $this->input->post('log') : FALSE;
     $logSyllabus = $this->input->post('logSyllabus') ? $this->input->post('logSyllabus') : FALSE;
+    $limit = $this->_getPostLimit();
     
     $where = array();
     if ($exceptId) {
@@ -31,7 +32,7 @@ class Courses extends MY_Custom_Controller {
       $where['id'] = $cid;
     }
 
-    $courses = $this->courses_model->getByQuery($search, $where);
+    $courses = $this->courses_model->getByQuery($search, $where, $limit);
     $courses = $this->_formatCourses($courses, $withRelated, $deep);
 
     if ($withSyllabi) {
