@@ -1,6 +1,17 @@
 <template>
 <v-container fluid>
 
+  <v-text-field
+    solo
+    label="Search user"
+    prepend-icon="search"
+    :append-icon="search ? 'close' : undefined"
+    :append-icon-cb="() => { search ? search = null : null }"
+    class="mb-2"
+    ref="searchbar"
+    v-model="search"
+  />
+
   <v-layout
     class="mb-2"
     v-if="selectedUser"
@@ -101,6 +112,7 @@
 
 <script>
 import qs from 'qs'
+import debounce from 'lodash/debounce'
 import IconImg from '@/include/IconImg'
 import DialogDetailedAudit from '@/include/dialogs/DialogDetailedAudit'
 
@@ -235,14 +247,21 @@ export default {
     selectedUser: null,
 
     loading: false,
-    pagination: {}
+    pagination: {},
+    limit: 5,
+    offset: 1,
+
+    search: null
   }),
 
   watch: {
     pagination: {
       deep: true,
-      handler() {
-        console.log(this.pagination)
+      handler(e) {
+        console.log(e)
+        this.limit = e.rowsPerPage
+        this.offset = e.page
+        this.fetch()
       }
     },
     selectedUser(e) {
@@ -251,11 +270,14 @@ export default {
     
     loading(e) {
       this.$bus.refresh(e)
+    },
+    search(e) {
+      this.fetch()
     }
   },
 
   created() {
-    this.fetch()
+    // this.fetch()
   },
 
   methods: {
@@ -272,10 +294,13 @@ export default {
       }
     },
 
-    fetch() {
+    fetch: debounce(function() {
       this.loading = true
       this.$http.post(this.url, qs.stringify({
-        userId: this.selectedUser ? this.selectedUser.user_id : null
+        userId: this.selectedUser ? this.selectedUser.user_id : null,
+        search: this.search,
+        limit: this.limit,
+        offset: this.offset
       })).then(res => {
         console.warn(res.data)
         if (!res.data.success) {
@@ -287,7 +312,7 @@ export default {
         console.error(e)
         this.loading = false
       })
-    }
+    }, 300)
   }
 }
 </script>

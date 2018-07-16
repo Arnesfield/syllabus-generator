@@ -57,6 +57,11 @@ class Logs extends MY_Custom_Controller {
    */
 
   public function index() {
+    $search = $this->input->post('search')
+      ? $this->_filter($this->input->post('search'))
+      : FALSE;
+    $limit = $this->_getPostLimit();
+
     $userId = $this->input->post('userId') ? $this->input->post('userId') : FALSE;
 
     $where = FALSE;
@@ -66,7 +71,7 @@ class Logs extends MY_Custom_Controller {
     }
 
     // get logs
-    $logs = $this->logs_model->get($where);
+    $logs = $this->logs_model->getByQuery($search, $where, $limit);
     $this->_json(TRUE, 'logs', $logs);
   }
 
