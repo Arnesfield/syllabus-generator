@@ -101,7 +101,7 @@ export default {
         header: '',
         auth: [3, 4, 5],
         items: [
-          { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
+          // { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
           { title: 'Courses', icon: 'school', to: '/courses' }
         ]
       },

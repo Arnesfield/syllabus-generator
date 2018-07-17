@@ -31,7 +31,7 @@ export default function(router, http, bus) {
         if (IS_ADMIN) {
           router.push('/manage/users')
         } else if (IS_FACULTY) {
-          router.push('/dashboard')
+          router.push('/assignments')
         } else if (IS_LIBRARIAN) {
           router.push('/manage/books')
         }
