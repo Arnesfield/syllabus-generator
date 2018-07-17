@@ -1,20 +1,33 @@
 <template>
 <v-container
+  grid-list-lg
   :style="items.length ? null : {
     display: 'flex',
     height: 'calc(100% - 96px)'
   }"
 >
-  <template v-if="items.length">
-    <template v-for="(item, i) in items">
+  <v-layout
+    row
+    wrap
+    v-if="items.length"
+    class="mb-3"
+  >
+    <v-flex
+      xs12
+      sm6
+      md4
+      :key="i"
+      v-for="(item, i) in items"
+    >
       <course-info-view
-        class="mb-3"
-        :key="i"
+        slim
+        class="pa-2"
         :item="item"
         @view="viewItem"
+        style="height: 100%"
       />
-    </template>
-  </template>
+    </v-flex>
+  </v-layout>
 
   <v-layout
     justify-center

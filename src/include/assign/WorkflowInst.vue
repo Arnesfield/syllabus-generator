@@ -120,7 +120,7 @@
           "
         >
           <v-btn icon slot="activator" :to="'/generator/' + assign.id">
-            <v-icon color="grey">arrow_forward</v-icon>
+            <v-icon color="grey">build</v-icon>
           </v-btn>
           <span>Create Syllabus</span>
         </v-tooltip>

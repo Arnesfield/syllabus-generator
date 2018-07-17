@@ -94,9 +94,9 @@ export default {
     loading: false,
     listView: false,
     type: [
-      { title: 'Approved', n: 1 },
-      { title: 'Undecided', n: 2 },
       { title: 'Not yet submitted', n: 3 },
+      { title: 'Undecided', n: 2 },
+      { title: 'Approved', n: 1 },
       { title: 'Disapproved', n: 0 }
     ],
   }),

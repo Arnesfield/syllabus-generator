@@ -5,14 +5,15 @@
   class="clickable smooth-bg-and-shadow course-view"
   @click.native="$emit('view', item)"
 >
-  <v-layout>
+<div class="full-height">
+  <v-layout class="full-height">
     
     <div
-      style="width: 24px"
+      style="width: 24px; height: calc(100% + 16px)"
       :class="{ [sideColor]: true }"
     />
 
-    <div class="full-width">
+    <div class="full-width full-height">
       <v-card-title class="px-3 pt-3 pb-0">
         <div>
           <div
@@ -37,6 +38,7 @@
     </div>
 
   </v-layout>
+</div>
 </v-card>
 </template>
 
@@ -62,7 +64,7 @@ export default {
 
   computed: {
     totalVisible() {
-      return this.dSlim ? 10 : -1
+      return this.dSlim ? 3 : -1
     },
     sideColor() {
       let color = null
