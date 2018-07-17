@@ -220,7 +220,7 @@ export default {
       let id = this.item.id
       return [
         { icon: 'trending_down', text: 'View course tree', to: '/tree/' + id },
-        { icon: 'trending_up', text: 'View reverse course tree', to: '/tree/reverse/' + id }
+        // { icon: 'trending_up', text: 'View reverse course tree', to: '/tree/reverse/' + id }
       ]
     }
   },
