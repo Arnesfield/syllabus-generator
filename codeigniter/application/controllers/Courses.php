@@ -10,18 +10,18 @@ class Courses extends MY_Custom_Controller {
   
   public function index() {
     $search = $this->input->post('search')
-      ? $this->_filter($this->input->post('search'))
-      : '';
-    $withRelated = $this->input->post('withRelated') ? $this->input->post('withRelated') : FALSE;
-    $withSyllabi = $this->input->post('withSyllabi') ? $this->input->post('withSyllabi') : FALSE;
-    $deep = $this->input->post('deep') ? $this->input->post('deep') : FALSE;
-    $formatSyllabi = $this->input->post('formatSyllabi') ? $this->input->post('formatSyllabi') : FALSE;
-    $withAssign = $this->input->post('withAssign') ? $this->input->post('withAssign') : FALSE;
+    ? $this->_filter($this->input->post('search'))
+    : '';
+    $withRelated = $this->_filter_bool('withRelated');
+    $withSyllabi = $this->_filter_bool('withSyllabi');
+    $deep = $this->_filter_bool('deep');
+    $formatSyllabi = $this->_filter_bool('formatSyllabi');
+    $withAssign = $this->_filter_bool('withAssign');
     $exceptId = $this->input->post('exceptId') ? $this->input->post('exceptId') : FALSE;
     $cid = $this->input->post('cid') ? $this->input->post('cid') : FALSE;
     $sid = $this->input->post('sid') ? $this->input->post('sid') : FALSE;
-    $log = $this->input->post('log') ? $this->input->post('log') : FALSE;
-    $logSyllabus = $this->input->post('logSyllabus') ? $this->input->post('logSyllabus') : FALSE;
+    $log = $this->_filter_bool('log');
+    $logSyllabus = $this->_filter_bool('logSyllabus');
     $limit = $this->_getPostLimit();
     
     $where = array();

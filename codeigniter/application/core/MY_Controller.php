@@ -98,6 +98,12 @@ class MY_Custom_Controller extends MY_View_Controller {
     return strip_tags(trim(addslashes($str)));
   }
 
+  public function _filter_bool($post, $default = FALSE) {
+    return $this->input->post($post)
+      ? filter_var($this->input->post($post), FILTER_VALIDATE_BOOLEAN)
+      : $default;
+  }
+
   public function _redirect($to = '../#/error') {
     redirect(base_url($to));
   }

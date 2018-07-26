@@ -12,9 +12,14 @@ class Users extends MY_Custom_Controller {
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : FALSE;
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
     $auth = $this->input->post('auth') ? $this->input->post('auth') : FALSE;
     $limit = $this->_getPostLimit();
     $where = array();
+
+    if ($id) {
+      $where['id'] = $id;
+    }
 
     $users = $this->users_model->getByQuery($search, $where, $auth, $limit);
     $users = $this->_formatUsers($users, TRUE);
