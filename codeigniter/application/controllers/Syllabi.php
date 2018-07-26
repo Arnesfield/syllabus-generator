@@ -12,10 +12,15 @@ class Syllabi extends MY_Custom_Controller {
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : '';
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
     $courseId = $this->input->post('courseId') ? $this->input->post('courseId') : FALSE;
     $noEmpty = $this->input->post('noEmpty') ? $this->input->post('noEmpty') : FALSE;
     
     $where = array();
+    if ($id) {
+      $where['id'] = $id;
+    }
+
     if ($courseId) {
       $where['course_id'] = $courseId;
     }
