@@ -14,8 +14,11 @@ class Syllabi extends MY_Custom_Controller {
       : '';
     $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
     $courseId = $this->input->post('courseId') ? $this->input->post('courseId') : FALSE;
-    $noEmpty = $this->input->post('noEmpty') ? $this->input->post('noEmpty') : FALSE;
-    
+    $noEmpty = $this->_filter_bool('noEmpty');
+    $withLatestCurriculum = $this->_filter_bool('withLatestCurriculum');
+
+    $data = array();
+
     $where = array();
     if ($id) {
       $where['id'] = $id;
@@ -29,9 +32,19 @@ class Syllabi extends MY_Custom_Controller {
       $where['version !='] = '';
     }
 
+    if ($withLatestCurriculum) {
+      $this->load->model('curriculum_model');
+      if ($curriculum = $this->curriculum_model->getLatest()) {
+        $curriculum = $this->_formatCurriculum($curriculum);
+        $data['latestCurriculum'] = $curriculum[0];
+      }
+    }
+
     $syllabi = $this->syllabi_model->getByQuery($search, $where);
     $syllabi = $this->_formatSyllabi($syllabi);
-    $this->_json(TRUE, 'syllabi', $syllabi);
+
+    $data['syllabi'] = $syllabi;
+    $this->_json(TRUE, $data);
   }
 
   public function suggest() {
