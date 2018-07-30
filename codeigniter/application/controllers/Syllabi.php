@@ -16,6 +16,7 @@ class Syllabi extends MY_Custom_Controller {
     $courseId = $this->input->post('courseId') ? $this->input->post('courseId') : FALSE;
     $noEmpty = $this->_filter_bool('noEmpty');
     $withLatestCurriculum = $this->_filter_bool('withLatestCurriculum');
+    $withLatestGrading = $this->_filter_bool('withLatestGrading');
 
     $data = array();
 
@@ -38,6 +39,12 @@ class Syllabi extends MY_Custom_Controller {
         $curriculum = $this->_formatCurriculum($curriculum);
         $data['latestCurriculum'] = $curriculum[0];
       }
+    }
+
+    if ($withLatestGrading) {
+      $this->load->model('settings_model');
+      // get only content
+      $data['latestGrading'] = $this->_getSettings('gradingSystem')['content'];
     }
 
     $syllabi = $this->syllabi_model->getByQuery($search, $where);
