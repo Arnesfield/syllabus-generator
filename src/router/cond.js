@@ -19,8 +19,10 @@ export default function(router, http, bus) {
     const SESS_EXISTS = bus.authHas(sessAuth, auth)
     const TO_HAS_SESS = bus.authHas(toAuth, sessAuth, -1)
     const IS_ADMIN = bus.authHas(sessAuth, 1)
+    const IS_FACULTY = bus.authHas(sessAuth, 3)
+    const IS_WORKFLOW_CREATOR = bus.authHas(sessAuth, 4)
+    const IS_REVIEWER = bus.authHas(sessAuth, 5)
     const IS_LIBRARIAN = bus.authHas(sessAuth, 6)
-    const IS_FACULTY = bus.authHas(sessAuth, [3, 4, 5])
 
     if (TO_HAS_SESS) {
       document.title = title
@@ -32,6 +34,10 @@ export default function(router, http, bus) {
           router.push('/manage/users')
         } else if (IS_FACULTY) {
           router.push('/assignments')
+        } else if (IS_WORKFLOW_CREATOR) {
+          router.push('/workflow')
+        } else if (IS_REVIEWER) {
+          router.push('/reviews')
         } else if (IS_LIBRARIAN) {
           router.push('/manage/books')
         }
