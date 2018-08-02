@@ -83,21 +83,26 @@ class Users extends MY_Custom_Controller {
       }
     }
 
+    $profile = $this->_filter_bool('profile');
+
     $fname = $this->input->post('fname');
     $mname = $this->input->post('mname');
     $lname = $this->input->post('lname');
-    $username = $this->input->post('username');
-    $title = $this->input->post('title');
-    $weight = $this->input->post('weight');
-    $status = $this->input->post('status');
 
-    $tags = $this->input->post('tags');
-    $auth = $this->input->post('auth');
+    if (!$profile) {
+      $username = $this->input->post('username');
+      $title = $this->input->post('title');
+      $weight = $this->input->post('weight');
+      $status = $this->input->post('status');
+
+      $tags = $this->input->post('tags');
+      $auth = $this->input->post('auth');
+    }
 
     // options
     $mode = $this->input->post('mode');
-    $alsoPassword = $this->input->post('alsoPassword');
-    $removeImage = $this->input->post('removeImage');
+    $alsoPassword = $this->_filter_bool('alsoPassword');
+    $removeImage = $this->_filter_bool('removeImage');
 
     $TIME = time();
     
@@ -105,17 +110,40 @@ class Users extends MY_Custom_Controller {
       'fname' => $fname,
       'mname' => $mname,
       'lname' => $lname,
-      'username' => $username,
-      'title' => $title,
-      'weight' => $weight,
-      'updated_at' => $TIME,
-      'tags' => $tags,
-      'auth' => $auth,
-      'status' => $status
+      'updated_at' => $TIME
     );
+
+    if (!$profile) {
+      $profile_data = array(
+        // fields admin can change
+        'username' => $username,
+        'title' => $title,
+        'weight' => $weight,
+        'tags' => $tags,
+        'auth' => $auth,
+        'status' => $status
+      );
+
+      $data = array_merge($data, $profile_data);
+    }
     
-    $alsoPassword = filter_var($alsoPassword, FILTER_VALIDATE_BOOLEAN);
     if ($alsoPassword === TRUE) {
+      if ($profile) {
+        $currentPassword = $this->input->post('currentPassword');
+        // check if current password is correct
+        $id = $this->input->post('id');
+        if ($users = $this->users_model->get(array('id' => $id))) {
+          $user = $users[0];
+          $currentPassHash = $user['password'];
+          
+          if (!password_verify($currentPassword, $currentPassHash)) {
+            $this->_json(FALSE, 'error', 'Password incorrect.');
+          }
+        } else {
+          $this->_json(FALSE);
+        }
+      }
+
       $password = $this->input->post('password');
       $data['password'] = password_hash($password, PASSWORD_BCRYPT);
     }
@@ -126,7 +154,6 @@ class Users extends MY_Custom_Controller {
     }
 
     // BUT, if remove, just empty it hehe
-    $removeImage = filter_var($removeImage, FILTER_VALIDATE_BOOLEAN);
     if ($removeImage) {
       $data['img_src'] = '';
     }
@@ -158,12 +185,18 @@ class Users extends MY_Custom_Controller {
       }
 
       if ($trail !== FALSE) {
-        $this->_insert_trail('manage_users', $trail['type'], $trail['data']);
+        if ($profile) {
+          $this->_insert_trail('profile', 1, $trail['data']);
+        } else {
+          $this->_insert_trail('manage_users', $trail['type'], $trail['data']);
+        }
       }
 
       // insert new tags
-      $this->load->model('tags_model');
-      $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+      if (!$profile) {
+        $this->load->model('tags_model');
+        $this->tags_model->insertMultiple(json_decode($tags, TRUE));
+      }
 
       // update session if id same as sess id
       $uid = $this->session->userdata('user')['id'];

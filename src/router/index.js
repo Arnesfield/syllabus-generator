@@ -155,7 +155,7 @@ export default new Router({
       meta: {
         auth: 1,
         title: 'Manage Users',
-        icon: 'account_circle'
+        icon: 'people'
       }
     },
     {

@@ -12,8 +12,7 @@ class Books extends MY_Custom_Controller {
     $search = $this->input->post('search')
       ? $this->_filter($this->input->post('search'))
       : '';
-    $only = $this->input->post('only') ? $this->input->post('only') : FALSE;
-    $only = filter_var($only, FILTER_VALIDATE_BOOLEAN);
+    $only = $this->_filter_bool('only');
     $limit = $this->_getPostLimit();
 
     $books = $this->books_model->getByQuery($search, FALSE, $limit);

@@ -83,7 +83,10 @@
 
         <!-- username -->
 
-        <v-layout align-center>
+        <v-layout
+          v-if="!profile"
+          align-center
+        >
           <v-flex hidden-xs-only sm4>
             <v-subheader>Username</v-subheader>
           </v-flex>
@@ -102,7 +105,10 @@
 
         <!-- title -->
 
-        <v-layout align-center>
+        <v-layout
+          v-if="!profile"
+          align-center
+        >
           <v-flex hidden-xs-only sm4>
             <v-subheader>Title</v-subheader>
           </v-flex>
@@ -167,7 +173,7 @@
               </v-tooltip>
               
               <v-btn
-                v-else
+                v-else-if="!profile"
                 :dark="!defaultPass"
                 :color="!defaultPass ? 'primary lighten-1' : undefined"
                 @click="defaultPass = !defaultPass"
@@ -184,7 +190,21 @@
 
               <template v-else>
                 <v-text-field
-                  label="Password"
+                  label="Current Password"
+                  color="primary lighten-1"
+                  v-if="profile"
+                  v-model="currentPassword"
+                  prepend-icon="vpn_key"
+                  :disabled="loading"
+                  :type="hidePass.currentPassword ? 'password' : 'text'"
+                  :append-icon="hidePass.currentPassword ? 'visibility' : 'visibility_off'"
+                  :append-icon-cb="() => (hidePass.currentPassword = !hidePass.currentPassword)"
+                  :rules="[$fRule('required')]"
+                  required
+                />
+
+                <v-text-field
+                  label="New Password"
                   color="primary lighten-1"
                   v-model="password"
                   prepend-icon="lock"
@@ -216,7 +236,11 @@
 
         <!-- preferences -->
 
-        <v-layout align-content-start class="mt-2">
+        <v-layout
+          v-if="!profile"
+          align-content-start
+          class="mt-2"
+        >
           <v-flex hidden-xs-only sm4>
             <v-subheader>Preferences</v-subheader>
           </v-flex>
@@ -239,7 +263,10 @@
 
         <!-- status -->
 
-        <v-layout align-center>
+        <v-layout
+          v-if="!profile"
+          align-center
+        >
           <v-flex hidden-xs-only sm4>
             <v-subheader>Status</v-subheader>
           </v-flex>
@@ -267,7 +294,7 @@
           <v-flex sm8 class="py-2 mt-1">
 
             <v-checkbox
-              v-if="mode == 'edit'"
+              v-if="mode == 'edit' && imgSrc"
               v-model="removeImage"
               label="Remove image?"
             />
@@ -279,6 +306,7 @@
                 :disabled="loading"
                 @change="filesChange"
                 :name="fileName"
+                ref="file"
               />
               
               <v-layout
@@ -291,6 +319,35 @@
               </v-layout>
 
               <v-layout
+                v-if="file && fileImgSrc"
+                class="mt-3"
+              >
+                <v-avatar
+                  tile
+                  size="128"
+                  class="elevation-1"
+                >
+                  <img :src="fileImgSrc"/>
+                </v-avatar>
+                <div class="pa-2 caption">
+                  <div>
+                    <strong>Image Preview</strong>
+                  </div>
+                  <template>
+                    <div v-text="file.name"/>
+                    <div v-text="$wrap.fileSize(file.size)"/>
+                    <v-btn
+                      color="error"
+                      @click="removeFileImage"
+                    >
+                      <v-icon>close</v-icon>
+                      <span>Remove</span>
+                    </v-btn>
+                  </template>
+                </div>
+              </v-layout>
+
+              <v-layout
                 v-if="imgSrc"
                 class="mt-3"
               >
@@ -299,19 +356,12 @@
                   size="128"
                   class="elevation-1"
                 >
-                  <img :src="file ? imgSrc : $wrap.localImg(imgSrc)"/>
+                  <img :src="$wrap.localImg(imgSrc)"/>
                 </v-avatar>
                 <div class="pa-2 caption">
                   <div>
-                    <strong>
-                      <template v-if="file">Image Preview</template>
-                      <template v-else>Existing Image</template>
-                    </strong>
+                    <strong>Existing Image</strong>
                   </div>
-                  <template v-if="file">
-                    <div v-text="file.name"/>
-                    <div v-text="$wrap.fileSize(file.size)"/>
-                  </template>
                 </div>
               </v-layout>
             </template>
@@ -368,6 +418,12 @@ export default {
     SelectStatus,
     SelectPrivileges
   },
+  props: {
+    profile: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     url: '/users/manage',
     show: false,
@@ -378,6 +434,7 @@ export default {
     defaultPass: true,
     alsoPassword: false,
     hidePass: {
+      currentPassword: true,
       password: true,
       passconf: true
     },
@@ -386,6 +443,7 @@ export default {
     file: null,
     fileName: 'file',
     fileError: null,
+    fileImgSrc: null,
     statusTypes: [
       { text: 'Activated', icon: 'check_circle', color: 'success', value: 1 },
       { text: 'Deactivated', icon: 'cancel', color: 'warning', value: 0 }
@@ -400,6 +458,7 @@ export default {
     username: null,
     title: null,
     weight: null,
+    currentPassword: null,
     password: null,
     passconf: null,
     status: null,
@@ -412,6 +471,14 @@ export default {
     show(e) {
       if (!e) {
         this.clear()
+      }
+    },
+    removeImage(e) {
+      if (!e) {
+        // remove file here
+        this.file = null
+        this.fileImgSrc = null
+        this.fileError = null
       }
     }
   },
@@ -436,6 +503,11 @@ export default {
       this.alsoPassword = false
       this.show = true
       this.removeImage = false
+
+      // consider profile
+      if (this.profile) {
+        this.defaultPass = false
+      }
     },
 
     setValuesFromItem(item) {
@@ -444,6 +516,7 @@ export default {
       this.fname = item.fname
       this.mname = item.mname
       this.lname = item.lname
+      this.imgSrc = item.img_src
       this.username = item.username
       this.title = item.title
       this.weight = item.weight
@@ -477,9 +550,18 @@ export default {
       let reader = new FileReader()
 
       reader.onload = (e) => {
-        this.imgSrc = e.target.result
+        this.fileImgSrc = e.target.result
       }
       reader.readAsDataURL(this.file)
+    },
+
+    removeFileImage() {
+      if (this.$refs.file) {
+        this.$refs.file.value = ''
+        this.file = null
+        this.fileImgSrc = null
+        this.fileError = null
+      }
     },
 
     submit() {
@@ -493,15 +575,19 @@ export default {
       data.append('fname', this.fname)
       data.append('mname', this.mname || '')
       data.append('lname', this.lname)
-      data.append('username', this.username)
-      data.append('title', this.title)
-      data.append('weight', this.weight)
-      data.append('status', this.status.value)
 
+      data.append('profile', this.profile)
       data.append('alsoPassword', this.alsoPassword)
-      
-      data.append('tags', JSON.stringify(this.tags))
-      data.append('auth', JSON.stringify(this.auth.map(e => String(e.value))))
+
+      if (!this.profile) {
+        data.append('username', this.username)
+        data.append('title', this.title)
+        data.append('weight', this.weight)
+        data.append('status', this.status.value)
+
+        data.append('tags', JSON.stringify(this.tags))
+        data.append('auth', JSON.stringify(this.auth.map(e => String(e.value))))
+      }
 
       if (this.mode == 'edit') {
         data.append('id', this.id)
@@ -512,6 +598,10 @@ export default {
           data.append('password', this.defaultPassText)
         } else {
           data.append('password', this.password)
+        }
+
+        if (this.profile) {
+          data.append('currentPassword', this.currentPassword)
         }
       }
 
@@ -528,8 +618,11 @@ export default {
         if (!res.data.success) {
           if (res.data.error) {
             this.$bus.$emit('snackbar--show', res.data.error)
+            this.loading = false
+            return
+          } else {
+            throw new Error('Request failure.')
           }
-          throw new Error('Request failure.')
         }
         
         if (res.data.sess) {
@@ -568,6 +661,7 @@ export default {
       this.username = null
       this.title = null
       this.weight = null
+      this.currentPassword = null
       this.password = null
       this.passconf = null
       this.status = null
@@ -576,12 +670,14 @@ export default {
       this.imgSrc = null
 
       this.file = null
+      this.fileImgSrc = null
       this.fileError = null
 
+      this.hidePass.currentPassword = true
       this.hidePass.password = true
       this.hidePass.passconf = true
 
-      this.defaultPass = true
+      this.defaultPass = !this.profile
       this.alsoPassword = this.mode == 'add'
 
       if (this.mode == 'add') {

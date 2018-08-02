@@ -70,7 +70,7 @@ class Curriculum extends MY_Custom_Controller {
 
   public function manage() {
     $label = $this->input->post('label');
-    $latest = $this->input->post('latest');
+    $latest = $this->_filter_bool('latest');
     $status = $this->input->post('status');
 
     $content = $this->input->post('content');
@@ -79,7 +79,6 @@ class Curriculum extends MY_Custom_Controller {
     $mode = $this->input->post('mode');
 
     $TIME = time();
-    $latest = filter_var($latest, FILTER_VALIDATE_BOOLEAN);
 
     $data = array(
       'label' => $label,

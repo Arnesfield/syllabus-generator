@@ -503,7 +503,8 @@ class MY_Custom_Controller extends MY_View_Controller {
     'workflow' => 11,
     'generator' => 12,
     'course' => 13,
-    'syllabus' => 14
+    'syllabus' => 14,
+    'profile' => 15
   );
 
   public function _insert_trail($category, $type, $extra = array()) {

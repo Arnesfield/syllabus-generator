@@ -54,6 +54,8 @@ class Logs extends MY_Custom_Controller {
    *      2 - Tree View
    * 14 - Syllabus
    *      1 - View
+   * 15 - Profile
+   *      1 - Update
    */
 
   public function index() {

@@ -76,6 +76,11 @@
     <dialog-syllabus-content ref="syllabusContent"/>
     <dialog-grading-system ref="gradingSystem"/>
   </template>
+  <dialog-manage-user
+    profile
+    ref="profile"
+    v-if="$bus.authHas($bus.session.auth, [1, 3, 4, 5, 6])"
+  />
 
 </v-navigation-drawer>
 </template>
@@ -85,6 +90,7 @@ import NavUser from './nav/NavUser'
 import DialogCloOptions from '@/include/dialogs/DialogCloOptions'
 import DialogSyllabusContent from '@/include/dialogs/DialogSyllabusContent'
 import DialogGradingSystem from '@/include/dialogs/DialogGradingSystem'
+import DialogManageUser from '@/include/dialogs/DialogManageUser'
 
 export default {
   name: 'navigation',
@@ -92,11 +98,19 @@ export default {
     NavUser,
     DialogCloOptions,
     DialogSyllabusContent,
-    DialogGradingSystem
+    DialogGradingSystem,
+    DialogManageUser
   },
   data: () => ({
     logoutUrl: '/logout',
     lists: [
+      {
+        header: '',
+        auth: [1, 3, 4, 5, 6],
+        items: [
+          { title: 'Profile', icon: 'account_circle', tip: 'Profile', click: 'profile' }
+        ]
+      },
       {
         header: '',
         auth: [3, 4, 5],
@@ -130,7 +144,7 @@ export default {
         header: 'Manage',
         auth: 1,
         items: [
-          { title: 'Users', icon: 'account_circle', tip: 'Manage Users', to: '/manage/users' },
+          { title: 'Users', icon: 'people', tip: 'Manage Users', to: '/manage/users' },
           { title: 'Courses', icon: 'school', tip: 'Manage Courses', to: '/manage/courses' },
           { title: 'Curriculum', icon: 'assignment', tip: 'Manage Curriculum', to: '/manage/curriculum' },
           { title: 'Outcomes', icon: 'notes', tip: 'Manage Outcomes', to: '/manage/outcomes' }
@@ -254,6 +268,11 @@ export default {
     gradingSystem() {
       if (this.$refs.gradingSystem) {
         this.$refs.gradingSystem.show = true
+      }
+    },
+    profile() {
+      if (this.$refs.profile) {
+        this.$refs.profile.editItem(this.$bus.session.user)
       }
     },
 

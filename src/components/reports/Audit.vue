@@ -125,7 +125,7 @@ export default {
   data: () => ({
     url: '/logs',
     headers: [
-      { text: 'Datetime', value: 'created_at', align: 'left', sortable: false },
+      { text: 'Datetime', value: 'created_at', align: 'left', sortable: true },
       { text: 'User Id', value: 'user_id', align: 'left', sortable: false },
       // { text: 'Image', value: 'img_src', align: 'left', sortable: false },
       { text: 'Name', value: 'fname', align: 'left', sortable: false },
@@ -238,6 +238,12 @@ export default {
         name: 'Syllabus',
         types: {
           1: 'View'
+        }
+      },
+      15: {
+        name: 'Profile',
+        types: {
+          1: 'Update'
         }
       }
     },
