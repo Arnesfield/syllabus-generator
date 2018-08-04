@@ -18,6 +18,10 @@
   height: 1625px;
 }
 
+.paper-8-5-13.auto-height {
+  height: auto;
+}
+
 .syllabus-inst {
   background-color: white;
   font-family: 'Times New Roman', Times, serif;
@@ -51,4 +55,8 @@
 
 .syllabus-inst {
   padding: 96px;
+}
+
+.syllabus-inst.merge-tables table:not(:first-child) {
+  border-top: none !important;
 }
