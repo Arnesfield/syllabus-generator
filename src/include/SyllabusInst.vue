@@ -21,8 +21,11 @@
     :class="{ 'syllabus-container-large': !dPdf }"
     v-if="c"
   >
-    <div class="paper-8-5-13 auto-height elevation-4 syllabus-inst merge-tables">
-      <div ref="syllabus">
+    <div
+      class="paper-8-5-13 auto-height elevation-4 syllabus-inst merge-tables"
+      :class="{ 'with-img': Boolean(c.imgSrc) }"
+    >
+      <div ref="syllabus" class="pr-2">
         <img
           v-if="c.imgSrc"
           :src="$wrap.localImg(c.imgSrc)"
@@ -636,7 +639,7 @@ export default {
             ctx.drawImage(srcImg,sX,sY+(padding*2),sWidth,sHeight,dX,dY,dWidth,dHeight);
           }
 
-          // document.body.appendChild(canvas);
+          // if (i == 0) document.body.appendChild(canvas);
           var canvasDataURL = onePageCanvas.toDataURL('image/png', 1.0);
 
           var width         = onePageCanvas.width;

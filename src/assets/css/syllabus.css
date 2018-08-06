@@ -54,7 +54,11 @@
 }
 
 .syllabus-inst {
-  padding: 96px;
+  padding: 96px 88px 96px 96px;
+}
+
+.syllabus-inst.with-img {
+  padding-top: 48px;
 }
 
 .syllabus-inst.merge-tables table:not(:first-child) {

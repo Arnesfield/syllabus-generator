@@ -183,7 +183,7 @@ export default {
         force = false
       }
       keys.forEach(e => {
-        this.c[e] = this.c[e] && !force ? this.c[e] : content[e]
+        this.$set(this.c, e, this.c[e] && !force ? this.c[e] : content[e])
       })
     },
 
@@ -201,7 +201,8 @@ export default {
         let content = res.data.syllabusContent.content
         this.suggested = content
         this.suggestedDate = res.data.syllabusContent.updated_at
-        this.setContent(content)
+        // do not set automatically
+        // this.setContent(content)
         this.loading = false
       }).catch(e => {
         console.error(e)
