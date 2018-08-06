@@ -23,8 +23,20 @@
   >
     <div class="paper-8-5-13 auto-height elevation-4 syllabus-inst merge-tables">
       <div ref="syllabus">
+        <img
+          v-if="c.imgSrc"
+          :src="$wrap.localImg(c.imgSrc)"
+          style="margin: 0 auto; display: block;"
+          class="mb-3"
+        />
+
         <!-- course -->
-        <table border="1" class="syllabus-tbl" v-if="c.course">
+        <table
+          border="1"
+          class="syllabus-tbl"
+          style="border-top: 1px solid black !important;"
+          v-if="c.course"
+        >
           <tr>
             <th>Course Code</th>
             <th>Course Title</th>
@@ -593,8 +605,14 @@ export default {
         
         let pdfWidth = Math.ceil((8.5 * pxMultiplier) + padding)
         let pdfHeight = 13 * pxMultiplier - ((padding*4) + 26)
+        let origPdfHeight = pdfHeight;
 
         for (var i = 0; i <= elem.clientHeight/(pdfHeight-125); i++) {
+          // change height here depending on page
+          // lessen margin top if first page for header logo
+          if (i == 0) pdfHeight += padding*2;
+          else pdfHeight = origPdfHeight;
+
           //! This is all just html2canvas stuff
           var srcImg  = canvas;
           var sX      = 0;
@@ -612,7 +630,11 @@ export default {
           var ctx = onePageCanvas.getContext('2d');
           // details on this usage of this function: 
           // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-          ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
+          if (i == 0) {
+            ctx.drawImage(srcImg,sX,sY-padding,sWidth,sHeight+padding,dX,dY,dWidth,dHeight);
+          } else {
+            ctx.drawImage(srcImg,sX,sY+(padding*2),sWidth,sHeight,dX,dY,dWidth,dHeight);
+          }
 
           // document.body.appendChild(canvas);
           var canvasDataURL = onePageCanvas.toDataURL('image/png', 1.0);
@@ -629,7 +651,8 @@ export default {
           //! now we declare that we're working on that page
           pdf.setPage(i+1);
           //! now we add content to that page!
-          pdf.addImage(canvasDataURL, 'PNG', padding - 14, padding, (width*.5), (height*.5));
+          let tempPaddingTop = i == 0 ? 0 : padding
+          pdf.addImage(canvasDataURL, 'PNG', padding - 14, tempPaddingTop, (width*.5), (height*.5));
 
         }
         //! after the for loop is finished running, we save the pdf.

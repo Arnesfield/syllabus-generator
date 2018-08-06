@@ -41,7 +41,7 @@
         <template v-if="syllabusContent">
           <div
             :key="i"
-            v-for="(key, i) in Object.keys(syllabusContent)"
+            v-for="(key, i) in Object.keys(contentTitle)"
           >
             <simple-title-text-card
               v-model="syllabusContent"
@@ -54,6 +54,97 @@
               class="mb-3"
               required
             />
+          </div>
+
+          
+          <div>
+            <v-card class="mb-3">
+
+              <v-layout align-center>
+                <v-btn
+                  icon
+                  :ripple="false"
+                >
+                  <v-icon color="primary lighten-1">insert_photo</v-icon>
+                </v-btn>
+                <div
+                  class="primary--text text--lighten-1"
+                  v-text="'FEU Header Logo'"
+                />
+              </v-layout>
+              <v-divider/>
+              <div class="mr-3 pa-3">
+                <v-icon class="pr-2 mr-1">insert_photo</v-icon>
+                <input
+                  type="file"
+                  :disabled="loading"
+                  @change="filesChange"
+                  :name="fileName"
+                  ref="file"
+                />
+                
+                <v-layout
+                  v-if="fileError"
+                  class="red--text pa-2"
+                  align-center
+                >
+                  <v-icon color="warning">cancel</v-icon>
+                  <div class="ml-2">{{ fileError }}</div>
+                </v-layout>
+
+                <v-layout
+                  v-if="file && fileImgSrc"
+                  class="mt-3"
+                >
+                  <div class="scrollable-x">
+                    <v-avatar
+                      tile
+                      size="auto"
+                      class="elevation-1"
+                    >
+                      <img :src="fileImgSrc"/>
+                    </v-avatar>
+                  </div>
+                  <div class="pa-2 caption">
+                    <div>
+                      <strong>Image Preview</strong>
+                    </div>
+                    <template>
+                      <div v-text="file.name"/>
+                      <div v-text="$wrap.fileSize(file.size)"/>
+                      <v-btn
+                        color="error"
+                        @click="removeFileImage"
+                      >
+                        <v-icon>close</v-icon>
+                        <span>Remove</span>
+                      </v-btn>
+                    </template>
+                  </div>
+                </v-layout>
+
+                <v-layout
+                  v-if="imgSrc"
+                  class="mt-3"
+                >
+                  <div class="scrollable-x">
+                    <v-avatar
+                      tile
+                      size="auto"
+                      class="elevation-1"
+                    >
+                      <img :src="$wrap.localImg(imgSrc)"/>
+                    </v-avatar>
+                  </div>
+                  <div class="pa-2 caption">
+                    <div>
+                      <strong>Existing Image</strong>
+                    </div>
+                  </div>
+                </v-layout>
+              </div>
+              
+            </v-card>
           </div>
 
           <v-layout>
@@ -121,7 +212,13 @@ export default {
     form: false,
 
     syllabusContent: null,
+    imgSrc: null,
     lastUpdated: null,
+
+    file: null,
+    fileName: 'file',
+    fileError: null,
+    fileImgSrc: null,
 
     contentTitle: {
       institutionVision: {
@@ -162,12 +259,49 @@ export default {
           throw new Error('Request failure.')
         }
         this.syllabusContent = res.data.syllabusContent.content
+        this.imgSrc = this.syllabusContent.imgSrc || null
         this.lastUpdated = res.data.syllabusContent.updated_at
         this.loading = false
       }).catch(e => {
         console.error(e)
         this.loading = false
       })
+    },
+
+    filesChange(e) {
+      let f = e.target
+      if (!(f.files && f.files.item(0))) {
+        this.file = null
+        return
+      }
+
+      const validImageTypes = ['image/jpg', 'image/jpeg', 'image/png']
+
+      let file = f.files.item(0)
+      let fileType = file['type']
+
+      if (!validImageTypes.includes(fileType)) {
+        this.fileError = 'File is not an image.'
+        return
+      }
+      this.fileError = null
+
+      this.file = file
+      let reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.fileImgSrc = e.target.result
+      }
+      reader.readAsDataURL(this.file)
+    },
+
+    removeFileImage() {
+      if (this.$refs.file) {
+        this.$refs.file.value = ''
+      }
+      this.file = null
+      this.fileImgSrc = null
+      this.fileError = null
     },
 
     submit() {
@@ -178,6 +312,11 @@ export default {
       let data = new FormData()
       data.append('name', 'syllabusContent')
       data.append('content', JSON.stringify(this.syllabusContent))
+
+      // if file exists
+      if (this.file) {
+        data.append('file', this.file)
+      }
 
       this.loading = true
       this.$http.post(this.updateUrl, data).then(res => {
@@ -196,6 +335,7 @@ export default {
 
     clear() {
       this.syllabusContent = null
+      this.removeFileImage()
     }
   }
 }

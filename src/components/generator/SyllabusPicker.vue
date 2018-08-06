@@ -270,6 +270,7 @@ export default {
           departmentVision: null,
           departmentMission: null,
           programEducationalObjectives: null,
+          imgSrc: null,
 
           facultyInCharge: this.$bus.session.user,
           evaluatedBy: [],

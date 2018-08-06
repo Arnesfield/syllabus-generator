@@ -322,13 +322,15 @@
                 v-if="file && fileImgSrc"
                 class="mt-3"
               >
-                <v-avatar
-                  tile
-                  size="128"
-                  class="elevation-1"
-                >
-                  <img :src="fileImgSrc"/>
-                </v-avatar>
+                <div class="scrollable-x">
+                  <v-avatar
+                    tile
+                    size="128"
+                    class="elevation-1"
+                  >
+                    <img :src="fileImgSrc"/>
+                  </v-avatar>
+                </div>
                 <div class="pa-2 caption">
                   <div>
                     <strong>Image Preview</strong>
@@ -351,13 +353,15 @@
                 v-if="imgSrc"
                 class="mt-3"
               >
-                <v-avatar
-                  tile
-                  size="128"
-                  class="elevation-1"
-                >
-                  <img :src="$wrap.localImg(imgSrc)"/>
-                </v-avatar>
+                <div class="scrollable-x">
+                  <v-avatar
+                    tile
+                    size="128"
+                    class="elevation-1"
+                  >
+                    <img :src="$wrap.localImg(imgSrc)"/>
+                  </v-avatar>
+                </div>
                 <div class="pa-2 caption">
                   <div>
                     <strong>Existing Image</strong>
@@ -558,10 +562,10 @@ export default {
     removeFileImage() {
       if (this.$refs.file) {
         this.$refs.file.value = ''
-        this.file = null
-        this.fileImgSrc = null
-        this.fileError = null
       }
+      this.file = null
+      this.fileImgSrc = null
+      this.fileError = null
     },
 
     submit() {

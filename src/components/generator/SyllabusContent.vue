@@ -123,6 +123,7 @@ const keys = [
   'departmentVision',
   'departmentMission',
   'programEducationalObjectives',
+  'imgSrc'
 ]
 
 export default {

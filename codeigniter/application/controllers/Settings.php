@@ -24,8 +24,32 @@ class Settings extends MY_Custom_Controller {
   }
 
   public function update() {
+    // image
+    $img_src = FALSE;
+
+    // upload image first
+    // check if image exists
+    if ($_FILES && $_FILES['file']) {
+      $res = $this->_uploadFile();
+      if (!$res['success']) {
+        $this->_json(FALSE, 'error', strip_tags($res['error']));
+      } else {
+        $img_src = $res['data']['file_name'];
+      }
+    }
+
     $name = $this->input->post('name');
     $content = $this->input->post('content');
+
+    // add img to content
+    if ($img_src !== FALSE && $name == 'syllabusContent') {
+      // convert content to json
+      $contentObj = json_decode($content, TRUE);
+      $contentObj['imgSrc'] = $img_src;
+
+      // then convert contentObj to content string again
+      $content = json_encode($contentObj);
+    }
 
     $data = array(
       'content' => $content,
