@@ -73,7 +73,7 @@
   </v-data-table>
 
   <dialog-manage-course ref="dialogManage"/>
-  <dialog-csv-courses/>
+  <dialog-csv-courses ref="dialogCsv"/>
 
 </v-container>
 </template>
@@ -202,7 +202,9 @@ export default {
       }
     },
     csvCourses() {
-      this.$bus.dialog.ManageCourses.csv = true
+      if (this.$refs.dialogCsv) {
+        this.$refs.dialogCsv.addCsv()
+      }
     },
 
     fetch: debounce(function() {

@@ -88,6 +88,7 @@ import Papa from 'papaparse'
 import CsvPropList from '@/include/CsvPropList'
 
 export default {
+  name: 'dialog-csv-users',
   components: {
     CsvPropList
   },
