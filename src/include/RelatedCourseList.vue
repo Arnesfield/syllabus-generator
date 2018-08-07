@@ -35,7 +35,7 @@
     <!-- units -->
 
     <v-list-tile
-      @click="() => {}"
+      @click="$emit('select', c.id)"
       :key="'tile-' + i"
     >
       <v-list-tile-action class="thin-action">
@@ -50,7 +50,7 @@
           <v-btn
             icon
             slot="activator"
-            @click="() => {}"
+            @click="$emit('select', c.id)"
           >
             <v-icon color="grey">open_in_new</v-icon>
           </v-btn>

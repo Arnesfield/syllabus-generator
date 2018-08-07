@@ -81,6 +81,7 @@
           :items="course.prerequisites"
           title="Prerequisite"
           subtitle="prerequisites"
+          @select="viewItem"
         />
 
         <v-subheader
@@ -93,6 +94,7 @@
           :items="course.corequisites"
           title="Corequisite"
           subtitle="corequisites"
+          @select="viewItem"
         />
       </div>
 
@@ -113,6 +115,9 @@
     </v-flex>
 
   </v-layout>
+
+  <dialog-detailed-course ref="dialog"/>
+
 </v-container>
 </template>
 
@@ -120,13 +125,15 @@
 import CourseUnits from '@/include/CourseUnits'
 import RelatedCourseList from '@/include/RelatedCourseList'
 import SimpleListContentView from '@/include/SimpleListContentView'
+import DialogDetailedCourse from '@/include/dialogs/DialogDetailedCourse'
 
 export default {
   name: 'course-view',
   components: {
     CourseUnits,
     RelatedCourseList,
-    SimpleListContentView
+    SimpleListContentView,
+    DialogDetailedCourse
   },
   props: {
     value: Object
@@ -151,6 +158,14 @@ export default {
 
   created() {
     this.course = this.value
+  },
+
+  methods: {
+    viewItem(id) {
+      if (this.$refs.dialog) {
+        this.$refs.dialog.viewItem(id)
+      }
+    }
   }
 }
 </script>
