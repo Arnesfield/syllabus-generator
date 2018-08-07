@@ -32,12 +32,13 @@ class Users extends MY_Custom_Controller {
     $users = $this->input->post('users');
     // foreach user, add auth
     foreach ($users as $key => $user) {
-      $users[$key]['auth'] = json_encode(array($user['type']));
+      $users[$key]['auth'] = json_encode(array(3));
       $time = time();
-      if (!isset($user['created_at'])) {
+      
+      if (!array_key_exists('created_at', $user)) {
         $users[$key]['created_at'] = $time;
       }
-      if (!isset($user['updated_at'])) {
+      if (!array_key_exists('updated_at', $user)) {
         $users[$key]['updated_at'] = $time;
       }
     }

@@ -86,7 +86,7 @@
   </v-data-table>
 
   <dialog-manage-user ref="dialogManage"/>
-  <dialog-csv-users/>
+  <dialog-csv-users ref="dialogCsv"/>
 
 </v-container>
 </template>
@@ -218,7 +218,9 @@ export default {
       }
     },
     csvUsers() {
-      this.$bus.dialog.ManageUsers.csv = true
+      if (this.$refs.dialogCsv) {
+        this.$refs.dialogCsv.addCsv()
+      }
     },
 
     fetch: debounce(function() {

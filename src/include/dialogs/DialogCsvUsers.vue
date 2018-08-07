@@ -1,61 +1,80 @@
 <template>
 <v-dialog
-  v-model="$bus.dialog.ManageUsers.csv"
-  width="800"
-  :overlay="false"
-  :persistent="loading"
+  v-model="show"
+  :persistent="true"
   transition="fade-transition"
-  scrollable>
+  width="800"
+  scrollable
+>
   <v-card>
     
-    <!-- toolbar -->
-    
-    <v-toolbar dark flat color="primary">
+    <v-progress-linear
+      color="warning"
+      height="3"
+      :active="loading"
+      v-if="loading"
+      indeterminate
+      background-color="primary lighten-1"
+      class="ma-0 primary lighten-1"
+    />
+
+    <v-toolbar
+      dark
+      card
+      color="primary lighten-1"
+    >
       <v-btn
         icon
         dark
         :disabled="loading"
-        @click.native="$bus.dialog.ManageUsers.csv = false"
+        @click="show = false"
+        @keypress.enter="show = false"
       >
         <v-icon>close</v-icon>
       </v-btn>
       <v-toolbar-title>Upload Users</v-toolbar-title>
     </v-toolbar>
 
-    <!-- end of toolbar -->
-    
-    <!-- content -->
     <v-card-text>
+      <v-form ref="form" v-model="form">
+        <input
+          type="file"
+          required
+          @change="onFileChange"
+        >
 
-      <v-form ref="form" v-model="formValid">
-        <input type="file" required @change="onFileChange">
+        <csv-prop-list
+          v-model="propList"
+          class="mt-3"
+        />
       </v-form>
-
     </v-card-text>
 
-    <!-- end of content -->
-
-    <v-card-actions class="pa-4 bg-dim">
-      <template v-if="loading">
-        <v-progress-circular
-          indeterminate
-          :active="loading"
-          color="primary"
-        />
-        <span style="height: auto" class="subheader px-2">Loading...</span>
-      </template>
+    <v-divider/>
+    <v-card-actions>
+      <v-btn
+        flat
+        tabindex="0"
+        :disabled="loading"
+        @click="show = false"
+        @keypress.enter="show = false"
+        v-text="'Cancel'"
+      />
       <v-spacer/>
       <v-btn
         flat
         tabindex="0"
         :disabled="loading"
         @click="clear"
-      >Clear</v-btn>
+        @keypress.enter="clear"
+        v-text="'Reset'"
+      />
       <v-btn
-        color="primary"
+        color="primary lighten-1"
         tabindex="0"
-        :disabled="loading"
+        :disabled="loading || !file"
         @click="submit"
+        @keypress.enter="submit"
       >Upload</v-btn>
     </v-card-actions>
 
@@ -66,17 +85,95 @@
 <script>
 import qs from 'qs'
 import Papa from 'papaparse'
+import CsvPropList from '@/include/CsvPropList'
 
 export default {
-  name: 'dialog-csv-users',
+  components: {
+    CsvPropList
+  },
   data: () => ({
     url: '/users/addCsv',
+    show: false,
+    loading: false,
+    form: false,
     file: null,
-    formValid: false,
-    loading: false
+
+    propList: [
+      /* {
+        name: 'id',
+        type: 'Integer',
+        text: 'Unique identifier.',
+        required: true
+      }, */
+      {
+        name: 'fname',
+        type: 'Varchar',
+        text: 'First name.',
+        required: true
+      },
+      {
+        name: 'mname',
+        type: 'Varchar',
+        text: 'Middle name.'
+      },
+      {
+        name: 'lname',
+        type: 'Varchar',
+        text: 'Last name.',
+        required: true
+      },
+      {
+        name: 'username',
+        type: 'Varchar (UNIQUE)',
+        text: 'Username/Student Number.',
+        required: true
+      },
+      {
+        name: 'title',
+        type: 'Varchar',
+        text: 'e.g. Director of IT'
+      },
+      {
+        name: 'weight',
+        type: 'Integer',
+        text: 'How high is the position'
+      },
+      {
+        name: 'password',
+        type: 'Text (in bcrpyt)',
+        text: 'Password.',
+        required: true
+      },
+      {
+        name: 'img_src',
+        type: 'Text',
+        text: 'Name of the image. (e.g. pic.jpg)'
+      },
+      {
+        name: 'status',
+        type: 'Integer (0 or 1)',
+        text: '1 if active; otherwise, 0',
+        required: true
+      }
+    ]
   }),
 
+  watch: {
+    loading(e) {
+      this.$bus.refresh(e)
+    },
+    show(e) {
+      if (!e) {
+        this.clear()
+      }
+    }
+  },
+
   methods: {
+    addCsv() {
+      this.show = true
+    },
+
     onFileChange(e) {
       if (typeof e.target.files[0] === 'undefined') {
         this.file = null
@@ -95,7 +192,7 @@ export default {
         return
       }
 
-      this.$bus.refresh(true)
+      this.loading = true
       Papa.parse(this.file, {
         header: true,
         dynamicTyping: true,
@@ -117,22 +214,28 @@ export default {
             if (typeof res.data.success !== 'number') {
               throw new Error
             }
-            this.$bus.refresh(false)
-            this.$bus.dialog.ManageUsers.csv = false
+            this.loading = false
             this.$bus.$emit('snackbar--show', 'Added users successfully.')
             this.$bus.$emit('manage--users.update')
-            this.clear()
+            this.show = false
           }).catch((e) => {
             console.error(e)
-            this.$bus.refresh(false)
-            this.$bus.$emit('snackbar--show', 'Cannot add users.')
+            this.loading = false
+            this.$bus.$emit('snackbar--show', 'Unable to add users.')
           })
         }
       })
 
     },
     clear() {
-      this.$refs.form.reset()
+      if (this.$refs.form) {
+        this.$refs.form.reset()
+        if (typeof this.$refs.form.$el.reset === 'function') {
+          this.$refs.form.$el.reset()
+        }
+      }
+
+      this.file = null
     }
   }
 }
