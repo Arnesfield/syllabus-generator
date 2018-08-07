@@ -29,7 +29,9 @@
     </template>
     <template slot="items" slot-scope="props">
       <td>{{ props.item.id }}</td>
-      <td>{{ props.item.citation }}</td>
+      <td>
+        <div v-html="props.item.citation"/>
+      </td>
       <td>
         <div class="justify-center layout">
           <v-tooltip top>
