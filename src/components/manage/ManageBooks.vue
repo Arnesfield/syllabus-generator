@@ -65,7 +65,7 @@
   </v-data-table>
 
   <dialog-manage-book ref="dialogManage"/>
-  <dialog-csv-books/>
+  <dialog-csv-books ref="dialogCsv"/>
 
 </v-container>
 </template>
@@ -191,7 +191,9 @@ export default {
       }
     },
     csvBooks() {
-      this.$bus.dialog.ManageBooks.csv = true
+      if (this.$refs.dialogCsv) {
+        this.$refs.dialogCsv.addCsv()
+      }
     },
 
     fetch: debounce(function() {
