@@ -151,7 +151,15 @@
         >{{ Number(data.item) + 1 + (data.index != data.parent.value.length - 1 ? ', ' : '') }}</template>
         <template slot="item" slot-scope="data">
           <v-list-tile-content>
-            <v-list-tile-title>{{ (Number(data.item) + 1) + '. ' + (clos[data.item] ? clos[data.item] : '') }}</v-list-tile-title>
+            <v-list-tile-title>
+              <v-layout>
+                <span class="mr-1">{{ (Number(data.item) + 1) + '. ' }}</span>&nbsp;
+                <span
+                  class="clean-p"
+                  v-html="clos[data.item] ? clos[data.item] : ''"
+                />
+              </v-layout>
+            </v-list-tile-title>
           </v-list-tile-content>
         </template>
       </v-select>
