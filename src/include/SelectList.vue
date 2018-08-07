@@ -66,7 +66,9 @@
               :style="{ 'margin-top': !editable ? '18px' : '14px' }"
               class="mr-2"
             >
+            <!-- if in delete mode, don't use label tags lol! -->
             <label
+              v-if="!deleteMode"
               class="clickable full-width full-height pr-3"
               style="display: block;"
               :for="!editable ? id + i : undefined"
@@ -79,6 +81,20 @@
                 :is-selected="selectedCheck(item)"
               />
             </label>
+            <div
+              v-else
+              class="clickable full-width full-height pr-3"
+              style="display: block;"
+              :for="!editable ? id + i : undefined"
+              :class="{ 'primary--text text--lighten-1': selectedCheck(item) }"
+            >
+              <slot
+                name="item"
+                :item="item"
+                :index="i"
+                :is-selected="selectedCheck(item)"
+              />
+            </div>
           </v-layout>
         </v-list-tile>
       </template>

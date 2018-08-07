@@ -72,7 +72,7 @@
 
   <v-dialog
     v-model="dialog"
-    width="640"
+    width="800"
     transition="fade-transition"
   >
     <v-text-field
@@ -114,6 +114,7 @@
         slot-scope="props"
       >
         <markdown-textarea
+          edit-on-click
           v-model="selected[props.index]"
         />
       </template>

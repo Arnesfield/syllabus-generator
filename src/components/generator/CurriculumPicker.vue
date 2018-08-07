@@ -91,7 +91,7 @@
 
   <v-dialog
     v-model="dialog"
-    width="640"
+    width="800"
     transition="fade-transition"
   >
     <v-text-field

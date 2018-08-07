@@ -29,14 +29,13 @@
       }"
       @click="mdClick"
     />
-    <textarea
+    <vue-editor
       v-else
-      v-model="text"
       :placeholder="placeholder + (required ? '*' : '')"
-      :class="{ [textareaClass + ' ' + tAddClass]: true }"
-      :required="required"
-      @blur="textareaBlur"
       ref="textarea"
+      v-model="text"
+      :id="textareaId"
+      @blur="textareaBlur"
     />
 
     <div
@@ -57,10 +56,19 @@
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor'
+
 export default {
   name: 'markdown-textarea',
+  components: {
+    VueEditor
+  },
   props: {
     value: String,
+    textareaId: {
+      type: String,
+      default: 'quill-container'
+    },
     textareaClass: {
       type: String,
       default: 'my-textarea elevation-1 pa-1 yellow lighten-4'
@@ -128,7 +136,7 @@ export default {
       if (!e) {
         this.$nextTick(() => {
           if (this.$refs.textarea) {
-            this.$refs.textarea.focus()
+            this.$refs.textarea.quill.focus()
           }
         })
       }
@@ -136,7 +144,8 @@ export default {
   },
   created() {
     this.text = this.value
-    this.viewAsMd = this.mdView
+    // do not view as md if text is empty
+    this.viewAsMd = typeof this.text === 'string' && this.text.length > 0 ? this.mdView : false
   },
   methods: {
     mdClick() {
@@ -147,7 +156,7 @@ export default {
         this.errorMsg = 'This field is required.'
       } else if (this.text && this.text.trim().length) {
         setTimeout(() => {
-          this.viewAsMd = true
+          // this.viewAsMd = true
         }, 100)
       }
     },
@@ -159,3 +168,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.ql-container {
+  background-color: #fff9c4 !important;
+}
+</style>

@@ -24,7 +24,6 @@
   >
     <markdown-textarea
       edit-on-click
-      :md-view="view"
       :placeholder="placeholder"
       v-model="item"
       t-add-class="my-medium-textarea pa-2 elevation-4"
@@ -47,18 +46,13 @@ export default {
     title: String,
     subtitle: String,
     placeholder: String,
-    mdView: {
-      type: Boolean,
-      default: true
-    },
     autoEditMode: {
       type: Boolean,
       default: false
     }
   },
   data: () => ({
-    item: null,
-    view: null
+    item: null
   }),
   watch: {
     value(e) {
@@ -67,18 +61,10 @@ export default {
     },
     item(e) {
       this.$emit('input', e)
-    },
-
-    mdView(e) {
-      this.view = e
-    },
-    view(e) {
-      this.$emit('update:mdView', e)
     }
   },
   created() {
     this.item = this.value
-    this.view = this.mdView
     this.setInitial()
   },
 

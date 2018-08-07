@@ -21,6 +21,7 @@
     "showdown": "^1.8.6",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vue2-editor": "^2.6.6",
     "vuetify": "^1.0.3"
   },
   "devDependencies": {

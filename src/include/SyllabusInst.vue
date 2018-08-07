@@ -186,7 +186,15 @@
             <td
               colspan="2"
               style="padding: 1px"
-            >{{ (cloIndex + 1) + '. ' + (clo ? clo : '') }}</td>
+            >
+              <v-layout>
+                <span class="mr-1">{{ (cloIndex + 1) + '. ' }}</span>&nbsp;
+                <span
+                  class="clean-p"
+                  v-html="clo ? clo : ''"
+                />
+              </v-layout>
+            </td>
             <template v-if="c.programOutcomes.content.length">
               <td
                 :key="poIndex"
@@ -350,7 +358,11 @@
             <td>
               <template
                 v-for="(task, j) in y = sat(clo)"
-              >{{ task }}{{ j != y.length-1 ? ', ' : '' }}</template>
+              ><span
+                :key="j"
+                class="clean-p"
+                v-html="task"
+              />{{ j != y.length-1 ? ', ' : '' }}</template>
             </td>
           </tr>
         </table>

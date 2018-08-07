@@ -45,7 +45,11 @@ Vue.prototype.$http = http
 Vue.prototype.$bus = bus
 Vue.prototype.$fRule = formRules
 Vue.prototype.$wrap = wrap
-Vue.prototype.$md = converter
+Vue.prototype.$md = {
+  makeHtml(html) {
+    return html
+  }
+}
 Vue.prototype.$moment = moment
 Vue.prototype.$autoYear = autoYear
 

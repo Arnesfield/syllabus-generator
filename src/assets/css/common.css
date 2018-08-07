@@ -2,6 +2,10 @@ p {
   margin-bottom: 0;
 }
 
+.clean-p p {
+  display: inline-block;
+}
+
 .bg {
   background-position: center;
   background-size: cover;
