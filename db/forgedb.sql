@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2018 at 11:32 PM
+-- Generation Time: Aug 07, 2018 at 11:54 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -36,6 +36,13 @@ CREATE TABLE `assigns` (
   `updated_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `assigns`
+--
+
+INSERT INTO `assigns` (`id`, `content`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
+(1, '{\"assigned\":{\"id\":3,\"status\":2},\"course\":1,\"remarks\":null,\"levels\":[[{\"id\":4,\"status\":\"1\"}],[{\"id\":4,\"status\":\"1\"},{\"id\":8,\"status\":\"1\"}],[{\"id\":5,\"status\":\"1\"}]]}', 3, 1533677616, 1533678622, 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +198,29 @@ INSERT INTO `audit_trail` (`id`, `user_id`, `related_user_id`, `course_id`, `ass
 (313, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1533675952, 1),
 (314, 1, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1533676463, 1),
 (315, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1533676465, 1),
-(316, 3, 0, 1, 0, 0, 0, 0, 0, 'Viewed Course 1', 13, 1, 1533676490, 1);
+(316, 3, 0, 1, 0, 0, 0, 0, 0, 'Viewed Course 1', 13, 1, 1533676490, 1),
+(317, 3, 0, 0, 0, 0, 0, 0, 0, '', 11, 1, 1533677616, 1),
+(318, 3, 0, 0, 0, 0, 0, 1, 0, 'Saved Syllabus 1', 12, 1, 1533677896, 1),
+(319, 3, 0, 0, 0, 0, 0, 1, 0, 'Saved Syllabus 1', 12, 1, 1533677935, 1),
+(320, 3, 0, 0, 0, 0, 0, 1, 0, 'Saved Syllabus 1', 12, 1, 1533677947, 1),
+(321, 3, 0, 0, 0, 0, 0, 1, 0, 'Submitted Syllabus 1', 12, 2, 1533677947, 1),
+(322, 3, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533677948, 1),
+(323, 3, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533678042, 1),
+(324, 3, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533678095, 1),
+(325, 3, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1533678580, 1),
+(326, 4, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1533678583, 1),
+(327, 4, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533678587, 1),
+(328, 4, 0, 0, 1, 0, 0, 0, 0, '<strong>level 1</strong> &mdash; approved this syllabus.', 2, 2, 1533678588, 1),
+(329, 4, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533678591, 1),
+(330, 4, 0, 0, 1, 0, 0, 0, 0, '<strong>level 2</strong> &mdash; approved this syllabus.', 2, 2, 1533678592, 1),
+(331, 4, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1533678596, 1),
+(332, 8, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1533678603, 1),
+(333, 8, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533678606, 1),
+(334, 8, 0, 0, 1, 0, 0, 0, 0, '<strong>level 2</strong> &mdash; approved this syllabus.', 2, 2, 1533678607, 1),
+(335, 8, 0, 0, 0, 0, 0, 0, 0, '', 1, 0, 1533678615, 1),
+(336, 5, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1533678620, 1),
+(337, 5, 0, 0, 1, 0, 0, 0, 0, 'viewed this syllabus.', 2, 1, 1533678621, 1),
+(338, 5, 0, 0, 1, 0, 0, 0, 0, '<strong>level 3</strong> &mdash; approved this syllabus.', 2, 2, 1533678622, 1);
 
 -- --------------------------------------------------------
 
@@ -504,6 +533,13 @@ CREATE TABLE `syllabi` (
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `syllabi`
+--
+
+INSERT INTO `syllabi` (`id`, `course_id`, `editor_id`, `assign_id`, `content`, `version`, `created_at`, `updated_at`, `status`) VALUES
+(1, 1, 3, 1, '{\"institutionVision\":\"<p>FEU Institute of Technology aims to be one of the top five technology educational institutions in the Philippines.</p>\",\"institutionMission\":\"<p>FEU Institute of Technology is dedicated to provide quality, relevant, innovative and industry-based education producing competent and principled professionals with greater sense of responsibility, social awareness and high competitiveness contributing significantly to the betterment of the society.</p>\",\"departmentVision\":\"<p>The Information Technology Department aims its program specializations to be a catalyst on the delivery of industry-based standards solutions and internationally recognized IT education.</p>\",\"departmentMission\":\"<p>The Information Technology Department is committed to provide industry-based information technology solutions, international academic linkages, researches and IT certified professionals.</p>\",\"programEducationalObjectives\":\"<p>The graduates of the Bachelor of Science in Information Technology program are:</p><ol><li>engaged in further professional development and have interest in or aptitude for advanced studies or trainings in computing.</li><li>entrepreneurs or are employed in computing industries, organizing and managing team-based projects leading to successful and sustainable computing systems solutions.</li><li>responsible computing professionals actively participating in community groups that make a significant impact in addressing current and future societal challenges.</li></ol>\",\"imgSrc\":\"F_1533677338.jpg\",\"facultyInCharge\":{\"id\":\"3\",\"fname\":\"Smith\",\"mname\":\"\",\"lname\":\"Paul\",\"username\":\"ralph\",\"title\":\"Faculty\",\"weight\":\"1\",\"password\":\"$2y$10$QdPPMV36C0HmJG/EdEHlzum/sWKyzclgCGqWVUKeC1gJBjS3pVZb6\",\"img_src\":\"F_1532603278.png\",\"tags\":[],\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1533226656\",\"auth\":[3,4]},\"evaluatedBy\":[[{\"id\":4,\"status\":\"1\",\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}}],[{\"id\":4,\"status\":\"1\",\"user\":{\"id\":\"4\",\"fname\":\"Roman\",\"mname\":\"\",\"lname\":\"De Angel\",\"username\":\"roman\",\"title\":\"Coordinator, ITWMA\",\"weight\":\"1\",\"password\":\"$2y$10$sy/BOOEgtIwkLbExWNlHHuqRCm/oa2zT98w5MW1wASS1iE25WL.WO\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522835142\",\"auth\":\"[\\\"3\\\",\\\"5\\\"]\"}},{\"id\":8,\"status\":\"1\",\"user\":{\"id\":\"8\",\"fname\":\"Ace\",\"mname\":\"C.\",\"lname\":\"Lagman\",\"username\":\"lagman\",\"title\":\"Program Director, IT\",\"weight\":\"1\",\"password\":\"$2y$10$XVY3K2/Mh/Ry7.Uqm/Va/up9eFgKwVyqOYkD67.3ueju2yfRbRUdu\",\"img_src\":\"\",\"tags\":\"[\\\"Software Testing\\\",\\\"Programming\\\",\\\"Android Application Development\\\",\\\"JavaScript\\\",\\\"Ruby\\\",\\\"NodeJS\\\",\\\"AngularJS\\\"]\",\"status\":\"1\",\"created_at\":\"1522263636\",\"updated_at\":\"1531226159\",\"auth\":\"[\\\"5\\\"]\"}}]],\"approvedBy\":[[{\"id\":5,\"status\":1,\"user\":{\"id\":\"5\",\"fname\":\"Rossana\",\"mname\":\"T.\",\"lname\":\"Adao\",\"username\":\"joanne\",\"title\":\"Senior Director, CCS\",\"weight\":\"10\",\"password\":\"$2y$10$Q61GloOCeRIHKx1Gz7atr.Y9ujWhJqfA8Tmix98awgRjFDW9PKZRa\",\"img_src\":\"\",\"tags\":\"[]\",\"status\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1522867906\",\"auth\":\"[\\\"5\\\"]\"}}]],\"bookReferences\":[\"Author Name. (1999). Some title of book or article about Android Development.\",\"Author\'s Name. (2001). Some book about JavaScript.\",\"Connoly, T. (2010). Database Systems: A practical Approach to Design, Implementation and Management 5th Edition, McGraw Hill International.\",\"D. S. Malik (2008) C++ programming. Thomson Course Technology.\",\"Deitel, Paul J. (2008) C++ how to program. Pearson Publishing.\",\"Deitel, Paul J. (2009) C++ for programmers. Prentice Hall.\"],\"programOutcomes\":{\"id\":\"2\",\"label\":\"2017\",\"content\":[{\"label\":\"a\",\"text\":\"Apply knowledge of computing, science and mathematics appropriate to the discipline.\"},{\"label\":\"b\",\"text\":\"Understand best practices and standards and their applications.\"},{\"label\":\"c\",\"text\":\"Analyze complex problems and identify and define the computing requirements appropriate to its solution.\"},{\"label\":\"d\",\"text\":\"Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.\"},{\"label\":\"e\",\"text\":\"Design, implement and evaluate computer-based systems, processes,components or programs to meet desired needs and requirements under various constraints.\"},{\"label\":\"f\",\"text\":\"Integrate IT-based solutions into the user environment effectively.\"},{\"label\":\"g\",\"text\":\"Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.\"},{\"label\":\"h\",\"text\":\"Function effectively as a member or leaderof a development team recognizing the different roles within a team to accomplish a common goal.\"},{\"label\":\"i\",\"text\":\"Assist in the creation of an effective IT project plan.\"},{\"label\":\"j\",\"text\":\"Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions.\"},{\"label\":\"k\",\"text\":\"Analyze the local and global impact of computing information technology on individuals, organizations and society.\"},{\"label\":\"l\",\"text\":\"Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology.\"},{\"label\":\"m\",\"text\":\"Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.\"}],\"latest\":\"1\",\"created_at\":\"0\",\"updated_at\":\"1531236378\",\"status\":\"1\"},\"courseLearningOutcomes\":[\"<p>Develop and execute the project requirements based from the proposal document.</p>\",\"<p>Test and evaluate the software product to validate for the process and output.</p>\",\"<p>Complete the system defined in the plan to satisfy the project specifications and present final documentation.</p>\"],\"cloPoMap\":[{\"c\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"d\":{\"symbol\":\"I\",\"text\":\"Introductory\"}},{\"g\":{\"symbol\":\"E\",\"text\":\"Engaging\"}}],\"weeklyActivities\":[{\"noOfWeeks\":1,\"noOfHours\":\"5.36\",\"topics\":[\"Lesson 1. Project Development\",\"Lesson 2. Software Evaluation\"],\"ilo\":[\"<p>Test the software product to validate its process and output.</p>\",\"<p>Develop, execute and create the project deliverables.</p>\"],\"cloMap\":[1,0],\"tlaFaculty\":[\"Classroom Discussion\",\"Discussion of the Guidelines\"],\"tlaStudent\":[\"Class/Library Activity; search the current trends in IT so that they will have the idea in making their title.\",\"Student can clarify/ask questions on matters concerning course syllabus, OBE, and PBL.\"],\"instructionalMaterials\":[\"Net book\"],\"assessmentTasks\":[\"Recitation\",\"Assignment\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":1,\"noOfHours\":\"5.36\",\"topics\":[\"Lesson 3. Project Control and Project Closure\",\"Lesson 4. Project Management Process Issues\"],\"ilo\":[\"Complete the work defined in the plan to satisfy the project specifications.\",\"Complete the 50% software development stated in the proposal.\"],\"cloMap\":[1,2],\"tlaFaculty\":[\"Classroom Discussion\",\"Class/Library Activity; Research current trends in IT.\"],\"tlaStudent\":[\"Follow formulated testing instrument and comply with the checking and testing of the software.\",\"The students can identify and describe Project Management Groups needed for a project. Determine their role in project development.\"],\"instructionalMaterials\":[\"DLP\"],\"assessmentTasks\":[\"Case Study 1\",\"Short Quiz\"],\"text\":null,\"asObject\":true},{\"noOfWeeks\":1,\"noOfHours\":\"2\",\"topics\":[],\"ilo\":[],\"cloMap\":[],\"tlaFaculty\":[],\"tlaStudent\":[],\"instructionalMaterials\":[],\"assessmentTasks\":[],\"text\":\"<p>Final Exam</p>\",\"asObject\":false}],\"gradingSystem\":[{\"label\":\"Midterm Grade\",\"text\":\"<p><strong>Midterm Grade (MG) = 70% (Lecture Grade) + 30% (Lab Grade)</strong></p><p><br></p><p><strong><u>Lecture: 70%</u></strong></p><p><br></p><p>\\t<strong>Class Standing  (CS) 60%</strong></p><ol><li>Average of at least two long quizzes\\t40%</li><li>Teacher’s Evaluation\\t5%</li><li>Class participation (Seatwork, Assignments, Recitations)\\t25%</li><li>Short Quizzes, Class Exercises\\t30%</li></ol><p><br></p><p>\\t<strong>Midterm Exam (ME) 40%</strong></p><p><br></p><p><strong><u>Lab: 30%</u></strong></p><p><br></p><p>\\t<strong>Class Standing  (CS) 60%</strong></p><ol><li>Laboratory Exercises/Machine Problems 40%</li><li>Teacher’s Evaluation 5%</li><li>Project/s 30%</li><li>Practical Exam  25%</li></ol><p><br></p><p>\\t<strong>Midterm Exam (ME)</strong>\\t<strong>40%</strong></p><p><br></p><p><strong>PASSING RAW SCORE: 70</strong></p><p><em>Note: Grades in Lecture and Lab should be the same.</em></p>\"},{\"label\":\"Final Grade\",\"text\":\"<p><strong>Final Grade (FG) = 70% (Lecture Grade) + 30% (Lab Grade)</strong></p><p><br></p><p><strong><u>Lecture: 70%</u></strong></p><p><br></p><p>\\t<strong>Class Standing  (CS) 60%</strong></p><ol><li>Average of at least two long quizzes\\t40%</li><li>Teacher’s Evaluation\\t5%</li><li>Class participation (Seatwork, Assignments, Recitations)\\t25%</li><li>Short Quizzes, Class Exercises\\t30%</li></ol><p><br></p><p>\\t<strong>Midterm Exam (ME) 40%</strong></p><p><br></p><p><strong><u>Lab: 30%</u></strong></p><p><br></p><p>\\t<strong>Class Standing  (CS) 60%</strong></p><ol><li>Laboratory Exercises/Machine Problems 40%</li><li>Teacher’s Evaluation 5%</li><li>Project/s 30%</li><li>Practical Exam  25%</li></ol><p><br></p><p>\\t<strong>Midterm Exam (ME)</strong>\\t<strong>15%</strong></p><p>\\t<strong>Final Exam (FE)</strong>\\t\\t\\t<strong>25%</strong></p><p><br></p><p><strong>PASSING RAW SCORE: 70</strong></p><p><em>Note: Grades in Lecture and Lab should be the same.</em></p>\"}],\"versionType\":1,\"course\":{\"id\":\"1\",\"title\":\"CAPSTONE PROJECT 1\",\"code\":\"ITWPROJ1\",\"description\":\"This course focuses on creation of reliable, efficient and maintainable software application based from the approved requirements in ITWPROJMAN. This covers implementing and testing the software, project documentation and presenting the project in front of the panel committee for final defense.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[\"Capstone Project\",\"Software Testing\",\"Software Evaluation\",\"Software Requirements\",\"WMA\"],\"prerequisites\":[{\"id\":\"6\",\"title\":\"PROJECT MANAGEMENT FOR IT-WMA\",\"code\":\"ITWPROMAN\",\"description\":\"This course focuses on the Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin, metus sit amet egestas volutpat, ligula ex tincidunt arcu, vel venenatis tortor urna non enim. Quisque ut nisi tempor, lacinia felis ac, dictum est. Sed tristique risus nec eros dapibus, sit amet facilisis eros suscipit.\",\"objectives\":\"\",\"unitsLec\":\"3\",\"unitsLab\":\"0\",\"tags\":[],\"prerequisites\":\"[]\",\"corequisites\":\"[\\\"3\\\"]\",\"created_at\":\"0\",\"updated_at\":\"1523780512\",\"status\":\"1\"}],\"corequisites\":[],\"created_at\":\"0\",\"updated_at\":\"1531235490\",\"status\":\"1\"}}', '1.0', 1533677896, 1533677947, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -744,13 +780,13 @@ ALTER TABLE `users` ADD FULLTEXT KEY `FULLTEXT_INDEX` (`fname`,`mname`,`lname`,`
 -- AUTO_INCREMENT for table `assigns`
 --
 ALTER TABLE `assigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=317;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=339;
 
 --
 -- AUTO_INCREMENT for table `books`
@@ -804,7 +840,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `syllabi`
 --
 ALTER TABLE `syllabi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tasks`

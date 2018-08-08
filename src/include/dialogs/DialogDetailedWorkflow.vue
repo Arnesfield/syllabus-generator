@@ -75,7 +75,7 @@
               </v-list-tile-content>
             </v-list-tile>
 
-            <v-list-tile
+            <!-- <v-list-tile
               ripple
               v-if="!viewOnly && $bus.session.user.id == createdBy().id"
               @click="() => {}"
@@ -91,7 +91,7 @@
               <v-list-tile-content>
                 <v-list-tile-title v-text="'Edit workflow'"/>
               </v-list-tile-content>
-            </v-list-tile>
+            </v-list-tile> -->
 
             <v-list-tile
               ripple
