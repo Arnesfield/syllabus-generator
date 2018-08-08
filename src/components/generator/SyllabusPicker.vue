@@ -214,8 +214,11 @@ export default {
       this.selected = e
     },
     selected(e) {
-      if (e && e.content && e.content.versionType !== null) {
-        e.content.versionType = null
+      if (e && e.content) {
+        if (e.content.versionType !== null) {
+          e.content.versionType = null
+        }
+        e.content.facultyInCharge = this.$bus.session.user
       }
       this.selectedArr = e ? [e] : []
       this.$emit('input', e)
